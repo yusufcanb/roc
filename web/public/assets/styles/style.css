@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'OCRA';
+    src: url('../fonts/ocra/OcrA.ttf');
+    src: url('../fonts/ocra/OcrA.ttf') format('embedded-opentype'), url('../fonts/ocra/OcrA.ttf') format("woff2");
+}
+
+#root {
+    height: 100%;
+    width: 100%;
+    font-family: 'OCRA';
+}
