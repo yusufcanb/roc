@@ -1,5 +1,6 @@
 package tray;
 
+import com.yusufcanb.rpa.core.models.Factory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import robotfactory.RobotFactoryApplication;
