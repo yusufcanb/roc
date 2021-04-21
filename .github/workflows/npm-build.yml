@@ -15,5 +15,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 12
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ci-build
+          path: build/ # or path/to/artifact
       - run: npm build
-
