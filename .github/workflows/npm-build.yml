@@ -14,7 +14,7 @@ jobs:
           node-version: 12
       - run: npm install
         working-directory: ./web
-      - run: npm build
+      - run: npm run build
         working-directory: ./web
       - uses: actions/upload-artifact@v2
         with:
