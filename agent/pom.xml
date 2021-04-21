@@ -28,7 +28,7 @@
                     </excludes>
                     <archive>
                         <manifest>
-                            <mainClass>tray.Main</mainClass>
+                            <mainClass>com.yusufcanb.rpa.agent.tray.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

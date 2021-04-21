@@ -1,4 +1,4 @@
-package robotfactory;
+package com.yusufcanb.rpa.agent.robotfactory;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

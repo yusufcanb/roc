@@ -1,9 +1,8 @@
-package tray;
+package com.yusufcanb.rpa.agent.tray;
 
-import com.yusufcanb.rpa.core.models.Factory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import robotfactory.RobotFactoryApplication;
+import com.yusufcanb.rpa.agent.robotfactory.RobotFactoryApplication;
 
 public class Application extends Thread {
     ConfigurableApplicationContext ctx;

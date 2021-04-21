@@ -1,4 +1,4 @@
-package tray;
+package com.yusufcanb.rpa.agent.tray;
 
 import java.io.File;
 import java.net.URISyntaxException;

@@ -1,4 +1,4 @@
-package tray;
+package com.yusufcanb.rpa.agent.tray;
 
 import dorkbox.systemTray.MenuItem;
 import org.slf4j.Logger;
