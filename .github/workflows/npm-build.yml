@@ -7,6 +7,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./web
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -16,6 +18,5 @@ jobs:
         with:
           name: ci-build
           path: ./web/build/
-      - run: cd web/
       - run: npm install
       - run: npm build
