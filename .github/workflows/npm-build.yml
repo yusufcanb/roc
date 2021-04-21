@@ -15,6 +15,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: ci-build
-          path: build/
+          path: ./web/build/
+      - run: cd web/
       - run: npm install
       - run: npm build
