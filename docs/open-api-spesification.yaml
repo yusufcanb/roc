@@ -1,0 +1,464 @@
+openapi: 3.0.0
+licence:
+  - name: Apache 2.0
+  - url: http://www.apache.org/licences/LICENSE-2.0.html
+
+info:
+  title: Open Robot Platform
+  version: 1.0.0
+  description: Self hosted, lightweight, JVM based software automation platform for every day IT operations.
+
+servers:
+  - url: http://localhost:8000/
+
+tags:
+  - name: project
+    description: Endpoints related to Project schema
+  - name: factory
+    description: Endpoints related to Factory schema
+  - name: environments
+    description: Endpoints related to Environment schema
+  - name: task-force
+    description: Endpoints related to TaskForce schema
+  - name: job
+    description: Endpoints related to Job schema
+
+paths:
+  # ------------- Project ------------- #
+  /project:
+    get:
+      operationId: getProjects
+      summary: List all project
+      tags:
+        - project
+    post:
+      operationId: createProject
+      summary: Create new project
+      tags:
+        - project
+  /project/{projectId}:
+    get:
+      operationId: getProjectById
+      summary: Get project by Id
+      tags:
+        - project
+    put:
+      operationId: updateProject
+      summary: Updates project
+      tags:
+        - project
+    delete:
+      operationId: deleteProject
+      summary: Deletes project
+      tags:
+        - project
+  /project/{projectId}/files:
+    get:
+      operationId: getProjectFiles
+      summary: Get project files
+      tags:
+        - project
+  /project/{projectId}/files/{fileId}:
+    get:
+      operationId: getProjectFileById
+      summary: Get project file by id
+      tags:
+        - project
+  /project/{projectId}/globals/:
+    get:
+      operationId: getProjectGlobals
+      summary: Get project global variables
+      tags:
+        - project
+    post:
+      operationId: createProjectGlobal
+      summary: Create new project global variable
+      tags:
+        - project
+  /project/{projectId}/globals/{globalId}:
+    get:
+      operationId: getProjectGlobalById
+      summary: Get project global by id
+      tags:
+        - project
+    # ------------- End Project ------------- #
+
+  # ------------- Factory ------------- #
+  /factory:
+    get:
+      operationId: getFactories
+      summary: List all factories
+      tags:
+        - factory
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+    post:
+      operationId: createFactory
+      summary: Create new factory
+      tags:
+        - factory
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+  /factory/{factoryId}:
+    get:
+      operationId: getFactoryById
+      summary: Get factory by id
+      tags:
+        - factory
+    put:
+      operationId: updateFactory
+      summary: Update factory
+      tags:
+        - factory
+    delete:
+      operationId: deleteFactory
+      summary: Deletes factory
+      tags:
+        - factory
+  /factory/{factoryId}/packages:
+    get:
+      operationId: getFactoryPackages
+      summary: Get packages by factory
+      tags:
+        - factory
+    put:
+      operationId: installPackages
+      summary: Install new package(s)
+      tags:
+        - factory
+  /factory/{factoryId}/logs:
+    get:
+      operationId: getFactoryLogs
+      summary: Get logs by factory
+      tags:
+        - factory
+  # ------------- End Factory ------------- #
+
+  # ------------- Task Force ------------- #
+  /task-force:
+    get:
+      operationId: getTaskForces
+      summary: List all task force
+      tags:
+        - task-force
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+    post:
+      operationId: createTaskForce
+      summary: Create new task force
+      tags:
+        - task-force
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+  /task-force/commands:
+    get:
+      taskForceId: getTaskForceCommands
+      summary: Get task force by id commands
+      tags:
+        - task-force
+  /task-force/{taskForceId}:
+    get:
+      taskForceId: getTaskForceById
+      summary: Get task force by id
+      tags:
+        - task-force
+    put:
+      operationId: editTaskForce
+      summary: Edit task force
+      tags:
+        - task-force
+    delete:
+      operationId: deleteTaskForce
+      summary: Deletes a job
+      tags:
+        - task-force
+  /task-force/{taskForceId}/action:
+    post:
+      operationId: triggerTaskForceAction
+      summary: Trigger a task force action
+      tags:
+        - task-force
+  # ------------- End Task Force ------------- #
+
+  # ------------- Jobs ------------- #
+  /jobs:
+    get:
+      operationId: getJobs
+      summary: List all jobs
+      tags:
+        - job
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+    post:
+      operationId: createJob
+      summary: Create new job
+      tags:
+        - job
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+  /jobs/{jobId}:
+    get:
+      operationId: getJobById
+      summary: Get job by id
+      tags:
+        - job
+    put:
+      operationId: editJob
+      summary: Edit job
+      tags:
+        - job
+    delete:
+      operationId: deleteJob
+      summary: Deletes a job
+      tags:
+        - job
+  # ------------- End Jobs ------------- #
+
+  # ------------- Environments ------------- #
+  /environments:
+    get:
+      operationId: getEnvironments
+      summary: List all environments
+      tags:
+        - environments
+      responses:
+        '200':
+          description: A list of environments
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Environment"
+    post:
+      operationId: createEnvironment
+      summary: Create new environment
+      tags:
+        - environments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Environment"
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Environment"
+  /environments/{environmentId}:
+    get:
+      operationId: getEnvironmentById
+      summary: List environment by id
+      tags:
+        - environments
+      responses:
+        '200':
+          description: Environment with given id
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Environment"
+    put:
+      operationId: updateEnvironment
+      summary: Update existing environment
+      tags:
+        - environments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Environment"
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Environment"
+  /environments/{environmentId}/keys:
+    get:
+      operationId: getEnvironmentKey
+      summary: List all environments keys
+      tags:
+        - environments
+      responses:
+        '200':
+          description: A list of environment keys
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/EnvironmentKey"
+    post:
+      operationId: createEnvironmentKey
+      summary: Create new environment key
+      tags:
+        - environments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/EnvironmentKey"
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/EnvironmentKey"
+  /environments/{environmentId}/keys/{keyId}:
+    get:
+      operationId: getEnvironmentKeyById
+      summary: Get environment key by id
+      tags:
+        - environments
+    put:
+      operationId: updateEnvironmentKey
+      summary: Updates project
+      tags:
+        - environments
+    delete:
+      operationId: deleteEnvironmentKey
+      summary: Deletes project
+      tags:
+        - environments
+  # ------------- End Environments ------------- #
+
+components:
+  schemas:
+    Project:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        git:
+          type: ProjectGit
+        size:
+          type: long
+        createdAt:
+          type: date
+        updatedAt:
+          type: date
+    Git:
+      type: object
+      properties:
+        id:
+          type: integer
+        projectId:
+          type: integer
+        http:
+          type: string
+        ssh:
+          type: string
+    Factory:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        os:
+          type: string
+        version:
+          type: string
+        status:
+          type: string
+        logs:
+          type: Log[]
+        packages:
+          type: Package[]
+    Job:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    TaskForce:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        robots:
+          type: integer[]
+        flow:
+          type: Flow
+        args:
+          type: string[]
+    Environment:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    EnvironmentKey:
+      type: object
+      properties:
+        environmentId:
+          type: integer
+        key:
+          type: string
+        value:
+          type: string
+        initial:
+          type: string
+        static:
+          type: boolean
+    UnAuthorizedResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        code:
+          type: number
+        message:
+          type: string
