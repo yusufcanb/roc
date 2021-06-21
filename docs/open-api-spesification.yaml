@@ -2,15 +2,12 @@ openapi: 3.0.0
 licence:
   - name: Apache 2.0
   - url: http://www.apache.org/licences/LICENSE-2.0.html
-
 info:
   title: Open Robot Platform
   version: 1.0.0
   description: Self hosted, lightweight, JVM based software automation platform for every day IT operations.
-
 servers:
   - url: http://localhost:8000/
-
 tags:
   - name: project
     description: Endpoints related to Project schema
@@ -28,9 +25,12 @@ paths:
   /project:
     get:
       operationId: getProjects
-      summary: List all project
+      summary: List all projects
       tags:
         - project
+      responses:
+        '200':
+          description: Success
     post:
       operationId: createProject
       summary: Create new project
@@ -39,49 +39,169 @@ paths:
   /project/{projectId}:
     get:
       operationId: getProjectById
-      summary: Get project by Id
+      summary: Get Project by Id
       tags:
         - project
+      parameters:
+        - in: params
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Success
     put:
       operationId: updateProject
-      summary: Updates project
+      summary: Update Project
       tags:
         - project
+      parameters:
+        - in: params
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Success
     delete:
       operationId: deleteProject
-      summary: Deletes project
+      summary: Delete Project
       tags:
         - project
+      parameters:
+        - in: params
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Success
   /project/{projectId}/files:
     get:
       operationId: getProjectFiles
       summary: Get project files
       tags:
         - project
+      parameters:
+        - in: params
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Success
   /project/{projectId}/files/{fileId}:
     get:
       operationId: getProjectFileById
-      summary: Get project file by id
+      summary: Get Project File by Id
       tags:
         - project
-  /project/{projectId}/globals/:
+      parameters:
+        - in: params
+          name: projectId
+          description: id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: params
+          name: fileId
+          description: id of file
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Success
+  /project/{projectId}/globals:
     get:
       operationId: getProjectGlobals
-      summary: Get project global variables
+      summary: Get Global Variables
       tags:
         - project
+      parameters:
+        - in: params
+          name: projectId
+          description: id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Success
     post:
       operationId: createProjectGlobal
-      summary: Create new project global variable
+      summary: Create Global Variable
       tags:
         - project
+      parameters:
+        - in: params
+          name: projectId
+          description: id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: params
+          name: fileId
+          description: id of file
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '201':
+          description: Created
   /project/{projectId}/globals/{globalId}:
     get:
       operationId: getProjectGlobalById
-      summary: Get project global by id
+      summary: List Global Variables
       tags:
         - project
-    # ------------- End Project ------------- #
+      parameters:
+        - in: params
+          name: projectId
+          description: id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: params
+          name: globalId
+          description: id of file
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Success
+  # ------------- End Project ------------- #
 
   # ------------- Factory ------------- #
   /factory:
@@ -119,40 +239,118 @@ paths:
       summary: Get factory by id
       tags:
         - factory
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: params
+          name: factoryId
+          description: Id of factory
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
     put:
       operationId: updateFactory
       summary: Update factory
       tags:
         - factory
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: params
+          name: factoryId
+          description: Id of factory
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
     delete:
       operationId: deleteFactory
       summary: Deletes factory
       tags:
         - factory
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: params
+          name: factoryId
+          description: Id of factory
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
   /factory/{factoryId}/packages:
     get:
       operationId: getFactoryPackages
       summary: Get packages by factory
       tags:
         - factory
+      parameters:
+        - in: params
+          name: factoryId
+          description: Id of factory
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
     put:
       operationId: installPackages
       summary: Install new package(s)
       tags:
         - factory
+      parameters:
+        - in: params
+          name: factoryId
+          description: Id of factory
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
   /factory/{factoryId}/logs:
     get:
       operationId: getFactoryLogs
       summary: Get logs by factory
       tags:
         - factory
+      parameters:
+        - in: params
+          name: factoryId
+          description: Id of factory
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
   # ------------- End Factory ------------- #
 
   # ------------- Task Force ------------- #
   /task-force:
     get:
       operationId: getTaskForces
-      summary: List all task force
+      summary: List Task Forces
       tags:
         - task-force
       parameters:
@@ -181,25 +379,76 @@ paths:
   /task-force/commands:
     get:
       taskForceId: getTaskForceCommands
-      summary: Get task force by id commands
+      summary: Get Commands
       tags:
         - task-force
   /task-force/{taskForceId}:
     get:
       taskForceId: getTaskForceById
-      summary: Get task force by id
+      summary: Get Task Force
       tags:
         - task-force
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: params
+          name: taskForceId
+          description: Id of task force
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
     put:
       operationId: editTaskForce
       summary: Edit task force
       tags:
         - task-force
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: params
+          name: taskForceId
+          description: Id of task force
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
     delete:
       operationId: deleteTaskForce
       summary: Deletes a job
       tags:
         - task-force
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: params
+          name: taskForceId
+          description: Id of task force
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
   /task-force/{taskForceId}/action:
     post:
       operationId: triggerTaskForceAction
@@ -244,16 +493,82 @@ paths:
       summary: Get job by id
       tags:
         - job
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: params
+          name: jobId
+          description: Id of Job
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
     put:
       operationId: editJob
       summary: Edit job
       tags:
         - job
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: params
+          name: jobId
+          description: Id of Job
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
     delete:
       operationId: deleteJob
       summary: Deletes a job
       tags:
         - job
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: params
+          name: jobId
+          description: Id of Job
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+  /jobs/{jobId}/logs:
+    get:
+      operationId: getJobLogs
+      summary: Get job logs by id
+      tags:
+        - job
+      parameters:
+        - in: params
+          name: jobId
+          description: Id of Job
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
   # ------------- End Jobs ------------- #
 
   # ------------- Environments ------------- #
@@ -294,6 +609,23 @@ paths:
       summary: List environment by id
       tags:
         - environments
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: params
+          name: environmentId
+          description: Id of Environment
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
       responses:
         '200':
           description: Environment with given id
@@ -313,7 +645,7 @@ paths:
             schema:
               "$ref": "#/components/schemas/Environment"
       responses:
-        '201':
+        '200':
           description: Successful operation
           content:
             application/json:
@@ -356,16 +688,91 @@ paths:
       summary: Get environment key by id
       tags:
         - environments
+      parameters:
+        - in: query
+          name: projectId
+          description: id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: params
+          name: environmentId
+          description: id of environment
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: params
+          name: keyId
+          description: id of key
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
     put:
       operationId: updateEnvironmentKey
       summary: Updates project
       tags:
         - environments
+      parameters:
+        - in: query
+          name: projectId
+          description: id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: params
+          name: environmentId
+          description: id of environment
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: params
+          name: keyId
+          description: id of key
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
     delete:
       operationId: deleteEnvironmentKey
       summary: Deletes project
       tags:
         - environments
+      parameters:
+        - in: query
+          name: projectId
+          description: id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: params
+          name: environmentId
+          description: id of environment
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: params
+          name: keyId
+          description: id of key
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
   # ------------- End Environments ------------- #
 
 components:
@@ -385,6 +792,8 @@ components:
           type: date
         updatedAt:
           type: date
+        isDefault:
+          type: boolean
     Git:
       type: object
       properties:
@@ -424,6 +833,8 @@ components:
       type: object
       properties:
         id:
+          type: integer
+        projectId:
           type: integer
         name:
           type: string
