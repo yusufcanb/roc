@@ -8,6 +8,7 @@ import {ArrowDropDown} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     button: {
+        backgroundColor: "transparent",
         margin: theme.spacing(1),
         border: "1px solid gray",
         borderRadius: "5px"

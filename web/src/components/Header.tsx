@@ -4,7 +4,6 @@ import {AppBar, Box, Button, IconButton, makeStyles, Toolbar} from "@material-ui
 import {Settings as SettingsIcon} from "@material-ui/icons"
 
 import {Link} from "react-router-dom";
-import {useStore} from "../store";
 
 import {ProjectSelect} from "./project";
 import {FactorySelect} from "./factory";
@@ -20,15 +19,20 @@ const useStyles = makeStyles((theme) => ({
     },
     span: {
         flexGrow: 1
+    },
+    button: {
+        "&:hover": {
+            border: "solid 1px gray",
+            borderRadius: "4px"
+        }
     }
 }));
 
 const Header: FunctionComponent = (props) => {
     const classes = useStyles();
-    const rootStore = useStore();
 
     const handleClick = () => {
-        rootStore.setTitle("Math.random()::" + Math.random() * 1000)
+        console.log("Header::handleClick");
     }
 
     return (
@@ -45,10 +49,14 @@ const Header: FunctionComponent = (props) => {
                 </IconButton>
             </Toolbar>
             <Toolbar style={{backgroundColor: "#333333"}} variant={"dense"}>
-                <Button color={"inherit"}>Jobs</Button>
-                <Button color={"inherit"}>Task Force</Button>
-                <Button color={"inherit"}>Robots</Button>
-                <Button color={"inherit"}>Factories</Button>
+                <Button className={classes.button} variant={"text"} color={"inherit"} component={Link}
+                        to={"/job"}>Jobs</Button>
+                <Button className={classes.button} variant={"text"} color={"inherit"} component={Link}
+                        to={"/task-force"}>Task Force</Button>
+                <Button className={classes.button} variant={"text"} color={"inherit"} component={Link}
+                        to={"/robot"}>Robots</Button>
+                <Button className={classes.button} variant={"text"} color={"inherit"} component={Link}
+                        to={"/factory"}>Factories</Button>
                 <Box className={classes.span}/>
                 <FactorySelect/>
                 <EnvironmentSelect/>

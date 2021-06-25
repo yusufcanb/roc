@@ -8,6 +8,7 @@ import {ArrowDropDown} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     button: {
+        backgroundColor: "transparent",
         margin: theme.spacing(1),
         border: "1px solid gray",
         borderRadius: "5px"
@@ -27,7 +28,7 @@ const FactorySelect: FunctionComponent = (props) => {
         <React.Fragment>
             <Button
                 variant="contained"
-                color="primary"
+                color={"primary"}
                 className={classes.button}
                 endIcon={<ArrowDropDown className={classes.icon}/>}
             >
