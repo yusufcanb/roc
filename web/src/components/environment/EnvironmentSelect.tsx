@@ -4,7 +4,8 @@ import {makeStyles} from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
-import {ArrowDropDown} from "@material-ui/icons";
+import {ArrowDropDown, ArrowRight as ArrowRigthIcon, SettingsApplications as NewProjectIcon} from "@material-ui/icons";
+import {Divider, ListItemIcon, Typography} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -24,15 +25,20 @@ const EnvironmentSelect: FunctionComponent = (props) => {
         setAnchorEl(null);
     };
 
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl((event as any).currentTarget);
+    };
+
     return (
         <React.Fragment>
             <Button
                 variant="contained"
                 color="primary"
+                onClick={handleClick}
                 className={classes.button}
                 endIcon={<ArrowDropDown className={classes.icon}/>}
             >
-                Select Environment
+                No Environment
             </Button>
             <Menu
                 id="simple-menu"
@@ -41,9 +47,27 @@ const EnvironmentSelect: FunctionComponent = (props) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                {
+                    ["No Environment"].map(p => (
+                        <MenuItem key={p} onClick={handleClose}>
+                            <ListItemIcon>
+                                <ArrowRigthIcon/>
+                            </ListItemIcon>
+                            <Typography variant="inherit" noWrap>
+                                {p}
+                            </Typography>
+                        </MenuItem>
+                    ))
+                }
+                <Divider/>
+                <MenuItem onClick={handleClose}>
+                    <ListItemIcon>
+                        <NewProjectIcon/>
+                    </ListItemIcon>
+                    <Typography variant="inherit" noWrap>
+                        Manage Environments
+                    </Typography>
+                </MenuItem>
             </Menu>
         </React.Fragment>
     )

@@ -44,7 +44,7 @@ const Header: FunctionComponent = (props) => {
                 </IconButton>
                 <ProjectSelect/>
                 <Box className={classes.span}/>
-                <IconButton color={"inherit"} component={Link} to={"/login"}>
+                <IconButton color={"inherit"} component={Link} to={"/settings"}>
                     <SettingsIcon/>
                 </IconButton>
             </Toolbar>

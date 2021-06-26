@@ -48,7 +48,7 @@ const ProjectSelect: FunctionComponent = (props: PropsWithChildren<any>) => {
             >
                 {
                     ["Default Project"].map(p => (
-                        <MenuItem onClick={handleClose}>
+                        <MenuItem key={p} onClick={handleClose}>
                             <ListItemIcon>
                                 <ArrowRigthIcon/>
                             </ListItemIcon>
