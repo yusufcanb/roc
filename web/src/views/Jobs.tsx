@@ -6,8 +6,6 @@ import Icon from "@material-ui/icons/AccountTree";
 
 const Jobs: FunctionComponent = (props) => {
 
-    const handleCreate = () => console.log("Factory::create");
-
     return (
         <Box width={"100%"} height={"100%"}>
             <EmptyState icon={Icon}
