@@ -3,13 +3,13 @@ import {EmptyState} from "../components";
 import {Box, Button} from "@material-ui/core";
 
 import Icon from "@material-ui/icons/AccountTree";
-import ArrowRigthIcon from '@material-ui/icons/SubdirectoryArrowRight';
+import ArrowRightIcon from '@material-ui/icons/SubdirectoryArrowRight';
 
 const Jobs: FunctionComponent = (props: PropsWithChildren<any>) => {
     const actionButton = (
         <Button
             variant={"outlined"}
-            startIcon={<ArrowRigthIcon/>}>
+            startIcon={<ArrowRightIcon/>}>
             Go to Task Force
         </Button>
     );
