@@ -1,8 +1,10 @@
 # ROC | Robot Operation Center
 
-This project is a RPA platform built on top of Robot Framework's keyword driven testing approach.
+Robot Operation Center. Self hosted, lightweight, JVM based software automation platform for every day IT operations.
 
-## System Decomposition
+## Overview
+
+### Project Decomposition
 
 - `/agent`: Agent project manages executions on installed platforms.
 - `/platform`: Platform project is for backend operations of platform.
