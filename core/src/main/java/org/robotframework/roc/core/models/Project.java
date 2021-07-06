@@ -21,6 +21,6 @@ public class Project {
 
     @OneToOne(mappedBy = "project", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
-    private Git git;
+    private CodeRepository repository;
 
 }
