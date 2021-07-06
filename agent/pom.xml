@@ -12,7 +12,7 @@
     </properties>
 
     <parent>
-        <groupId>com.yusufcanb.rpa</groupId>
+        <groupId>org.robotframework.roc</groupId>
         <artifactId>app</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
@@ -28,7 +28,7 @@
                     </excludes>
                     <archive>
                         <manifest>
-                            <mainClass>com.yusufcanb.rpa.agent.tray.Main</mainClass>
+                            <mainClass>org.robotframework.roc.agent.AgentApplication</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -38,7 +38,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.yusufcanb.rpa</groupId>
+            <groupId>org.robotframework.roc</groupId>
             <artifactId>core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
@@ -50,17 +50,17 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-            <version>2.4.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
             <version>2.4.3</version>
         </dependency>
         <dependency>
-            <groupId>com.dorkbox</groupId>
-            <artifactId>SystemTray</artifactId>
-            <version>3.17</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+            <version>2.4.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
         </dependency>
     </dependencies>
 
