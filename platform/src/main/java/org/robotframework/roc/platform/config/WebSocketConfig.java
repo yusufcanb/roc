@@ -21,6 +21,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.enableStompBrokerRelay("/queue")
                 .setRelayHost("localhost")
                 .setRelayPort(61613)
+                .setSystemLogin("roc")
+                .setSystemPasscode("roc")
                 .setClientLogin("roc")
                 .setClientPasscode("roc");
     }

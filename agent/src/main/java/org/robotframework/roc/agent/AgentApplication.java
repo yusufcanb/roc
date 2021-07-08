@@ -15,42 +15,14 @@
 
 package org.robotframework.roc.agent;
 
-import org.robotframework.roc.core.beans.WsMessage;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.messaging.converter.MappingJackson2MessageConverter;
-import org.springframework.messaging.simp.stomp.StompHeaders;
-import org.springframework.messaging.simp.stomp.StompSession;
-import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
-import org.springframework.web.socket.client.WebSocketClient;
-import org.springframework.web.socket.client.standard.StandardWebSocketClient;
-import org.springframework.web.socket.messaging.WebSocketStompClient;
-
-import java.net.URISyntaxException;
-import java.util.Scanner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
-@Slf4j
+@SpringBootApplication
 public class AgentApplication {
 
-    public static void main(String[] args) throws URISyntaxException {
-        WebSocketClient client = new StandardWebSocketClient();
-        WebSocketStompClient stompClient = new WebSocketStompClient(client);
-
-        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
-
-        stompClient.connect("ws://localhost:8080", new StompSessionHandlerAdapter() {
-            @Override
-            public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
-                session.subscribe("/queue/agent.*", this);
-//                    session.send("/app/chat", new WsMessage("factory", "Hello, world!"));
-            }
-
-            @Override
-            public void handleFrame(StompHeaders headers, Object payload) {
-                WsMessage msg = (WsMessage) payload;
-                log.info("Received : " + msg.getMessage() + " from : " + msg.getSender());
-            }
-        });
-        new Scanner(System.in).nextLine();
+    public static void main(String[] args) {
+        SpringApplication.run(AgentApplication.class);
     }
 }
