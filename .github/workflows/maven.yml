@@ -21,18 +21,15 @@ jobs:
         distribution: 'adopt'
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-  build-image:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: docker login
-        env:
-          DOCKER_USER: ${{secrets.DOCKER_USER}}
-          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-        run: |
-          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - name: Build the Docker image
-        run: cd platform && docker build . --file Dockerfile --tag yusufcanb/roc:$(date +%s)
 
-      - name: Docker Push
-        run: docker push yusufcanb/roc
+    - name: Docker Package Registry
+      # You may pin to the exact commit or the version.
+      # uses: craftech-io/package-action@009001a7fd1c4f139ae06aeceed9b679daf52734
+      uses: craftech-io/package-action@v3.1.0
+      with:
+        # GitHub Repository Token to log in using.
+        #access_token: 
+        # Where should GitHub Docker find the Dockerfile, relative to the root of the repository.
+        context: .
+        image_name: roc-platform
+        dockerfile: ./platform/Dockerfile
