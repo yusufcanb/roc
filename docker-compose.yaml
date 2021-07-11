@@ -1,17 +1,19 @@
 version: "3"
 services:
   mysql:
-    container_name: roc-mysql
     image: mysql:8
+    hostname: roc-mysql
+    container_name: roc-mysql
     restart: always
     ports:
       - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=my-secret-pw
+      - MYSQL_DATABASE=roc_dev_db
   redis:
     image: 'redis:alpine'
     restart: always
-    hostname: redis
+    hostname: roc-redis
     container_name: roc-redis
     ports:
       - '6379:6379'
@@ -22,7 +24,7 @@ services:
       dockerfile: ./platform/src/main/resources/docker/rabbitmq/Dockerfile
     restart: always
     container_name: roc-rabbitmq
-    hostname: rabbitmq
+    hostname: roc-rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: "roc"
       RABBITMQ_DEFAULT_PASS: "roc"
