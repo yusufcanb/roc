@@ -1,6 +1,7 @@
 # ROC | Robot Operation Center
 
-Robot Operation Center (ROC) is an Self hosted, lightweight, JVM based software automation platform for every day IT operations which uses Robot Framework as it's executor. 🤖 🕹
+Robot Operation Center (ROC) is an Self hosted, lightweight, JVM based software automation platform for every day IT
+operations which uses Robot Framework as it's executor. 🤖 🕹
 
 ## Overview
 
@@ -16,6 +17,12 @@ Run required services via docker-compose;
 
 ```
 docker compose up
+```
+
+Start platform with;
+
+```
+./mvnw compile && ./mvnw -pl platform spring-boot:run
 ```
 
 Then, start frontend development server;
