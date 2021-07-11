@@ -28,7 +28,7 @@ jobs:
       uses: craftech-io/package-action@v3.1.0
       with:
         # GitHub Repository Token to log in using.
-        #access_token: 
+        access_token: ${{ secrets.GITHUB_TOKEN }}
         # Where should GitHub Docker find the Dockerfile, relative to the root of the repository.
         context: .
         image_name: roc-platform
