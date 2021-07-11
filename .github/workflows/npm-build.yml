@@ -16,8 +16,14 @@ jobs:
         working-directory: ./web
       - run: npm run build
         working-directory: ./web
-      - uses: actions/upload-artifact@v2
+      - name: Docker Package Registry
+        # You may pin to the exact commit or the version.
+        # uses: craftech-io/package-action@009001a7fd1c4f139ae06aeceed9b679daf52734
+        uses: craftech-io/package-action@v3.1.0
         with:
-          name: ci-build
-          path: ./web/build/
-
+          # GitHub Repository Token to log in using.
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+          # Where should GitHub Docker find the Dockerfile, relative to the root of the repository.
+          context: ./web
+          image_name: roc-web
+          dockerfile: ./web/Dockerfile
