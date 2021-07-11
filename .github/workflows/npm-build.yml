@@ -22,7 +22,7 @@ jobs:
         uses: craftech-io/package-action@v3.1.0
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}
-          tags: ${GITHUB_REF##*/}
+          tags: ${{ env.BRANCH }}
           context: ./web
           image_name: roc-web
           dockerfile: ./web/Dockerfile
