@@ -35,7 +35,7 @@ npm run start
 
 ## Deployment
 
-Deploy on Kubernetes;
+Deploy on Kubernetes
 
 ```shell
 # Coming soon
