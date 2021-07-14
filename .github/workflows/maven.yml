@@ -28,7 +28,6 @@ jobs:
       uses: craftech-io/package-action@v3.1.0
       with:
         access_token: ${{ secrets.GITHUB_TOKEN }}
-        tags: ${{ env.BRANCH }}
         context: ./platform
         image_name: roc-platform
         dockerfile: ./platform/Dockerfile
