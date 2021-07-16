@@ -1,4 +1,5 @@
 import React, {FunctionComponent, PropsWithChildren} from "react";
+import {observer} from "mobx-react-lite";
 
 import {Breadcrumbs, Link, Typography} from "@material-ui/core";
 
@@ -7,12 +8,13 @@ interface BreadcrumbProps {
 }
 
 const Breadcrumb: FunctionComponent<BreadcrumbProps> = (props: PropsWithChildren<BreadcrumbProps>) => {
-    const lastItem = props.state.pop();
+    const items = props.state.slice(0, props.state.length);
+    const lastItem = items.pop();
 
     return (
         <Breadcrumbs aria-label="breadcrumb">
             {
-                props.state.map(
+                items.map(
                     (link: string) => {
                         return (
                             <Link key={link} color="inherit" href="/">
@@ -27,4 +29,4 @@ const Breadcrumb: FunctionComponent<BreadcrumbProps> = (props: PropsWithChildren
     );
 }
 
-export default Breadcrumb;
+export default observer(Breadcrumb);

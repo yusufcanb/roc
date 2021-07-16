@@ -3,6 +3,7 @@ import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import {Box} from "@material-ui/core";
 
 import Breadcrumb from "../components/Breadcrumb";
+import PageContent from "../components/PageContent";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -18,14 +19,13 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-
 const Settings = () => {
     const classes = useStyles();
 
     return (
-        <Box p={5} className={classes.container}>
-            <Breadcrumb state={["ROC", "Settings"]}/>
-        </Box>
+        <PageContent>
+            <span>page content</span>
+        </PageContent>
     );
 }
 
