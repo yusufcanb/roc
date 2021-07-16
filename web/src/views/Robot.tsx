@@ -1,29 +1,22 @@
-import React, {FunctionComponent, PropsWithChildren} from "react";
-import {Grid, Paper, TextField, Typography} from "@material-ui/core";
+import React, {FunctionComponent, useEffect, useState} from "react";
+import {Box, Grid, TextField, Typography} from "@material-ui/core";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import PageContent from "../components/PageContent";
 import ProjectDirectoryNavigation from "../components/ProjectDirectoryNavigation";
-
-import {observer} from "mobx-react-lite";
+import Editor from "@monaco-editor/react";
+import CodeIcon from "@material-ui/icons/Code";
 import {useStore} from "../store";
+import {EmptyState} from "../components";
+import {observer} from "mobx-react-lite";
+import LoadingState from "../components/LoadingState";
+import {toJS} from "mobx";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        paper: {
-            maxWidth: "60%",
-            margin: `${theme.spacing(1)}px auto`,
-            padding: theme.spacing(2),
-            border: "1px solid #333"
-        },
-        pre: {
-            fontFamily: "monospace",
-            background: "rgb(246, 248, 250)",
-            padding: "10px"
-        },
         textField: {
             width: "100%",
             background: "rgb(246, 248, 250)",
-            margin: "20px 0px",
+            margin: "5px 0px",
             "& input": {
                 fontFamily: "monospace"
             }
@@ -33,87 +26,92 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Robot: FunctionComponent = (props) => {
     const classes = useStyles();
-    const store = useStore();
+    const {projectStore} = useStore();
+    const [selectedFile, setSelectedFile] = useState<string | null>(null);
+    const [editorContent, setEditorContent] = useState<string>();
 
-    const renderEmptyState: FunctionComponent = (props: PropsWithChildren<any>) => {
+    useEffect(() => {
+        projectStore.fetchProjects();
+    }, [])
+
+    const handleSelect = (nodes: any) => {
+        console.log(toJS(nodes));
+        if (nodes.type === "file") {
+            setSelectedFile(toJS(nodes).id);
+            setEditorContent(toJS(nodes).content);
+        }
+    }
+
+    const renderEmptyState = () => {
         return (
-            <React.Fragment>
-
-                <Paper elevation={0} className={classes.paper}>
-                    <Grid container wrap="nowrap" spacing={2}>
-                        <Grid item xs zeroMinWidth>
-                            <Typography variant={"h5"}>Quick setup — if you’ve done this kind of thing
-                                before</Typography>
-                            <Grid container direction={"row"}>
-                                <Grid item xs={11}>
-                                    <TextField
-                                        id="standard-read-only-input"
-                                        className={classes.textField}
-                                        size={"small"}
-                                        variant={"outlined"}
-                                        defaultValue={`git@${window.location.host}:roc/default.git`}
-                                        InputProps={{
-                                            readOnly: true,
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item xs={1}></Grid>
-                            </Grid>
-                            <Typography variant={"body1"}>Get started by creating a new file or uploading an existing
-                                file.
-                                We recommend every repository include a README, LICENSE, and .gitignore.</Typography>
-                        </Grid>
-                    </Grid>
-                </Paper>
-                <Paper elevation={0} className={classes.paper}>
-                    <Grid container wrap="nowrap" spacing={2}>
-                        <Grid item xs>
-                            <Typography variant={"h5"}>…or create a new repository on the command line</Typography>
-                            <code>
-                            <pre className={classes.pre}>
-                        {`
-echo "# demo-automation-project" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M master
-git remote add origin git@github.com:yusufcanb/demo-automation-project.git
-git push -u origin master
-                        `}
-                            </pre>
-                            </code>
-                        </Grid>
-                    </Grid>
-                </Paper>
-                <Paper elevation={0} className={classes.paper}>
-                    <Grid container wrap="nowrap" spacing={2}>
-                        <Grid item xs>
-                            <Typography variant={"h5"}>…or push an existing repository from the command
-                                line</Typography>
-                            <code>
-                            <pre className={classes.pre}>
-                        {`
-echo "# demo-automation-project" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M master
-git remote add origin git@github.com:yusufcanb/demo-automation-project.git
-git push -u origin master
-                        `}
-                            </pre>
-                            </code>
-                        </Grid>
-                    </Grid>
-                </Paper>
-            </React.Fragment>
+            <EmptyState
+                icon={CodeIcon}
+                title={"Empty Repository"}
+                subTitle={"You need to push a repository in order to start viewing your project files."}>
+                <Box>
+                    <Typography align={"left"} variant={"body2"}>Add remote to your repository,</Typography>
+                    <TextField
+                        id="standard-read-only-input"
+                        className={classes.textField}
+                        size={"small"}
+                        variant={"outlined"}
+                        defaultValue={`git remote add roc git@${window.location.host}:roc/default.git`}
+                        InputProps={{
+                            readOnly: true
+                        }}
+                    />
+                    <Typography align={"left"} variant={"body2"}>Push to master branch,</Typography>
+                    <TextField
+                        id="standard-read-only-input"
+                        className={classes.textField}
+                        size={"small"}
+                        variant={"outlined"}
+                        defaultValue={`git push roc master`}
+                        InputProps={{
+                            readOnly: true
+                        }}
+                    />
+                </Box>
+            </EmptyState>
         )
+    }
+
+    const renderLoadingState = () => {
+        return (<LoadingState/>)
+    }
+
+    const renderContent = (project: any) => {
+        return (
+            <Grid container>
+                <Grid item xs={3}>
+                    <ProjectDirectoryNavigation files={project.files} onSelect={handleSelect}/>
+                </Grid>
+                <Grid item xs={9}>
+                    {selectedFile ? <Editor
+                        options={{readOnly: true, minimap: false}}
+                        height="100%"
+                        width={"100%"}
+                        defaultLanguage="text"
+                        value={editorContent}
+                    /> : <EmptyState title={"No File Selected"} subTitle={"Select a file to view it's content"}/>}
+                </Grid>
+            </Grid>
+        )
+    }
+
+    if (projectStore.projects.length == 0 && !projectStore.isLoading) {
+        return renderEmptyState();
     }
 
     return (
         <PageContent>
-            <ProjectDirectoryNavigation/>
-        </PageContent>)
+            {
+                projectStore.isLoading && !projectStore.isErrored
+                    ? renderLoadingState()
+                    : renderContent(projectStore.getSelectedProject())
+            }
+        </PageContent>
+    )
 }
 
 export default observer(Robot);

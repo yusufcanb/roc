@@ -1,6 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import {JobStore} from "./JobStore";
 import {TaskForceStore} from "./TaskForce";
+import {ProjectStore} from "./ProjectStore";
 
 export class RootStore {
     version: Array<number> = [0, 1, 0];
@@ -10,6 +11,7 @@ export class RootStore {
 
     windowLocation = ["ROC", "Home"];
 
+    projectStore: ProjectStore;
     jobStore: JobStore;
     taskForceStore: TaskForceStore;
 
@@ -17,6 +19,7 @@ export class RootStore {
         makeAutoObservable(this);
         this.jobStore = new JobStore(this);
         this.taskForceStore = new TaskForceStore(this);
+        this.projectStore = new ProjectStore(this);
     }
 
     setWindowLocation(loc: Array<string>) {

@@ -1,0 +1,70 @@
+{
+  "projects": [
+    {
+      "id": "1",
+      "name": "Default Project",
+      "files": [
+        {
+          "id": "1123",
+          "name": "Resources",
+          "type": "directory",
+          "children": [
+            {
+              "id": "344",
+              "name": "WebUI.resource",
+              "type": "file",
+              "content": "// sdfds"
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "name": "Libraries",
+          "type": "directory",
+          "children": [
+            {
+              "id": "3",
+              "name": "Hello World.resource",
+              "type": "file",
+              "content": "// First line\nfunction hello() {\n\talert('Hello world!');\n}\n// Last line"
+            }
+          ]
+        },
+        {
+          "id": "4",
+          "name": "Variables",
+          "type": "directory",
+          "children": [
+            {
+              "id": "5",
+              "name": "Selenium.resource",
+              "type": "file",
+              "content": "// First line\nfunction hello() {\n\talert('Hello world!');\n}\n// Last line"
+            }
+          ]
+        },
+        {
+          "id": "6",
+          "name": "HealthCheck.robot",
+          "type": "file",
+          "content": "// First line\nfunction hello() {\n\talert('Hello world!');\n}\n// Last line"
+        },
+        {
+          "id": "7",
+          "name": "DailyAuditOperations.robot",
+          "type": "file",
+          "content": "// First line\nfunction hello() {\n\talert('Hello world!');\n}\n// Last line"
+        },
+        {
+          "id": "8",
+          "name": "README.md",
+          "type": "file",
+          "content": "// First line\nfunction hello() {\n\talert('Hello world!');\n}\n// Last line"
+        }
+      ]
+    }
+  ],
+  "factories": [],
+  "jobs": [],
+  "task-force": []
+}

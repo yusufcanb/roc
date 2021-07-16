@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
@@ -12,8 +12,14 @@ import Factory from "./views/Factory";
 import Jobs from "./views/Jobs";
 import TaskForce from "./views/TaskForce";
 import Robot from "./views/Robot";
+import {useStore} from "./store";
 
 function App() {
+    const {projectStore} = useStore();
+
+    useEffect(() => {
+        projectStore.fetchProjects();
+    }, []);
 
     return (
         <Router>

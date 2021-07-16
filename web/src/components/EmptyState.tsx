@@ -43,6 +43,7 @@ const EmptyState: FunctionComponent<EmptyStateProps> = (props: PropsWithChildren
                     props.actionButton ? props.actionButton : null
                 }
             </Box>
+            {props.children}
         </Box>
     )
 }

@@ -38,6 +38,12 @@ const useStyles = makeStyles((theme: Theme) =>
             flexGrow: 1,
             margin: 5
         },
+        taskListContainer: {
+            border: "2px solid #333",
+            borderRadius: "4px",
+            height: 200,
+            display: "flex"
+        },
         control: {
             padding: theme.spacing(2),
         }
@@ -91,8 +97,8 @@ const Jobs: FunctionComponent = (props: PropsWithChildren<any>) => {
                 </Grid>
 
                 <Grid item xs={12}>
-                    <Typography variant={"h5"}>Currently Running</Typography>
-                    <Box className={classes.paper}>
+                    <Typography variant={"h5"}>Currently Running (5)</Typography>
+                    <Box className={classes.taskListContainer}>
                         <List style={{width: "100%", padding: 0}}>
                             <ListItem button dense={true}>
                                 <ListItemText primary='Task Force 123'/>
@@ -103,13 +109,13 @@ const Jobs: FunctionComponent = (props: PropsWithChildren<any>) => {
                 </Grid>
 
                 <Grid item xs={12}>
-                    <Typography variant={"h5"}>Latest Runs</Typography>
-                    <Box className={classes.paper}></Box>
+                    <Typography variant={"h5"}>Latest Runs (5)</Typography>
+                    <Box className={classes.taskListContainer}></Box>
                 </Grid>
 
                 <Grid item xs={12}>
-                    <Typography variant={"h5"}>Future Runs</Typography>
-                    <Box className={classes.paper}></Box>
+                    <Typography variant={"h5"}>Future Runs (5)</Typography>
+                    <Box className={classes.taskListContainer}></Box>
                 </Grid>
 
             </Grid>

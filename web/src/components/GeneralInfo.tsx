@@ -4,7 +4,13 @@ import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        container: {}
+        statItem: {
+
+            "&:hover": {
+                cursor: "pointer",
+                color: theme.palette.secondary.main
+            }
+        }
     }),
 );
 
@@ -23,7 +29,7 @@ const GeneralInfo: FunctionComponent<QuickStatsProps> = (props: PropsWithChildre
     return (
         <Grid container alignContent={"center"} justify={"center"} spacing={5}>
             {props.stats.map((statics) => (
-                <Grid key={statics.text} item>
+                <Grid className={classes.statItem} key={statics.text} item>
                     <Typography align={"center"} variant={"h3"}>{statics.content}</Typography>
                     <Typography variant={"body1"}>{statics.text}</Typography>
                 </Grid>
