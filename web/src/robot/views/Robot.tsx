@@ -33,7 +33,7 @@ const Robot: FunctionComponent = (props) => {
 
     useEffect(() => {
         projectStore.fetchProjects();
-    }, [])
+    }, [projectStore])
 
     const handleSelect = (nodes: any) => {
         console.log(toJS(nodes));
@@ -100,7 +100,7 @@ const Robot: FunctionComponent = (props) => {
         )
     }
 
-    if (projectStore.projects.length == 0 && !projectStore.isLoading) {
+    if (projectStore.projects.length === 0 && !projectStore.isLoading) {
         return renderEmptyState();
     }
 

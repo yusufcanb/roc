@@ -1,6 +1,6 @@
 import React, {FunctionComponent, useEffect} from "react";
 import {Box, Button} from "@material-ui/core";
-import {PageContent, EmptyState, LoadingState} from "../../core/components";
+import {EmptyState, LoadingState, PageContent} from "../../core/components";
 
 import BusinessIcon from "@material-ui/icons/HomeWork";
 import CreateIcon from '@material-ui/icons/Add';
@@ -14,7 +14,7 @@ const Factory: FunctionComponent = () => {
 
     useEffect(() => {
         factoryStore.fetchFactories();
-    }, []);
+    }, [factoryStore]);
 
     const handleCreate = () => factoryStore.factories.push(new FactoryModel(0, "Windows 10", "macos"))
     const renderLoadingState = () => {
@@ -43,7 +43,7 @@ const Factory: FunctionComponent = () => {
         return factoryStore.factories.map(factory => (<FactoryListItem factory={factory}/>))
     }
 
-    if (factoryStore.factories.length == 0 && !factoryStore.isLoading) {
+    if (factoryStore.factories.length === 0 && !factoryStore.isLoading) {
         return renderEmptyState();
     }
 

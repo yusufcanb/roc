@@ -1,9 +1,10 @@
 import {action, makeAutoObservable} from "mobx";
 import {RootStore} from "core/store";
 
-import services from "factory/services/factory";
 import {FactoryModel} from "factory/models/Factory";
 import {DomainConverter, Nullable} from "core/models";
+
+import  * as services from "factory/services";
 
 export class FactoryStore {
     private root: RootStore;
@@ -23,7 +24,7 @@ export class FactoryStore {
     }
 
     fetchFactories() {
-        services.fetchFactories()
+        services.factory.fetchFactories()
             .then(
                 action("fetchSuccess", response => {
                     this.factories = DomainConverter.fromDtoArray<FactoryModel>(FactoryModel, response.data);

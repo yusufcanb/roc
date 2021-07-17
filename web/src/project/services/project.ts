@@ -8,8 +8,3 @@ export function fetchProjects() {
 export function fetchProjectById(id: string) {
     return http.get<Project>(`/projects/${id}`);
 }
-
-export default {
-    fetchProjects: fetchProjects,
-    fetchProjectById: fetchProjectById
-}

@@ -12,7 +12,7 @@ export class TaskForceStore {
     }
 
     getIsEmpty() {
-        return this.forces.length == 0;
+        return this.forces.length === 0;
     }
 
 }

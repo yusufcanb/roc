@@ -4,7 +4,7 @@ import {DomainConverter} from "core/models";
 import {RootStore} from "core/store/RootStore";
 
 import {ProjectModel} from "../models/Project";
-import services from "../services/project";
+import * as services from "../services";
 
 export class ProjectStore {
     public isLoading: boolean = true;
@@ -37,14 +37,14 @@ export class ProjectStore {
     }
 
     getProjectById(id: string) {
-        return this.projects.find((project: any) => project.id == id);
+        return this.projects.find((project: any) => project.id === id);
     }
 
     fetchProjects() {
         this.projects = []
         this.isLoading = true;
         this.isErrored = false;
-        services.fetchProjects()
+        services.project.fetchProjects()
             .then(
                 action("fetchSuccess", response => {
                     this.projects = DomainConverter.fromDtoArray<ProjectModel>(ProjectModel, response.data);

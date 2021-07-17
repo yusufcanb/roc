@@ -1,4 +1,4 @@
-import React, {FunctionComponent, PropsWithChildren} from "react";
+import React, {FunctionComponent} from "react";
 import {Box, Button, Divider, Grid, List, ListItem, ListItemText, Typography} from "@material-ui/core";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 
@@ -7,7 +7,6 @@ import ArrowRightIcon from '@material-ui/icons/SubdirectoryArrowRight';
 
 import {EmptyState, PageContent} from "core/components";
 import {GeneralInfo, QuickStat} from "job/components";
-
 
 import {useStore} from "core/store";
 
@@ -52,9 +51,9 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const Jobs: FunctionComponent = (props: PropsWithChildren<any>) => {
+const Jobs: FunctionComponent = () => {
     const classes = useStyles();
-    const {jobStore, taskForceStore} = useStore();
+    const {jobStore} = useStore();
 
     const actionButton = (
         <Button

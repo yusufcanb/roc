@@ -21,7 +21,7 @@ const PageContent: FunctionComponent = (props) => {
 
     React.useEffect(() => {
         store.setWindowLocation(["ROC", window.location.pathname.replace("/", "")]);
-    }, [location]);
+    }, [store, location]);
 
     return (
         <Container maxWidth="xl">
