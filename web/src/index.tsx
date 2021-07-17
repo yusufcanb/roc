@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 
 import App from './App';
 
-import {RootStore} from "./store/RootStore";
-import {StoreContext} from "./store";
+import {StoreContext, RootStore} from "core/store";
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 
-import './styles/index.css';
+import "font-awesome/css/font-awesome.css";
+import "./styles/index.css";
 
 const theme = createMuiTheme({
     palette: {

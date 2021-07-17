@@ -13,6 +13,7 @@
     "@types/react-dom": "^16.9.8",
     "axios": "^0.21.1",
     "cra-template-typescript": "1.1.2",
+    "font-awesome": "^4.7.0",
     "json-server": "^0.16.3",
     "mobx": "^6.1.4",
     "mobx-react-lite": "^3.2.0",

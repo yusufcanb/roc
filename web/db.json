@@ -13,7 +13,7 @@
               "id": "344",
               "name": "WebUI.resource",
               "type": "file",
-              "content": "// sdfds"
+              "content": "#! /usr/bin/python"
             }
           ]
         },
@@ -64,7 +64,28 @@
       ]
     }
   ],
-  "factories": [],
+  "factories": [
+    {
+      "id": "1",
+      "name": "Windows 10",
+      "os": "windows"
+    },
+    {
+      "id": "2",
+      "name": "MacOS X",
+      "os": "macos"
+    },
+    {
+      "id": "3",
+      "name": "CentOS 7 (Cloud ENV)",
+      "os": "linux"
+    },
+    {
+      "id": "4",
+      "name": "Raspberry Pi",
+      "os": "rpi"
+    }
+  ],
   "jobs": [],
   "task-force": []
 }
