@@ -6,6 +6,8 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import {ArrowDropDown, ArrowRight as ArrowRigthIcon, SettingsApplications as NewProjectIcon} from "@material-ui/icons";
 import {Divider, ListItemIcon, Typography} from "@material-ui/core";
+import {useStore} from "core/store";
+import {observer} from "mobx-react-lite";
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -20,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 const EnvironmentSelect: FunctionComponent = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const classes = useStyles();
+    const {environmentStore} = useStore();
 
     const handleClose = () => {
         setAnchorEl(null);
@@ -48,13 +51,13 @@ const EnvironmentSelect: FunctionComponent = (props) => {
                 onClose={handleClose}
             >
                 {
-                    ["No Environment"].map(p => (
-                        <MenuItem key={p} onClick={handleClose}>
+                    environmentStore.environments.map(p => (
+                        <MenuItem key={p.name} onClick={handleClose}>
                             <ListItemIcon>
                                 <ArrowRigthIcon/>
                             </ListItemIcon>
                             <Typography variant="inherit" noWrap>
-                                {p}
+                                {p.name}
                             </Typography>
                         </MenuItem>
                     ))
@@ -73,4 +76,4 @@ const EnvironmentSelect: FunctionComponent = (props) => {
     )
 }
 
-export default EnvironmentSelect;
+export default observer(EnvironmentSelect);

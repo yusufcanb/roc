@@ -1,8 +1,6 @@
-import React, {FunctionComponent} from 'react';
+import React, {FunctionComponent, useEffect} from 'react';
 
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-
-import {observer} from "mobx-react-lite";
 
 import {Header} from "core/components";
 import Home from "core/views/Home";
@@ -12,8 +10,15 @@ import Factory from "factory/views/Factory";
 import Jobs from "job/views/Jobs";
 import TaskForce from "task-force/views/TaskForce";
 import Robot from "robot/views/Robot";
+import {useStore} from "./core/store";
 
 const App: FunctionComponent = () => {
+    const {environmentStore} = useStore();
+
+    useEffect(() => {
+        environmentStore.fetchEnvironments();
+    }, [environmentStore]);
+
     return <Router>
         <Header/>
         <main style={{height: "100%"}}>
@@ -29,4 +34,4 @@ const App: FunctionComponent = () => {
     </Router>
 }
 
-export default observer(App);
+export default App;

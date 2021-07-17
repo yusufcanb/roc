@@ -8,8 +8,7 @@ const Home: FunctionComponent = (props) => {
         <PageContent>
             <Box width={"100%"} height={"100%"}>
                 <EmptyState title={"Let's Automate"}
-                            subTitle={"Your assistant shows you fun new things automatically\n" +
-                            "ceated from your photos and helps you to say organised"}
+                            subTitle={"Welcome to Robot Operation Center (ROC), you can start a tour to overview the features"}
                             actionButton={<WelcomeTourDialog/>}
                 />
             </Box>

@@ -87,5 +87,20 @@
     }
   ],
   "jobs": [],
-  "task-force": []
+  "task-force": [],
+  "environments": [
+    {
+      "name": "Development Environment",
+      "createdAt": "",
+      "updatedAt": "",
+      "variables": [
+        {
+          "key": "MYSQL_VERSION",
+          "value": "8.0.24",
+          "description": null,
+          "encrypted": false
+        }
+      ]
+    }
+  ]
 }
