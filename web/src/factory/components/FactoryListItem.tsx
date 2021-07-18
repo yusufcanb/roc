@@ -1,13 +1,14 @@
 import React, {FunctionComponent, PropsWithChildren} from "react";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
-import {Grid} from "@material-ui/core";
+import {Grid, IconButton, Typography} from "@material-ui/core";
 import {Factory, FactoryModel} from "../models/Factory";
 import OperatingSystemIcon from "./OperatingSystemIcon";
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
-            border: "2px solid #333",
+            border: "2px solid " + theme.palette.primary.contrastText,
             borderRadius: "4px",
             height: 75,
             marginBottom: 15,
@@ -15,12 +16,17 @@ const useStyles = makeStyles((theme: Theme) =>
             backgroundColor: "white",
             cursor: "pointer",
             "&:hover": {
-                borderColor: theme.palette.secondary.main,
+                borderColor: theme.palette.primary.main,
             }
         },
         icon: {
             padding: 10
-        }
+        },
+        text: {
+            textAlign: "left",
+            fontWeight: 500,
+            width: "250px"
+        },
     }),
 );
 
@@ -32,15 +38,20 @@ const FactoryListItem: FunctionComponent<FactoryListItemProps> = (props: PropsWi
     const classes = useStyles();
 
     return (
-        <Grid justify={"center"} container className={classes.container} direction={"column"}>
+        <Grid alignItems={"center"} justify={"space-between"} container className={classes.container} direction={"row"}>
             <Grid item>
-                <OperatingSystemIcon os={props.factory.os}/>
+                <OperatingSystemIcon fontSize={"large"} os={props.factory.os}/>
             </Grid>
             <Grid item>
-                {props.factory.name}
+                <Typography className={classes.text}>{props.factory.name}</Typography>
             </Grid>
             <Grid item>
-                Online
+                <Typography className={classes.text}>Online</Typography>
+            </Grid>
+            <Grid item>
+                <IconButton color={"primary"}>
+                    <MoreHorizIcon fontSize={"large"}/>
+                </IconButton>
             </Grid>
         </Grid>
     )

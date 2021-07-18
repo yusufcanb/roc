@@ -3,9 +3,9 @@ import {Box, makeStyles, Typography} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     image: {
-        width: 125,
+        width: 75,
         fontSize: "10em",
-        animation: "animated_div 3s infinite alternate"
+        animation: "on-boarding 3s infinite alternate"
     },
     container: {
         position: "absolute",

@@ -47,6 +47,13 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         control: {
             padding: theme.spacing(2),
+        },
+        title: {
+            "&:hover": {
+                color: theme.palette.secondary.main,
+                textDecoration: "underline",
+                cursor: "pointer"
+            }
         }
     }),
 );
@@ -98,7 +105,7 @@ const Jobs: FunctionComponent = () => {
                 </Grid>
 
                 <Grid item xs={12}>
-                    <Typography variant={"h5"}>Currently Running (5)</Typography>
+                    <Typography className={classes.title} variant={"h5"}>Currently Running (5)</Typography>
                     <Box className={classes.taskListContainer}>
                         <List style={{width: "100%", padding: 0}}>
                             <ListItem button dense={true}>
@@ -110,12 +117,12 @@ const Jobs: FunctionComponent = () => {
                 </Grid>
 
                 <Grid item xs={12}>
-                    <Typography variant={"h5"}>Latest Runs (5)</Typography>
+                    <Typography className={classes.title} variant={"h5"}>Latest Runs (5)</Typography>
                     <Box className={classes.taskListContainer}></Box>
                 </Grid>
 
                 <Grid item xs={12}>
-                    <Typography variant={"h5"}>Future Runs (5)</Typography>
+                    <Typography className={classes.title} variant={"h5"}>Future Runs (5)</Typography>
                     <Box className={classes.taskListContainer}></Box>
                 </Grid>
 

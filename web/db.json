@@ -67,23 +67,18 @@
   "factories": [
     {
       "id": "1",
-      "name": "Windows 10",
+      "name": "huawei-matepad",
+      "os": "windows"
+    },
+    {
+      "id": "5",
+      "name": "thinkpad-x250",
       "os": "windows"
     },
     {
       "id": "2",
-      "name": "MacOS X",
+      "name": "yusuf's macbook pro",
       "os": "macos"
-    },
-    {
-      "id": "3",
-      "name": "CentOS 7 (Cloud ENV)",
-      "os": "linux"
-    },
-    {
-      "id": "4",
-      "name": "Raspberry Pi",
-      "os": "rpi"
     }
   ],
   "jobs": [],

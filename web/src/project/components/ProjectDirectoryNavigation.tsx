@@ -19,6 +19,7 @@ const useStyles = makeStyles({
         height: 110,
         flexGrow: 1,
         maxWidth: 400,
+        paddingRight: 25,
     },
 });
 

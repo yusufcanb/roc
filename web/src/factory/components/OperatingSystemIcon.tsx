@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from "react";
+import React, {FunctionComponent, PropsWithChildren} from "react";
 import {Icon} from "@material-ui/core";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 
@@ -12,15 +12,17 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface OperatingSystemIconProps {
     os: string;
+    fontSize?: string;
 }
 
-const OperatingSystemIcon: FunctionComponent<OperatingSystemIconProps> = (props) => {
+const OperatingSystemIcon: FunctionComponent<OperatingSystemIconProps> = (props: PropsWithChildren<OperatingSystemIconProps>) => {
     const classes = useStyles();
+    const fontSize: any = props.fontSize ? props.fontSize : "default";
     const osMap: any = {
-        "windows": (<Icon className={`${classes.icon} fa fa-windows`}/>),
-        "macos": (<Icon className={`${classes.icon} fa fa-apple`}/>),
-        "linux": (<Icon className={`${classes.icon} fa fa-linux`}/>),
-        "rpi": (<Icon className={`${classes.icon} fa fa-raspberry-pi`}/>)
+        "windows": (<Icon fontSize={fontSize} className={`${classes.icon} fa fa-windows`}/>),
+        "macos": (<Icon fontSize={fontSize} className={`${classes.icon} fa fa-apple`}/>),
+        "linux": (<Icon fontSize={fontSize} className={`${classes.icon} fa fa-linux`}/>),
+        "rpi": (<Icon fontSize={fontSize} className={`${classes.icon} fa fa-raspberry-pi`}/>)
     }
 
     return osMap[props.os]
