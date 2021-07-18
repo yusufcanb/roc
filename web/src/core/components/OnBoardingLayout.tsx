@@ -1,23 +1,21 @@
-import React, {FunctionComponent, PropsWithChildren} from "react";
-import {Box, CircularProgress, makeStyles, Typography} from "@material-ui/core";
+import React, {FunctionComponent, PropsWithChildren, useEffect} from "react";
+import {Box, makeStyles, Typography} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-    icon: {
-        fontSize: "10em"
+    image: {
+        width: 125,
+        fontSize: "10em",
+        animation: "animated_div 3s infinite alternate"
     },
     container: {
-        width: "35em",
         position: "absolute",
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
         textAlign: "center",
     },
-    button: {
-        marginTop: "25px"
-    },
     text: {
-        color: "#333"
+        color: "#fff"
     }
 }));
 
@@ -27,11 +25,22 @@ interface OnBoardingLayoutProps {
 const OnBoardingLayout: FunctionComponent<OnBoardingLayoutProps> = (props: PropsWithChildren<OnBoardingLayoutProps>) => {
     const classes = useStyles();
 
+    useEffect(() => {
+        document.body.className = "on-boarding";
+    }, [])
+
+    useEffect(() => {
+        return () => {
+            document.body.className = "";
+        };
+    }, []);
+
     return (
         <Box className={classes.container}>
-            <CircularProgress thickness={2}/>
+            <img className={classes.image} src={"logo.png"} alt={"logo"}/>
             <Box marginTop={3}>
-                <Typography className={classes.text} variant={"body1"}>Loading...</Typography>
+                <Typography className={classes.text} variant={"h5"}>Getting things ready...</Typography>
+                <Typography className={classes.text} variant={"h5"}>Please wait...</Typography>
             </Box>
         </Box>
     )

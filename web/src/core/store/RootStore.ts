@@ -10,8 +10,7 @@ import {EnvironmentStore} from "../../environment/store/EnvironmentStore";
 export class RootStore {
     version: Array<number> = [0, 1, 0];
     title: string = "";
-    isLoading: boolean = true;
-    isHealthy: boolean = false;
+    onBoarding: boolean = true;
 
     windowLocation = ["ROC", "Home"];
 
@@ -40,9 +39,8 @@ export class RootStore {
         this.title = value;
     }
 
-    checkIsHealthy() {
-        this.isLoading = false;
-        this.isHealthy = false;
+    setOnBoarding(value: boolean) {
+        this.onBoarding = value;
     }
 
 }

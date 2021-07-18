@@ -24,6 +24,7 @@ export class FactoryStore {
     }
 
     fetchFactories() {
+        this.isLoading = true;
         services.factory.fetchFactories()
             .then(
                 action("fetchSuccess", response => {

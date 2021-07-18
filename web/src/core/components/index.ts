@@ -5,4 +5,5 @@ export {default as PageContent} from "./PageContent";
 export {default as WelcomeTourDialogContent} from "./WelcomeTourDialogContent";
 export {default as WelcomeTourDialog} from "./WelcomeTourDialog";
 export {default as Header} from "./Header";
+export {default as OnBoardingLayout} from "./OnBoardingLayout";
 

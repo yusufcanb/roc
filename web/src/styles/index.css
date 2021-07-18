@@ -16,3 +16,88 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.on-boarding {
+    background-color: #000;
+}
+
+@keyframes on-boarding {
+    0% {
+        transform: rotate(0deg);
+        left: 0px;
+    }
+    25% {
+        transform: rotate(20deg);
+        left: 0px;
+    }
+    50% {
+        transform: rotate(0deg);
+        left: 500px;
+    }
+    55% {
+        transform: rotate(0deg);
+        left: 500px;
+    }
+    70% {
+        transform: rotate(0deg);
+        left: 500px;
+    }
+    100% {
+        transform: rotate(-360deg);
+        left: 0px;
+    }
+}
+
+@-webkit-keyframes on-boarding {
+    0% {
+        -webkit-transform: rotate(0deg);
+        left: 0px;
+    }
+    25% {
+        -webkit-transform: rotate(20deg);
+        left: 0px;
+    }
+    50% {
+        -webkit-transform: rotate(0deg);
+        left: 500px;
+    }
+    55% {
+        -webkit-transform: rotate(0deg);
+        left: 500px;
+    }
+    70% {
+        -webkit-transform: rotate(0deg);
+        left: 500px;
+    }
+    100% {
+        -webkit-transform: rotate(-360deg);
+        left: 0px;
+    }
+}
+
+@-moz-keyframes on-boarding {
+    0% {
+        -moz-transform: rotate(0deg);
+        left: 0px;
+    }
+    25% {
+        -moz-transform: rotate(20deg);
+        left: 0px;
+    }
+    50% {
+        -moz-transform: rotate(0deg);
+        left: 500px;
+    }
+    55% {
+        -moz-transform: rotate(0deg);
+        left: 500px;
+    }
+    70% {
+        -moz-transform: rotate(0deg);
+        left: 500px;
+    }
+    100% {
+        -moz-transform: rotate(-360deg);
+        left: 0px;
+    }
+}

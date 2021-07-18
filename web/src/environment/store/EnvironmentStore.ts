@@ -1,6 +1,6 @@
 import {action, makeAutoObservable} from "mobx";
 
-import {DomainConverter} from "core/models";
+import {DomainConverter, Nullable} from "core/models";
 import {RootStore} from "core/store/RootStore";
 
 import * as services from "../services";
@@ -13,11 +13,15 @@ export class EnvironmentStore {
     public isErrored: boolean = false;
 
     public environments: Array<Environment> = [];
-    public selectedEnvironment: string | number | null = null;
+    public selectedEnvironment: Nullable<Environment> = null;
 
     constructor(root: RootStore) {
         this.root = root;
         makeAutoObservable(this);
+    }
+
+    setSelectedEnvironment(id: string | number) {
+        this.selectedEnvironment = this.environments.find(e => e.id === id);
     }
 
     fetchEnvironments() {

@@ -90,7 +90,8 @@
   "task-force": [],
   "environments": [
     {
-      "name": "Development Environment",
+      "id": "1",
+      "name": "Dev",
       "createdAt": "",
       "updatedAt": "",
       "variables": [

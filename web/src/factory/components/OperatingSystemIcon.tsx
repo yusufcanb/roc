@@ -17,12 +17,11 @@ interface OperatingSystemIconProps {
 const OperatingSystemIcon: FunctionComponent<OperatingSystemIconProps> = (props) => {
     const classes = useStyles();
     const osMap: any = {
-        "macos": (<Icon className={`${classes.icon} fa fa-windows`}/>),
-        "linux": (<Icon className={`${classes.icon} fa fa-apple`}/>),
-        "windows": (<Icon className={`${classes.icon} fa fa-linux`}/>),
+        "windows": (<Icon className={`${classes.icon} fa fa-windows`}/>),
+        "macos": (<Icon className={`${classes.icon} fa fa-apple`}/>),
+        "linux": (<Icon className={`${classes.icon} fa fa-linux`}/>),
         "rpi": (<Icon className={`${classes.icon} fa fa-raspberry-pi`}/>)
     }
-
 
     return osMap[props.os]
 }

@@ -8,6 +8,7 @@ import {ArrowDropDown, ArrowRight as ArrowRigthIcon, SettingsApplications as New
 import {Divider, ListItemIcon, Typography} from "@material-ui/core";
 import {useStore} from "core/store";
 import {observer} from "mobx-react-lite";
+import {Environment} from "../models";
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -20,9 +21,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EnvironmentSelect: FunctionComponent = (props) => {
-    const [anchorEl, setAnchorEl] = React.useState(null);
     const classes = useStyles();
     const {environmentStore} = useStore();
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClose = () => {
         setAnchorEl(null);
@@ -31,6 +33,11 @@ const EnvironmentSelect: FunctionComponent = (props) => {
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl((event as any).currentTarget);
     };
+
+    const handleSelect = (environmentId: string | number) => {
+        environmentStore.setSelectedEnvironment(environmentId);
+        handleClose();
+    }
 
     return (
         <React.Fragment>
@@ -41,7 +48,11 @@ const EnvironmentSelect: FunctionComponent = (props) => {
                 className={classes.button}
                 endIcon={<ArrowDropDown className={classes.icon}/>}
             >
-                No Environment
+                {
+                    environmentStore.selectedEnvironment
+                        ? environmentStore.selectedEnvironment.name
+                        : "No Environment"
+                }
             </Button>
             <Menu
                 id="simple-menu"
@@ -51,13 +62,13 @@ const EnvironmentSelect: FunctionComponent = (props) => {
                 onClose={handleClose}
             >
                 {
-                    environmentStore.environments.map(p => (
-                        <MenuItem key={p.name} onClick={handleClose}>
+                    environmentStore.environments.map((env: Environment) => (
+                        <MenuItem key={env.id} onClick={() => handleSelect(env.id)}>
                             <ListItemIcon>
                                 <ArrowRigthIcon/>
                             </ListItemIcon>
                             <Typography variant="inherit" noWrap>
-                                {p.name}
+                                {env.name}
                             </Typography>
                         </MenuItem>
                     ))
