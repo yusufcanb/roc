@@ -35,7 +35,6 @@ public class ClientWSConfig {
         List<Transport> transportList = new ArrayList<>();
         transportList.add(new WebSocketTransport(new StandardWebSocketClient()));
         transportList.add(new RestTemplateXhrTransport());
-
         return new SockJsClient(transportList);
     }
 

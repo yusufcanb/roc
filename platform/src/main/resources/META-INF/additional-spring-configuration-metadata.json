@@ -1,0 +1,34 @@
+{
+  "properties": [
+    {
+      "name": "roc.platform.repository",
+      "type": "java.lang.String",
+      "description": "Description for roc.platform.repository."
+    },
+    {
+      "name": "roc.platform.ssh.authorized-keys",
+      "type": "java.lang.String",
+      "description": "Description for roc.platform.ssh.authorized-keys."
+    },
+    {
+      "name": "roc.platform.mq.host",
+      "type": "java.lang.String",
+      "description": "Description for roc.platform.mq.host."
+    },
+    {
+      "name": "roc.platform.mq.port",
+      "type": "java.lang.Integer",
+      "description": "Description for roc.platform.mq.port."
+    },
+    {
+      "name": "roc.platform.mq.user",
+      "type": "java.lang.String",
+      "description": "Description for roc.platform.mq.user."
+    },
+    {
+      "name": "roc.platform.mq.password",
+      "type": "java.lang.String",
+      "description": "Description for roc.platform.mq.password."
+    }
+  ]
+}

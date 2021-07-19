@@ -34,3 +34,17 @@ services:
       - "15672:15672"
       - "15674:15674"
       - "61613:61613"
+  roc-platform:
+    image: roc-platform:latest
+    restart: always
+    container_name: roc-platform
+    hostname: roc-platform
+    volumes:
+      - "/Users/yusuf/Desktop/roc:/home/git/roc"
+    ports:
+      - "8080:8080"
+      - "221:22"
+    depends_on:
+      - redis
+      - rabbitmq
+      - mysql
