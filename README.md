@@ -5,6 +5,8 @@ operations which uses Robot Framework as it's executor. 🤖 🕹
 
 ## Overview
 
+![Screenshot 1](./docs/assets/screenshot-1.png)
+
 ### Project Decomposition
 
 - `/agent`: Agent project manages executions on installed platforms.
