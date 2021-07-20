@@ -21,14 +21,13 @@ import java.util.Map;
 @RestController
 public class PublicKeyController {
 
-    @Value("${roc.platform.ssh.authorized-keys}")
+    @Value("${roc.platform.git.public-keys}")
     private String authorizedKeysFilePath;
 
     @RequestMapping(value = "/public-key", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> getPublicKeys() {
         Map<String, Object> response = new HashMap<>();
         List<String> pubKeys = new ArrayList<>();
-
         try {
             final BufferedReader in = new BufferedReader(
                     new InputStreamReader(new FileInputStream(authorizedKeysFilePath), StandardCharsets.UTF_8));
