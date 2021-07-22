@@ -1,4 +1,4 @@
-package org.robotframework.roc.platform.config;
+package org.robotframework.roc.platform.ws;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

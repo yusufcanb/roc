@@ -33,8 +33,8 @@ const ProjectDirectoryNavigation: FunctionComponent<any> = (props) => {
     };
 
     const renderTree = (nodes: RenderTree) => (
-        <TreeItem key={nodes.id}
-                  nodeId={nodes.id}
+        <TreeItem key={`${nodes.type}_${nodes.name}`}
+                  nodeId={`${nodes.type}_${nodes.name}`}
                   label={nodes.name}
                   icon={nodes.type === "file" ? <DescriptionOutlinedIcon fontSize={"small"}/> : null}
                   onClick={() => props.onSelect(nodes)}>

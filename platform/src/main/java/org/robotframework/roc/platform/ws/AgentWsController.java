@@ -1,4 +1,4 @@
-package org.robotframework.roc.platform.controller;
+package org.robotframework.roc.platform.ws;
 
 import org.robotframework.roc.core.beans.WsMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,6 @@ public class AgentWsController {
     @MessageMapping("/hello/{id}")
     @SendTo("/queue/agent.*")
     public WsMessage chatEndpoint(@Payload WsMessage wsMessage, @DestinationVariable String id) {
-        System.out.println(wsMessage);
         return wsMessage;
     }
 

@@ -1,8 +1,5 @@
-package org.robotframework.roc.platform.controller;
+package org.robotframework.roc.platform.project.controller;
 
-import org.robotframework.roc.platform.dto.ErrorerResponseContent;
-import org.robotframework.roc.platform.dto.ResponseContent;
-import org.robotframework.roc.platform.dto.SuccessResponseContent;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class PublicKeyController {
@@ -24,9 +19,8 @@ public class PublicKeyController {
     @Value("${roc.platform.git.public-keys}")
     private String authorizedKeysFilePath;
 
-    @RequestMapping(value = "/public-key", method = RequestMethod.GET)
-    public ResponseEntity<Map<String, Object>> getPublicKeys() {
-        Map<String, Object> response = new HashMap<>();
+    @RequestMapping(value = "/projects/public-keys", method = RequestMethod.GET)
+    public ResponseEntity<List<String>> getPublicKeys() {
         List<String> pubKeys = new ArrayList<>();
         try {
             final BufferedReader in = new BufferedReader(
@@ -37,28 +31,22 @@ public class PublicKeyController {
             }
             in.close();
         } catch (final IOException e) {
-            response.put("success", false);
-            response.put("error", e.getMessage());
-            response.put("publicKeys", new ArrayList<>());
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(pubKeys, HttpStatus.BAD_REQUEST);
         }
 
-        response.put("success", true);
-        response.put("publicKeys", pubKeys);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(pubKeys, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/public-key", method = RequestMethod.POST)
-    public ResponseEntity<ResponseContent> addPublicKey(@RequestBody PublicKeyController.PublicKeyRequestBody body) {
+    @RequestMapping(value = "/projects/public-keys", method = RequestMethod.POST)
+    public ResponseEntity<String> addPublicKey(@RequestBody PublicKeyController.PublicKeyRequestBody body) {
         File file = new File(this.authorizedKeysFilePath);
 
         try (FileWriter fw = new FileWriter(file, true); BufferedWriter writer = new BufferedWriter(fw)) {
             writer.write(body.key + "\n");
         } catch (IOException ioe) {
-            return new ResponseEntity<>(new ErrorerResponseContent(ioe.getMessage()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ioe.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
-        return new ResponseEntity<>(new SuccessResponseContent<>(null), HttpStatus.OK);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     public static class PublicKeyRequestBody {

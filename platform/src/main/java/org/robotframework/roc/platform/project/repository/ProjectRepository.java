@@ -1,4 +1,4 @@
-package org.robotframework.roc.platform.project;
+package org.robotframework.roc.platform.project.repository;
 
 import org.robotframework.roc.core.models.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
