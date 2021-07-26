@@ -19,7 +19,6 @@ const App: FunctionComponent = () => {
         factoryStore.fetchFactories();
     }, [environmentStore, projectStore, factoryStore]);
 
-
     const renderOnBoarding = () => {
         store.setOnBoarding(false);
         return <OnBoardingLayout/>

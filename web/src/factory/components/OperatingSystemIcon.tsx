@@ -19,10 +19,10 @@ const OperatingSystemIcon: FunctionComponent<OperatingSystemIconProps> = (props:
     const classes = useStyles();
     const fontSize: any = props.fontSize ? props.fontSize : "default";
     const osMap: any = {
-        "windows": (<Icon fontSize={fontSize} className={`${classes.icon} fa fa-windows`}/>),
-        "macos": (<Icon fontSize={fontSize} className={`${classes.icon} fa fa-apple`}/>),
-        "linux": (<Icon fontSize={fontSize} className={`${classes.icon} fa fa-linux`}/>),
-        "rpi": (<Icon fontSize={fontSize} className={`${classes.icon} fa fa-raspberry-pi`}/>)
+        "windows": (<Icon fontSize={fontSize} className={`${classes.icon} fab fa-windows`}/>),
+        "macos": (<Icon fontSize={fontSize} className={`${classes.icon} fab fa-apple`}/>),
+        "linux": (<Icon fontSize={fontSize} className={`${classes.icon} fab fa-linux`}/>),
+        "rpi": (<Icon fontSize={fontSize} className={`${classes.icon} fab fa-raspberry-pi`}/>)
     }
 
     return osMap[props.os.toLowerCase()]

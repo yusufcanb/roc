@@ -9,6 +9,7 @@ import {Divider, ListItemIcon, Typography} from "@material-ui/core";
 import {useStore} from "core/store";
 import {observer} from "mobx-react-lite";
 import {Environment} from "../models";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 const EnvironmentSelect: FunctionComponent = (props) => {
     const classes = useStyles();
     const {environmentStore} = useStore();
+    const history = useHistory();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -38,6 +40,11 @@ const EnvironmentSelect: FunctionComponent = (props) => {
     const handleSelect = (environmentId: string | number) => {
         environmentStore.setSelectedEnvironment(environmentId);
         handleClose();
+    }
+
+    const handleManage = () => {
+        handleClose()
+        history.push("/environments");
     }
 
     return (
@@ -75,7 +82,7 @@ const EnvironmentSelect: FunctionComponent = (props) => {
                     ))
                 }
                 <Divider/>
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={handleManage}>
                     <ListItemIcon>
                         <NewProjectIcon/>
                     </ListItemIcon>

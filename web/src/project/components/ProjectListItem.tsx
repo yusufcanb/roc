@@ -77,6 +77,10 @@ const ProjectListItem: FunctionComponent<ProjectListItemProps> = (props: PropsWi
                         <SshKeyIcon color={"action"} fontSize={"small"}/>
                         <Typography>Add SSH Key</Typography>
                     </MenuItem>
+                    <MenuItem>
+                        <SettingsIcon color={"action"} fontSize={"small"}/>
+                        <Typography>Global Variables</Typography>
+                    </MenuItem>
                     <MenuItem onClick={() => history.push("/settings")}>
                         <SettingsIcon color={"action"} fontSize={"small"}/>
                         <Typography>Project Settings</Typography>

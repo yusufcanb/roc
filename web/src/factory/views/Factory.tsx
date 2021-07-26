@@ -36,7 +36,7 @@ const Factory: FunctionComponent = () => {
         factoryStore.fetchFactories();
     }, [factoryStore]);
 
-    const handleCreate = () => factoryStore.factories.push(new FactoryModel(0, "Windows 10", "macos"))
+    const handleCreate = () => factoryStore.factories.push(new FactoryModel(0, "Yusuf's iMac", "macos"))
     const renderLoadingState = () => {
         return (
             <React.Fragment>
@@ -80,7 +80,6 @@ const Factory: FunctionComponent = () => {
     return (
         <PageContent right={<Button variant={"contained"} color={"secondary"}>Create Factory</Button>}>
             {
-
                 factoryStore.isLoading && !factoryStore.isErrored
                     ? renderLoadingState()
                     : factoryStore.factories.length != 0
