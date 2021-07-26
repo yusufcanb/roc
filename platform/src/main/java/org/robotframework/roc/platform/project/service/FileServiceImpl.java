@@ -9,6 +9,7 @@ import org.robotframework.roc.core.beans.ProjectFile;
 import org.robotframework.roc.core.beans.ProjectFileType;
 import org.robotframework.roc.core.models.CodeRepository;
 import org.robotframework.roc.core.models.Project;
+import org.robotframework.roc.core.services.FileService;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -19,7 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
-public class FileService {
+public class FileServiceImpl implements FileService {
 
     private ProjectFile createNewProjectFile(String identifier, String name, ProjectFileType type) {
         ProjectFile pf = new ProjectFile();
@@ -49,7 +50,8 @@ public class FileService {
         }
     }
 
-    public List<ProjectFile> getProjectFilesAsList(Project project) throws IOException {
+    @Override
+    public List<ProjectFile> getProjectFiles(Project project) throws IOException {
         List<ProjectFile> projectFiles = new LinkedList<>();
 
         Repository repository = CodeRepository.asGit(project.getRepository().getPath()).getRepository();
@@ -73,6 +75,7 @@ public class FileService {
         return projectFiles;
     }
 
+    @Override
     public String getProjectFileContent(Project project, String path) throws IOException {
         Repository repository = CodeRepository.asGit(project.getRepository().getPath()).getRepository();
         ObjectId lastCommitId = repository.resolve(Constants.HEAD);
