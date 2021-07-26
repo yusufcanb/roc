@@ -36,8 +36,7 @@ const Robot: FunctionComponent = (props) => {
     }, [projectStore])
 
     const handleSelect = (nodes: any) => {
-        console.log(toJS(nodes));
-        if (nodes.type === "file") {
+        if (nodes.type.toLowerCase() === "file") {
             setSelectedFile(toJS(nodes).id);
             setEditorContent(toJS(nodes).content);
         }
@@ -85,7 +84,9 @@ const Robot: FunctionComponent = (props) => {
         return (
             <Grid container>
                 <Grid item xs={3}>
-                    <ProjectDirectoryNavigation files={project.files} onSelect={handleSelect}/>
+                    <ProjectDirectoryNavigation
+                        files={project.files.sort((a: any) => a.type.toLowerCase() === "file" ? 1 : -1)}
+                        onSelect={handleSelect}/>
                 </Grid>
                 <Grid item xs={9}>
                     {selectedFile ? <Editor
@@ -94,7 +95,7 @@ const Robot: FunctionComponent = (props) => {
                         width={"100%"}
                         defaultLanguage="python"
                         value={editorContent}
-                    /> : <EmptyState title={"No File Selected"} subTitle={"Select a file to view it's content"}/>}
+                    /> : <Typography variant={"caption"}>No file selected...</Typography>}
                 </Grid>
             </Grid>
         )

@@ -1,5 +1,5 @@
 import React, {FunctionComponent, useEffect} from "react";
-import {Box, Button} from "@material-ui/core";
+import {Button} from "@material-ui/core";
 import {EmptyState, PageContent} from "../../core/components";
 
 import BusinessIcon from "@material-ui/icons/HomeWork";
@@ -49,19 +49,17 @@ const Factory: FunctionComponent = () => {
 
     const renderEmptyState = () => {
         return (
-            <Box width={"100%"} height={"100%"}>
-                <EmptyState icon={BusinessIcon}
-                            title={"No Factory Exists!"}
-                            subTitle={"Your assistant shows you fun new things automatically\n" +
-                            "ceated from your photos and helps you to say organised"}
-                            actionButton={<Button
-                                variant={"outlined"}
-                                onClick={handleCreate}
-                                startIcon={<CreateIcon/>}>
-                                Create New Factory
-                            </Button>}
-                />
-            </Box>
+            <EmptyState icon={BusinessIcon}
+                        title={"No Factory Exists!"}
+                        subTitle={"Your assistant shows you fun new things automatically\n" +
+                        "ceated from your photos and helps you to say organised"}
+                        actionButton={<Button
+                            variant={"outlined"}
+                            onClick={handleCreate}
+                            startIcon={<CreateIcon/>}>
+                            Create New Factory
+                        </Button>}
+            />
         )
     }
 
@@ -80,11 +78,14 @@ const Factory: FunctionComponent = () => {
     }
 
     return (
-        <PageContent>
+        <PageContent right={<Button variant={"contained"} color={"secondary"}>Create Factory</Button>}>
             {
+
                 factoryStore.isLoading && !factoryStore.isErrored
                     ? renderLoadingState()
-                    : renderContent()
+                    : factoryStore.factories.length != 0
+                    ? renderContent()
+                    : renderEmptyState()
             }
         </PageContent>
     )

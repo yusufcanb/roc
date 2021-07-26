@@ -3,7 +3,7 @@ import {Box, makeStyles, Typography} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     image: {
-        width: 75,
+        width: 50,
         fontSize: "10em",
         animation: "on-boarding 3s infinite alternate"
     },

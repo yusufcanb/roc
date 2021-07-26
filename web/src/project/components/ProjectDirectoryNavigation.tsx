@@ -28,7 +28,7 @@ const ProjectDirectoryNavigation: FunctionComponent<any> = (props) => {
     const tree: RenderTree = {
         id: 'root',
         name: 'Default Project',
-        type: "root",
+        type: "file",
         children: props.files
     };
 
@@ -36,7 +36,7 @@ const ProjectDirectoryNavigation: FunctionComponent<any> = (props) => {
         <TreeItem key={`${nodes.type}_${nodes.name}`}
                   nodeId={`${nodes.type}_${nodes.name}`}
                   label={nodes.name}
-                  icon={nodes.type === "file" ? <DescriptionOutlinedIcon fontSize={"small"}/> : null}
+                  icon={nodes.type?.toLowerCase() === "file" ? <DescriptionOutlinedIcon fontSize={"small"}/> : null}
                   onClick={() => props.onSelect(nodes)}>
             {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node)) : null}
         </TreeItem>

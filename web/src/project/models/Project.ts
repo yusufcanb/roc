@@ -20,6 +20,7 @@ export class ProjectModel {
     }
 
     get files() {
+        this._object.files.map(file => (file.type.toLowerCase()));
         return this._object.files;
     }
 

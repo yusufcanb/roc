@@ -15,7 +15,8 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "transparent",
         margin: theme.spacing(1),
         border: "1px solid gray",
-        borderRadius: "5px"
+        borderRadius: "5px",
+        minWidth: "150px"
     },
     icon: {marginBottom: "2px"}
 }));
@@ -24,7 +25,6 @@ const FactorySelect: FunctionComponent = (props) => {
     const classes = useStyles();
     const {factoryStore} = useStore();
     const [anchorEl, setAnchorEl] = React.useState(null);
-
 
     const handleClose = () => {
         setAnchorEl(null);
@@ -48,7 +48,7 @@ const FactorySelect: FunctionComponent = (props) => {
                 onClick={handleClick}
                 endIcon={<ArrowDropDown className={classes.icon}/>}
             >
-                {factoryStore.selectedFactory ? factoryStore.selectedFactory.name : "Select Factory"}
+                {factoryStore.selectedFactory ? factoryStore.selectedFactory.displayName : "Select Factory"}
             </Button>
             <Menu
                 id="simple-menu"
@@ -60,7 +60,7 @@ const FactorySelect: FunctionComponent = (props) => {
                 {
                     factoryStore.factories.map(factory => (
                         <MenuItem key={factory.id} onClick={() => handleSelect(factory)}><OperatingSystemIcon
-                            os={factory.os}/>{factory.name}
+                            os={factory.os}/>{factory.displayName}
                         </MenuItem>))
                 }
             </Menu>

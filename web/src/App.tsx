@@ -3,15 +3,11 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 
 import {Header, OnBoardingLayout} from "core/components";
+import {Route as Path} from "core/models/Route";
 import Home from "core/views/Home";
 import {useStore} from "./core/store";
 
-import Settings from "project/views/Settings";
-import Factory from "factory/views/Factory";
-import Jobs from "job/views/Jobs";
-import TaskForce from "task-force/views/TaskForce";
-import Robot from "robot/views/Robot";
-
+import routes from "./routes";
 
 const App: FunctionComponent = () => {
     const {environmentStore, projectStore, factoryStore} = useStore();
@@ -29,17 +25,21 @@ const App: FunctionComponent = () => {
         return <OnBoardingLayout/>
     }
 
+    const renderRoutesRecursive: any = (path: Path) => {
+        return Array.isArray(path.children)
+            ? path.children.map((child: Path) => renderRoutesRecursive(child))
+            : <Route path={path.path} component={path.component} exact={path.isExact}/>
+    }
+
     const renderApp = () => (
         <Router>
             <Header/>
             <main style={{height: "100%"}}>
                 <Switch>
                     <Route path="/" component={Home} exact={true}/>
-                    <Route path="/job" component={Jobs}/>
-                    <Route path="/task-force" component={TaskForce}/>
-                    <Route path="/robot" component={Robot}/>
-                    <Route path="/factory" component={Factory}/>
-                    <Route path="/settings" component={Settings}/>
+                    {
+                        routes.map((route) => renderRoutesRecursive(route))
+                    }
                 </Switch>
             </main>
         </Router>

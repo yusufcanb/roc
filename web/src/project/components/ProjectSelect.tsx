@@ -1,4 +1,6 @@
 import React, {FunctionComponent, PropsWithChildren} from "react";
+import {useHistory} from "react-router-dom";
+
 
 import {Button, Divider, ListItemIcon, Menu, MenuItem, Typography} from "@material-ui/core";
 import {ArrowDropDown, ArrowRight as ArrowRigthIcon, SettingsApplications as NewProjectIcon} from "@material-ui/icons";
@@ -22,6 +24,8 @@ interface ProjectSelectProps {
 const ProjectSelect: FunctionComponent<ProjectSelectProps> = (props: PropsWithChildren<ProjectSelectProps>) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const classes = useStyles();
+    const history = useHistory();
+
 
     const handleClose = () => {
         setAnchorEl(null);
@@ -30,6 +34,11 @@ const ProjectSelect: FunctionComponent<ProjectSelectProps> = (props: PropsWithCh
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl((event as any).currentTarget);
     };
+
+    const handleManage = () => {
+        handleClose()
+        history.push("/projects");
+    }
 
     return (
         <React.Fragment>
@@ -62,7 +71,7 @@ const ProjectSelect: FunctionComponent<ProjectSelectProps> = (props: PropsWithCh
                     ))
                 }
                 <Divider/>
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={handleManage}>
                     <ListItemIcon>
                         <NewProjectIcon/>
                     </ListItemIcon>

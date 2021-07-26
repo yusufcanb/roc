@@ -1,6 +1,6 @@
 export interface Factory {
     id: string | number;
-    name: string;
+    displayName: string;
     os: string;
 }
 
@@ -8,10 +8,10 @@ export class FactoryModel {
     //@ts-ignore
     private _object: Factory;
 
-    constructor(id: number, name: string, os: string) {
+    constructor(id: number, displayName: string, os: string) {
         this._object = {
             id,
-            name,
+            displayName,
             os
         }
     }
@@ -20,12 +20,12 @@ export class FactoryModel {
         return this._object.id;
     }
 
-    get name() {
-        return this._object.name
-    }
-
     get os() {
         return this._object.os
+    }
+
+    get displayName() {
+        return this._object.displayName
     }
 
 }

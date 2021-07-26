@@ -21,12 +21,12 @@ const TaskForce: FunctionComponent = (props) => {
             variant={"outlined"}
             onClick={handleCreate}
             startIcon={<CreateIcon/>}>
-            Create New Task Force
+            Create Task Force
         </Button>
     );
 
     return (
-        <PageContent>
+        <PageContent right={<Button variant={"contained"} color={"secondary"}>Create Task Force</Button>}>
             <Box width={"100%"} height={"100%"}>
                 <EmptyState icon={BusinessIcon}
                             title={"No TaskForce Exists!"}

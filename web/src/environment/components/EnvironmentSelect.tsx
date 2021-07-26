@@ -15,7 +15,8 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "transparent",
         margin: theme.spacing(1),
         border: "1px solid gray",
-        borderRadius: "5px"
+        borderRadius: "5px",
+        minWidth: "100px"
     },
     icon: {marginBottom: "2px"}
 }));

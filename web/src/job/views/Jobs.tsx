@@ -2,8 +2,9 @@ import React, {FunctionComponent} from "react";
 import {Box, Button, Divider, Grid, List, ListItem, ListItemText, Typography} from "@material-ui/core";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 
-import Icon from "@material-ui/icons/AccountTree";
+import Icon from '@material-ui/icons/PlaylistPlay';
 import ArrowRightIcon from '@material-ui/icons/SubdirectoryArrowRight';
+import LoopIcon from '@material-ui/icons/Loop';
 
 import {EmptyState, PageContent} from "core/components";
 import {GeneralInfo, QuickStat} from "job/components";
@@ -11,10 +12,10 @@ import {GeneralInfo, QuickStat} from "job/components";
 import {useStore} from "core/store";
 
 const STATS = [
-    {text: "Running Jobs", content: "32"},
-    {text: "Scheduled Jobs", content: "32"},
-    {text: "Successful Operation", content: "10"},
-    {text: "Failed Operation", content: "6"},
+    {text: "Running Jobs", content: "3"},
+    {text: "Scheduled Jobs", content: "0"},
+    {text: "Successful Operation", content: "7"},
+    {text: "Failed Operation", content: "12"},
 ]
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -54,6 +55,10 @@ const useStyles = makeStyles((theme: Theme) =>
                 textDecoration: "underline",
                 cursor: "pointer"
             }
+        },
+        rotateIcon: {
+            animation: "spin 4s linear infinite",
+            marginRight: "10px"
         }
     }),
 );
@@ -93,23 +98,40 @@ const Jobs: FunctionComponent = () => {
                 <Grid item xs={12}>
                     <Grid container justify={"space-between"}>
                         <Grid item className={classes.quickStat} alignContent={"center"} justify={"center"}>
-                            <QuickStat text={"Online Factories"} content={"0 / 5"}/>
+                            <QuickStat text={"Online Factories"} content={"0 / 3"}/>
                         </Grid>
                         <Grid item className={classes.quickStat} alignContent={"center"} justify={"center"}>
-                            <QuickStat text={"Scheculed Tasks"} content={"10"}/>
+                            <QuickStat text={"Scheculed Tasks"} content={"0"}/>
                         </Grid>
                         <Grid item className={classes.quickStat} alignContent={"center"} justify={"center"}>
-                            <QuickStat text={"Number of Robots"} content={"22"}/>
+                            <QuickStat text={"Number of Robots"} content={"7"}/>
                         </Grid>
                     </Grid>
                 </Grid>
 
                 <Grid item xs={12}>
-                    <Typography className={classes.title} variant={"h5"}>Currently Running (5)</Typography>
+                    <Typography className={classes.title} variant={"h5"}>Currently Running (3)</Typography>
                     <Box className={classes.taskListContainer}>
+                        <style>{`
+                            @keyframes spin {
+                                         0% { transform: rotate(0deg); }
+                                        100% { transform: rotate(360deg); }
+                            }
+                        `}</style>
                         <List style={{width: "100%", padding: 0}}>
                             <ListItem button dense={true}>
-                                <ListItemText primary='Task Force 123'/>
+                                <LoopIcon className={classes.rotateIcon} />
+                                <ListItemText primary='Health Check Operation'/>
+                            </ListItem>
+                            <Divider/>
+                            <ListItem button dense={true}>
+                                <LoopIcon className={classes.rotateIcon}  />
+                                <ListItemText primary='Collect Email Reports'/>
+                            </ListItem>
+                            <Divider/>
+                            <ListItem button dense={true}>
+                                <LoopIcon className={classes.rotateIcon} />
+                                <ListItemText primary='Crawl Product Prices'/>
                             </ListItem>
                             <Divider/>
                         </List>
@@ -117,12 +139,12 @@ const Jobs: FunctionComponent = () => {
                 </Grid>
 
                 <Grid item xs={12}>
-                    <Typography className={classes.title} variant={"h5"}>Latest Runs (5)</Typography>
+                    <Typography className={classes.title} variant={"h5"}>Latest Runs (0)</Typography>
                     <Box className={classes.taskListContainer}></Box>
                 </Grid>
 
                 <Grid item xs={12}>
-                    <Typography className={classes.title} variant={"h5"}>Future Runs (5)</Typography>
+                    <Typography className={classes.title} variant={"h5"}>Future Runs (0)</Typography>
                     <Box className={classes.taskListContainer}></Box>
                 </Grid>
 

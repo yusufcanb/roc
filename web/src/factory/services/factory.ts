@@ -2,10 +2,13 @@ import http from "core/services/http"
 
 import {Factory} from "factory/models/Factory";
 
-export function fetchFactories() {
-    return http.get<Array<Factory>>("/factories");
+export function fetchFactories(projectId?: string | number) {
+    const params = {
+        projectId: projectId ?? 1
+    }
+    return http.get<Array<Factory>>("/factory", {params: params});
 }
 
 export function fetchFactoryById(id: string) {
-    return http.get<Factory>(`/factories/${id}`);
+    return http.get<Factory>(`/factory/${id}`);
 }

@@ -43,7 +43,7 @@ const FactoryListItem: FunctionComponent<FactoryListItemProps> = (props: PropsWi
                 <OperatingSystemIcon fontSize={"large"} os={props.factory.os}/>
             </Grid>
             <Grid item>
-                <Typography className={classes.text}>{props.factory.name}</Typography>
+                <Typography className={classes.text}>{props.factory.displayName}</Typography>
             </Grid>
             <Grid item>
                 <Typography className={classes.text}>Online</Typography>

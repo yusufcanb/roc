@@ -25,7 +25,7 @@ const OperatingSystemIcon: FunctionComponent<OperatingSystemIconProps> = (props:
         "rpi": (<Icon fontSize={fontSize} className={`${classes.icon} fa fa-raspberry-pi`}/>)
     }
 
-    return osMap[props.os]
+    return osMap[props.os.toLowerCase()]
 }
 
 export default OperatingSystemIcon;
