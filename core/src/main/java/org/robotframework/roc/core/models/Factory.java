@@ -1,23 +1,39 @@
 package org.robotframework.roc.core.models;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
+import org.robotframework.roc.core.beans.OS;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import java.security.SecureRandom;
+import java.util.Base64;
 
-@Entity(name = "factories")
 @Data
+@Entity(name = "factories")
 public class Factory {
-    @GeneratedValue
+
     @Id
+    @GeneratedValue
     private Long id;
     private String displayName;
+    private OS os;
 
-    @ElementCollection
-    private List<String> installedPackages = new ArrayList<>();
+    private String accessKey;
+    private String accessSecret;
 
-    @OneToOne
-    private Platform platform;
+    private boolean initialized = false;
+
+    public String generateToken() {
+        SecureRandom secureRandom = new SecureRandom();
+        Base64.Encoder base64Encoder = Base64.getUrlEncoder();
+
+        byte[] randomBytes = new byte[24];
+        secureRandom.nextBytes(randomBytes);
+        return base64Encoder.encodeToString(randomBytes);
+    }
+
 
 }

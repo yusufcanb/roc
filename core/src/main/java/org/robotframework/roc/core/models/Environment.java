@@ -5,18 +5,22 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.time.LocalDateTime;
+import javax.persistence.OneToMany;
+
+import java.util.Collection;
 
 @Entity
 @Data
-public class Robot {
+public class Environment {
 
-    @Id
     @GeneratedValue
+    @Id
     private Long id;
-    private String name;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updateAt;
+    private String name;
+    private String description;
+
+    @OneToMany
+    Collection<EnvironmentVariable> variables;
 
 }

@@ -6,6 +6,7 @@ import org.robotframework.roc.core.utils.Slugifier;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -29,10 +30,8 @@ public class Project {
     @PrimaryKeyJoinColumn
     private CodeRepository repository;
 
-    public Project(String name, boolean isDefault) {
-        this.name = name;
-        this.isDefault = isDefault;
-    }
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private List<GlobalVariable> globalVariables;
 
     public String getSlug() {
         return Slugifier.toSlug(this.name);
