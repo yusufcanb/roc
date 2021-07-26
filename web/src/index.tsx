@@ -6,7 +6,6 @@ import App from './App';
 import {StoreContext, RootStore} from "core/store";
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 
-import "font-awesome/css/font-awesome.css";
 import "./styles/index.css";
 
 const theme = createMuiTheme({
