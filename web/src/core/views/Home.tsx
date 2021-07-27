@@ -7,7 +7,7 @@ const Home: FunctionComponent = () => {
         <PageContent>
             <Box width={"100%"} height={"100%"}>
                 <EmptyState title={"Let's Automate 🤖🕹"}
-                            subTitle={"Welcome to Robot Operation Center (ROC), you can start a tour to overview the concepts and features"}
+                            subTitle={"Welcome to Robot Operation Center (ROC), you can start a tour to overview the concepts and features."}
                             icon={() => (<img src={"logo-dark.png"} alt={"logo"} width={125}/>)}
                             actionButton={<WelcomeTourDialog/>}
                 />

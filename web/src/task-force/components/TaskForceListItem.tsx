@@ -1,10 +1,8 @@
 import React, {FunctionComponent, PropsWithChildren} from "react";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import {Avatar, IconButton, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText} from "@material-ui/core";
-import {Project, ProjectModel} from "../models/Project";
-import {Delete, Edit, VpnKeySharp} from "@material-ui/icons";
-import CodeIcon from "@material-ui/icons/Code";
-import {DeleteButton} from "../../core/components";
+
+import {HomeWork, PlayArrow, Schedule} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -17,40 +15,38 @@ const useStyles = makeStyles((theme: Theme) =>
                 cursor: "pointer",
                 borderColor: theme.palette.primary.main
             }
-        },
+        }
     }),
 );
 
-interface ProjectListItemProps {
-    project: Project | ProjectModel;
+interface TaskForceListItemProps {
+    taskForce: any;
 }
 
-const ProjectListItem: FunctionComponent<ProjectListItemProps> = (props: PropsWithChildren<ProjectListItemProps>) => {
+const TaskForceListItem: FunctionComponent<TaskForceListItemProps> = (props: PropsWithChildren<TaskForceListItemProps>) => {
     const classes = useStyles();
-    const {project} = props;
+    const {taskForce} = props;
 
     return <ListItem className={classes.listItem}>
         <ListItemAvatar>
-            <Avatar>
-                <CodeIcon fontSize={"large"} color={"primary"}/>
+            <Avatar color={"primary"}>
+                <HomeWork color={"inherit"}/>
             </Avatar>
         </ListItemAvatar>
         <ListItemText
-            primary={project.name}
-            secondary={project.files.length + " Robots"}
+            primary={taskForce.name}
+            secondary={taskForce.robots}
         />
         <ListItemSecondaryAction>
             <IconButton edge="end" aria-label="delete">
-                <VpnKeySharp/>
+                <Schedule fontSize={"large"} />
             </IconButton>
             <IconButton edge="end" aria-label="delete">
-                <Edit/>
+                <PlayArrow fontSize={"large"}/>
             </IconButton>
-            <DeleteButton edge="end" aria-label="delete">
-                <Delete/>
-            </DeleteButton>
+
         </ListItemSecondaryAction>
     </ListItem>
 }
 
-export default ProjectListItem;
+export default TaskForceListItem;

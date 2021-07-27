@@ -4,7 +4,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
-import {ArrowDropDown, ArrowRight as ArrowRigthIcon, SettingsApplications as NewProjectIcon} from "@material-ui/icons";
+import {ArrowDropDown, SettingsApplications as NewProjectIcon} from "@material-ui/icons";
 import {Divider, Icon, ListItemIcon, Typography} from "@material-ui/core";
 import {useStore} from "core/store";
 import {observer} from "mobx-react-lite";
@@ -73,7 +73,7 @@ const EnvironmentSelect: FunctionComponent = (props) => {
                     environmentStore.environments.map((env: Environment) => (
                         <MenuItem key={env.id} onClick={() => handleSelect(env.id)}>
                             <ListItemIcon>
-                                <Icon fontSize={"small"} color={"primary"} className={"fas fa-cubes"} />
+                                <Icon fontSize={"small"} color={"primary"} className={"fas fa-cubes"}/>
                             </ListItemIcon>
                             <Typography variant="inherit" noWrap>
                                 {env.name}

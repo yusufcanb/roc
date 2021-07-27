@@ -23,7 +23,7 @@ export class RootStore {
     taskForceStore: TaskForceStore;
     factoryStore: FactoryStore;
     robotStore: RobotStore;
-    environmentStore: EnvironmentStore
+    environmentStore: EnvironmentStore;
 
     constructor() {
         makeAutoObservable(this);

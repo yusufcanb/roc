@@ -3,7 +3,8 @@ import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import {IconButton, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText} from "@material-ui/core";
 import {Factory, FactoryModel} from "../models/Factory";
 import OperatingSystemIcon from "./OperatingSystemIcon";
-import {Delete, Edit, VpnKeySharp} from "@material-ui/icons";
+import {Delete, Edit} from "@material-ui/icons";
+import {DeleteButton} from "../../core/components";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -39,14 +40,11 @@ const FactoryListItem: FunctionComponent<FactoryListItemProps> = (props: PropsWi
             />
             <ListItemSecondaryAction>
                 <IconButton edge="end" aria-label="delete">
-                    <VpnKeySharp/>
-                </IconButton>
-                <IconButton edge="end" aria-label="delete">
                     <Edit/>
                 </IconButton>
-                <IconButton edge="end" aria-label="delete">
+                <DeleteButton edge="end" aria-label="delete">
                     <Delete/>
-                </IconButton>
+                </DeleteButton>
             </ListItemSecondaryAction>
         </ListItem>
     )

@@ -1,15 +1,16 @@
 import React, {FunctionComponent, useEffect} from "react";
+import {observer} from "mobx-react-lite";
 import {Button} from "@material-ui/core";
-import {EmptyState, PageContent} from "../../core/components";
+import CreateIcon from '@material-ui/icons/Add';
+
+import {EmptyState, PageContent} from "core/components";
 
 import BusinessIcon from "@material-ui/icons/HomeWork";
-import CreateIcon from '@material-ui/icons/Add';
 import {useStore} from "core/store";
-import {FactoryModel} from "../models/Factory";
 import {makeStyles} from "@material-ui/core/styles";
 import {Skeleton} from "@material-ui/lab";
-import {observer} from "mobx-react-lite";
-import FactoryList from "../components/FactoryList";
+import TaskForceList from "../components/TaskForceList";
+
 
 const useStyles = makeStyles((theme) => ({
     listHeader: {
@@ -28,15 +29,14 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const FactoryListView: FunctionComponent = () => {
+const TaskForceListView: FunctionComponent = (props) => {
     const classes = useStyles();
-    const {factoryStore} = useStore();
+    const {taskForceStore} = useStore();
 
     useEffect(() => {
-        factoryStore.fetchFactories();
-    }, [factoryStore]);
+        taskForceStore.fetchTaskForces();
+    }, [taskForceStore]);
 
-    const handleCreate = () => factoryStore.factories.push(new FactoryModel(0, "Yusuf's iMac", "macos"))
     const renderLoadingState = () => {
         return (
             <React.Fragment>
@@ -50,12 +50,12 @@ const FactoryListView: FunctionComponent = () => {
     const renderEmptyState = () => {
         return (
             <EmptyState icon={BusinessIcon}
-                        title={"No FactoryListView Exists!"}
+                        title={"No Task Force Exists!"}
                         subTitle={"Your assistant shows you fun new things automatically\n" +
                         "ceated from your photos and helps you to say organised"}
                         actionButton={<Button
                             variant={"outlined"}
-                            onClick={handleCreate}
+                            onClick={() => null}
                             startIcon={<CreateIcon/>}>
                             Create New Factory
                         </Button>}
@@ -65,20 +65,20 @@ const FactoryListView: FunctionComponent = () => {
 
     const renderContent = () => {
         return (
-            <FactoryList factories={factoryStore.factories}/>
+            <TaskForceList taskForces={taskForceStore.forces}/>
         )
     }
 
-    if (factoryStore.factories.length === 0 && !factoryStore.isLoading) {
+    if (taskForceStore.forces.length === 0 && !taskForceStore.isLoading) {
         return renderEmptyState();
     }
 
     return (
         <PageContent right={<Button variant={"contained"} color={"secondary"}>Create Factory</Button>}>
             {
-                factoryStore.isLoading && !factoryStore.isErrored
+                taskForceStore.isLoading && !taskForceStore.isErrored
                     ? renderLoadingState()
-                    : factoryStore.factories.length != 0
+                    : taskForceStore.forces.length != 0
                     ? renderContent()
                     : renderEmptyState()
             }
@@ -86,4 +86,5 @@ const FactoryListView: FunctionComponent = () => {
     )
 }
 
-export default observer(FactoryListView);
+
+export default observer(TaskForceListView);

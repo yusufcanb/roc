@@ -10,14 +10,15 @@ import {useStore} from "./core/store";
 import routes from "./routes";
 
 const App: FunctionComponent = () => {
-    const {environmentStore, projectStore, factoryStore} = useStore();
+    const {environmentStore, projectStore, factoryStore, taskForceStore} = useStore();
     const store = useStore();
 
     useEffect(() => {
         environmentStore.fetchEnvironments();
         projectStore.fetchProjects();
         factoryStore.fetchFactories();
-    }, [environmentStore, projectStore, factoryStore]);
+        taskForceStore.fetchTaskForces();
+    }, [taskForceStore, environmentStore, projectStore, factoryStore]);
 
     const renderOnBoarding = () => {
         store.setOnBoarding(false);
@@ -26,7 +27,8 @@ const App: FunctionComponent = () => {
 
     const renderRoutesRecursive: any = (path: Path) => {
         return Array.isArray(path.children)
-            ? path.children.map((child: Path) => <Route path={path.path} component={path.component} exact={path.isExact} children={renderRoutesRecursive(child)}/>)
+            ? path.children.map((child: Path) => <Route path={path.path} component={path.component} exact={path.isExact}
+                                                        children={renderRoutesRecursive(child)}/>)
             : <Route path={path.path} component={path.component} exact={path.isExact}/>
     }
 
@@ -44,7 +46,7 @@ const App: FunctionComponent = () => {
         </Router>
     )
 
-    const isLoading = environmentStore.isLoading || projectStore.isLoading || factoryStore.isLoading;
+    const isLoading = taskForceStore.isLoading || environmentStore.isLoading || projectStore.isLoading || factoryStore.isLoading;
     return isLoading && store.onBoarding ? renderOnBoarding() : renderApp()
 
 }

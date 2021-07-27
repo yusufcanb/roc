@@ -26,15 +26,15 @@ const useStyles = makeStyles({
 const ProjectDirectoryNavigation: FunctionComponent<any> = (props) => {
     const classes = useStyles();
     const tree: RenderTree = {
-        id: 'root',
+        id: 'repository-root',
         name: 'Default Project',
         type: "file",
         children: props.files
     };
 
     const renderTree = (nodes: RenderTree) => (
-        <TreeItem key={`${nodes.type}_${nodes.name}`}
-                  nodeId={`${nodes.type}_${nodes.name}`}
+        <TreeItem key={`${nodes.type}_${nodes.id}`}
+                  nodeId={`${nodes.type}_${nodes.id}`}
                   label={nodes.name}
                   icon={nodes.type?.toLowerCase() === "file" ? <DescriptionOutlinedIcon fontSize={"small"}/> : null}
                   onClick={() => props.onSelect(nodes)}>
@@ -46,7 +46,7 @@ const ProjectDirectoryNavigation: FunctionComponent<any> = (props) => {
         <TreeView
             className={classes.root}
             defaultCollapseIcon={<ExpandMoreIcon/>}
-            defaultExpanded={['root']}
+            defaultExpanded={['file_repository-root']}
             defaultExpandIcon={<ChevronRightIcon/>}
         >
             {renderTree(tree)}
