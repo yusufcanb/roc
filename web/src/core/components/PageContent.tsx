@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme: Theme) =>
         breadcrumb: {},
         content: {},
         right: {
-            float: "right",
+            textAlign: "right",
         }
     })
 );
@@ -27,7 +27,6 @@ const PageContent: FunctionComponent<PageContentProps> = (props: PropsWithChildr
     const location = useLocation();
 
     React.useEffect(() => {
-        console.log("PageContent::init");
         store.setBreadcrumbState(location.pathname);
     }, [store, location]);
 
@@ -38,7 +37,7 @@ const PageContent: FunctionComponent<PageContentProps> = (props: PropsWithChildr
                     <Grid item xs={9}>
                         <Breadcrumb state={store.breadcrumb}/>
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid className={classes.right} item xs={3}>
                         {props.right}
                     </Grid>
                 </Grid>

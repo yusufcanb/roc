@@ -26,7 +26,7 @@ const App: FunctionComponent = () => {
 
     const renderRoutesRecursive: any = (path: Path) => {
         return Array.isArray(path.children)
-            ? path.children.map((child: Path) => renderRoutesRecursive(child))
+            ? path.children.map((child: Path) => <Route path={path.path} component={path.component} exact={path.isExact} children={renderRoutesRecursive(child)}/>)
             : <Route path={path.path} component={path.component} exact={path.isExact}/>
     }
 

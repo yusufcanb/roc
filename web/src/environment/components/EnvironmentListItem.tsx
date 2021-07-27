@@ -9,9 +9,8 @@ import {
     ListItemSecondaryAction,
     ListItemText
 } from "@material-ui/core";
-import {Project, ProjectModel} from "../models/Project";
 import {Delete, Edit} from "@material-ui/icons";
-import CodeIcon from "@material-ui/icons/Code";
+import {Environment} from "../models";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -28,23 +27,23 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-interface ProjectListItemProps {
-    project: Project | ProjectModel;
+interface EnvironmentListItemProps {
+    env: Environment;
 }
 
-const ProjectListItem: FunctionComponent<ProjectListItemProps> = (props: PropsWithChildren<ProjectListItemProps>) => {
+const EnvironmentListItem: FunctionComponent<EnvironmentListItemProps> = (props: PropsWithChildren<EnvironmentListItemProps>) => {
     const classes = useStyles();
-    const {project} = props;
+    const {env} = props;
 
     return <ListItem className={classes.listItem}>
         <ListItemAvatar>
             <Avatar>
-                <CodeIcon fontSize={"large"} color={"primary"} />
+                <Icon className={"fas fa-cubes"} color={"primary"}/>
             </Avatar>
         </ListItemAvatar>
         <ListItemText
-            primary={project.name}
-            secondary={project.files.length + " Robots"}
+            primary={env.name}
+            secondary={env.variables.length + " Variables"}
         />
         <ListItemSecondaryAction>
             <IconButton edge="end" aria-label="delete">
@@ -57,4 +56,4 @@ const ProjectListItem: FunctionComponent<ProjectListItemProps> = (props: PropsWi
     </ListItem>
 }
 
-export default ProjectListItem;
+export default EnvironmentListItem;

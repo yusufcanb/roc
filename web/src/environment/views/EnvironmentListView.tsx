@@ -1,15 +1,5 @@
 import React, {FunctionComponent, useEffect} from "react";
-import {
-    Avatar,
-    Button,
-    Icon,
-    IconButton,
-    List,
-    ListItem,
-    ListItemAvatar,
-    ListItemSecondaryAction,
-    ListItemText
-} from "@material-ui/core";
+import {Button} from "@material-ui/core";
 import {EmptyState, PageContent} from "../../core/components";
 
 import BusinessIcon from "@material-ui/icons/HomeWork";
@@ -18,18 +8,25 @@ import {useStore} from "core/store";
 
 import {makeStyles, Theme} from "@material-ui/core/styles";
 import {observer} from "mobx-react-lite";
-import {Delete, Edit} from "@material-ui/icons";
+import {Skeleton} from "@material-ui/lab";
+import EnvironmentList from "../components/EnvironmentList";
 
 const useStyles = makeStyles((theme: Theme) => ({
     listItem: {
         minHeight: "75px",
         marginBottom: 10,
         border: "2px solid #ebebeb",
-        borderRadius: "10px",
+        borderRadius: "6px",
         "&:hover": {
             cursor: "pointer",
             borderColor: theme.palette.primary.main
         }
+    },
+    skeleton: {
+        height: 75,
+        marginLeft: 10,
+        marginRight: 10,
+        marginBottom: 15
     }
 }));
 
@@ -46,9 +43,9 @@ const Factory: FunctionComponent = () => {
     const renderLoadingState = () => {
         return (
             <React.Fragment>
-                {/*{[0, 1, 2, 3, 4, 5].map(i => (*/}
-                {/*    <Skeleton key={i} className={classes.skeleton} animation="wave" variant={"rect"}/>*/}
-                {/*))}*/}
+                {[0, 1, 2, 3, 4, 5].map(i => (
+                    <Skeleton key={i} className={classes.skeleton} animation="wave" variant={"rect"}/>
+                ))}
             </React.Fragment>
         )
     }
@@ -70,29 +67,7 @@ const Factory: FunctionComponent = () => {
     }
 
     const renderContent = () => {
-        return (
-            <List title={"Environments"}>
-                {environmentStore.environments.map(env => <ListItem className={classes.listItem}>
-                    <ListItemAvatar>
-                        <Avatar>
-                            <Icon className={"fas fa-cubes"} color={"primary"}/>
-                        </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText
-                        primary={env.name}
-                        secondary={env.variables.length + " Variables"}
-                    />
-                    <ListItemSecondaryAction>
-                        <IconButton edge="end" aria-label="delete">
-                            <Edit/>
-                        </IconButton>
-                        <IconButton edge="end" aria-label="delete">
-                            <Delete/>
-                        </IconButton>
-                    </ListItemSecondaryAction>
-                </ListItem>)}
-            </List>
-        )
+        return <EnvironmentList environments={environmentStore.environments}/>
     }
 
     if (environmentStore.environments.length === 0 && !environmentStore.isLoading) {

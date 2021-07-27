@@ -13,16 +13,18 @@ const useStyles = makeStyles((theme: Theme) =>
 interface OperatingSystemIconProps {
     os: string;
     fontSize?: string;
+    color?: string;
 }
 
 const OperatingSystemIcon: FunctionComponent<OperatingSystemIconProps> = (props: PropsWithChildren<OperatingSystemIconProps>) => {
     const classes = useStyles();
-    const fontSize: any = props.fontSize ? props.fontSize : "default";
+    const fontSize: any = props.fontSize ? props.fontSize : "large";
+    const color: any = props.color ?  props.color : "primary";
     const osMap: any = {
-        "windows": (<Icon fontSize={fontSize} className={`${classes.icon} fab fa-windows`}/>),
-        "macos": (<Icon fontSize={fontSize} className={`${classes.icon} fab fa-apple`}/>),
-        "linux": (<Icon fontSize={fontSize} className={`${classes.icon} fab fa-linux`}/>),
-        "rpi": (<Icon fontSize={fontSize} className={`${classes.icon} fab fa-raspberry-pi`}/>)
+        "windows": (<Icon color={color} fontSize={fontSize} className={`${classes.icon} fab fa-2x fa-windows`}/>),
+        "macos": (<Icon color={color} fontSize={fontSize} className={`${classes.icon} fab fa-apple`}/>),
+        "linux": (<Icon color={color} fontSize={fontSize} className={`${classes.icon} fab fa-linux`}/>),
+        "rpi": (<Icon color={color} fontSize={fontSize} className={`${classes.icon} fab fa-raspberry-pi`}/>)
     }
 
     return osMap[props.os.toLowerCase()]

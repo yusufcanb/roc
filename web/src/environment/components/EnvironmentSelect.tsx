@@ -5,7 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import {ArrowDropDown, ArrowRight as ArrowRigthIcon, SettingsApplications as NewProjectIcon} from "@material-ui/icons";
-import {Divider, ListItemIcon, Typography} from "@material-ui/core";
+import {Divider, Icon, ListItemIcon, Typography} from "@material-ui/core";
 import {useStore} from "core/store";
 import {observer} from "mobx-react-lite";
 import {Environment} from "../models";
@@ -73,7 +73,7 @@ const EnvironmentSelect: FunctionComponent = (props) => {
                     environmentStore.environments.map((env: Environment) => (
                         <MenuItem key={env.id} onClick={() => handleSelect(env.id)}>
                             <ListItemIcon>
-                                <ArrowRigthIcon/>
+                                <Icon fontSize={"small"} color={"primary"} className={"fas fa-cubes"} />
                             </ListItemIcon>
                             <Typography variant="inherit" noWrap>
                                 {env.name}

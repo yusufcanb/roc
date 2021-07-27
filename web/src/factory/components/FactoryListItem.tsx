@@ -1,32 +1,22 @@
 import React, {FunctionComponent, PropsWithChildren} from "react";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
-import {Grid, IconButton, Typography} from "@material-ui/core";
+import {IconButton, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText} from "@material-ui/core";
 import {Factory, FactoryModel} from "../models/Factory";
 import OperatingSystemIcon from "./OperatingSystemIcon";
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import {Delete, Edit, VpnKeySharp} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        container: {
-            border: "2px solid " + theme.palette.primary.contrastText,
-            borderRadius: "4px",
-            height: 75,
-            marginBottom: 15,
-            padding: 10,
-            backgroundColor: "white",
-            cursor: "pointer",
+        listItem: {
+            minHeight: "75px",
+            marginBottom: 10,
+            border: "2px solid #ebebeb",
+            borderRadius: "6px",
             "&:hover": {
-                borderColor: theme.palette.primary.main,
+                cursor: "pointer",
+                borderColor: theme.palette.primary.main
             }
-        },
-        icon: {
-            padding: 10
-        },
-        text: {
-            textAlign: "left",
-            fontWeight: 500,
-            width: "250px"
-        },
+        }
     }),
 );
 
@@ -36,24 +26,29 @@ interface FactoryListItemProps {
 
 const FactoryListItem: FunctionComponent<FactoryListItemProps> = (props: PropsWithChildren<FactoryListItemProps>) => {
     const classes = useStyles();
+    const {factory} = props;
 
     return (
-        <Grid alignItems={"center"} justify={"space-between"} container className={classes.container} direction={"row"}>
-            <Grid item>
-                <OperatingSystemIcon fontSize={"large"} os={props.factory.os}/>
-            </Grid>
-            <Grid item>
-                <Typography className={classes.text}>{props.factory.displayName}</Typography>
-            </Grid>
-            <Grid item>
-                <Typography className={classes.text}>Online</Typography>
-            </Grid>
-            <Grid item>
-                <IconButton color={"primary"}>
-                    <MoreHorizIcon fontSize={"large"}/>
+        <ListItem className={classes.listItem}>
+            <ListItemAvatar>
+                <OperatingSystemIcon os={factory.os}/>
+            </ListItemAvatar>
+            <ListItemText
+                primary={factory.displayName}
+                secondary={factory.os}
+            />
+            <ListItemSecondaryAction>
+                <IconButton edge="end" aria-label="delete">
+                    <VpnKeySharp/>
                 </IconButton>
-            </Grid>
-        </Grid>
+                <IconButton edge="end" aria-label="delete">
+                    <Edit/>
+                </IconButton>
+                <IconButton edge="end" aria-label="delete">
+                    <Delete/>
+                </IconButton>
+            </ListItemSecondaryAction>
+        </ListItem>
     )
 }
 

@@ -6,10 +6,10 @@ import BusinessIcon from "@material-ui/icons/HomeWork";
 import CreateIcon from '@material-ui/icons/Add';
 import {useStore} from "core/store";
 import {FactoryModel} from "../models/Factory";
-import {FactoryListItem} from "../components";
 import {makeStyles} from "@material-ui/core/styles";
 import {Skeleton} from "@material-ui/lab";
 import {observer} from "mobx-react-lite";
+import FactoryList from "../components/FactoryList";
 
 const useStyles = makeStyles((theme) => ({
     listHeader: {
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Factory: FunctionComponent = () => {
+const FactoryListView: FunctionComponent = () => {
     const classes = useStyles();
     const {factoryStore} = useStore();
 
@@ -50,7 +50,7 @@ const Factory: FunctionComponent = () => {
     const renderEmptyState = () => {
         return (
             <EmptyState icon={BusinessIcon}
-                        title={"No Factory Exists!"}
+                        title={"No FactoryListView Exists!"}
                         subTitle={"Your assistant shows you fun new things automatically\n" +
                         "ceated from your photos and helps you to say organised"}
                         actionButton={<Button
@@ -65,14 +65,10 @@ const Factory: FunctionComponent = () => {
 
     const renderContent = () => {
         return (
-            <React.Fragment>
-                {
-                    factoryStore.factories.map(factory => (<FactoryListItem factory={factory}/>))
-                }
-            </React.Fragment>
+            <FactoryList factories={factoryStore.factories}/>
         )
     }
-
+    
     if (factoryStore.factories.length === 0 && !factoryStore.isLoading) {
         return renderEmptyState();
     }
@@ -90,4 +86,4 @@ const Factory: FunctionComponent = () => {
     )
 }
 
-export default observer(Factory);
+export default observer(FactoryListView);

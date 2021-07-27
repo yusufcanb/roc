@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-const Settings = () => {
+const ProjectSettingsView = () => {
     const classes = useStyles();
 
     return (
@@ -18,4 +18,4 @@ const Settings = () => {
     );
 }
 
-export default Settings;
+export default ProjectSettingsView;
