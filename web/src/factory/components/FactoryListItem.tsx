@@ -3,7 +3,15 @@ import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import {IconButton, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText} from "@material-ui/core";
 import {Factory, FactoryModel} from "../models/Factory";
 import OperatingSystemIcon from "./OperatingSystemIcon";
-import {Delete, Edit} from "@material-ui/icons";
+import {
+    ArrowDownward,
+    ArrowDownwardSharp,
+    CloudDownload,
+    Delete,
+    Edit,
+    FontDownload, GetApp,
+    PhonelinkSetup
+} from "@material-ui/icons";
 import {DeleteButton} from "../../core/components";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -39,7 +47,10 @@ const FactoryListItem: FunctionComponent<FactoryListItemProps> = (props: PropsWi
                 secondary={factory.os}
             />
             <ListItemSecondaryAction>
-                <IconButton edge="end" aria-label="delete">
+                <IconButton edge="end" aria-label="download">
+                    <GetApp/>
+                </IconButton>
+                <IconButton edge="end" aria-label="edit">
                     <Edit/>
                 </IconButton>
                 <DeleteButton edge="end" aria-label="delete">

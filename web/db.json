@@ -3,90 +3,500 @@
     {
       "id": "1",
       "name": "Default Project",
+      "type": "ROOT",
       "files": [
         {
-          "id": "1123",
-          "name": "Resources",
-          "type": "directory",
+          "id": "LmdpdGlnbm9yZQ==",
+          "type": "FILE",
+          "name": ".gitignore",
+          "extension": null,
+          "children": null,
+          "content": ".DS_Store"
+        },
+        {
+          "id": "RGF0YXNldHM=",
+          "type": "DIRECTORY",
+          "name": "Datasets",
+          "extension": null,
           "children": [
             {
-              "id": "344",
-              "name": "WebUI.resource",
-              "type": "file",
-              "content": "#! /usr/bin/python"
+              "id": "RGF0YXNldHMvQ2FwaXRhbHMudHh0",
+              "type": "FILE",
+              "name": "Capitals.txt",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "RGF0YXNldHMvRGVwcmVtVmVyaWxlcmkudHh0",
+              "type": "FILE",
+              "name": "DepremVerileri.txt",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "RGF0YXNldHMvRG9sbGFyRGF0YXNldC50eHQ=",
+              "type": "FILE",
+              "name": "DollarDataset.txt",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "RGF0YXNldHMvRWFydGhxdWFrZURhdGFzZXQudHh0",
+              "type": "FILE",
+              "name": "EarthquakeDataset.txt",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "RGF0YXNldHMvTG90dGVyeS50eHQ=",
+              "type": "FILE",
+              "name": "Lottery.txt",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "RGF0YXNldHMvYXV0by1tcGcuZGF0YS50eHQ=",
+              "type": "FILE",
+              "name": "auto-mpg.data.txt",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "RGF0YXNldHMvaXNpbWxlci50eHQ=",
+              "type": "FILE",
+              "name": "isimler.txt",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "RGF0YXNldHMvam9pbi1hY3RvcnMudHh0",
+              "type": "FILE",
+              "name": "join-actors.txt",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "RGF0YXNldHMvam9pbi1zZXJpZXMudHh0",
+              "type": "FILE",
+              "name": "join-series.txt",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "RGF0YXNldHMvcG9pbnRzLnR4dA==",
+              "type": "FILE",
+              "name": "points.txt",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "RGF0YXNldHMvdGV4dC50eHQ=",
+              "type": "FILE",
+              "name": "text.txt",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "RGF0YXNldHMvd29ybGQudHh0",
+              "type": "FILE",
+              "name": "world.txt",
+              "extension": null,
+              "children": null
             }
           ]
         },
         {
-          "id": "2",
-          "name": "Libraries",
-          "type": "directory",
+          "id": "RmluYWw=",
+          "type": "DIRECTORY",
+          "name": "Final",
+          "extension": null,
           "children": [
             {
-              "id": "3",
-              "name": "Hello World.resource",
-              "type": "file",
-              "content": "// First line\nfunction hello() {\n\talert('Hello world!');\n}\n// Last line"
+              "id": "RmluYWwvSVQ1NDItRmluYWwtcGFydDEucGRm",
+              "type": "FILE",
+              "name": "IT542-Final-part1.pdf",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "RmluYWwvSVQ1NDItRmluYWwtcGFydDIucGRm",
+              "type": "FILE",
+              "name": "IT542-Final-part2.pdf",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "RmluYWwvWXVzdWZDYW5CYXlyYWstUXVlc3Rpb24xLmlweW5i",
+              "type": "FILE",
+              "name": "YusufCanBayrak-Question1.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "RmluYWwvWXVzdWZDYW5CYXlyYWstUXVlc3Rpb24yLmlweW5i",
+              "type": "FILE",
+              "name": "YusufCanBayrak-Question2.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "RmluYWwvWXVzdWZDYW5CYXlyYWstUXVlc3Rpb24zLmlweW5i",
+              "type": "FILE",
+              "name": "YusufCanBayrak-Question3.ipynb",
+              "extension": null,
+              "children": null
             }
           ]
         },
         {
-          "id": "4",
-          "name": "Variables",
-          "type": "directory",
+          "id": "SG9tZXdvcmtz",
+          "type": "DIRECTORY",
+          "name": "Homeworks",
+          "extension": null,
           "children": [
             {
-              "id": "5",
-              "name": "Selenium.resource",
-              "type": "file",
-              "content": "// First line\nfunction hello() {\n\talert('Hello world!');\n}\n// Last line"
+              "id": "SG9tZXdvcmtzL0hXMQ==",
+              "type": "DIRECTORY",
+              "name": "HW1",
+              "extension": null,
+              "children": [
+                {
+                  "id": "SG9tZXdvcmtzL0hXMS9Ib21ld29yayAxLnBkZg==",
+                  "type": "FILE",
+                  "name": "Homework 1.pdf",
+                  "extension": null,
+                  "children": null
+                },
+                {
+                  "id": "SG9tZXdvcmtzL0hXMS9ZdXN1ZkNhbi1CYXlyYWstUXVlc3Rpb24xLmlweW5i",
+                  "type": "FILE",
+                  "name": "YusufCan-Bayrak-Question1.ipynb",
+                  "extension": null,
+                  "children": null
+                },
+                {
+                  "id": "SG9tZXdvcmtzL0hXMS9ZdXN1ZkNhbi1CYXlyYWstUXVlc3Rpb24yLmlweW5i",
+                  "type": "FILE",
+                  "name": "YusufCan-Bayrak-Question2.ipynb",
+                  "extension": null,
+                  "children": null
+                },
+                {
+                  "id": "SG9tZXdvcmtzL0hXMS9ZdXN1ZkNhbi1CYXlyYWstUXVlc3Rpb24zLmlweW5i",
+                  "type": "FILE",
+                  "name": "YusufCan-Bayrak-Question3.ipynb",
+                  "extension": null,
+                  "children": null
+                },
+                {
+                  "id": "SG9tZXdvcmtzL0hXMS9ZdXN1ZkNhbi1CYXlyYWstUXVlc3Rpb240LmlweW5i",
+                  "type": "FILE",
+                  "name": "YusufCan-Bayrak-Question4.ipynb",
+                  "extension": null,
+                  "children": null
+                }
+              ]
+            },
+            {
+              "id": "SG9tZXdvcmtzL0hXMg==",
+              "type": "DIRECTORY",
+              "name": "HW2",
+              "extension": null,
+              "children": [
+                {
+                  "id": "SG9tZXdvcmtzL0hXMi9JVDU0Mi1Ib21ld29yay0yLnBkZg==",
+                  "type": "FILE",
+                  "name": "IT542-Homework-2.pdf",
+                  "extension": null,
+                  "children": null
+                },
+                {
+                  "id": "SG9tZXdvcmtzL0hXMi9ZdXN1ZkNhbkJheXJhay1RdWVzdGlvbjEuaXB5bmI=",
+                  "type": "FILE",
+                  "name": "YusufCanBayrak-Question1.ipynb",
+                  "extension": null,
+                  "children": null
+                },
+                {
+                  "id": "SG9tZXdvcmtzL0hXMi9ZdXN1ZkNhbkJheXJhay1RdWVzdGlvbjIuaXB5bmI=",
+                  "type": "FILE",
+                  "name": "YusufCanBayrak-Question2.ipynb",
+                  "extension": null,
+                  "children": null
+                }
+              ]
             }
           ]
         },
         {
-          "id": "6",
-          "name": "HealthCheck.robot",
-          "type": "file",
-          "content": "// First line\nfunction hello() {\n\talert('Hello world!');\n}\n// Last line"
+          "id": "Tm90ZWJvb2tz",
+          "type": "DIRECTORY",
+          "name": "Notebooks",
+          "extension": null,
+          "children": [
+            {
+              "id": "Tm90ZWJvb2tzLzAwLVNwYXJrLUludHJvZHVjdGlvbi5pcHluYg==",
+              "type": "FILE",
+              "name": "00-Spark-Introduction.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzAxLVNwYXJrUkRELUludHJvZHVjdGlvbi0xLmlweW5i",
+              "type": "FILE",
+              "name": "01-SparkRDD-Introduction-1.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzAyLVNwYXJrUkRELUludHJvZHVjdGlvbi0yLmlweW5i",
+              "type": "FILE",
+              "name": "02-SparkRDD-Introduction-2.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzAzLVNwYXJrUkRELVRyYW5zZm9ybWF0aW9ucy1BY3Rpb25zLTEuaXB5bmI=",
+              "type": "FILE",
+              "name": "03-SparkRDD-Transformations-Actions-1.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzA0LVNwYXJrUkRELVRyYW5zZm9ybWF0aW9ucy1BY3Rpb25zLTIuaXB5bmI=",
+              "type": "FILE",
+              "name": "04-SparkRDD-Transformations-Actions-2.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzA1LVNwYXJrUkRELVRyYW5zZm9ybWF0aW9ucy1BY3Rpb25zLTMuaXB5bmI=",
+              "type": "FILE",
+              "name": "05-SparkRDD-Transformations-Actions-3.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzA2LVNwYXJrUkRELVRyYW5zZm9ybWF0aW9ucy1BY3Rpb25zLTQuaXB5bmI=",
+              "type": "FILE",
+              "name": "06-SparkRDD-Transformations-Actions-4.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzA3LVNwYXJrUkRELVRyYW5zZm9ybWF0aW9ucy1BY3Rpb25zLTUuaXB5bmI=",
+              "type": "FILE",
+              "name": "07-SparkRDD-Transformations-Actions-5.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzA4LVNwYXJrUkRELURlcHJlbU9ybmVrLmlweW5i",
+              "type": "FILE",
+              "name": "08-SparkRDD-DepremOrnek.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzA5LVNwYXJrREYtSW50cm9kdWN0aW9uLmlweW5i",
+              "type": "FILE",
+              "name": "09-SparkDF-Introduction.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzEwLVNwYXJrREYtSm9pbi5pcHluYg==",
+              "type": "FILE",
+              "name": "10-SparkDF-Join.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzExLVNwYXJrREYtVXNlckRlZmluZWRGdW5jdGlvbi5pcHluYg==",
+              "type": "FILE",
+              "name": "11-SparkDF-UserDefinedFunction.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzEyLVNwYXJrU1FMLmlweW5i",
+              "type": "FILE",
+              "name": "12-SparkSQL.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzEzLVNwYXJrTUwtSW50cm9kdWN0aW9uLmlweW5i",
+              "type": "FILE",
+              "name": "13-SparkML-Introduction.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzE0LVNwYXJrREYtUmVncmVzc2lvbi1MaW5lYXJSZWdyZXNzaW9uLmlweW5i",
+              "type": "FILE",
+              "name": "14-SparkDF-Regression-LinearRegression.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzE1LVNwYXJrREYtUmVncmVzc2lvbi1EZWNpc2lvblRyZWVSZWdyZXNzb3IuaXB5bmI=",
+              "type": "FILE",
+              "name": "15-SparkDF-Regression-DecisionTreeRegressor.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzE2LVNwYXJrREYtUmVncmVzc2lvbi1SYW5kb21Gb3Jlc3RSZWdyZXNzb3IuaXB5bmI=",
+              "type": "FILE",
+              "name": "16-SparkDF-Regression-RandomForestRegressor.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzE3LVNwYXJrREYtQ2xhc3NpZmljYXRpb24uaXB5bmI=",
+              "type": "FILE",
+              "name": "17-SparkDF-Classification.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzE4LVNwYXJrTUwtTW9kZWwtU3VjY2Vzcy5pcHluYg==",
+              "type": "FILE",
+              "name": "18-SparkML-Model-Success.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzE5LVNwYXJrTUwtTnVsbC1WYWx1ZXMuaXB5bmI=",
+              "type": "FILE",
+              "name": "19-SparkML-Null-Values.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzIwLVNwYXJrTUwtQ2F0ZWdvcmljYWwtVmFsdWVzLmlweW5i",
+              "type": "FILE",
+              "name": "20-SparkML-Categorical-Values.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzIxLVNwYXJrTUwtVHJhaW5WYWxpZGF0aW9uU3BsaXQuaXB5bmI=",
+              "type": "FILE",
+              "name": "21-SparkML-TrainValidationSplit.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzIyLVNwYXJrTUwtQ3Jvc3NWYWxpZGF0b3IuaXB5bmI=",
+              "type": "FILE",
+              "name": "22-SparkML-CrossValidator.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzLzIzLVNwYXJrTUwtQ2x1c3RlcmluZy5pcHluYg==",
+              "type": "FILE",
+              "name": "23-SparkML-Clustering.ipynb",
+              "extension": null,
+              "children": null
+            },
+            {
+              "id": "Tm90ZWJvb2tzL2hpdmUtZXhlcmNpc2VzLnR4dA==",
+              "type": "FILE",
+              "name": "hive-exercises.txt",
+              "extension": null,
+              "children": null
+            }
+          ]
         },
         {
-          "id": "7",
-          "name": "DailyAuditOperations.robot",
-          "type": "file",
-          "content": "// First line\nfunction hello() {\n\talert('Hello world!');\n}\n// Last line"
-        },
-        {
-          "id": "8",
+          "id": "UkVBRE1FLm1k",
+          "type": "FILE",
           "name": "README.md",
-          "type": "file",
-          "content": "// First line\nfunction hello() {\n\talert('Hello world!');\n}\n// Last line"
+          "extension": null,
+          "children": null
+        },
+        {
+          "id": "U2xpZGVz",
+          "type": "DIRECTORY",
+          "name": "Slides",
+          "extension": null,
+          "children": [
+            {
+              "id": "U2xpZGVzL0lUNTQyLnBkZg==",
+              "type": "FILE",
+              "name": "IT542.pdf",
+              "extension": null,
+              "children": null
+            }
+          ]
         }
       ]
     }
   ],
-  "factories": [
+  "factory": [
     {
       "id": "1",
-      "name": "huawei-matepad",
-      "os": "windows"
-    },
-    {
-      "id": "5",
-      "name": "thinkpad-x250",
+      "displayName": "huawei-matepad",
       "os": "windows"
     },
     {
       "id": "2",
-      "name": "yusuf's macbook pro",
+      "displayName": "thinkpad-x250",
+      "os": "windows"
+    },
+    {
+      "id": "3",
+      "displayName": "macbook pro",
       "os": "macos"
+    },
+    {
+      "id": "5",
+      "displayName": "k8s-node-1",
+      "os": "linux"
+    },
+    {
+      "id": "7",
+      "displayName": "rpi 4",
+      "os": "rpi"
     }
   ],
   "jobs": [],
-  "task-force": [],
+  "task-forces": [
+    {
+      "name": "Daily Health Check Operations",
+      "robots": [
+        "Hello_World.robot",
+        "Service Check.robot"
+      ]
+    },
+    {
+      "name": "Check Operation Logs",
+      "robots": [
+        "Hello_World.robot"
+      ]
+    }
+  ],
   "environments": [
     {
       "id": "1",
       "name": "Dev",
+      "createdAt": "",
+      "updatedAt": "",
+      "variables": [
+        {
+          "key": "MYSQL_VERSION",
+          "value": "8.0.24",
+          "description": null,
+          "encrypted": false
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Production",
       "createdAt": "",
       "updatedAt": "",
       "variables": [

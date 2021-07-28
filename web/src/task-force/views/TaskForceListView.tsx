@@ -9,6 +9,7 @@ import BusinessIcon from "@material-ui/icons/HomeWork";
 import {useStore} from "core/store";
 import {makeStyles} from "@material-ui/core/styles";
 import {Skeleton} from "@material-ui/lab";
+
 import TaskForceList from "../components/TaskForceList";
 
 
@@ -65,7 +66,9 @@ const TaskForceListView: FunctionComponent = (props) => {
 
     const renderContent = () => {
         return (
-            <TaskForceList taskForces={taskForceStore.forces}/>
+            <React.Fragment>
+                <TaskForceList taskForces={taskForceStore.forces}/>
+            </React.Fragment>
         )
     }
 

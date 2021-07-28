@@ -1,10 +1,11 @@
 import React, {FunctionComponent, PropsWithChildren} from "react";
 import Breadcrumb from "./Breadcrumb";
 import {observer} from "mobx-react-lite";
-import {Box, Container, Grid} from "@material-ui/core";
+import {Box, Container, Grid, Snackbar} from "@material-ui/core";
 import {useStore} from "core/store";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import {useLocation} from "react-router-dom";
+import {Alert} from "@material-ui/lab";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -45,6 +46,17 @@ const PageContent: FunctionComponent<PageContentProps> = (props: PropsWithChildr
             <Box className={classes.content}>
                 {props.children}
             </Box>
+            {
+                store.snackBarContent
+                    ? (<Snackbar
+                        open={true}
+                        onClose={() => null}
+                        key={store.snackBarContent?.text}>
+                        <Alert onClose={() => null}>
+                            {store.snackBarContent?.text}
+                        </Alert>
+                    </Snackbar>) : null
+            }
         </Container>
     );
 }

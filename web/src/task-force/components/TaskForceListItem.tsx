@@ -2,7 +2,8 @@ import React, {FunctionComponent, PropsWithChildren} from "react";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import {Avatar, IconButton, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText} from "@material-ui/core";
 
-import {HomeWork, PlayArrow, Schedule} from "@material-ui/icons";
+import {AccountTree, PlayArrow, Schedule} from "@material-ui/icons";
+import {useStore} from "../../core/store";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -26,11 +27,16 @@ interface TaskForceListItemProps {
 const TaskForceListItem: FunctionComponent<TaskForceListItemProps> = (props: PropsWithChildren<TaskForceListItemProps>) => {
     const classes = useStyles();
     const {taskForce} = props;
+    const store = useStore();
+
+    const handleExecute = () => {
+        store.openSnackBar("Task executed", "success");
+    }
 
     return <ListItem className={classes.listItem}>
         <ListItemAvatar>
             <Avatar color={"primary"}>
-                <HomeWork color={"inherit"}/>
+                <AccountTree color={"primary"}/>
             </Avatar>
         </ListItemAvatar>
         <ListItemText
@@ -38,13 +44,12 @@ const TaskForceListItem: FunctionComponent<TaskForceListItemProps> = (props: Pro
             secondary={taskForce.robots}
         />
         <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="delete">
-                <Schedule fontSize={"large"} />
+            <IconButton edge="end" aria-label="schedule">
+                <Schedule/>
             </IconButton>
-            <IconButton edge="end" aria-label="delete">
-                <PlayArrow fontSize={"large"}/>
+            <IconButton onClick={() => handleExecute()} edge="end" aria-label="execute">
+                <PlayArrow/>
             </IconButton>
-
         </ListItemSecondaryAction>
     </ListItem>
 }

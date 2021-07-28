@@ -13,10 +13,11 @@ export class RootStore {
     version: Array<number> = [0, 1, 0];
     title: string = "";
     onBoarding: boolean = true;
-    routes: Array<Route> = routes
+    routes: Array<Route> = routes;
 
     windowLocation = ["ROC", "Home"];
-    breadcrumb: Array<string> = ["ROC", "Welcome"]
+    breadcrumb: Array<string> = ["ROC", "Welcome"];
+    snackBarContent: any = null;
 
     projectStore: ProjectStore;
     jobStore: JobStore;
@@ -53,6 +54,13 @@ export class RootStore {
             this.breadcrumb.pop()
             this.breadcrumb.push(route.displayName);
         }
+    }
+
+    openSnackBar(text: string, severity: any, duration: number = 2500) {
+        this.snackBarContent = {text, severity};
+        setTimeout(() => {
+            this.snackBarContent = null;
+        }, duration)
     }
 
 }
