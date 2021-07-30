@@ -79,7 +79,7 @@ const Factory: FunctionComponent = () => {
             {
                 environmentStore.isLoading && !environmentStore.isErrored
                     ? renderLoadingState()
-                    : environmentStore.environments.length != 0
+                    : environmentStore.environments.length !== 0
                     ? renderContent()
                     : renderEmptyState()
             }

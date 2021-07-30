@@ -78,7 +78,7 @@ const FactoryListView: FunctionComponent = () => {
             {
                 factoryStore.isLoading && !factoryStore.isErrored
                     ? renderLoadingState()
-                    : factoryStore.factories.length != 0
+                    : factoryStore.factories.length !== 0
                     ? renderContent()
                     : renderEmptyState()
             }

@@ -1,5 +1,7 @@
 import http from "./http";
 
-export default {
+const services = {
     http: http
 }
+
+export default services;

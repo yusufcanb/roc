@@ -3,15 +3,7 @@ import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import {IconButton, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText} from "@material-ui/core";
 import {Factory, FactoryModel} from "../models/Factory";
 import OperatingSystemIcon from "./OperatingSystemIcon";
-import {
-    ArrowDownward,
-    ArrowDownwardSharp,
-    CloudDownload,
-    Delete,
-    Edit,
-    FontDownload, GetApp,
-    PhonelinkSetup
-} from "@material-ui/icons";
+import {Delete, Edit, GetApp} from "@material-ui/icons";
 import {DeleteButton} from "../../core/components";
 
 const useStyles = makeStyles((theme: Theme) =>

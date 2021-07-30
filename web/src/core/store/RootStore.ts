@@ -49,7 +49,7 @@ export class RootStore {
     }
 
     setBreadcrumbState(path: string) {
-        let route = this.routes.find(r => r.path == path);
+        let route = this.routes.find(r => r.path === path);
         if (route) {
             this.breadcrumb.pop()
             this.breadcrumb.push(route.displayName);

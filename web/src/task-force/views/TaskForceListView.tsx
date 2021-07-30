@@ -81,7 +81,7 @@ const TaskForceListView: FunctionComponent = (props) => {
             {
                 taskForceStore.isLoading && !taskForceStore.isErrored
                     ? renderLoadingState()
-                    : taskForceStore.forces.length != 0
+                    : taskForceStore.forces.length !== 0
                     ? renderContent()
                     : renderEmptyState()
             }
