@@ -8,8 +8,7 @@ RUN apt-get install -y openssh-server git
 RUN useradd -ms /usr/bin/git-shell git \
     && mkdir /home/git/.ssh \
     && touch /home/git/.ssh/authorized_keys \
-    && chmod 600 /home/git/.ssh/authorized_keys \
-    && mkdir /home/git/roc
+    && chmod 600 /home/git/.ssh/authorized_keys
 
 RUN mkdir /app
 
