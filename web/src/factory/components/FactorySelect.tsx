@@ -60,6 +60,7 @@ const FactorySelect: FunctionComponent = (props) => {
                 {
                     factoryStore.factories.map(factory => (
                         <MenuItem key={factory.id} onClick={() => handleSelect(factory)}><OperatingSystemIcon
+                            fontSize={"small"}
                             os={factory.os}/>{factory.displayName}
                         </MenuItem>))
                 }

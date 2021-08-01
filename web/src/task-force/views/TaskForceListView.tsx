@@ -11,6 +11,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {Skeleton} from "@material-ui/lab";
 
 import TaskForceList from "../components/TaskForceList";
+import {Add} from "@material-ui/icons";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -77,7 +78,7 @@ const TaskForceListView: FunctionComponent = (props) => {
     }
 
     return (
-        <PageContent right={<Button variant={"contained"} color={"secondary"}>Create Factory</Button>}>
+        <PageContent right={<Button startIcon={<Add />} variant={"contained"} color={"secondary"}>Create Task Force</Button>}>
             {
                 taskForceStore.isLoading && !taskForceStore.isErrored
                     ? renderLoadingState()
