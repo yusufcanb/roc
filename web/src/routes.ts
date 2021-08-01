@@ -8,12 +8,13 @@ import Robot from "robot/views/Robot";
 import {Route} from "./core/models/Route";
 import Home from "./core/views/Home";
 import EnvironmentListView from "./environment/views/EnvironmentListView";
+import ProjectCreateView from "./project/views/ProjectCreateView";
 
 const routes: Array<Route> = [
     {displayName: "Home", path: "/", component: Home, isExact: true},
 
-    {displayName: "Projects", path: "/projects", component: ProjectListView,},
-    {displayName: "New Project", path: "/projects/new", component: ProjectSettingsView},
+    {displayName: "Projects", path: "/projects", component: ProjectListView, isExact: true},
+    {displayName: "New Project", path: "/projects/new", component: ProjectCreateView},
     {displayName: "Project Detail", path: "/projects/:id", component: ProjectSettingsView},
     {displayName: "Project ProjectSettingsView", path: "/projects/settings", component: ProjectSettingsView},
 
