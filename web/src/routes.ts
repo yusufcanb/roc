@@ -9,6 +9,7 @@ import {Route} from "./core/models/Route";
 import Home from "./core/views/Home";
 import EnvironmentListView from "./environment/views/EnvironmentListView";
 import ProjectCreateView from "./project/views/ProjectCreateView";
+import TaskForceCreateView from "./task-force/views/TaskForceCreateView";
 
 const routes: Array<Route> = [
     {displayName: "Home", path: "/", component: Home, isExact: true},
@@ -16,13 +17,14 @@ const routes: Array<Route> = [
     {displayName: "Projects", path: "/projects", component: ProjectListView, isExact: true},
     {displayName: "New Project", path: "/projects/new", component: ProjectCreateView},
     {displayName: "Project Detail", path: "/projects/:id", component: ProjectSettingsView},
-    {displayName: "Project ProjectSettingsView", path: "/projects/settings", component: ProjectSettingsView},
+    {displayName: "Project Settings", path: "/projects/settings", component: ProjectSettingsView},
 
     {displayName: "Environment List", path: "/environments", component: EnvironmentListView},
 
     {displayName: "Jobs Overview", path: "/job", component: Jobs},
 
-    {displayName: "Task Force List", path: "/task-force", component: TaskForce},
+    {displayName: "Task Force List", path: "/task-force", component: TaskForce, isExact: true},
+    {displayName: "Task Force Create", path: "/task-force/new", component: TaskForceCreateView},
 
     {displayName: "Robot Repository", path: "/robot", component: Robot},
 
