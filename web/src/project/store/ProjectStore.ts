@@ -3,14 +3,14 @@ import {action, makeAutoObservable} from "mobx";
 import {DomainConverter} from "core/models";
 import {RootStore} from "core/store/RootStore";
 
-import {ProjectModel} from "../models/Project";
+import {Project, ProjectModel} from "../models/Project";
 import * as services from "../services";
 
 export class ProjectStore {
     public isLoading: boolean = true;
     public isErrored: boolean = false;
 
-    public projects: Array<ProjectModel> = [];
+    public projects: Array<ProjectModel | Project> = [];
     public selectedProject: string | number | null = "1";
 
     private root: RootStore;
@@ -18,6 +18,10 @@ export class ProjectStore {
     constructor(root: RootStore) {
         this.root = root;
         makeAutoObservable(this);
+    }
+
+    createProject(project: Partial<Project>) {
+        this.projects.push(project as Project);
     }
 
     setProjects(projects: Array<any>) {
