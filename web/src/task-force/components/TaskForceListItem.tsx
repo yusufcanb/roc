@@ -2,7 +2,7 @@ import React, {FunctionComponent, PropsWithChildren} from "react";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import {Avatar, IconButton, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText} from "@material-ui/core";
 
-import {AccountTree, PlayArrow, Schedule} from "@material-ui/icons";
+import {AccountTree, PlayArrow, Restore, Schedule} from "@material-ui/icons";
 import {useStore} from "../../core/store";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -44,6 +44,10 @@ const TaskForceListItem: FunctionComponent<TaskForceListItemProps> = (props: Pro
             secondary={taskForce.robots}
         />
         <ListItemSecondaryAction>
+            <IconButton edge="end" aria-label="schedule">
+                <Restore/>
+            </IconButton>
+
             <IconButton edge="end" aria-label="schedule">
                 <Schedule/>
             </IconButton>

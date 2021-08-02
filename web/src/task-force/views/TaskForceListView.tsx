@@ -12,6 +12,7 @@ import {Skeleton} from "@material-ui/lab";
 
 import TaskForceList from "../components/TaskForceList";
 import {Add} from "@material-ui/icons";
+import {useHistory} from "react-router-dom";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 const TaskForceListView: FunctionComponent = (props) => {
     const classes = useStyles();
     const {taskForceStore} = useStore();
+    const history = useHistory();
 
     useEffect(() => {
         taskForceStore.fetchTaskForces();
@@ -78,7 +80,9 @@ const TaskForceListView: FunctionComponent = (props) => {
     }
 
     return (
-        <PageContent right={<Button startIcon={<Add />} variant={"contained"} color={"secondary"}>Create Task Force</Button>}>
+        <PageContent
+            right={<Button onClick={() => history.push("/task-force/new")} startIcon={<Add/>} variant={"contained"}
+                           color={"secondary"}>Create Task Force</Button>}>
             {
                 taskForceStore.isLoading && !taskForceStore.isErrored
                     ? renderLoadingState()
@@ -89,6 +93,5 @@ const TaskForceListView: FunctionComponent = (props) => {
         </PageContent>
     )
 }
-
 
 export default observer(TaskForceListView);
