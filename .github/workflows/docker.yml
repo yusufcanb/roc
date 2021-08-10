@@ -30,6 +30,7 @@ jobs:
   roc-web:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - name: Create roc-web image   
       uses: actions/setup-node@v2
       with:
