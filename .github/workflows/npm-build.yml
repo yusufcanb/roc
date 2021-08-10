@@ -16,12 +16,3 @@ jobs:
         working-directory: ./web
       - run: npm run build
         working-directory: ./web
-      - name: Docker Package Registry
-        # You may pin to the exact commit or the version.
-        # uses: craftech-io/package-action@009001a7fd1c4f139ae06aeceed9b679daf52734
-        uses: craftech-io/package-action@v3.1.0
-        with:
-          access_token: ${{ secrets.GITHUB_TOKEN }}
-          context: ./web
-          image_name: roc-web
-          dockerfile: ./web/Dockerfile
