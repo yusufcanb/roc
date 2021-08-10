@@ -3,8 +3,9 @@ on:
   create:
     tags:
       - v*
+
 jobs:
-  build:
+  roc-platform:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -25,7 +26,10 @@ jobs:
         context: ./platform
         image_name: roc-platform
         dockerfile: ./platform/Dockerfile
-
+  
+  roc-web:
+    runs-on: ubuntu-latest
+    steps:
     - name: Create roc-web image   
       uses: actions/setup-node@v2
       with:
@@ -44,3 +48,4 @@ jobs:
         context: ./web
         image_name: roc-web
         dockerfile: ./web/Dockerfile
+
