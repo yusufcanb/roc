@@ -13,6 +13,8 @@ operations which uses Robot Framework as it's executor. 🤖 🕹
 - `/platform`: Platform project is for backend operations of platform.
 - `/web`: Web UI project for platform. Created with `create-react-app`
 
+![System Overview](./docs/assets/system-overview.png)
+
 ## Development
 
 Run required services via docker-compose;
