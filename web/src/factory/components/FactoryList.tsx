@@ -12,7 +12,7 @@ const FactoryList: FunctionComponent<FactoryListProps> = (props: PropsWithChildr
     const {factories} = props;
 
     return (<List title={"Environments"}>
-        {factories.map(factory => <FactoryListItem factory={factory}/>)}
+        {factories.map(factory => <FactoryListItem key={factory.id} factory={factory}/>)}
     </List>)
 }
 

@@ -75,7 +75,7 @@ const Factory: FunctionComponent = () => {
     }
 
     return (
-        <PageContent>
+        <PageContent  right={<Button variant={"contained"} color={"secondary"}>Create Environment</Button>}>
             {
                 environmentStore.isLoading && !environmentStore.isErrored
                     ? renderLoadingState()

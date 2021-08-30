@@ -13,7 +13,7 @@ const EnvironmentList: FunctionComponent<EnvironmentListProps> = (props: PropsWi
 
     return (
         <List title={"Environments"}>
-            {environments.map(env => <EnvironmentListItem env={env}/>)}
+            {environments.map(env => <EnvironmentListItem key={env.id} env={env}/>)}
         </List>)
 }
 

@@ -13,7 +13,7 @@ const ProjectList: FunctionComponent<ProjectListProps> = (props: PropsWithChildr
 
     return (
         <List title={"Projects"}>
-            {projects.map(project => <ProjectListItem project={project}/>)}
+            {projects.map(project => <ProjectListItem key={project.id} project={project}/>)}
         </List>)
 }
 
