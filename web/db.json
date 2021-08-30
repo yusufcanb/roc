@@ -6,6 +6,14 @@
       "type": "ROOT",
       "files": [
         {
+          "id": "LmdpdGlnbm9yZQ==d1212",
+          "type": "FILE",
+          "name": "hello.robot",
+          "extension": null,
+          "children": null,
+          "content": "null"
+        },
+        {
           "id": "LmdpdGlnbm9yZQ==",
           "type": "FILE",
           "name": ".gitignore",
@@ -466,6 +474,7 @@
   "jobs": [],
   "task-forces": [
     {
+      "id": "1",
       "name": "Daily Health Check Operations",
       "robots": [
         "Hello_World.robot",
@@ -473,6 +482,7 @@
       ]
     },
     {
+      "id": "2",
       "name": "Check Operation Logs",
       "robots": [
         "Hello_World.robot"
