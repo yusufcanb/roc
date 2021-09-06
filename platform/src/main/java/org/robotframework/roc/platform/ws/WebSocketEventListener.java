@@ -12,11 +12,11 @@ public class WebSocketEventListener {
 
     @EventListener
     public void handleWebSocketConnectListener(SessionConnectedEvent event) {
-        log.debug(event.toString());
+        log.info(event.toString());
     }
 
     @EventListener
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
-        log.debug(event.toString());
+        log.info(event.toString());
     }
 }

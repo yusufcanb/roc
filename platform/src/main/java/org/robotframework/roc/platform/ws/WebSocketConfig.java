@@ -23,7 +23,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Value("${roc.platform.mq.password}")
     private String relayPwd;
 
-
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws").setAllowedOriginPatterns("*:*").withSockJS();
@@ -31,14 +30,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        //registry.setApplicationDestinationPrefixes("/app");
         registry.enableStompBrokerRelay("/queue")
                 .setRelayHost(relayHost)
                 .setRelayPort(relayPort)
-                .setSystemLogin(relayUser)
-                .setSystemPasscode(relayPwd)
                 .setClientLogin(relayUser)
-                .setClientPasscode(relayPwd);
+                .setClientPasscode(relayPwd)
+                .setSystemLogin(relayUser)
+                .setSystemPasscode(relayPwd);
     }
 
 }
