@@ -4,7 +4,6 @@ services:
     image: mysql:8
     hostname: roc-mysql
     container_name: roc-mysql
-    restart: always
     ports:
       - "3306:3306"
     environment:
@@ -12,7 +11,6 @@ services:
       - MYSQL_DATABASE=roc_dev_db
   redis:
     image: 'redis:alpine'
-    restart: always
     hostname: roc-redis
     container_name: roc-redis
     ports:
@@ -22,7 +20,6 @@ services:
     build:
       context: .
       dockerfile: ./platform/src/main/resources/docker/rabbitmq/Dockerfile
-    restart: always
     container_name: roc-rabbitmq
     hostname: roc-rabbitmq
     environment:
@@ -36,9 +33,9 @@ services:
       - "61613:61613"
   roc-platform:
     image: roc-platform:latest
-    restart: always
     container_name: roc-platform
     hostname: roc-platform
+    restart: on-failure
     volumes:
       - "/Users/yusuf/Desktop/roc:/home/git/roc"
     ports:
@@ -48,3 +45,12 @@ services:
       - redis
       - rabbitmq
       - mysql
+    environment:
+      DATASOURCE_HOST: roc-mysql
+      DATASOURCE_PORT: 3306
+      DATASOURCE_DB: roc_dev_db
+      DATASOURCE_USERNAME: root
+      DATASOURCE_PASSWORD: my-secret-pw
+      STOMP_HOST: roc-rabbitmq
+      STOMP_PORT: 61613
+      ROC_GIT_REPOSITORY_DIR: /home/git/roc
