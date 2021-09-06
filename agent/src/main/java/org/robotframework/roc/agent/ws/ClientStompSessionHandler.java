@@ -1,12 +1,19 @@
 package org.robotframework.roc.agent.ws;
 
 import lombok.extern.slf4j.Slf4j;
+import org.robotframework.roc.agent.EventQueue;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
+import org.springframework.stereotype.Component;
 
 @Slf4j
+@Component
 public class ClientStompSessionHandler extends StompSessionHandlerAdapter {
+
+    @Autowired
+    EventQueue queue;
 
     @Override
     public void afterConnected(StompSession session, StompHeaders headers) {
@@ -17,5 +24,10 @@ public class ClientStompSessionHandler extends StompSessionHandlerAdapter {
     @Override
     public void handleFrame(StompHeaders headers, Object payload) {
         log.info("Received frame: payload {}, headers {}", payload, headers);
+        queue.getQueue().add(payload);
     }
+
 }
+
+
+

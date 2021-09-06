@@ -15,14 +15,33 @@
 
 package org.robotframework.roc.agent;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 
 @SpringBootApplication
+@Slf4j
 public class AgentApplication {
+
+    @Autowired
+    private EventQueue queue;
 
     public static void main(String[] args) {
         SpringApplication.run(AgentApplication.class);
+    }
+
+    @Bean
+    public CommandLineRunner initAgent() {
+        return (args) -> {
+            while (true) {
+                if (!queue.getQueue().isEmpty()) {
+                    Object payload = queue.getQueue().poll();
+                }
+            }
+        };
     }
 }
