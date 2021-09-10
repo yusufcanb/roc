@@ -1,7 +1,7 @@
 import React, {FunctionComponent, PropsWithChildren, useState} from "react";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import {Grid, TextField} from "@material-ui/core";
-import {slugify} from "../../core/utils";
+import {slugify} from "../../core/utils/string";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

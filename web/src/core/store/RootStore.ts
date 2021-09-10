@@ -14,9 +14,7 @@ export class RootStore {
     title: string = "";
     onBoarding: boolean = true;
     routes: Array<Route> = routes;
-
-    windowLocation = ["ROC", "Home"];
-    breadcrumb: Array<string> = ["ROC", "Welcome"];
+    breadcrumb: Array<any> = ["ROC", "Welcome"];
     snackBarContent: any = null;
 
     projectStore: ProjectStore;
@@ -34,10 +32,6 @@ export class RootStore {
         this.factoryStore = new FactoryStore(this);
         this.robotStore = new RobotStore(this);
         this.environmentStore = new EnvironmentStore(this);
-    }
-
-    setWindowLocation(loc: Array<string>) {
-        this.windowLocation = loc;
     }
 
     setTitle(value: string) {
