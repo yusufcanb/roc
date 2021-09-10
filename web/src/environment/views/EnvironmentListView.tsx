@@ -10,6 +10,8 @@ import {makeStyles, Theme} from "@material-ui/core/styles";
 import {observer} from "mobx-react-lite";
 import {Skeleton} from "@material-ui/lab";
 import EnvironmentList from "../components/EnvironmentList";
+import {Environment} from "../models";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) => ({
     listItem: {
@@ -33,12 +35,21 @@ const useStyles = makeStyles((theme: Theme) => ({
 const Factory: FunctionComponent = () => {
     const classes = useStyles();
     const {environmentStore} = useStore();
+    const history = useHistory();
 
     useEffect(() => {
         environmentStore.fetchEnvironments();
     }, [environmentStore]);
 
     const handleCreate = () => null;
+
+    const handleUpdate = (environment: Environment) => {
+        environmentStore.saveEnvironment(environment);
+    }
+
+    const handleDelete = (environment: Environment) => {
+        environmentStore.deleteEnvironment(environment.id);
+    }
 
     const renderLoadingState = () => {
         return (
@@ -67,7 +78,8 @@ const Factory: FunctionComponent = () => {
     }
 
     const renderContent = () => {
-        return <EnvironmentList environments={environmentStore.environments}/>
+        return <EnvironmentList onUpdate={handleUpdate} onDelete={handleDelete}
+                                environments={environmentStore.environments}/>
     }
 
     if (environmentStore.environments.length === 0 && !environmentStore.isLoading) {
@@ -75,7 +87,9 @@ const Factory: FunctionComponent = () => {
     }
 
     return (
-        <PageContent  right={<Button variant={"contained"} color={"secondary"}>Create Environment</Button>}>
+        <PageContent
+            right={<Button onClick={() => history.push("/environments/new")} variant={"contained"} color={"secondary"}>Create
+                Environment</Button>}>
             {
                 environmentStore.isLoading && !environmentStore.isErrored
                     ? renderLoadingState()

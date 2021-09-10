@@ -4,7 +4,7 @@ import {DomainConverter, Nullable} from "core/models";
 import {RootStore} from "core/store/RootStore";
 
 import * as services from "../services";
-import {Environment} from "../models";
+import {Environment, EnvironmentDto} from "../models";
 
 export class EnvironmentStore {
     private root: RootStore;
@@ -40,6 +40,35 @@ export class EnvironmentStore {
                     this.isLoading = false;
                 })
             )
-
     }
+
+
+    getEnvironmentById(environmentId: string) {
+        return this.environments.find(e => e.id == parseInt(environmentId));
+    }
+
+    saveEnvironment(environment: Environment | EnvironmentDto) {
+        return services.environment.createEnvironment(environment);
+    }
+
+    createEnvironment(environment: Environment) {
+        return services.environment.createEnvironment(DomainConverter.toDto(environment));
+    }
+
+    updateEnvironment(id: string | number, environment: Environment) {
+    }
+
+    deleteEnvironment(id: string | number) {
+        services.environment.deleteEnvironmentById(id)
+            .then(
+                action("deleteSuccess", response => {
+                    if (response.status < 400) {
+                        this.environments.splice(this.environments.findIndex(e => e.id === id), 1);
+                    }
+                }),
+                action("deleteFailed", response => {
+                }),
+            );
+    }
+
 }

@@ -1,4 +1,4 @@
-import {VariableDto} from "./Variable";
+import {Variable, VariableDto} from "./Variable";
 
 export interface EnvironmentDto {
     id: string | number;
@@ -10,7 +10,12 @@ export interface EnvironmentDto {
 
 export class Environment {
     //@ts-ignore
-    private _object: EnvironmentDto;
+    private _object: EnvironmentDto = {};
+
+    constructor(name: string, variables: Array<Variable | VariableDto> = []) {
+        this._object.name = name;
+        this._object.variables = [];
+    }
 
     get id() {
         return this._object.id;
@@ -21,6 +26,6 @@ export class Environment {
     }
 
     get variables() {
-        return this._object.name;
+        return this._object.variables;
     }
 }

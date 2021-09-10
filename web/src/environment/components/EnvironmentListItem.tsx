@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import {Delete, Edit} from "@material-ui/icons";
 import {Environment} from "../models";
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -28,14 +29,17 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface EnvironmentListItemProps {
+    onUpdate: (environment: Environment) => any;
+    onDelete: (environment: Environment) => any;
     env: Environment;
 }
 
 const EnvironmentListItem: FunctionComponent<EnvironmentListItemProps> = (props: PropsWithChildren<EnvironmentListItemProps>) => {
     const classes = useStyles();
+    const {onDelete, onUpdate} = props;
     const {env} = props;
 
-    return <ListItem className={classes.listItem}>
+    return <ListItem className={classes.listItem} component={Link} to={"/environments/" + env.id}>
         <ListItemAvatar>
             <Avatar>
                 <Icon className={"fas fa-cubes"} color={"primary"}/>
@@ -46,10 +50,10 @@ const EnvironmentListItem: FunctionComponent<EnvironmentListItemProps> = (props:
             secondary={env.variables.length + " Variables"}
         />
         <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="delete">
+            <IconButton edge="end" aria-label="delete" onClick={() => onUpdate(env)}>
                 <Edit/>
             </IconButton>
-            <IconButton edge="end" aria-label="delete">
+            <IconButton edge="end" aria-label="delete" onClick={() => onDelete(env)}>
                 <Delete/>
             </IconButton>
         </ListItemSecondaryAction>

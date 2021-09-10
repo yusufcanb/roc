@@ -1,10 +1,12 @@
 import React, {FunctionComponent, PropsWithChildren} from "react";
-import {List} from "@material-ui/core";
+import {Box, List} from "@material-ui/core";
 import {Environment} from "../models";
 import EnvironmentListItem from "./EnvironmentListItem";
 
 
 interface EnvironmentListProps {
+    onUpdate: (environment: Environment) => any;
+    onDelete: (environment: Environment) => any;
     environments: Array<Environment>;
 }
 
@@ -13,8 +15,14 @@ const EnvironmentList: FunctionComponent<EnvironmentListProps> = (props: PropsWi
 
     return (
         <List title={"Environments"}>
-            {environments.map(env => <EnvironmentListItem key={env.id} env={env}/>)}
-        </List>)
+            {environments.map(env =>
+                <Box key={env.id}>
+                    <EnvironmentListItem onUpdate={() => props.onUpdate(env)}
+                                         onDelete={() => props.onDelete(env)}
+                                         env={env}/>
+                </Box>
+            )}
+        </List>);
 }
 
 export default EnvironmentList;

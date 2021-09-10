@@ -6,5 +6,6 @@ export interface VariableDto {
 }
 
 export class Variable {
-
+    constructor(key: string, value: string, description?: string) {
+    }
 }
