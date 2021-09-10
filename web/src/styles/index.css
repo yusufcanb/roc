@@ -1,5 +1,25 @@
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
 
+@font-face {
+    font-family: 'OCRA';
+    src: url('./assets/fonts/ocra/ocra-regular.ttf');
+    src: url('./assets/fonts/ocra/ocra-regular.ttf') format('embedded-opentype'), url('./assets/fonts/ocra/ocra-regular.ttf') format("woff2");
+}
+
+@font-face {
+    font-family: 'OCRA Alternate';
+    src: url('./assets/fonts/ocra/OCRA-Alternate.otf');
+    src: url('./assets/fonts/ocra/OCRA-Alternate.otf') format('embedded-opentype'), url('./assets/fonts/ocra/OCRA-Alternate.otf') format("woff2");
+}
+
+
+@font-face {
+    font-family: 'OCRA Medium';
+    src: url('./assets/fonts/ocra/ocra-medium.ttf');
+    src: url('./assets/fonts/ocra/ocra-medium.ttf') format('embedded-opentype'), url('./assets/fonts/ocra/ocra-medium.ttf') format("woff2");
+}
+
+
 html, body {
     height: 100%;
     width: 100%;
@@ -11,7 +31,6 @@ html, body {
 }
 
 #root {
-    font-family: 'OCRA';
     background: #f5f5f5;
 }
 

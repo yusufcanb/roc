@@ -10,8 +10,9 @@ import {FactorySelect} from "../../factory/components";
 import {EnvironmentSelect} from "../../environment/components";
 import {observer} from "mobx-react-lite";
 import {useStore} from "core/store";
+import {Theme} from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
     root: {
         flexGrow: 1
     },
@@ -56,9 +57,9 @@ const Header: FunctionComponent = (props) => {
                 <Button className={classes.button} variant={"text"} color={"inherit"} component={Link}
                         to={"/task-force"}>Task Force</Button>
                 <Button className={classes.button} variant={"text"} color={"inherit"} component={Link}
-                        to={"/robot"}>Robots</Button>
+                        to={"/robot"}>Repository</Button>
                 <Button className={classes.button} variant={"text"} color={"inherit"} component={Link}
-                        to={"/factory"}>Factories</Button>
+                        to={"/factory"}>Agents</Button>
                 <Box className={classes.span}/>
                 <FactorySelect/>
                 <EnvironmentSelect/>

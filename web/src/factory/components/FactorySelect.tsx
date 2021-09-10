@@ -48,7 +48,7 @@ const FactorySelect: FunctionComponent = (props) => {
                 onClick={handleClick}
                 endIcon={<ArrowDropDown className={classes.icon}/>}
             >
-                {factoryStore.selectedFactory ? factoryStore.selectedFactory.displayName : "Select Factory"}
+                {factoryStore.selectedFactory ? factoryStore.selectedFactory.displayName : "Select Agent"}
             </Button>
             <Menu
                 id="simple-menu"

@@ -24,8 +24,8 @@ const theme = createMuiTheme({
         },
     },
     typography: {
-        fontSize: 12,
-        fontFamily: "OCRA"
+        fontSize: 13,
+        fontFamily: "OCRA Alternate"
     }
 });
 
