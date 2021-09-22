@@ -23,20 +23,20 @@ interface PageContentProps {
 
 const PageContent: FunctionComponent<PageContentProps> = (props: PropsWithChildren<PageContentProps>) => {
     const classes = useStyles();
-    const store = useStore();
+    const {uiStore} = useStore();
 
     const location = useLocation();
 
     React.useEffect(() => {
-        store.setBreadcrumbState(location.pathname);
-    }, [store, location]);
+        uiStore.setBreadcrumbState(location.pathname);
+    }, [uiStore, location.pathname]);
 
     return (
         <Container maxWidth="xl">
             <Box paddingX={2} paddingY={3} className={classes.breadcrumb}>
                 <Grid container justify={"space-around"}>
                     <Grid item xs={9}>
-                        <Breadcrumb state={store.breadcrumb}/>
+                        <Breadcrumb state={uiStore.breadcrumb}/>
                     </Grid>
                     <Grid className={classes.right} item xs={3}>
                         {props.right}
@@ -47,13 +47,13 @@ const PageContent: FunctionComponent<PageContentProps> = (props: PropsWithChildr
                 {props.children}
             </Box>
             {
-                store.snackBarContent
+                uiStore.snackBarContent
                     ? (<Snackbar
                         open={true}
                         onClose={() => null}
-                        key={store.snackBarContent?.text}>
+                        key={uiStore.snackBarContent?.text}>
                         <Alert onClose={() => null}>
-                            {store.snackBarContent?.text}
+                            {uiStore.snackBarContent?.text}
                         </Alert>
                     </Snackbar>) : null
             }

@@ -58,8 +58,6 @@ const Header: FunctionComponent = (props) => {
                         to={"/task-force"}>Task Force</Button>
                 <Button className={classes.button} variant={"text"} color={"inherit"} component={Link}
                         to={"/robot"}>Repository</Button>
-                <Button className={classes.button} variant={"text"} color={"inherit"} component={Link}
-                        to={"/factory"}>Agents</Button>
                 <Box className={classes.span}/>
                 <FactorySelect/>
                 <EnvironmentSelect/>

@@ -5,7 +5,7 @@ import {Button} from "@material-ui/core";
 import ProjectList from "../components/ProjectList";
 import {useHistory} from "react-router-dom";
 import {Add} from "@material-ui/icons";
-
+import {observer} from "mobx-react-lite";
 
 const ProjectListView: FunctionComponent = () => {
     const {projectStore} = useStore();
@@ -21,4 +21,4 @@ const ProjectListView: FunctionComponent = () => {
     );
 }
 
-export default ProjectListView;
+export default observer(ProjectListView);

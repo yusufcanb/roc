@@ -10,18 +10,21 @@ import {useStore} from "./core/store";
 import routes from "./routes";
 
 const App: FunctionComponent = () => {
-    const {environmentStore, projectStore, factoryStore, taskForceStore} = useStore();
-    const store = useStore();
+    const {environmentStore, projectStore, factoryStore, taskForceStore, uiStore} = useStore();
 
     useEffect(() => {
         environmentStore.fetchEnvironments();
         projectStore.fetchProjects();
         factoryStore.fetchFactories();
         taskForceStore.fetchTaskForces();
-    }, [taskForceStore, environmentStore, projectStore, factoryStore]);
+
+        setTimeout(() => {
+            uiStore.setOnBoarding(false);
+        }, 3000)
+
+    }, [uiStore, taskForceStore, environmentStore, projectStore, factoryStore]);
 
     const renderOnBoarding = () => {
-        store.setOnBoarding(false);
         return <OnBoardingLayout/>
     }
 
@@ -47,9 +50,7 @@ const App: FunctionComponent = () => {
         </Router>
     )
 
-    const isLoading = taskForceStore.isLoading || environmentStore.isLoading || projectStore.isLoading || factoryStore.isLoading;
-    return isLoading && store.onBoarding ? renderOnBoarding() : renderApp()
-
+    return uiStore.onBoarding ? renderOnBoarding() : renderApp()
 }
 
 export default observer(App);

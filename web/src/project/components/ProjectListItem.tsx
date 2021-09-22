@@ -31,7 +31,7 @@ const ProjectListItem: FunctionComponent<ProjectListItemProps> = (props: PropsWi
 
     return <ListItem className={classes.listItem}>
         <ListItemAvatar>
-            <Avatar>
+            <Avatar variant={"rounded"}>
                 <CodeIcon fontSize={"large"} color={"primary"}/>
             </Avatar>
         </ListItemAvatar>

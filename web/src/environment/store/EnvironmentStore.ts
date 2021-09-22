@@ -28,7 +28,7 @@ export class EnvironmentStore {
         this.environments = []
         this.isLoading = true;
         this.isErrored = false;
-        services.environment.fetchEnvironments()
+        services.environment.fetchEnvironments(this.root.projectStore.selectedProject?.id)
             .then(
                 action("fetchSuccess", response => {
                     this.environments = DomainConverter.fromDtoArray<Environment>(Environment, response.data);
@@ -42,17 +42,18 @@ export class EnvironmentStore {
             )
     }
 
-
     getEnvironmentById(environmentId: string) {
-        return this.environments.find(e => e.id == parseInt(environmentId));
+        return this.environments.find(e => e.id === parseInt(environmentId));
     }
 
     saveEnvironment(environment: Environment | EnvironmentDto) {
-        return services.environment.createEnvironment(environment);
+        const {selectedProject} = this.root.projectStore;
+        return services.environment.createEnvironment(selectedProject?.id as string, environment);
     }
 
     createEnvironment(environment: Environment) {
-        return services.environment.createEnvironment(DomainConverter.toDto(environment));
+        const {selectedProject} = this.root.projectStore;
+        return services.environment.createEnvironment(selectedProject?.id as string, DomainConverter.toDto(environment));
     }
 
     updateEnvironment(id: string | number, environment: Environment) {

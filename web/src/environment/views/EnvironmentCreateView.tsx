@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const EnvironmentCreateView = () => {
     const classes = useStyles();
-    const {environmentStore} = useStore();
+    const {environmentStore, uiStore} = useStore();
 
     const [form, setForm] = useState<Partial<Environment>>();
     const history = useHistory();
@@ -24,7 +24,7 @@ const EnvironmentCreateView = () => {
     const handleCreate = () => {
         history.push("/environments");
         environmentStore.createEnvironment(form as Environment);
-        // openSnackBar("Environment created successfully", "success");
+        uiStore.openSnackBar("Environment created successfully", "success");
     }
 
     const handleFormUpdate = (obj: Partial<Environment>) => {

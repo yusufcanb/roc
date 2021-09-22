@@ -2,6 +2,7 @@ import React, {FunctionComponent, PropsWithChildren} from "react";
 import {List} from "@material-ui/core";
 import {Project, ProjectModel} from "../models/Project";
 import ProjectListItem from "./ProjectListItem";
+import {observer} from "mobx-react-lite";
 
 
 interface ProjectListProps {
@@ -17,4 +18,4 @@ const ProjectList: FunctionComponent<ProjectListProps> = (props: PropsWithChildr
         </List>)
 }
 
-export default ProjectList;
+export default observer(ProjectList);

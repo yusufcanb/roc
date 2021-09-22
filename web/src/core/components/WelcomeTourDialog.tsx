@@ -57,7 +57,7 @@ export default function WelcomeTourDialog() {
 
     return (
         <div>
-            <Button onClick={handleClickOpen} variant={"outlined"} color={"primary"} endIcon={<ArrowRight/>}>Start
+            <Button onClick={handleClickOpen} variant={"contained"} color={"secondary"} endIcon={<ArrowRight/>}>Start
                 Tour</Button>
             <Dialog fullWidth={true} onClose={handleClose}
                     aria-labelledby="customized-dialog-title" open={open}>

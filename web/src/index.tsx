@@ -17,14 +17,14 @@ const theme = createMuiTheme({
             contrastText: "#fff"
         },
         secondary: {
-            light: "#00C0B5",
-            main: "#00C0B5",
-            dark: "#00C0B5",
+            light: "#68C6A1",
+            main: "#4FBD91",
+            dark: "#35B381",
             contrastText: "#fff"
         },
     },
     typography: {
-        fontSize: 13,
+        fontSize: 11,
         fontFamily: "OCRA Alternate"
     }
 });

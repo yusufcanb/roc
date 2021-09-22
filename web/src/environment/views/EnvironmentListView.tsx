@@ -41,8 +41,6 @@ const Factory: FunctionComponent = () => {
         environmentStore.fetchEnvironments();
     }, [environmentStore]);
 
-    const handleCreate = () => null;
-
     const handleUpdate = (environment: Environment) => {
         environmentStore.saveEnvironment(environment);
     }
@@ -69,7 +67,7 @@ const Factory: FunctionComponent = () => {
                         "ceated from your photos and helps you to say organised"}
                         actionButton={<Button
                             variant={"outlined"}
-                            onClick={handleCreate}
+                            onClick={() => history.push("/environments/new")}
                             startIcon={<CreateIcon/>}>
                             Create New Factory
                         </Button>}

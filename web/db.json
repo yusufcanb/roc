@@ -442,31 +442,41 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Quick App",
+      "files": [],
+      "id": "CSH3Bgh"
     }
   ],
   "factory": [
     {
       "id": "1",
+      "projectId": "1",
       "displayName": "huawei-matepad",
       "os": "windows"
     },
     {
       "id": "2",
+      "projectId": "1",
       "displayName": "thinkpad-x250",
       "os": "windows"
     },
     {
       "id": "3",
+      "projectId": "1",
       "displayName": "macbook pro",
       "os": "macos"
     },
     {
       "id": "5",
+      "projectId": "CSH3Bgh",
       "displayName": "k8s-node-1",
       "os": "linux"
     },
     {
       "id": "7",
+      "projectId": "CSH3Bgh",
       "displayName": "rpi 4",
       "os": "rpi"
     }
@@ -475,6 +485,7 @@
   "task-forces": [
     {
       "id": "1",
+      "projectId": "1",
       "name": "Daily Health Check Operations",
       "robots": [
         "Hello_World.robot",
@@ -483,6 +494,7 @@
     },
     {
       "id": "2",
+      "projectId": "1",
       "name": "Check Operation Logs",
       "robots": [
         "Hello_World.robot"
@@ -491,32 +503,28 @@
   ],
   "environments": [
     {
-      "id": "1",
-      "name": "Dev",
-      "createdAt": "",
-      "updatedAt": "",
-      "variables": [
-        {
-          "key": "MYSQL_VERSION",
-          "value": "8.0.24",
-          "description": null,
-          "encrypted": false
-        }
-      ]
+      "name": "Development",
+      "projectId": "1",
+      "variables": [],
+      "id": 1
     },
     {
-      "id": "2",
       "name": "Production",
-      "createdAt": "",
-      "updatedAt": "",
-      "variables": [
-        {
-          "key": "MYSQL_VERSION",
-          "value": "8.0.24",
-          "description": null,
-          "encrypted": false
-        }
-      ]
+      "projectId": "1",
+      "variables": [],
+      "id": 2
+    },
+    {
+      "projectId": "CSH3Bgh",
+      "name": "IOS_ENV",
+      "variables": [],
+      "id": 3
+    },
+    {
+      "projectId": "CSH3Bgh",
+      "name": "ANDROID_ENV",
+      "variables": [],
+      "id": 4
     }
   ]
 }

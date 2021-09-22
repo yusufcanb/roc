@@ -13,17 +13,15 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-
 const ProjectCreateView = () => {
     const classes = useStyles();
 
-    const store = useStore();
+    const {projectStore} = useStore();
     const history = useHistory();
 
     const handleCreate = () => {
-        // store.projectStore.createProject({name: name, files: []});
+        projectStore.createProject({name: "Hello Project2", files: []})
         history.push("/projects");
-        store.openSnackBar("Project created successfully", "success");
     }
 
     return (

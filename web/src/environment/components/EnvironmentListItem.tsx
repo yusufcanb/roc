@@ -41,7 +41,7 @@ const EnvironmentListItem: FunctionComponent<EnvironmentListItemProps> = (props:
 
     return <ListItem className={classes.listItem} component={Link} to={"/environments/" + env.id}>
         <ListItemAvatar>
-            <Avatar>
+            <Avatar variant={"rounded"} color={"secondary"}>
                 <Icon className={"fas fa-cubes"} color={"primary"}/>
             </Avatar>
         </ListItemAvatar>

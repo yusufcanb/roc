@@ -23,7 +23,8 @@ export class TaskForceStore {
 
     fetchTaskForces() {
         this.isLoading = true;
-        services.fetchTaskForces()
+        const {selectedProject} = this.root.projectStore;
+        services.fetchTaskForces(selectedProject?.id as string)
             .then(
                 action("fetchSuccess", response => {
                     this.forces = DomainConverter.fromDtoArray<TaskForceModel>(TaskForceModel, response.data);

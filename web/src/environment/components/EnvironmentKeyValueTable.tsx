@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {DataGrid, GridColDef, GridDensityTypes, GridValueGetterParams} from '@material-ui/data-grid';
+import {DataGrid, GridColDef, GridDensityTypes} from '@material-ui/data-grid';
 
 const columns: GridColDef[] = [
     {field: 'id', headerName: 'ID', width: 125},
@@ -34,7 +34,6 @@ const rows = [
     {id: 6, key: 'DB_PORT', value: 'Jaime', description: 45},
     {id: 7, key: 'DB_PORT', value: 'Jaime', description: 45},
     {id: 8, key: 'DB_PORT', value: 'Jaime', description: 45},
-
 ];
 
 export default function EnvironmentKeyValueTable() {

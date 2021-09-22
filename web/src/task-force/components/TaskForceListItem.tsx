@@ -26,16 +26,17 @@ interface TaskForceListItemProps {
 
 const TaskForceListItem: FunctionComponent<TaskForceListItemProps> = (props: PropsWithChildren<TaskForceListItemProps>) => {
     const classes = useStyles();
+
     const {taskForce} = props;
-    const store = useStore();
+    const {uiStore} = useStore();
 
     const handleExecute = () => {
-        store.openSnackBar("Task executed", "success");
+        uiStore.openSnackBar("Task executed", "success");
     }
 
     return <ListItem className={classes.listItem}>
         <ListItemAvatar>
-            <Avatar color={"primary"}>
+            <Avatar variant={"rounded"} color={"primary"}>
                 <AccountTree color={"primary"}/>
             </Avatar>
         </ListItemAvatar>

@@ -4,11 +4,13 @@ import {makeStyles} from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
-import {ArrowDropDown} from "@material-ui/icons";
+import {ArrowDropDown, SettingsApplications as ManageFactoryIcon} from "@material-ui/icons";
 import {observer} from "mobx-react-lite";
 import {useStore} from "core/store";
 import OperatingSystemIcon from "./OperatingSystemIcon";
 import {FactoryModel} from "../models/Factory";
+import {Divider, ListItemIcon, Typography} from "@material-ui/core";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -26,6 +28,8 @@ const FactorySelect: FunctionComponent = (props) => {
     const {factoryStore} = useStore();
     const [anchorEl, setAnchorEl] = React.useState(null);
 
+    const history = useHistory();
+
     const handleClose = () => {
         setAnchorEl(null);
     };
@@ -37,6 +41,11 @@ const FactorySelect: FunctionComponent = (props) => {
     const handleSelect = (factory: FactoryModel) => {
         setAnchorEl(null);
         factoryStore.setSelectedFactory(factory.id);
+    }
+
+    const handleManage = () => {
+        handleClose()
+        history.push("/factory");
     }
 
     return (
@@ -64,6 +73,15 @@ const FactorySelect: FunctionComponent = (props) => {
                             os={factory.os}/>{factory.displayName}
                         </MenuItem>))
                 }
+                <Divider/>
+                <MenuItem onClick={handleManage}>
+                    <ListItemIcon>
+                        <ManageFactoryIcon/>
+                    </ListItemIcon>
+                    <Typography variant="inherit" noWrap>
+                        Manage Agents
+                    </Typography>
+                </MenuItem>
             </Menu>
         </React.Fragment>
     )

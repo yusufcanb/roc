@@ -7,6 +7,7 @@ import {ArrowDropDown, ArrowRight as ArrowRigthIcon, SettingsApplications as New
 import {makeStyles} from '@material-ui/core/styles';
 
 import {Project} from "../models/Project";
+import {useStore} from "../../core/store";
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -23,6 +24,7 @@ interface ProjectSelectProps {
 
 const ProjectSelect: FunctionComponent<ProjectSelectProps> = (props: PropsWithChildren<ProjectSelectProps>) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const {projectStore} = useStore();
     const classes = useStyles();
     const history = useHistory();
 
@@ -40,6 +42,11 @@ const ProjectSelect: FunctionComponent<ProjectSelectProps> = (props: PropsWithCh
         history.push("/projects");
     }
 
+    const handleSelect = (id: string | number) => {
+        projectStore.setSelectedProject(id);
+        handleClose();
+    }
+
     return (
         <React.Fragment>
             <Button
@@ -49,7 +56,11 @@ const ProjectSelect: FunctionComponent<ProjectSelectProps> = (props: PropsWithCh
                 className={classes.button}
                 endIcon={<ArrowDropDown className={classes.icon}/>}
             >
-                Default Project
+                {
+                    projectStore.selectedProject
+                        ? projectStore.selectedProject.name
+                        : "No Project Selected"
+                }
             </Button>
             <Menu
                 id="simple-menu"
@@ -60,7 +71,7 @@ const ProjectSelect: FunctionComponent<ProjectSelectProps> = (props: PropsWithCh
             >
                 {
                     props.projects.map(p => (
-                        <MenuItem key={p.id} onClick={handleClose}>
+                        <MenuItem key={p.id} onClick={() => handleSelect(p.id)}>
                             <ListItemIcon>
                                 <ArrowRigthIcon/>
                             </ListItemIcon>

@@ -29,8 +29,8 @@ const EnvironmentCreateForm: FunctionComponent<EnvironmentCreateFormProps> = (pr
     const classes = useStyles();
     const {onChange} = props;
 
-    const [name, setName] = useState<string>("");
-    const [variables, setVariables] = useState<Array<Variable>>([]);
+    const [, setName] = useState<string>("");
+    const [variables, ] = useState<Array<Variable>>([]);
     const variant: any = "filled";
 
     const handleNameChange = (name: string) => {

@@ -25,7 +25,7 @@ export class FactoryStore {
 
     fetchFactories() {
         this.isLoading = true;
-        services.factory.fetchFactories()
+        services.factory.fetchFactories(this.root.projectStore.selectedProject?.id)
             .then(
                 action("fetchSuccess", response => {
                     this.factories = DomainConverter.fromDtoArray<FactoryModel>(FactoryModel, response.data);
