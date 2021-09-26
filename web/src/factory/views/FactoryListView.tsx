@@ -10,6 +10,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {Skeleton} from "@material-ui/lab";
 import {observer} from "mobx-react-lite";
 import FactoryList from "../components/FactoryList";
+import {Add} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     listHeader: {
@@ -74,7 +75,8 @@ const FactoryListView: FunctionComponent = () => {
     }
 
     return (
-        <PageContent right={<Button variant={"contained"} color={"secondary"}>Create Factory</Button>}>
+        <PageContent
+            right={<Button startIcon={<Add/>} variant={"contained"} color={"secondary"}>Create Agent</Button>}>
             {
                 factoryStore.isLoading && !factoryStore.isErrored
                     ? renderLoadingState()

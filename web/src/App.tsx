@@ -13,10 +13,12 @@ const App: FunctionComponent = () => {
     const {environmentStore, projectStore, factoryStore, taskForceStore, uiStore} = useStore();
 
     useEffect(() => {
-        environmentStore.fetchEnvironments();
-        projectStore.fetchProjects();
-        factoryStore.fetchFactories();
-        taskForceStore.fetchTaskForces();
+        projectStore.fetchProjects()
+            .then(() => {
+                environmentStore.fetchEnvironments();
+                factoryStore.fetchFactories();
+                taskForceStore.fetchTaskForces();
+            })
 
         setTimeout(() => {
             uiStore.setOnBoarding(false);

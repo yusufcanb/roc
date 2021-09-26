@@ -1,4 +1,4 @@
-import React, {FunctionComponent, PropsWithChildren, useState} from "react";
+import React, {ChangeEvent, FunctionComponent, PropsWithChildren, useState} from "react";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField} from "@material-ui/core";
 import RobotTransferList from "./RobotTransferList";
@@ -67,7 +67,7 @@ const TaskForceCreate: FunctionComponent<TaskForceCreateProps> = (props: PropsWi
                        InputProps={{
                            className: classes.input,
                        }}
-                       onChange={(e) => setName(e.target.value as any)}
+                       onChange={(e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setName(e.target.value as any)}
                        variant={variant}
                        label="Task Force Name"
                        placeholder="e.g. Daily Routine Operations"
@@ -97,7 +97,8 @@ const TaskForceCreate: FunctionComponent<TaskForceCreateProps> = (props: PropsWi
                     />
                 </Grid>
                 <Grid item md={1}>
-                    <Button startIcon={<ImportExport />} className={classes.robotSelectButton} color={"primary"} variant={"outlined"}
+                    <Button startIcon={<ImportExport/>} className={classes.robotSelectButton} color={"primary"}
+                            variant={"outlined"}
                             onClick={handleClickOpen}>
                         Select
                     </Button>

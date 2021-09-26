@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import {ListSubheader} from "@material-ui/core";
 import {useStore} from "../../core/store";
+import {FileTree} from "../../project/models/Project";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -33,15 +34,15 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-function not(a: number[], b: number[]) {
-    return a.filter((value) => b.indexOf(value) === -1);
+function not(a: FileTree[], b: FileTree[]) {
+    return a.filter((value: FileTree) => b.findIndex((f) => value.id === f.id) === -1);
 }
 
-function intersection(a: number[], b: number[]) {
-    return a.filter((value) => b.indexOf(value) !== -1);
+function intersection(a: FileTree[], b: FileTree[]) {
+    return a.filter((value: FileTree) => b.findIndex((f) => value.id === f.id) !== -1);
 }
 
-function union(a: number[], b: number[]) {
+function union(a: FileTree[], b: FileTree[]) {
     return [...a, ...not(b, a)];
 }
 
@@ -50,15 +51,15 @@ const RobotTransferList: FunctionComponent = () => {
 
     const {robotStore} = useStore();
 
-    const [checked, setChecked] = React.useState<Array<any>>([]);
-    const [left, setLeft] = React.useState<Array<any>>(robotStore.robots);
-    const [right, setRight] = React.useState<Array<any>>([]);
+    const [checked, setChecked] = React.useState<Array<FileTree>>([]);
+    const [left, setLeft] = React.useState<Array<FileTree>>(robotStore.robots);
+    const [right, setRight] = React.useState<Array<FileTree>>([]);
 
     const leftChecked = intersection(checked, left);
     const rightChecked = intersection(checked, right);
 
-    const handleToggle = (value: number) => () => {
-        const currentIndex = checked.indexOf(value);
+    const handleToggle = (value: FileTree) => () => {
+        const currentIndex = checked.findIndex((f) => f.id === value.id);
         const newChecked = [...checked];
 
         if (currentIndex === -1) {
@@ -70,9 +71,9 @@ const RobotTransferList: FunctionComponent = () => {
         setChecked(newChecked);
     };
 
-    const numberOfChecked = (items: number[]) => intersection(checked, items).length;
+    const numberOfChecked = (items: FileTree[]) => intersection(checked, items).length;
 
-    const handleToggleAll = (items: number[]) => () => {
+    const handleToggleAll = (items: FileTree[]) => () => {
         if (numberOfChecked(items) === items.length) {
             setChecked(not(checked, items));
         } else {
@@ -92,7 +93,7 @@ const RobotTransferList: FunctionComponent = () => {
         setChecked(not(checked, rightChecked));
     };
 
-    const customList = (title: React.ReactNode, items: number[]) => (
+    const customList = (title: React.ReactNode, items: FileTree[]) => (
         <List className={classes.list} dense component="div" role="list">
             <ListSubheader>
                 <Checkbox
@@ -105,19 +106,19 @@ const RobotTransferList: FunctionComponent = () => {
                 {`${title} (${numberOfChecked(items)}/${items.length})`}
             </ListSubheader>
             <Divider/>
-            {items.map((value: number) => {
-                const labelId = `transfer-list-all-item-${value}-label`;
+            {items.map((value: FileTree) => {
+                const labelId = `transfer-list-all-item-${value.id}-label`;
                 return (
-                    <ListItem key={value} role="listitem" button onClick={handleToggle(value)}>
+                    <ListItem key={value.id} role="listitem" button onClick={handleToggle(value)}>
                         <ListItemIcon>
                             <Checkbox
-                                checked={checked.indexOf(value) !== -1}
+                                checked={checked.findIndex((c) => c.id === value.id) !== -1}
                                 tabIndex={-1}
                                 disableRipple
                                 inputProps={{'aria-labelledby': labelId}}
                             />
                         </ListItemIcon>
-                        <ListItemText id={labelId} primary={value}/>
+                        <ListItemText id={labelId} primary={value.name}/>
                     </ListItem>
                 );
             })}

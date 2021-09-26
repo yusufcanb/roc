@@ -4,6 +4,8 @@ import PageContent from "../../core/components/PageContent";
 import {Box, Button, Container, Typography} from "@material-ui/core";
 import {Save} from "@material-ui/icons";
 import TaskForceCreate from "../components/TaskForceCreate";
+import {useStore} from "../../core/store";
+import {TaskForceModel} from "../models/TaskForce";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -17,8 +19,11 @@ interface TaskForceCreateViewProps {
 
 const TaskForceCreateView: FunctionComponent<TaskForceCreateViewProps> = (props: PropsWithChildren<TaskForceCreateViewProps>) => {
     const classes = useStyles();
+    const {taskForceStore} = useStore();
 
     const handleCreate = () => {
+        const taskForce = new TaskForceModel();
+        taskForceStore.createTaskForce(taskForce);
     }
 
     return <PageContent right={<Button onClick={handleCreate} startIcon={<Save/>} variant={"contained"}

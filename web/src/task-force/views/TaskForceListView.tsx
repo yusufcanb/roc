@@ -1,7 +1,6 @@
 import React, {FunctionComponent, useEffect} from "react";
 import {observer} from "mobx-react-lite";
 import {Button} from "@material-ui/core";
-import CreateIcon from '@material-ui/icons/Add';
 
 import {EmptyState, PageContent} from "core/components";
 
@@ -15,7 +14,7 @@ import {Add} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     listHeader: {
         textAlign: "left"
     },
@@ -32,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const TaskForceListView: FunctionComponent = (props) => {
+const TaskForceListView: FunctionComponent = () => {
     const classes = useStyles();
     const {taskForceStore} = useStore();
     const history = useHistory();
@@ -54,14 +53,13 @@ const TaskForceListView: FunctionComponent = (props) => {
     const renderEmptyState = () => {
         return (
             <EmptyState icon={BusinessIcon}
-                        title={"No Task Force Exists!"}
-                        subTitle={"Your assistant shows you fun new things automatically\n" +
-                        "ceated from your photos and helps you to say organised"}
+                        title={"No Task Force"}
+                        subTitle={"Task forces are collection of robots with a name and additional execution arguments."}
                         actionButton={<Button
                             variant={"outlined"}
-                            onClick={() => null}
-                            startIcon={<CreateIcon/>}>
-                            Create New Factory
+                            onClick={() => history.push("/task-force/new")}
+                            startIcon={<Add/>}>
+                            New Task Force
                         </Button>}
             />
         )

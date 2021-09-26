@@ -2,7 +2,7 @@ import {action, makeAutoObservable} from "mobx";
 import {RootStore} from "core/store";
 import {DomainConverter} from "core/models";
 import {TaskForce, TaskForceModel} from "../models/TaskForce";
-import * as services from "..//services";
+import * as services from "../services";
 
 export class TaskForceStore {
     private root: RootStore;
@@ -31,8 +31,25 @@ export class TaskForceStore {
                     this.isLoading = false;
                     this.isErrored = false;
                 }),
-                action("fetchError", error => {
+                action("fetchError", () => {
                     this.forces = [];
+                    this.isErrored = true;
+                    this.isLoading = false;
+                })
+            )
+    }
+
+    createTaskForce(taskForce: TaskForce | TaskForceModel) {
+        const {selectedProject} = this.root.projectStore;
+        services.createTaskForce(taskForce, selectedProject?.id)
+            .then(
+                action("createSuccess", response => {
+                    this.forces.push(response.data);
+                    this.isLoading = false;
+                    this.isErrored = false;
+                    this.root.uiStore.openSnackBar("Task Force created successfully", "success");
+                }),
+                action("createFail", () => {
                     this.isErrored = true;
                     this.isLoading = false;
                 })

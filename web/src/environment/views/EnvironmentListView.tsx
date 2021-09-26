@@ -12,6 +12,7 @@ import {Skeleton} from "@material-ui/lab";
 import EnvironmentList from "../components/EnvironmentList";
 import {Environment} from "../models";
 import {useHistory} from "react-router-dom";
+import {Add} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) => ({
     listItem: {
@@ -86,7 +87,7 @@ const Factory: FunctionComponent = () => {
 
     return (
         <PageContent
-            right={<Button onClick={() => history.push("/environments/new")} variant={"contained"} color={"secondary"}>Create
+            right={<Button startIcon={<Add />} onClick={() => history.push("/environments/new")} variant={"contained"} color={"secondary"}>Create
                 Environment</Button>}>
             {
                 environmentStore.isLoading && !environmentStore.isErrored

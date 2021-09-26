@@ -25,7 +25,7 @@ export class ProjectStore {
         this.projects = []
         this.isLoading = true;
         this.isErrored = false;
-        projectApi.fetchProjects()
+        return projectApi.fetchProjects()
             .then(
                 action("fetchSuccess", response => {
                     this.projects = DomainConverter.fromDtoArray<ProjectModel>(ProjectModel, response.data);
@@ -33,6 +33,7 @@ export class ProjectStore {
                     this.isErrored = false;
                     if (this.selectedProject === null) {
                         this.selectedProject = this.projects[0];
+                        this.root.robotStore.setRobots(this.selectedProject.files);
                     }
                 }),
                 action("fetchError", error => {
@@ -51,7 +52,7 @@ export class ProjectStore {
                     this.isErrored = false;
                     this.root.uiStore.openSnackBar("Project created successfully", "success");
                 }),
-                action("createFail", error => {
+                action("createFail", () => {
                     this.isErrored = true;
                     this.isLoading = false;
                 })
@@ -72,6 +73,7 @@ export class ProjectStore {
         this.root.environmentStore.fetchEnvironments();
         this.root.factoryStore.fetchFactories();
         this.root.taskForceStore.fetchTaskForces();
+        this.root.robotStore.setRobots(this.selectedProject?.files ?? []);
         setTimeout(() => {
             this.root.uiStore.setOnBoarding(false);
         }, 5000)

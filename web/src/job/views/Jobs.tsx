@@ -10,6 +10,7 @@ import {EmptyState, PageContent} from "core/components";
 import {GeneralInfo, QuickStat} from "job/components";
 
 import {useStore} from "core/store";
+import {useHistory} from "react-router-dom";
 
 const STATS = [
     {text: "Running Jobs", content: "3"},
@@ -66,11 +67,14 @@ const useStyles = makeStyles((theme: Theme) =>
 const Jobs: FunctionComponent = () => {
     const classes = useStyles();
     const {jobStore} = useStore();
+    const history = useHistory();
 
     const actionButton = (
         <Button
             variant={"outlined"}
-            startIcon={<ArrowRightIcon/>}>
+            startIcon={<ArrowRightIcon/>}
+            onClick={() => history.push("/task-force")}
+        >
             Go to Task Force
         </Button>
     );
@@ -120,17 +124,17 @@ const Jobs: FunctionComponent = () => {
                         `}</style>
                         <List style={{width: "100%", padding: 0}}>
                             <ListItem button dense={true}>
-                                <LoopIcon className={classes.rotateIcon} />
+                                <LoopIcon className={classes.rotateIcon}/>
                                 <ListItemText primary='Health Check Operation'/>
                             </ListItem>
                             <Divider/>
                             <ListItem button dense={true}>
-                                <LoopIcon className={classes.rotateIcon}  />
+                                <LoopIcon className={classes.rotateIcon}/>
                                 <ListItemText primary='Collect Email Reports'/>
                             </ListItem>
                             <Divider/>
                             <ListItem button dense={true}>
-                                <LoopIcon className={classes.rotateIcon} />
+                                <LoopIcon className={classes.rotateIcon}/>
                                 <ListItemText primary='Crawl Product Prices'/>
                             </ListItem>
                             <Divider/>
