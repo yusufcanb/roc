@@ -35,10 +35,10 @@ const PageContent: FunctionComponent<PageContentProps> = (props: PropsWithChildr
         <Container maxWidth="xl">
             <Box paddingX={2} paddingY={3} className={classes.breadcrumb}>
                 <Grid container justify={"space-around"}>
-                    <Grid item xs={9}>
+                    <Grid item xs={8}>
                         <Breadcrumb state={uiStore.breadcrumb}/>
                     </Grid>
-                    <Grid className={classes.right} item xs={3}>
+                    <Grid className={classes.right} item xs={4}>
                         {props.right}
                     </Grid>
                 </Grid>

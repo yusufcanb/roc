@@ -3,6 +3,7 @@ import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField} from "@material-ui/core";
 import RobotTransferList from "./RobotTransferList";
 import {ImportExport} from "@material-ui/icons";
+import {TaskForce} from "../models/TaskForce";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -34,18 +35,22 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface TaskForceCreateProps {
-
+    onChange: (obj: Partial<TaskForce>) => any;
 }
 
 const TaskForceCreate: FunctionComponent<TaskForceCreateProps> = (props: PropsWithChildren<TaskForceCreateProps>) => {
     const variant: any = "filled";
     const classes = useStyles();
 
-    const [, setName] = useState<string>("");
+    const [name, setName] = useState<string>("");
     const [open, setOpen] = React.useState(false);
 
-    // const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    // };
+    const handleChange = (obj: Partial<TaskForce>) => {
+        props.onChange({
+            name: name,
+            robots: []
+        })
+    };
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -54,6 +59,14 @@ const TaskForceCreate: FunctionComponent<TaskForceCreateProps> = (props: PropsWi
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleNameChanged = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        setName(e.target.value);
+        handleChange({
+            name: name,
+            robots: []
+        })
+    }
 
     return <Grid
         container
@@ -67,7 +80,7 @@ const TaskForceCreate: FunctionComponent<TaskForceCreateProps> = (props: PropsWi
                        InputProps={{
                            className: classes.input,
                        }}
-                       onChange={(e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setName(e.target.value as any)}
+                       onChange={handleNameChanged}
                        variant={variant}
                        label="Task Force Name"
                        placeholder="e.g. Daily Routine Operations"
@@ -79,7 +92,7 @@ const TaskForceCreate: FunctionComponent<TaskForceCreateProps> = (props: PropsWi
                        InputProps={{
                            className: classes.input,
                        }}
-                       onChange={(e) => setName(e.target.value as any)}
+                       onChange={(e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setName(e.target.value as any)}
                        variant={variant}
                        label="CLI Args (Optional)"
                        placeholder={"--rpa --exit-on-fail"}

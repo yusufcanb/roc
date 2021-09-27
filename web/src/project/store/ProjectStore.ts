@@ -76,7 +76,7 @@ export class ProjectStore {
         this.root.robotStore.setRobots(this.selectedProject?.files ?? []);
         setTimeout(() => {
             this.root.uiStore.setOnBoarding(false);
-        }, 5000)
+        }, 3500)
     }
 
     getProjectById(id: string) {

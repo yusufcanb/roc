@@ -11,6 +11,7 @@ import {GeneralInfo, QuickStat} from "job/components";
 
 import {useStore} from "core/store";
 import {useHistory} from "react-router-dom";
+import JobDateFilters from "../components/JobDateFilters";
 
 const STATS = [
     {text: "Running Jobs", content: "3"},
@@ -157,7 +158,7 @@ const Jobs: FunctionComponent = () => {
     }
 
     return (
-        <PageContent>
+        <PageContent right={<JobDateFilters/>}>
             {jobStore.getIsEmpty() ? renderEmptyState() : renderPage()}
         </PageContent>
     )

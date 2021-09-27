@@ -25,6 +25,7 @@ interface ProjectSelectProps {
 const ProjectSelect: FunctionComponent<ProjectSelectProps> = (props: PropsWithChildren<ProjectSelectProps>) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const {projectStore} = useStore();
+
     const classes = useStyles();
     const history = useHistory();
 
