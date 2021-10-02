@@ -4,6 +4,7 @@ import {Avatar, IconButton, ListItem, ListItemAvatar, ListItemSecondaryAction, L
 
 import {AccountTree, PlayArrow, Restore, Schedule} from "@material-ui/icons";
 import {useStore} from "../../core/store";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -26,6 +27,7 @@ interface TaskForceListItemProps {
 
 const TaskForceListItem: FunctionComponent<TaskForceListItemProps> = (props: PropsWithChildren<TaskForceListItemProps>) => {
     const classes = useStyles();
+    const history = useHistory();
 
     const {taskForce} = props;
     const {uiStore} = useStore();
@@ -34,7 +36,7 @@ const TaskForceListItem: FunctionComponent<TaskForceListItemProps> = (props: Pro
         uiStore.openSnackBar("Task executed", "success");
     }
 
-    return <ListItem className={classes.listItem}>
+    return <ListItem className={classes.listItem} onClick={() => history.push("/task-force/" + taskForce.id)}>
         <ListItemAvatar>
             <Avatar variant={"rounded"} color={"primary"}>
                 <AccountTree color={"primary"}/>

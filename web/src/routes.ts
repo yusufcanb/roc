@@ -12,6 +12,7 @@ import ProjectCreateView from "./project/views/ProjectCreateView";
 import TaskForceCreateView from "./task-force/views/TaskForceCreateView";
 import EnvironmentDetailView from "./environment/views/EnvironmentDetailView";
 import EnvironmentCreateView from "./environment/views/EnvironmentCreateView";
+import TaskForceDetailView from "./task-force/views/TaskForceDetailView";
 
 const routes: Array<Route> = [
     {displayName: "Home", path: "/", component: Home, isExact: true},
@@ -25,6 +26,7 @@ const routes: Array<Route> = [
     {displayName: "Jobs Overview", path: "/job", component: Jobs},
     {displayName: "Task Force List", path: "/task-force", component: TaskForce, isExact: true},
     {displayName: "Task Force Create", path: "/task-force/new", component: TaskForceCreateView},
+    {displayName: "Task Force Detail", path: "/task-force/:taskForceId", component: TaskForceDetailView},
     {displayName: "Robot Repository", path: "/robot", component: Robot},
     {displayName: "Factory List", path: "/factory", component: Factory},
 ];
