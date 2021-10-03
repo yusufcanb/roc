@@ -13,8 +13,12 @@ import java.util.Collection;
 @Service
 public class FactoryServiceImpl implements FactoryService {
 
-    @Autowired
+    final
     FactoryRepository factoryRepository;
+
+    public FactoryServiceImpl(FactoryRepository factoryRepository) {
+        this.factoryRepository = factoryRepository;
+    }
 
     @Override
     public Long createFactory(Factory factory) {

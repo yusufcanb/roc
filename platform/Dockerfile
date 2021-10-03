@@ -12,10 +12,10 @@ RUN useradd -ms /usr/bin/git-shell git \
 
 RUN mkdir /app
 
-COPY src/main/resources/docker/roc-platform/motd /etc/motd
-COPY src/main/resources/docker/roc-platform/ssh_config /etc/ssh/ssh_config
-COPY src/main/resources/docker/roc-platform/start.sh /app/start.sh
-COPY target/platform-*-spring-boot.jar /app/platform.jar
+COPY platform/src/main/resources/docker/roc-platform/motd /etc/motd
+COPY platform/src/main/resources/docker/roc-platform/ssh_config /etc/ssh/ssh_config
+COPY platform/src/main/resources/docker/roc-platform/start.sh /app/start.sh
+COPY platform/target/platform-*-spring-boot.jar /app/platform.jar
 
 EXPOSE 8080 22
 

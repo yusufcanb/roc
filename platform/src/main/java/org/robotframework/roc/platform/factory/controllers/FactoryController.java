@@ -13,11 +13,16 @@ import java.util.Collection;
 @RestController
 public class FactoryController {
 
-    @Autowired
+    final
     FactoryService factoryService;
 
-    @Autowired
+    final
     ProjectService projectService;
+
+    public FactoryController(FactoryService factoryService, ProjectService projectService) {
+        this.factoryService = factoryService;
+        this.projectService = projectService;
+    }
 
     @RequestMapping(value = "/factory", method = RequestMethod.GET, params = {"projectId"})
     public ResponseEntity<Collection<Factory>> getFactories(@RequestParam String projectId) {
