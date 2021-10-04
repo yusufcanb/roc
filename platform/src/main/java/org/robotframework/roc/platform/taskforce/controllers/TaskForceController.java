@@ -2,7 +2,6 @@ package org.robotframework.roc.platform.taskforce.controllers;
 
 import org.robotframework.roc.core.models.Job;
 import org.robotframework.roc.platform.taskforce.dto.ExecuteTaskForceDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -17,8 +16,11 @@ import java.util.List;
 @Controller
 public class TaskForceController {
 
-    @Autowired
-    private SimpMessagingTemplate messagingTemplate;
+    private final SimpMessagingTemplate messagingTemplate;
+
+    public TaskForceController(SimpMessagingTemplate messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
+    }
 
     @RequestMapping(value = "/task-force", method = RequestMethod.GET)
     public ResponseEntity<List<Object>> getTaskForces() {

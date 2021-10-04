@@ -3,7 +3,6 @@ package org.robotframework.roc.platform.factory.controllers;
 import org.robotframework.roc.core.models.Factory;
 import org.robotframework.roc.core.services.FactoryService;
 import org.robotframework.roc.core.services.ProjectService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

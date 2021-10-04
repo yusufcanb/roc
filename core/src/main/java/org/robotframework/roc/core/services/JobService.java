@@ -10,6 +10,9 @@ public interface JobService {
 
     Job getJobById(Long jobId);
 
-    void saveJob(Job job);
+    Job saveJob(Job job);
 
+    Job updateJob(Job job);
+
+    void deleteJob();
 }
