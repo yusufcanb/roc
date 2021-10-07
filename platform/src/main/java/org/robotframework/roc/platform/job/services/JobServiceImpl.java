@@ -3,7 +3,6 @@ package org.robotframework.roc.platform.job.services;
 import org.robotframework.roc.core.models.Job;
 import org.robotframework.roc.core.services.JobService;
 import org.robotframework.roc.platform.job.repository.JobRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +32,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public Job saveJob(Job job) {
-        String queueName = String.format("/queue/events.%s", job.getFactory().getId());
+        String queueName = String.format("/queue/events.%s", job.getAgent().getId());
         messagingTemplate.convertAndSend(queueName, "[]");
         return jobRepository.save(job);
     }

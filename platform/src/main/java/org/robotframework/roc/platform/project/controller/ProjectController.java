@@ -18,11 +18,16 @@ import java.util.Optional;
 @RestController
 public class ProjectController {
 
-    @Autowired
+    final
     ProjectService projectService;
 
-    @Autowired
+    final
     FileService fileService;
+
+    public ProjectController(ProjectService projectService, FileService fileService) {
+        this.projectService = projectService;
+        this.fileService = fileService;
+    }
 
     @RequestMapping(value = "/projects", method = RequestMethod.GET)
     public ResponseEntity<List<Project>> getProjects() {

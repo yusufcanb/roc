@@ -1,10 +1,10 @@
 package org.robotframework.roc.platform.taskforce.controllers;
 
+import org.robotframework.roc.core.controllers.TaskForceController;
 import org.robotframework.roc.core.models.Job;
 import org.robotframework.roc.core.models.TaskForce;
 import org.robotframework.roc.core.services.JobService;
 import org.robotframework.roc.core.services.TaskForceService;
-import org.robotframework.roc.platform.taskforce.dto.ExecuteTaskForceDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,14 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class TaskForceController {
+public class SimpleTaskForceController implements TaskForceController {
 
     private final TaskForceService taskForceService;
 
     private final JobService jobService;
 
-    public TaskForceController(TaskForceService taskForceService, JobService jobService) {
-
+    public SimpleTaskForceController(TaskForceService taskForceService, JobService jobService) {
         this.taskForceService = taskForceService;
         this.jobService = jobService;
     }
@@ -35,18 +34,13 @@ public class TaskForceController {
     }
 
     @RequestMapping(value = "/task-force/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Object> getTaskForceById() {
-        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
+    public ResponseEntity<TaskForce> getTaskForceById(@PathVariable Long id) {
+        return new ResponseEntity<>(null, HttpStatus.NOT_IMPLEMENTED);
     }
 
     @RequestMapping(value = "/task-force/{id}/execute", method = RequestMethod.POST)
-    public ResponseEntity<Job> executeTaskForce(@PathVariable Long id, @RequestBody ExecuteTaskForceDTO body) {
-        TaskForce taskForce = taskForceService.getTaskForceById(id);
-
-        Job job = new Job();
-        job.setName("test-job-001");
-
-        return new ResponseEntity<>(job, HttpStatus.OK);
+    public ResponseEntity<Job> executeTaskForce(@PathVariable Long id, @RequestBody Object body) {
+        return new ResponseEntity<>(null, HttpStatus.NOT_IMPLEMENTED);
     }
 
 }
