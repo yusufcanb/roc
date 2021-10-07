@@ -26,7 +26,7 @@ public class Job {
     private Environment environment;
 
     @ManyToOne
-    private Factory factory;
+    private Agent agent;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;

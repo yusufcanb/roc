@@ -1,8 +1,6 @@
 package org.robotframework.roc.core.models;
 
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Setter;
 import org.robotframework.roc.core.beans.OS;
 
 import javax.persistence.Entity;
@@ -12,8 +10,8 @@ import java.security.SecureRandom;
 import java.util.Base64;
 
 @Data
-@Entity(name = "factories")
-public class Factory {
+@Entity(name = "agents")
+public class Agent {
 
     @Id
     @GeneratedValue
