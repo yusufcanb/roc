@@ -6,6 +6,7 @@ import org.robotframework.roc.platform.taskforce.repository.TaskForceRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskForceServiceImpl implements TaskForceService {
@@ -22,12 +23,12 @@ public class TaskForceServiceImpl implements TaskForceService {
     }
 
     @Override
-    public TaskForce getTaskForceById(Long taskForceId) {
-        return taskForceRepository.getOne(taskForceId);
+    public Optional<TaskForce> getTaskForceById(Long taskForceId) {
+        return taskForceRepository.findById(taskForceId);
     }
 
     @Override
-    public TaskForce updateTaskForce(TaskForce taskForce) {
+    public TaskForce updateTaskForce(Long id, TaskForce taskForce) {
         return taskForceRepository.save(taskForce);
     }
 

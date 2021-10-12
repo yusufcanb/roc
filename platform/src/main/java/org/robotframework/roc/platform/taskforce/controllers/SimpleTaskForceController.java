@@ -8,19 +8,16 @@ import org.robotframework.roc.core.services.TaskForceService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class SimpleTaskForceController implements TaskForceController {
 
     private final TaskForceService taskForceService;
-
     private final JobService jobService;
 
     public SimpleTaskForceController(TaskForceService taskForceService, JobService jobService) {
@@ -29,18 +26,55 @@ public class SimpleTaskForceController implements TaskForceController {
     }
 
     @RequestMapping(value = "/task-force", method = RequestMethod.GET)
+    @Override
     public ResponseEntity<List<Object>> getTaskForces() {
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/task-force/{id}", method = RequestMethod.GET)
+    @Override
     public ResponseEntity<TaskForce> getTaskForceById(@PathVariable Long id) {
-        return new ResponseEntity<>(null, HttpStatus.NOT_IMPLEMENTED);
+        Optional<TaskForce> taskForce = taskForceService.getTaskForceById(id);
+        if (taskForce.isPresent()) {
+            return new ResponseEntity<>(taskForce.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @RequestMapping(value = "/task-force/{id}", method = RequestMethod.PUT)
+    @Override
+    public ResponseEntity<TaskForce> updateTaskForceById(@PathVariable Long id, @RequestBody Object body) {
+        Optional<TaskForce> taskForce = taskForceService.getTaskForceById(id);
+        if (taskForce.isPresent()) {
+            taskForceService.updateTaskForce(id, (TaskForce) body);
+            return new ResponseEntity<>(taskForce.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @RequestMapping(value = "/task-force/{id}", method = RequestMethod.DELETE)
+    @Override
+    public ResponseEntity<Boolean> deleteTaskForceById(@PathVariable Long id, @RequestBody Object body) {
+        Optional<TaskForce> taskForce = taskForceService.getTaskForceById(id);
+        if (taskForce.isPresent()) {
+            taskForceService.deleteTaskForceById(id);
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     @RequestMapping(value = "/task-force/{id}/execute", method = RequestMethod.POST)
+    @Override
     public ResponseEntity<Job> executeTaskForce(@PathVariable Long id, @RequestBody Object body) {
-        return new ResponseEntity<>(null, HttpStatus.NOT_IMPLEMENTED);
+        Optional<TaskForce> taskForce = taskForceService.getTaskForceById(id);
+        if (taskForce.isPresent()) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_IMPLEMENTED);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
 }

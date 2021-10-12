@@ -8,39 +8,45 @@ import org.springframework.stereotype.Service;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class BasicAgentService implements AgentService {
 
     final
-    AgentRepository factoryRepository;
+    AgentRepository agentRepository;
 
-    public BasicAgentService(AgentRepository factoryRepository) {
-        this.factoryRepository = factoryRepository;
+    public BasicAgentService(AgentRepository agentRepository) {
+        this.agentRepository = agentRepository;
     }
 
     @Override
     public Long createAgent(Agent agent) {
         this.generateAccessTokens(agent);
-        return factoryRepository.save(agent).getId();
+        return agentRepository.save(agent).getId();
     }
 
     @Override
     public void updateAgent(Long id, Agent agent) {
-        if (factoryRepository.existsById(id)) {
+        if (agentRepository.existsById(id)) {
             agent.setId(id);
-            factoryRepository.save(agent);
+            agentRepository.save(agent);
         }
     }
 
     @Override
     public void deleteAgent(Long id) {
-        factoryRepository.deleteById(id);
+        agentRepository.deleteById(id);
     }
 
     @Override
     public Collection<Agent> getAllAgentsByProject(Long projectId) {
-        return factoryRepository.findAll();
+        return agentRepository.findAll();
+    }
+
+    @Override
+    public Optional<Agent> getAgentById(Long id) {
+        return Optional.of(agentRepository.getOne(id));
     }
 
     @Override
@@ -58,6 +64,6 @@ public class BasicAgentService implements AgentService {
 
     @Override
     public boolean isExists(Long id) {
-        return factoryRepository.existsById(id);
+        return agentRepository.existsById(id);
     }
 }
