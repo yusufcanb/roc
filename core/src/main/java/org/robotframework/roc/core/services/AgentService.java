@@ -3,6 +3,7 @@ package org.robotframework.roc.core.services;
 import org.robotframework.roc.core.models.Agent;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface AgentService extends CRUDService<Long> {
     Long createAgent(Agent agent);
@@ -13,5 +14,7 @@ public interface AgentService extends CRUDService<Long> {
 
     Collection<Agent> getAllAgentsByProject(Long projectId);
 
-    public void generateAccessTokens(Agent agent);
+    Optional<Agent> getAgentById(Long id);
+
+    void generateAccessTokens(Agent agent);
 }

@@ -3,14 +3,15 @@ package org.robotframework.roc.core.services;
 import org.robotframework.roc.core.models.TaskForce;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TaskForceService {
 
     List<TaskForce> getTaskForcesByProject(Long projectId);
 
-    TaskForce getTaskForceById(Long taskForceId);
+    Optional<TaskForce> getTaskForceById(Long taskForceId);
 
-    TaskForce updateTaskForce(TaskForce taskForce);
+    TaskForce updateTaskForce(Long id, TaskForce taskForce);
 
     TaskForce saveTaskForce(TaskForce taskForce);
 

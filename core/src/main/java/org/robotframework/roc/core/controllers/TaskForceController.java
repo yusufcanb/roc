@@ -15,4 +15,8 @@ public interface TaskForceController {
     ResponseEntity<TaskForce> getTaskForceById(@PathVariable Long id);
 
     ResponseEntity<Job> executeTaskForce(@PathVariable Long id, @RequestBody Object body);
+
+    ResponseEntity<TaskForce> updateTaskForceById(@PathVariable Long id, @RequestBody Object body);
+
+    ResponseEntity<Boolean> deleteTaskForceById(@PathVariable Long id, @RequestBody Object body);
 }
