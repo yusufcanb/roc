@@ -1,5 +1,4 @@
-FROM maven:3.5-jdk-8 as BUILD
-
+FROM maven:3.8-jdk-11 as BUILD
 WORKDIR /usr/src
 
 COPY agent /usr/src/agent/
@@ -9,7 +8,7 @@ COPY pom.xml /usr/src/pom.xml
 
 RUN mvn clean package
 
-FROM openjdk:8
+FROM openjdk:11
 
 VOLUME /home/git/roc
 
@@ -18,7 +17,7 @@ RUN apt-get install -y openssh-server git
 
 RUN useradd -ms /usr/bin/git-shell git \
     && mkdir -p /home/git/.ssh \
-    && touch -p /home/git/.ssh/authorized_keys \
+    && touch /home/git/.ssh/authorized_keys \
     && chmod 600 /home/git/.ssh/authorized_keys
 
 RUN mkdir /app

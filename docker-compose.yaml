@@ -32,7 +32,9 @@ services:
       - "15674:15674"
       - "61613:61613"
   roc-platform:
-    image: roc-platform:latest
+    build:
+      context: .
+      dockerfile: ./platform/Dockerfile
     container_name: roc-platform
     hostname: roc-platform
     restart: on-failure
