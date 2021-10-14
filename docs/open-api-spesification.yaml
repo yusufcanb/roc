@@ -1,25 +1,21 @@
 openapi: 3.0.0
-licence:
-  - name: Apache 2.0
-  - url: http://www.apache.org/licences/LICENSE-2.0.html
 info:
-  title: Open Robot Platform
-  version: 1.0.0
+  title: Robot Operation Platform
+  version: 0.1.0
   description: Self hosted, lightweight, JVM based software automation platform for every day IT operations.
 servers:
   - url: http://localhost:8000/
 tags:
   - name: project
     description: Endpoints related to Project schema
-  - name: factory
-    description: Endpoints related to Factory schema
+  - name: agent
+    description: Endpoints related to Agent schema
   - name: environments
     description: Endpoints related to Environment schema
   - name: task-force
     description: Endpoints related to TaskForce schema
   - name: job
     description: Endpoints related to Job schema
-
 paths:
   # ------------- Project ------------- #
   /project:
@@ -36,6 +32,20 @@ paths:
       summary: Create new project
       tags:
         - project
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Request body is invalid
   /project/{projectId}:
     get:
       operationId: getProjectById
@@ -54,6 +64,12 @@ paths:
       responses:
         '200':
           description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
     put:
       operationId: updateProject
       summary: Update Project
@@ -203,13 +219,13 @@ paths:
           description: Success
   # ------------- End Project ------------- #
 
-  # ------------- Factory ------------- #
-  /factory:
+  # ------------- Agent ------------- #
+  /agent:
     get:
-      operationId: getFactories
-      summary: List all factories
+      operationId: getAgents
+      summary: List all agents by project id
       tags:
-        - factory
+        - agent
       parameters:
         - in: query
           name: projectId
@@ -219,11 +235,18 @@ paths:
             type: string
             items:
               type: integer
+      responses:
+        '200':
+          description: project object to be returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
     post:
-      operationId: createFactory
-      summary: Create new factory
+      operationId: createAgent
+      summary: Create new agent
       tags:
-        - factory
+        - agent
       parameters:
         - in: query
           name: projectId
@@ -233,12 +256,24 @@ paths:
             type: string
             items:
               type: integer
-  /factory/{factoryId}:
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Agent'
+      responses:
+        '200':
+          description: a pet to be returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+  /agent/{agentId}:
     get:
-      operationId: getFactoryById
-      summary: Get factory by id
+      operationId: getAgentById
+      summary: Get agent by id
       tags:
-        - factory
+        - agent
       parameters:
         - in: query
           name: projectId
@@ -249,18 +284,18 @@ paths:
             items:
               type: integer
         - in: params
-          name: factoryId
-          description: Id of factory
+          name: agentId
+          description: Id of agent
           required: true
           schema:
             type: string
             items:
               type: integer
     put:
-      operationId: updateFactory
-      summary: Update factory
+      operationId: updateAgent
+      summary: Update agent
       tags:
-        - factory
+        - agent
       parameters:
         - in: query
           name: projectId
@@ -271,18 +306,18 @@ paths:
             items:
               type: integer
         - in: params
-          name: factoryId
-          description: Id of factory
+          name: agentId
+          description: Id of agent
           required: true
           schema:
             type: string
             items:
               type: integer
     delete:
-      operationId: deleteFactory
-      summary: Deletes factory
+      operationId: deleteAgent
+      summary: Deletes agent
       tags:
-        - factory
+        - agent
       parameters:
         - in: query
           name: projectId
@@ -293,23 +328,23 @@ paths:
             items:
               type: integer
         - in: params
-          name: factoryId
-          description: Id of factory
+          name: agentId
+          description: Id of agent
           required: true
           schema:
             type: string
             items:
               type: integer
-  /factory/{factoryId}/packages:
+  /agent/{agentId}/packages:
     get:
-      operationId: getFactoryPackages
-      summary: Get packages by factory
+      operationId: getAgentPackages
+      summary: Get packages by agent
       tags:
-        - factory
+        - agent
       parameters:
         - in: params
-          name: factoryId
-          description: Id of factory
+          name: agentId
+          description: Id of agent
           required: true
           schema:
             type: string
@@ -319,32 +354,32 @@ paths:
       operationId: installPackages
       summary: Install new package(s)
       tags:
-        - factory
+        - agent
       parameters:
         - in: params
-          name: factoryId
-          description: Id of factory
+          name: agentId
+          description: Id of agent
           required: true
           schema:
             type: string
             items:
               type: integer
-  /factory/{factoryId}/logs:
+  /agent/{agentId}/logs:
     get:
-      operationId: getFactoryLogs
-      summary: Get logs by factory
+      operationId: getAgentLogs
+      summary: Get logs by agent
       tags:
-        - factory
+        - agent
       parameters:
         - in: params
-          name: factoryId
-          description: Id of factory
+          name: agentId
+          description: Id of agent
           required: true
           schema:
             type: string
             items:
               type: integer
-  # ------------- End Factory ------------- #
+  # ------------- End Agent ------------- #
 
   # ------------- Task Force ------------- #
   /task-force:
@@ -561,7 +596,7 @@ paths:
       tags:
         - job
       parameters:
-        - in: params
+        - in: path
           name: jobId
           description: Id of Job
           required: true
@@ -569,6 +604,9 @@ paths:
             type: string
             items:
               type: integer
+      responses:
+        '200':
+          description: Successful operation
   # ------------- End Jobs ------------- #
 
   # ------------- Environments ------------- #
@@ -785,13 +823,13 @@ components:
         name:
           type: string
         git:
-          type: ProjectGit
+          type: string
         size:
-          type: long
+          type: number
         createdAt:
-          type: date
+          type: string
         updatedAt:
-          type: date
+          type: string
         isDefault:
           type: boolean
     Git:
@@ -805,7 +843,7 @@ components:
           type: string
         ssh:
           type: string
-    Factory:
+    Agent:
       type: object
       properties:
         id:
@@ -819,9 +857,15 @@ components:
         status:
           type: string
         logs:
-          type: Log[]
+          type: array
+        pythonVersion:
+          type: string
+        rfVersion:
+          type: string
         packages:
-          type: Package[]
+          type: array
+        isInitialized:
+          type: boolean
     Job:
       type: object
       properties:
@@ -839,11 +883,20 @@ components:
         name:
           type: string
         robots:
-          type: integer[]
-        flow:
-          type: Flow
+          type: array
+
+    TaskForceAction:
+      type: object
+      properties:
+        name:
+          type: string
+          enum: [ run, schedule ]
+        robots:
+          type: array
         args:
-          type: string[]
+          type: array
+        schedule_at:
+          type: string
     Environment:
       type: object
       properties:
