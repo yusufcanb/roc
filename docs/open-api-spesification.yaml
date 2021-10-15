@@ -10,7 +10,7 @@ tags:
     description: Endpoints related to Project schema
   - name: agent
     description: Endpoints related to Agent schema
-  - name: environments
+  - name: environment
     description: Endpoints related to Environment schema
   - name: task-force
     description: Endpoints related to TaskForce schema
@@ -57,7 +57,7 @@ paths:
       tags:
         - project
       parameters:
-        - in: params
+        - in: path
           name: projectId
           description: Id of project
           required: true
@@ -97,7 +97,7 @@ paths:
       tags:
         - project
       parameters:
-        - in: params
+        - in: path
           name: projectId
           description: Id of project
           required: true
@@ -115,7 +115,7 @@ paths:
       tags:
         - project
       parameters:
-        - in: params
+        - in: path
           name: projectId
           description: Id of project
           required: true
@@ -133,7 +133,7 @@ paths:
       tags:
         - project
       parameters:
-        - in: params
+        - in: path
           name: projectId
           description: id of project
           required: true
@@ -141,7 +141,7 @@ paths:
             type: string
             items:
               type: integer
-        - in: params
+        - in: path
           name: fileId
           description: id of file
           required: true
@@ -159,7 +159,7 @@ paths:
       tags:
         - project
       parameters:
-        - in: params
+        - in: path
           name: projectId
           description: id of project
           required: true
@@ -176,7 +176,7 @@ paths:
       tags:
         - project
       parameters:
-        - in: params
+        - in: path
           name: projectId
           description: id of project
           required: true
@@ -184,7 +184,7 @@ paths:
             type: string
             items:
               type: integer
-        - in: params
+        - in: path
           name: fileId
           description: id of file
           required: true
@@ -210,7 +210,7 @@ paths:
             type: string
             items:
               type: integer
-        - in: params
+        - in: path
           name: globalId
           description: id of file
           required: true
@@ -287,7 +287,7 @@ paths:
             type: string
             items:
               type: integer
-        - in: params
+        - in: path
           name: agentId
           description: Id of agent
           required: true
@@ -309,7 +309,7 @@ paths:
             type: string
             items:
               type: integer
-        - in: params
+        - in: path
           name: agentId
           description: Id of agent
           required: true
@@ -331,7 +331,7 @@ paths:
             type: string
             items:
               type: integer
-        - in: params
+        - in: path
           name: agentId
           description: Id of agent
           required: true
@@ -346,7 +346,7 @@ paths:
       tags:
         - agent
       parameters:
-        - in: params
+        - in: path
           name: agentId
           description: Id of agent
           required: true
@@ -360,7 +360,7 @@ paths:
       tags:
         - agent
       parameters:
-        - in: params
+        - in: path
           name: agentId
           description: Id of agent
           required: true
@@ -375,7 +375,7 @@ paths:
       tags:
         - agent
       parameters:
-        - in: params
+        - in: path
           name: agentId
           description: Id of agent
           required: true
@@ -436,7 +436,7 @@ paths:
             type: string
             items:
               type: integer
-        - in: params
+        - in: path
           name: taskForceId
           description: Id of task force
           required: true
@@ -458,7 +458,7 @@ paths:
             type: string
             items:
               type: integer
-        - in: params
+        - in: path
           name: taskForceId
           description: Id of task force
           required: true
@@ -480,7 +480,7 @@ paths:
             type: string
             items:
               type: integer
-        - in: params
+        - in: path
           name: taskForceId
           description: Id of task force
           required: true
@@ -497,7 +497,7 @@ paths:
   # ------------- End Task Force ------------- #
 
   # ------------- Jobs ------------- #
-  /jobs:
+  /job:
     get:
       operationId: getJobs
       summary: List all jobs
@@ -526,7 +526,7 @@ paths:
             type: string
             items:
               type: integer
-  /jobs/{jobId}:
+  /job/{jobId}:
     get:
       operationId: getJobById
       summary: Get job by id
@@ -541,7 +541,7 @@ paths:
             type: string
             items:
               type: integer
-        - in: params
+        - in: path
           name: jobId
           description: Id of Job
           required: true
@@ -563,7 +563,7 @@ paths:
             type: string
             items:
               type: integer
-        - in: params
+        - in: path
           name: jobId
           description: Id of Job
           required: true
@@ -585,7 +585,7 @@ paths:
             type: string
             items:
               type: integer
-        - in: params
+        - in: path
           name: jobId
           description: Id of Job
           required: true
@@ -593,7 +593,7 @@ paths:
             type: string
             items:
               type: integer
-  /jobs/{jobId}/logs:
+  /job/{jobId}/logs:
     get:
       operationId: getJobLogs
       summary: Get job logs by id
@@ -614,12 +614,12 @@ paths:
   # ------------- End Jobs ------------- #
 
   # ------------- Environments ------------- #
-  /environments:
+  /environment:
     get:
       operationId: getEnvironments
       summary: List all environments
       tags:
-        - environments
+        - environment
       responses:
         '200':
           description: A list of environments
@@ -631,7 +631,7 @@ paths:
       operationId: createEnvironment
       summary: Create new environment
       tags:
-        - environments
+        - environment
       requestBody:
         required: true
         content:
@@ -645,12 +645,12 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/Environment"
-  /environments/{environmentId}:
+  /environment/{environmentId}:
     get:
       operationId: getEnvironmentById
       summary: List environment by id
       tags:
-        - environments
+        - environment
       parameters:
         - in: query
           name: projectId
@@ -660,7 +660,7 @@ paths:
             type: string
             items:
               type: integer
-        - in: params
+        - in: path
           name: environmentId
           description: Id of Environment
           required: true
@@ -679,7 +679,7 @@ paths:
       operationId: updateEnvironment
       summary: Update existing environment
       tags:
-        - environments
+        - environment
       requestBody:
         required: true
         content:
@@ -693,12 +693,12 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/Environment"
-  /environments/{environmentId}/keys:
+  /environment/{environmentId}/keys:
     get:
       operationId: getEnvironmentKey
       summary: List all environments keys
       tags:
-        - environments
+        - environment
       responses:
         '200':
           description: A list of environment keys
@@ -710,7 +710,7 @@ paths:
       operationId: createEnvironmentKey
       summary: Create new environment key
       tags:
-        - environments
+        - environment
       requestBody:
         required: true
         content:
@@ -724,12 +724,12 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/EnvironmentKey"
-  /environments/{environmentId}/keys/{keyId}:
+  /environment/{environmentId}/keys/{keyId}:
     get:
       operationId: getEnvironmentKeyById
       summary: Get environment key by id
       tags:
-        - environments
+        - environment
       parameters:
         - in: query
           name: projectId
@@ -739,7 +739,7 @@ paths:
             type: string
             items:
               type: integer
-        - in: params
+        - in: path
           name: environmentId
           description: id of environment
           required: true
@@ -747,7 +747,7 @@ paths:
             type: string
             items:
               type: integer
-        - in: params
+        - in: path
           name: keyId
           description: id of key
           required: true
@@ -759,7 +759,7 @@ paths:
       operationId: updateEnvironmentKey
       summary: Updates project
       tags:
-        - environments
+        - environment
       parameters:
         - in: query
           name: projectId
@@ -769,7 +769,7 @@ paths:
             type: string
             items:
               type: integer
-        - in: params
+        - in: path
           name: environmentId
           description: id of environment
           required: true
@@ -777,7 +777,7 @@ paths:
             type: string
             items:
               type: integer
-        - in: params
+        - in: path
           name: keyId
           description: id of key
           required: true
@@ -789,7 +789,7 @@ paths:
       operationId: deleteEnvironmentKey
       summary: Deletes project
       tags:
-        - environments
+        - environment
       parameters:
         - in: query
           name: projectId
@@ -799,7 +799,7 @@ paths:
             type: string
             items:
               type: integer
-        - in: params
+        - in: path
           name: environmentId
           description: id of environment
           required: true
@@ -807,7 +807,7 @@ paths:
             type: string
             items:
               type: integer
-        - in: params
+        - in: path
           name: keyId
           description: id of key
           required: true
