@@ -4,7 +4,6 @@ import org.robotframework.roc.core.beans.ProjectFile;
 import org.robotframework.roc.core.models.Project;
 import org.robotframework.roc.core.services.FileService;
 import org.robotframework.roc.core.services.ProjectService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,12 +28,12 @@ public class ProjectController {
         this.fileService = fileService;
     }
 
-    @RequestMapping(value = "/projects", method = RequestMethod.GET)
+    @RequestMapping(value = "/project", method = RequestMethod.GET)
     public ResponseEntity<List<Project>> getProjects() {
         return new ResponseEntity<>((List<Project>) projectService.getProjects(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/projects", method = RequestMethod.POST)
+    @RequestMapping(value = "/project", method = RequestMethod.POST)
     public ResponseEntity<Long> createNewProject(@RequestBody Project project) {
         try {
             Project saved = projectService.createProject(project);
@@ -45,7 +44,7 @@ public class ProjectController {
         }
     }
 
-    @RequestMapping(value = "/projects/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/project/{id}", method = RequestMethod.GET)
     public ResponseEntity<Project> getProjectById(@PathVariable Long id) {
         Optional<Project> project = projectService.getProjectById(id);
         if (project.isPresent()) {
@@ -55,7 +54,7 @@ public class ProjectController {
         }
     }
 
-    @RequestMapping(value = "/projects/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/project/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Project> updateProjectById(@PathVariable Long id, @RequestBody Project project) {
         Optional<Project> found = projectService.getProjectById(id);
         if (found.isPresent()) {
@@ -65,7 +64,7 @@ public class ProjectController {
         }
     }
 
-    @RequestMapping(value = "/projects/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/project/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Long> deleteProjectById(@PathVariable Long id) {
         Optional<Project> found = projectService.getProjectById(id);
         if (found.isPresent()) {
@@ -76,7 +75,7 @@ public class ProjectController {
         }
     }
 
-    @RequestMapping(value = "/projects/{id}/files", method = RequestMethod.GET)
+    @RequestMapping(value = "/project/{id}/files", method = RequestMethod.GET)
     public ResponseEntity<List<ProjectFile>> getProjectFilesById(@PathVariable("id") Long id) {
         Optional<Project> project = projectService.getProjectById(id);
         try {
@@ -92,7 +91,7 @@ public class ProjectController {
         }
     }
 
-    @RequestMapping(value = "/projects/{id}/files/{path}", method = RequestMethod.GET)
+    @RequestMapping(value = "/project/{id}/files/{path}", method = RequestMethod.GET)
     public ResponseEntity<String> getProjectFilesByName(@PathVariable("id") Long id, @PathVariable("path") String filePath) {
         Optional<Project> project = projectService.getProjectById(id);
         if (!project.isPresent()) {
