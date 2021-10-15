@@ -21,6 +21,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
+import picocli.CommandLine;
 
 
 @SpringBootApplication
@@ -31,15 +33,23 @@ public class AgentApplication {
     private EventQueue queue;
 
     public static void main(String[] args) {
-        SpringApplication.run(AgentApplication.class);
+        SpringApplication.run(AgentApplication.class, args);
     }
 
     @Bean
-    public CommandLineRunner initAgent() {
-        return (args) -> {
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+
+    @Bean
+    public CommandLineRunner initAgent(@Autowired AgentParameters params) {
+        return (String[] args) -> {
+            CommandLine cli = new CommandLine(params);
+            cli.parseArgs(args);
             while (true) {
                 if (!queue.getQueue().isEmpty()) {
                     Object payload = queue.getQueue().poll();
+                    log.info(payload.toString());
                 }
             }
         };

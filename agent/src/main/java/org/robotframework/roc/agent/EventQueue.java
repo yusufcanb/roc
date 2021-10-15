@@ -10,6 +10,13 @@ import java.util.Queue;
 public class EventQueue {
 
     @Getter
+    private AgentParameters params;
+
+    @Getter
     private Queue<Object> queue = new LinkedList<>();
-    
+
+    public EventQueue(AgentParameters params) {
+        this.params = params;
+    }
+
 }

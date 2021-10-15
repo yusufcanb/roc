@@ -1,7 +1,10 @@
 package org.robotframework.roc.agent.ws;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 import lombok.extern.slf4j.Slf4j;
 import org.robotframework.roc.agent.EventQueue;
+import org.robotframework.roc.agent.payload.StompPayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.simp.stomp.StompHeaders;
@@ -26,9 +29,15 @@ public class ClientStompSessionHandler extends StompSessionHandlerAdapter {
     }
 
     @Override
-    public void handleFrame(StompHeaders headers, Object payload) {
-        log.info("Received frame: payload {}, headers {}", payload, headers);
-        queue.getQueue().add(payload);
+    public void handleFrame(StompHeaders headers, Object payloadObj) {
+        log.info("Received frame: payload {}, headers {}", payloadObj, headers);
+        Gson g = new Gson();
+        try {
+            StompPayload payload = g.fromJson(payloadObj.toString(), StompPayload.class);
+            queue.getQueue().add(payload);
+        } catch (JsonParseException exception) {
+            log.error(exception.getMessage());
+        }
     }
 
 }
