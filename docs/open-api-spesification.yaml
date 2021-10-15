@@ -4,7 +4,7 @@ info:
   version: 0.1.0
   description: Self hosted, lightweight, JVM based software automation platform for every day IT operations.
 servers:
-  - url: http://localhost:8000/
+  - url: http://localhost:8080/
 tags:
   - name: project
     description: Endpoints related to Project schema
@@ -27,6 +27,10 @@ paths:
       responses:
         '200':
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
     post:
       operationId: createProject
       summary: Create new project
@@ -76,7 +80,7 @@ paths:
       tags:
         - project
       parameters:
-        - in: params
+        - in: path
           name: projectId
           description: Id of project
           required: true
@@ -198,7 +202,7 @@ paths:
       tags:
         - project
       parameters:
-        - in: params
+        - in: path
           name: projectId
           description: id of project
           required: true
