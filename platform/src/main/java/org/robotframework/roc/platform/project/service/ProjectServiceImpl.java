@@ -1,5 +1,6 @@
 package org.robotframework.roc.platform.project.service;
 
+import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.robotframework.roc.core.models.CodeRepository;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
@@ -29,7 +31,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Value("${roc.platform.git.directory}")
     private String repositoriesDir;
-
 
     public ProjectServiceImpl(ProjectRepository projectRepository,
                               CodeRepoRepository codeRepoRepository,
@@ -67,7 +68,13 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void deleteProject(Long id) {
+        Project project = projectRepository.getOne(id);
         projectRepository.deleteById(id);
+        try {
+            FileUtils.deleteDirectory(new File(project.getRepository().getPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
