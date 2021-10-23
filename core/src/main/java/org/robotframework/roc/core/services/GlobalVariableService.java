@@ -12,6 +12,6 @@ public interface GlobalVariableService extends CRUDService<Long> {
 
     void deleteGlobalVariable(Long id);
 
-    Collection<Project> getGlobalVariablesByProject(Long projectId);
+    Collection<GlobalVariable> getGlobalVariablesByProject(Project project);
 
 }

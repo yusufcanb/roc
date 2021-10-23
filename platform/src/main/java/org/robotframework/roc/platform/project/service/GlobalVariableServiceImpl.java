@@ -7,6 +7,7 @@ import org.robotframework.roc.platform.project.repository.GlobalVariableReposito
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Service
@@ -31,12 +32,13 @@ public class GlobalVariableServiceImpl implements GlobalVariableService {
     }
 
     @Override
-    public Collection<Project> getGlobalVariablesByProject(Long projectId) {
-        return null;
+    public Collection<GlobalVariable> getGlobalVariablesByProject(Project project) {
+        return new ArrayList<>();
     }
 
     @Override
     public boolean isExists(Long id) {
         return globalsRepository.existsById(id);
     }
+
 }

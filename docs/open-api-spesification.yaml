@@ -757,7 +757,7 @@ paths:
               type: integer
     put:
       operationId: updateEnvironmentKey
-      summary: Updates project
+      summary: Update environment key
       tags:
         - environment
       parameters:
@@ -787,7 +787,7 @@ paths:
               type: integer
     delete:
       operationId: deleteEnvironmentKey
-      summary: Deletes project
+      summary: Delete environment key
       tags:
         - environment
       parameters:
