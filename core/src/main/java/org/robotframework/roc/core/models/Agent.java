@@ -1,11 +1,11 @@
 package org.robotframework.roc.core.models;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 import org.robotframework.roc.core.beans.OS;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.security.SecureRandom;
 import java.util.Base64;
 
@@ -21,8 +21,12 @@ public class Agent {
 
     private String accessKey;
     private String accessSecret;
-
     private boolean initialized = false;
+
+    @ManyToOne
+    @JoinColumn(columnDefinition = "projectId")
+    @Getter(AccessLevel.NONE)
+    private Project project;
 
     public String generateToken() {
         SecureRandom secureRandom = new SecureRandom();

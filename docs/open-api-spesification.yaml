@@ -267,7 +267,7 @@ paths:
               $ref: '#/components/schemas/Agent'
       responses:
         '200':
-          description: a pet to be returned
+          description: Successful operation. Returns an agent object.
           content:
             application/json:
               schema:
@@ -279,14 +279,6 @@ paths:
       tags:
         - agent
       parameters:
-        - in: query
-          name: projectId
-          description: Id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
         - in: path
           name: agentId
           description: Id of agent
@@ -295,20 +287,19 @@ paths:
             type: string
             items:
               type: integer
+      responses:
+        '200':
+          description: Successful operation. Returns an agent object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
     put:
       operationId: updateAgent
       summary: Update agent
       tags:
         - agent
       parameters:
-        - in: query
-          name: projectId
-          description: Id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
         - in: path
           name: agentId
           description: Id of agent
@@ -317,20 +308,19 @@ paths:
             type: string
             items:
               type: integer
+      responses:
+        '200':
+          description: Successful operation. Returns an agent object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
     delete:
       operationId: deleteAgent
       summary: Deletes agent
       tags:
         - agent
       parameters:
-        - in: query
-          name: projectId
-          description: Id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
         - in: path
           name: agentId
           description: Id of agent
@@ -339,6 +329,10 @@ paths:
             type: string
             items:
               type: integer
+      responses:
+        '204':
+          description: Successful operation.
+
   /agent/{agentId}/packages:
     get:
       operationId: getAgentPackages
@@ -354,6 +348,9 @@ paths:
             type: string
             items:
               type: integer
+      responses:
+        '200':
+          description: Successful operation.
     put:
       operationId: installPackages
       summary: Install new package(s)
@@ -368,6 +365,9 @@ paths:
             type: string
             items:
               type: integer
+      responses:
+        '200':
+          description: Successful operation.
   /agent/{agentId}/logs:
     get:
       operationId: getAgentLogs
@@ -383,6 +383,9 @@ paths:
             type: string
             items:
               type: integer
+      responses:
+        '200':
+          description: Successful operation.
   # ------------- End Agent ------------- #
 
   # ------------- Task Force ------------- #
@@ -401,6 +404,9 @@ paths:
             type: string
             items:
               type: integer
+      responses:
+        '200':
+          description: Successful operation.
     post:
       operationId: createTaskForce
       summary: Create new task force
@@ -415,6 +421,9 @@ paths:
             type: string
             items:
               type: integer
+      responses:
+        '200':
+          description: Successful operation.
   /task-force/commands:
     get:
       taskForceId: getTaskForceCommands
@@ -428,14 +437,6 @@ paths:
       tags:
         - task-force
       parameters:
-        - in: query
-          name: projectId
-          description: Id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
         - in: path
           name: taskForceId
           description: Id of task force
@@ -444,20 +445,15 @@ paths:
             type: string
             items:
               type: integer
+      responses:
+        '200':
+          description: Successful operation.
     put:
       operationId: editTaskForce
       summary: Edit task force
       tags:
         - task-force
       parameters:
-        - in: query
-          name: projectId
-          description: Id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
         - in: path
           name: taskForceId
           description: Id of task force
@@ -466,20 +462,15 @@ paths:
             type: string
             items:
               type: integer
+      responses:
+        '200':
+          description: Successful operation.
     delete:
       operationId: deleteTaskForce
       summary: Deletes a job
       tags:
         - task-force
       parameters:
-        - in: query
-          name: projectId
-          description: Id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
         - in: path
           name: taskForceId
           description: Id of task force
@@ -488,12 +479,18 @@ paths:
             type: string
             items:
               type: integer
+      responses:
+        '200':
+          description: Successful operation.
   /task-force/{taskForceId}/action:
     post:
       operationId: triggerTaskForceAction
       summary: Trigger a task force action
       tags:
         - task-force
+      responses:
+        '200':
+          description: Successful operation.
   # ------------- End Task Force ------------- #
 
   # ------------- Jobs ------------- #
@@ -512,6 +509,9 @@ paths:
             type: string
             items:
               type: integer
+      responses:
+        '200':
+          description: Successful operation.
     post:
       operationId: createJob
       summary: Create new job
@@ -526,6 +526,9 @@ paths:
             type: string
             items:
               type: integer
+      responses:
+        '200':
+          description: Successful operation.
   /job/{jobId}:
     get:
       operationId: getJobById
@@ -533,14 +536,6 @@ paths:
       tags:
         - job
       parameters:
-        - in: query
-          name: projectId
-          description: Id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
         - in: path
           name: jobId
           description: Id of Job
@@ -549,20 +544,15 @@ paths:
             type: string
             items:
               type: integer
+      responses:
+        '200':
+          description: Successful operation.
     put:
       operationId: editJob
       summary: Edit job
       tags:
         - job
       parameters:
-        - in: query
-          name: projectId
-          description: Id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
         - in: path
           name: jobId
           description: Id of Job
@@ -571,20 +561,15 @@ paths:
             type: string
             items:
               type: integer
+      responses:
+        '200':
+          description: Successful operation.
     delete:
       operationId: deleteJob
       summary: Deletes a job
       tags:
         - job
       parameters:
-        - in: query
-          name: projectId
-          description: Id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
         - in: path
           name: jobId
           description: Id of Job
@@ -593,6 +578,9 @@ paths:
             type: string
             items:
               type: integer
+      responses:
+        '200':
+          description: Successful operation.
   /job/{jobId}/logs:
     get:
       operationId: getJobLogs
@@ -620,6 +608,15 @@ paths:
       summary: List all environments
       tags:
         - environment
+      parameters:
+        - in: query
+          name: projectId
+          description: Project id of environment
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
       responses:
         '200':
           description: A list of environments
@@ -632,6 +629,15 @@ paths:
       summary: Create new environment
       tags:
         - environment
+      parameters:
+        - in: query
+          name: projectId
+          description: Project id of environment
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
       requestBody:
         required: true
         content:
@@ -720,10 +726,6 @@ paths:
       responses:
         '201':
           description: Successful operation
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/EnvironmentKey"
   /environment/{environmentId}/keys/{keyId}:
     get:
       operationId: getEnvironmentKeyById
@@ -731,14 +733,6 @@ paths:
       tags:
         - environment
       parameters:
-        - in: query
-          name: projectId
-          description: id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
         - in: path
           name: environmentId
           description: id of environment
@@ -755,20 +749,19 @@ paths:
             type: string
             items:
               type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/EnvironmentKey"
     put:
       operationId: updateEnvironmentKey
       summary: Update environment key
       tags:
         - environment
       parameters:
-        - in: query
-          name: projectId
-          description: id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
         - in: path
           name: environmentId
           description: id of environment
@@ -785,20 +778,19 @@ paths:
             type: string
             items:
               type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/EnvironmentKey"
     delete:
       operationId: deleteEnvironmentKey
       summary: Delete environment key
       tags:
         - environment
       parameters:
-        - in: query
-          name: projectId
-          description: id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
         - in: path
           name: environmentId
           description: id of environment
@@ -815,6 +807,13 @@ paths:
             type: string
             items:
               type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/EnvironmentKey"
   # ------------- End Environments ------------- #
 
 components:

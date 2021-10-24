@@ -18,5 +18,5 @@ public interface AgentController {
 
     ResponseEntity<Agent> updateAgentById(@PathVariable Long id, @RequestBody Agent agent);
 
-    ResponseEntity<Agent> deleteAgentById(@PathVariable Long id, @RequestBody Agent agent);
+    ResponseEntity<Agent> deleteAgentById(@PathVariable Long id);
 }

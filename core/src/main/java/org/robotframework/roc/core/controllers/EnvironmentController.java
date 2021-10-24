@@ -13,7 +13,7 @@ public interface EnvironmentController {
 
     ResponseEntity<Environment> getEnvironmentById(@RequestParam Long environmentId);
 
-    ResponseEntity<Long> createNewEnvironment(@RequestParam Long projectId, @RequestBody Environment environment);
+    ResponseEntity<Environment> createNewEnvironment(@RequestParam Long projectId, @RequestBody Environment environment);
 
     ResponseEntity<Environment> updateEnvironmentById(@RequestParam Long environmentId);
 

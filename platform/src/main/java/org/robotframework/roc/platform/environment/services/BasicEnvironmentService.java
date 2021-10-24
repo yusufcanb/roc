@@ -5,7 +5,7 @@ import org.robotframework.roc.core.services.EnvironmentService;
 import org.robotframework.roc.platform.environment.repositories.EnvironmentRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,8 +24,19 @@ public class BasicEnvironmentService implements EnvironmentService {
     }
 
     @Override
+    public List<Environment> getEnvironments(Long projectId) {
+        return environmentRepository.findAll();
+    }
+
+    @Override
+    public Optional<Environment> getEnvironmentById(Long id) {
+        return environmentRepository.findById(id);
+    }
+
+    @Override
     public Environment createEnvironment(Environment environment) {
-        return null;
+        environmentRepository.save(environment);
+        return environment;
     }
 
     @Override
@@ -36,15 +47,5 @@ public class BasicEnvironmentService implements EnvironmentService {
     @Override
     public void deleteEnvironment(Long id) {
 
-    }
-
-    @Override
-    public Collection<Environment> getEnvironments() {
-        return null;
-    }
-
-    @Override
-    public Optional<Environment> getEnvironmentById(Long id) {
-        return Optional.empty();
     }
 }

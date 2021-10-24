@@ -1,26 +1,30 @@
 package org.robotframework.roc.core.models;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
+import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
 @Data
 public class Environment {
 
+    @OneToMany
+    Collection<EnvironmentVariable> variables;
     @GeneratedValue
     @Id
     private Long id;
-
     private String name;
     private String description;
 
-    @OneToMany
-    Collection<EnvironmentVariable> variables;
+    @ManyToOne
+    @JoinColumn(columnDefinition = "projectId")
+    @Getter(AccessLevel.NONE)
+    private Project project;
 
+    public Long getProjectId() {
+        return project.getId();
+    }
 }

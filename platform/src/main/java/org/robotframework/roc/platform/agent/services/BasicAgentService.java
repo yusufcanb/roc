@@ -46,7 +46,7 @@ public class BasicAgentService implements AgentService {
 
     @Override
     public Optional<Agent> getAgentById(Long id) {
-        return Optional.of(agentRepository.getOne(id));
+        return agentRepository.findById(id);
     }
 
     @Override

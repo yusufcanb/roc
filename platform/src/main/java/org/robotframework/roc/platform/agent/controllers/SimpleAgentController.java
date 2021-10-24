@@ -43,7 +43,7 @@ public class SimpleAgentController implements AgentController {
 
     @RequestMapping(value = "/agent/{id}", method = RequestMethod.GET)
     @Override
-    public ResponseEntity<Agent> getAgentById(Long id) {
+    public ResponseEntity<Agent> getAgentById(@PathVariable Long id) {
         Optional<Agent> agent = agentService.getAgentById(id);
         if (agent.isPresent()) {
             return new ResponseEntity<>(agent.get(), HttpStatus.OK);
@@ -65,13 +65,14 @@ public class SimpleAgentController implements AgentController {
 
     @RequestMapping(value = "/agent/{id}", method = RequestMethod.DELETE)
     @Override
-    public ResponseEntity<Agent> deleteAgentById(Long id, Agent agent) {
+    public ResponseEntity<Agent> deleteAgentById(@PathVariable Long id) {
         Optional<Agent> agentToUpdate = agentService.getAgentById(id);
         if (agentToUpdate.isPresent()) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_IMPLEMENTED);
+            agentService.deleteAgent(id);
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
-
+    
 }
