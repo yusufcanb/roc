@@ -57,7 +57,8 @@ public class SimpleAgentController implements AgentController {
     public ResponseEntity<Agent> updateAgentById(@PathVariable Long id, @RequestBody Agent agent) {
         Optional<Agent> agentToUpdate = agentService.getAgentById(id);
         if (agentToUpdate.isPresent()) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_IMPLEMENTED);
+            agentService.updateAgent(id, agent);
+            return new ResponseEntity<>(agent, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
@@ -74,5 +75,5 @@ public class SimpleAgentController implements AgentController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
-    
+
 }

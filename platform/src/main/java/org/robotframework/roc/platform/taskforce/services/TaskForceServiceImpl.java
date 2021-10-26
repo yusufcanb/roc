@@ -1,7 +1,11 @@
 package org.robotframework.roc.platform.taskforce.services;
 
+import lombok.SneakyThrows;
+import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
+import org.robotframework.roc.core.models.Project;
 import org.robotframework.roc.core.models.TaskForce;
 import org.robotframework.roc.core.services.TaskForceService;
+import org.robotframework.roc.platform.project.repository.ProjectRepository;
 import org.robotframework.roc.platform.taskforce.repository.TaskForceRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +16,11 @@ import java.util.Optional;
 public class TaskForceServiceImpl implements TaskForceService {
 
     private final TaskForceRepository taskForceRepository;
+    private final ProjectRepository projectRepository;
 
-    public TaskForceServiceImpl(TaskForceRepository taskForceRepository) {
+    public TaskForceServiceImpl(ProjectRepository projectRepository, TaskForceRepository taskForceRepository) {
         this.taskForceRepository = taskForceRepository;
+        this.projectRepository = projectRepository;
     }
 
     @Override
@@ -33,7 +39,12 @@ public class TaskForceServiceImpl implements TaskForceService {
     }
 
     @Override
-    public TaskForce saveTaskForce(TaskForce taskForce) {
+    public TaskForce createTaskForce(Long projectId, TaskForce taskForce) throws ProjectNotFoundException {
+        Optional<Project> project = projectRepository.findById(projectId);
+        if (!project.isPresent()) {
+            throw new ProjectNotFoundException();
+        }
+        taskForce.setProject(project.get());
         return taskForceRepository.save(taskForce);
     }
 

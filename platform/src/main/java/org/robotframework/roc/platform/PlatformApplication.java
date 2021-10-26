@@ -11,9 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 @EntityScan("org.robotframework.roc.*")
 @ComponentScan("org.robotframework.roc.*")
 public class PlatformApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(PlatformApplication.class);
     }
-
 }

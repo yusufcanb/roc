@@ -5,12 +5,15 @@ import org.robotframework.roc.core.models.TaskForce;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 public interface TaskForceController {
 
-    ResponseEntity<List<Object>> getTaskForces();
+    ResponseEntity<List<TaskForce>> getTaskForces(@RequestParam Long projectId);
+
+    ResponseEntity<TaskForce> createTaskForce(@RequestParam Long projectId, @RequestBody TaskForce taskForce);
 
     ResponseEntity<TaskForce> getTaskForceById(@PathVariable Long id);
 

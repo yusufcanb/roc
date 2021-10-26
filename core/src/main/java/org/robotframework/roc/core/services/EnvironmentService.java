@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface EnvironmentService extends CRUDService<Long> {
     Environment createEnvironment(Environment environment);
 
+    Environment createEnvironment(Long id, Environment environment);
+
     Environment updateEnvironment(Long id, Environment environment);
 
     void deleteEnvironment(Long id);

@@ -1,6 +1,7 @@
 package org.robotframework.roc.platform.project.controller;
 
 import org.robotframework.roc.core.beans.ProjectFile;
+import org.robotframework.roc.core.controllers.ProjectController;
 import org.robotframework.roc.core.models.GlobalVariable;
 import org.robotframework.roc.core.models.Project;
 import org.robotframework.roc.core.services.FileService;
@@ -15,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @RestController
-public class ProjectController {
+public class SimpleProjectController implements ProjectController {
 
     final
     ProjectService projectService;
@@ -26,18 +27,20 @@ public class ProjectController {
     final
     GlobalVariableService globalVariableService;
 
-    public ProjectController(ProjectService projectService, FileService fileService, GlobalVariableService globalVariableService) {
+    public SimpleProjectController(ProjectService projectService, FileService fileService, GlobalVariableService globalVariableService) {
         this.projectService = projectService;
         this.fileService = fileService;
         this.globalVariableService = globalVariableService;
     }
 
     @RequestMapping(value = "/project", method = RequestMethod.GET)
+    @Override
     public ResponseEntity<List<Project>> getProjects() {
         return new ResponseEntity<>((List<Project>) projectService.getProjects(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/project", method = RequestMethod.POST)
+    @Override
     public ResponseEntity<Long> createNewProject(@RequestBody Project project) {
         try {
             Project saved = projectService.createProject(project);
@@ -49,6 +52,7 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/project/{id}", method = RequestMethod.GET)
+    @Override
     public ResponseEntity<Project> getProjectById(@PathVariable Long id) {
         Optional<Project> project = projectService.getProjectById(id);
         if (project.isPresent()) {
@@ -59,6 +63,7 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/project/{id}", method = RequestMethod.PUT)
+    @Override
     public ResponseEntity<Project> updateProjectById(@PathVariable Long id, @RequestBody Project project) {
         Optional<Project> found = projectService.getProjectById(id);
         if (found.isPresent()) {
@@ -69,6 +74,7 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/project/{id}", method = RequestMethod.DELETE)
+    @Override
     public ResponseEntity<Long> deleteProjectById(@PathVariable Long id) {
         Optional<Project> found = projectService.getProjectById(id);
         if (found.isPresent()) {
@@ -80,6 +86,7 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/project/{id}/files", method = RequestMethod.GET)
+    @Override
     public ResponseEntity<List<ProjectFile>> getProjectFilesById(@PathVariable("id") Long id) {
         Optional<Project> project = projectService.getProjectById(id);
         try {
@@ -97,6 +104,7 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/project/{id}/files/{path}", method = RequestMethod.GET)
+    @Override
     public ResponseEntity<String> getProjectFilesByName(@PathVariable("id") Long id, @PathVariable("path") String filePath) {
         Optional<Project> project = projectService.getProjectById(id);
         if (!project.isPresent()) {
@@ -114,6 +122,7 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/project/{id}/globals", method = RequestMethod.GET)
+    @Override
     public ResponseEntity<Collection<GlobalVariable>> getProjectGlobalVariables(@PathVariable("id") Long id) {
         Optional<Project> project = projectService.getProjectById(id);
         if (project.isEmpty()) {

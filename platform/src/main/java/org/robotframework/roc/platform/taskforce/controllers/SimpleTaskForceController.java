@@ -1,6 +1,7 @@
 package org.robotframework.roc.platform.taskforce.controllers;
 
 import org.robotframework.roc.core.controllers.TaskForceController;
+import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.Job;
 import org.robotframework.roc.core.models.TaskForce;
 import org.robotframework.roc.core.services.JobService;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +29,19 @@ public class SimpleTaskForceController implements TaskForceController {
 
     @RequestMapping(value = "/task-force", method = RequestMethod.GET)
     @Override
-    public ResponseEntity<List<Object>> getTaskForces() {
-        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
+    public ResponseEntity<List<TaskForce>> getTaskForces(@RequestParam Long projectId) {
+        return new ResponseEntity<>(taskForceService.getTaskForcesByProject(projectId), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/task-force", method = RequestMethod.POST)
+    @Override
+    public ResponseEntity<TaskForce> createTaskForce(@RequestParam Long projectId, @RequestBody TaskForce taskForce) {
+        try {
+            TaskForce tf = taskForceService.createTaskForce(projectId, taskForce);
+            return new ResponseEntity<>(tf, HttpStatus.OK);
+        } catch (ProjectNotFoundException ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Project does not exists", ex);
+        }
     }
 
     @RequestMapping(value = "/task-force/{id}", method = RequestMethod.GET)
@@ -38,7 +51,7 @@ public class SimpleTaskForceController implements TaskForceController {
         if (taskForce.isPresent()) {
             return new ResponseEntity<>(taskForce.get(), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task force does not exists", null);
         }
     }
 

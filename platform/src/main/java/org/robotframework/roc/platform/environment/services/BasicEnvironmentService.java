@@ -3,6 +3,7 @@ package org.robotframework.roc.platform.environment.services;
 import org.robotframework.roc.core.models.Environment;
 import org.robotframework.roc.core.services.EnvironmentService;
 import org.robotframework.roc.platform.environment.repositories.EnvironmentRepository;
+import org.robotframework.roc.platform.project.repository.ProjectRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,8 +15,12 @@ public class BasicEnvironmentService implements EnvironmentService {
     final
     EnvironmentRepository environmentRepository;
 
-    public BasicEnvironmentService(EnvironmentRepository environmentRepository) {
+    final
+    ProjectRepository projectRepository;
+
+    public BasicEnvironmentService(EnvironmentRepository environmentRepository, ProjectRepository projectRepository) {
         this.environmentRepository = environmentRepository;
+        this.projectRepository = projectRepository;
     }
 
     @Override
@@ -37,6 +42,12 @@ public class BasicEnvironmentService implements EnvironmentService {
     public Environment createEnvironment(Environment environment) {
         environmentRepository.save(environment);
         return environment;
+    }
+
+    @Override
+    public Environment createEnvironment(Long id, Environment environment) {
+
+        return null;
     }
 
     @Override

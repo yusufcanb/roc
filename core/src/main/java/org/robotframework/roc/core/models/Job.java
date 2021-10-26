@@ -23,17 +23,24 @@ public class Job {
     private String status;
 
     @ManyToOne
+    private Agent agent;
+
+    @ManyToOne
     private Environment environment;
 
     @ManyToOne
-    private Agent agent;
+    private TaskForce taskForce;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date scheduledAt;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date startedAt = null;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date finishedAt = null;
+
 }

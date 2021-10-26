@@ -15,7 +15,7 @@ public interface EnvironmentController {
 
     ResponseEntity<Environment> createNewEnvironment(@RequestParam Long projectId, @RequestBody Environment environment);
 
-    ResponseEntity<Environment> updateEnvironmentById(@RequestParam Long environmentId);
+    ResponseEntity<Environment> updateEnvironmentById(@RequestParam Long environmentId, @RequestBody Environment environment);
 
     ResponseEntity<Environment> deleteEnvironmentById(@RequestParam Long environmentId);
 }

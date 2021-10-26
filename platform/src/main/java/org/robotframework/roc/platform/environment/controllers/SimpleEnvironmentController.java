@@ -28,7 +28,7 @@ public class SimpleEnvironmentController implements EnvironmentController {
     @RequestMapping(value = "/environment", method = RequestMethod.POST)
     @Override
     public ResponseEntity<Environment> createNewEnvironment(@RequestParam Long projectId, @RequestBody Environment environment) {
-        Environment created = environmentService.createEnvironment(environment);
+        Environment created = environmentService.createEnvironment(projectId, environment);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
@@ -45,10 +45,10 @@ public class SimpleEnvironmentController implements EnvironmentController {
 
     @RequestMapping(value = "/environment/{id}", method = RequestMethod.PUT)
     @Override
-    public ResponseEntity<Environment> updateEnvironmentById(@PathVariable Long id) {
+    public ResponseEntity<Environment> updateEnvironmentById(@PathVariable Long id, @RequestBody Environment environment) {
         Optional<Environment> env = environmentService.getEnvironmentById(id);
         if (env.isPresent()) {
-            environmentService.updateEnvironment(id, env.get());
+            environmentService.updateEnvironment(id, environment);
             return new ResponseEntity<>(env.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

@@ -1,5 +1,6 @@
 package org.robotframework.roc.core.services;
 
+import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.TaskForce;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface TaskForceService {
 
     TaskForce updateTaskForce(Long id, TaskForce taskForce);
 
-    TaskForce saveTaskForce(TaskForce taskForce);
+    TaskForce createTaskForce(Long projectId, TaskForce taskForce) throws ProjectNotFoundException;
 
     void deleteTaskForce(TaskForce taskForce);
 
