@@ -1,0 +1,107 @@
+@use '~@angular/material' as mat;
+
+$roc-primary: (
+  50 : #e0f7f6,
+  100 : #b3ece9,
+  200 : #80e0da,
+  300 : #4dd3cb,
+  400 : #26c9c0,
+  500 : #00c0b5,
+  600 : #00baae,
+  700 : #00b2a5,
+  800 : #00aa9d,
+  900 : #009c8d,
+  A100 : #c7fff9,
+  A200 : #94fff3,
+  A400 : #61ffed,
+  A700 : #47ffeb,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #000000,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+$roc-accent: (
+  50 : #e7e7e7,
+  100 : #c2c2c2,
+  200 : #999999,
+  300 : #707070,
+  400 : #525252,
+  500 : #333333,
+  600 : #2e2e2e,
+  700 : #272727,
+  800 : #202020,
+  900 : #141414,
+  A100 : #ef6e6e,
+  A200 : #ea4040,
+  A400 : #f60000,
+  A700 : #dd0000,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #ffffff,
+    A400 : #ffffff,
+    A700 : #ffffff,
+  )
+);
+
+@font-face {
+  font-family: "RBTFNT";
+  src: url(./assets/fonts/RBTFNT.woff) format("woff");
+  font-display: swap
+}
+
+@font-face {
+  font-family: "OCRA";
+  src: url(./assets/fonts/OCRA.woff) format("woff");
+  font-display: swap
+}
+
+@font-face {
+  font-family: "Courier Code";
+  src: url(./assets/fonts/CourierCode-Roman.woff) format("woff");
+  font-display: swap;
+  font-weight: 400
+}
+
+
+@include mat.core();
+
+$theme-primary: mat.define-palette($roc-primary, 500);
+$theme-accent: mat.define-palette($roc-accent, 500, 600, 700);
+
+$theme-typography: mat.define-typography-config(
+  $font-family: 'Courier Code',
+);
+
+$roc-theme: mat.define-light-theme((
+  color: (
+    primary: $theme-primary,
+    accent: $theme-accent,
+  ),
+  typography: $theme-typography,
+));
+
+@include mat.core-theme($roc-theme);
+@include mat.all-component-themes($roc-theme);

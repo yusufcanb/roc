@@ -1,0 +1,19 @@
+@import "./theme";
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Courier Code", sans-serif;
+}
+
+
+.flex-spacer {
+  flex: 1 1 auto;
+}
+
+.font-ocra {
+  font-family: "OCRA";
+}
