@@ -1,33 +1,24 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'core-header',
   template: `
     <mat-toolbar class="first-toolbar">
-      <img height="40px" src="https://robocon.io/dist/img/RF-white.svg" alt="RBTFRMK">
-      <span class="font-ocra">ROC</span>
-      <span class="flex-spacer"></span>
-      <button mat-button [matMenuTriggerFor]="projectMenu" aria-label="Example icon-button with a menu">
-        Default Project
-        <mat-icon>keyboard_arrow_down</mat-icon>
-      </button>
-      <mat-menu #projectMenu="matMenu">
-        <button mat-menu-item>
-          <mat-icon>widgets</mat-icon>
-          <span>Default Project</span>
-        </button>
-        <button mat-menu-item >
-          <mat-icon>widgets</mat-icon>
-          <span>RPA Tasks</span>
-        </button>
-      </mat-menu>
-      <span class="flex-spacer"></span>
-      <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-        <mat-icon>notification</mat-icon>
-      </button>
-      <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-        <mat-icon>settings</mat-icon>
-      </button>
+      <div class="w-100" fxLayout="row" fxLayoutAlign="space-between center">
+        <div class="left" fxLayoutAlign="center center">
+          <img height="40px" src="https://robocon.io/dist/img/RF-white.svg" alt="RBTFRMK">
+          <span class="font-ocra">ROC</span>
+        </div>
+        <div class="middle">
+          <roc-project-select></roc-project-select>
+        </div>
+        <div class="right">
+          <button mat-icon-button class="example-icon" matTooltip="Project settings" disabled
+                  aria-label="Example icon-button with share icon">
+            <mat-icon>settings</mat-icon>
+          </button>
+        </div>
+      </div>
     </mat-toolbar>
 
     <mat-toolbar class="mat-elevation-z3 second-toolbar">
@@ -37,27 +28,8 @@ import {Component, Input, OnInit} from '@angular/core';
 
       <span class="flex-spacer"></span>
 
-      <button mat-button [matMenuTriggerFor]="agentMenu" aria-label="Example icon-button with a menu">
-        Select Agent
-        <mat-icon>keyboard_arrow_down</mat-icon>
-      </button>
-      <mat-menu #agentMenu="matMenu">
-        <button mat-menu-item *ngFor="let agent of agents">
-          <mat-icon>dialpad</mat-icon>
-          <span>{{agent}}</span>
-        </button>
-      </mat-menu>
-
-      <button mat-button [matMenuTriggerFor]="envMenu" aria-label="Example icon-button with a menu">
-        Select Environment
-        <mat-icon>keyboard_arrow_down</mat-icon>
-      </button>
-      <mat-menu #envMenu="matMenu">
-        <button mat-menu-item *ngFor="let env of environments">
-          <mat-icon>dialpad</mat-icon>
-          <span>{{env}}</span>
-        </button>
-      </mat-menu>
+      <roc-agent-select></roc-agent-select>
+      <roc-environment-select></roc-environment-select>
 
     </mat-toolbar>
   `,
@@ -85,8 +57,6 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 
 export class HeaderComponent implements OnInit {
-  @Input() environments: Array<string> | undefined;
-  @Input() agents: Array<string> | undefined;
 
   constructor() {
   }

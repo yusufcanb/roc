@@ -2,13 +2,14 @@
 
 html, body {
   height: 100%;
+  width: 100%;
 }
 
 body {
   margin: 0;
   font-family: "Courier Code", sans-serif;
+  background: #ebebeb;
 }
-
 
 .flex-spacer {
   flex: 1 1 auto;
@@ -16,4 +17,18 @@ body {
 
 .font-ocra {
   font-family: "OCRA";
+}
+
+.w-100 {
+  width: 100%
+}
+
+.header-button {
+  font-family: "OCRA";
+  border: 2px solid #222;
+  margin-right: 5px;
+}
+
+.header-button:hover {
+  border: 2px solid white;
 }
