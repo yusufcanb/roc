@@ -1,0 +1,12 @@
+<button mat-button class="environment-select-button" [matMenuTriggerFor]="envMenu"
+        aria-label="Example icon-button with a menu">
+  {{(environmentService.selectedEnvironment$ | async)?.name ?? "Select Environment"}}
+  <mat-icon>keyboard_arrow_down</mat-icon>
+</button>
+<mat-menu #envMenu="matMenu">
+  <button mat-menu-item *ngFor="let env of (environmentService.environments$ | async)"
+          (click)="environmentService.selectEnvironment(env.id)">
+    <mat-icon>data_object</mat-icon>
+    <span>{{env.name}}</span>
+  </button>
+</mat-menu>
