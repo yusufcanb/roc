@@ -13,7 +13,7 @@ import {Component, OnInit} from '@angular/core';
           <roc-project-select></roc-project-select>
         </div>
         <div class="right">
-          <button mat-icon-button class="example-icon" matTooltip="Project settings" disabled
+          <button mat-icon-button class="example-icon" matTooltip="Project settings"
                   aria-label="Example icon-button with share icon">
             <mat-icon>settings</mat-icon>
           </button>
@@ -22,9 +22,9 @@ import {Component, OnInit} from '@angular/core';
     </mat-toolbar>
 
     <mat-toolbar class="mat-elevation-z3 second-toolbar">
-      <button mat-button>Job</button>
-      <button mat-button>Task Force</button>
-      <button mat-button>Repository</button>
+      <button mat-button routerLink="/">Dashboard</button>
+      <button mat-button routerLink="/job">Job</button>
+      <button mat-button routerLink="/task-force">Task Force</button>
 
       <span class="flex-spacer"></span>
 

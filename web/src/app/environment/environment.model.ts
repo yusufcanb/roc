@@ -5,6 +5,7 @@ export interface EnvironmentDTO extends Dto {
   projectId: Id;
   name: string;
   description: string;
+  variables: Array<any>;
 }
 
 export class Environment extends DomainModel<EnvironmentDTO> {
@@ -12,6 +13,7 @@ export class Environment extends DomainModel<EnvironmentDTO> {
   private _projectId!: Id;
   private _name!: string;
   private _description!: string;
+  private _variables!: Array<any>;
 
   get id(): Id {
     return this._id;
@@ -43,5 +45,13 @@ export class Environment extends DomainModel<EnvironmentDTO> {
 
   set description(value: string) {
     this._description = value;
+  }
+
+  get variables(): Array<any> {
+    return this._variables;
+  }
+
+  set variables(value: Array<any>) {
+    this._variables = value;
   }
 }

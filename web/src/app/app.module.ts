@@ -11,6 +11,8 @@ import {AgentModule} from "./agent/agent.module";
 import {EnvironmentModule} from "./environment/environment.module";
 import {JobModule} from "./job/job.module";
 import {TaskForceModule} from "./task-force/task-force.module";
+import {DashboardModule} from "./dashboard/dashboard.module";
+import {NavService} from "./core/services/nav.service";
 
 @NgModule({
   declarations: [
@@ -22,6 +24,7 @@ import {TaskForceModule} from "./task-force/task-force.module";
     BrowserAnimationsModule,
     MaterialModule,
     AppRoutingModule,
+    DashboardModule,
 
     // Domain Modules
     ProjectModule,
@@ -31,7 +34,7 @@ import {TaskForceModule} from "./task-force/task-force.module";
     JobModule,
 
   ],
-  providers: [],
+  providers: [NavService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

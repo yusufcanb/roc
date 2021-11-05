@@ -43,6 +43,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {BreadcrumbModule} from "./core/components/breadcrumb/breadcrumb.module";
 
 @NgModule({
   declarations: [],
@@ -85,7 +86,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    BreadcrumbModule
   ]
 })
 export class MaterialModule {

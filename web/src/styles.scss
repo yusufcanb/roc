@@ -9,6 +9,9 @@ body {
   margin: 0;
   font-family: "Courier Code", sans-serif;
   background: #ebebeb;
+
+  max-width: 100vw;
+  max-height: 100vh;
 }
 
 .flex-spacer {
@@ -31,4 +34,16 @@ body {
 
 .header-button:hover {
   border: 2px solid white;
+}
+
+.default-layout-container {
+  //height: 100%;
+  width: 100%;
+  padding: 15px 18px;
+}
+
+.default-layout-content {
+  margin-top: 25px;
+  margin-left: 25px;
+  margin-right: 50px;
 }

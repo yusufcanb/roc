@@ -2,8 +2,7 @@ import {Injectable} from '@angular/core';
 import {Id, Nullable} from "../../../types";
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject} from "rxjs";
-import {EnvironmentDTO} from "../../environment/environment.model";
-import {environment} from "../../../environments/environment";
+import {environment as angularEnvironment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
 import {Agent, AgentDTO} from "../agent.model";
 
@@ -22,7 +21,7 @@ export class AgentService {
   }
 
   getAgentsByProjectId(projectId: Id) {
-    const endpoint = `${environment.apiService}/agent/?projectId=${projectId}`;
+    const endpoint = `${angularEnvironment.apiService}/agent/?projectId=${projectId}`;
     return this.http.get<AgentDTO[]>(endpoint)
       .pipe(
         map(agentDtos => {
