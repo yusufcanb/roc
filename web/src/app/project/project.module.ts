@@ -7,6 +7,7 @@ import {ProjectListPageComponent} from './pages/project-list-page/project-list-p
 import {ProjectListComponent} from './component/project-list/project-list.component';
 import {ProjectListItemComponent} from './component/project-list-item/project-list-item.component';
 import {RouterModule} from "@angular/router";
+import { ProjectDetailPageComponent } from './pages/project-detail-page/project-detail-page.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import {RouterModule} from "@angular/router";
     ProjectSelectComponent,
     ProjectListPageComponent,
     ProjectListComponent,
-    ProjectListItemComponent
+    ProjectListItemComponent,
+    ProjectDetailPageComponent
   ],
   imports: [
     CommonModule,
