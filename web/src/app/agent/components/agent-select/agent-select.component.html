@@ -6,7 +6,7 @@
 <mat-menu #envMenu="matMenu">
   <button mat-menu-item *ngFor="let agent of (agentService.agents$ | async)"
           (click)="agentService.selectAgent(agent.id)">
-    <mat-icon>memory</mat-icon>
+    <mat-icon>{{agent.os | agentType}}</mat-icon>
     <span>{{agent.displayName}}</span>
   </button>
   <mat-divider></mat-divider>

@@ -1,0 +1,6 @@
+<mat-list-item [routerLink]="['/project/detail']" [queryParams]="{projectId: project.id}">
+  <mat-icon mat-list-icon>workspaces</mat-icon>
+  <div mat-line class="font-ocra">{{project.name}}</div>
+  <div mat-line>Created At: {{project.createdAt | date}} </div>
+  <div mat-line>{{project.globalVariables.length}} Global Variables</div>
+</mat-list-item>

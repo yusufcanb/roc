@@ -13,10 +13,12 @@ import {JobModule} from "./job/job.module";
 import {TaskForceModule} from "./task-force/task-force.module";
 import {DashboardModule} from "./dashboard/dashboard.module";
 import {NavService} from "./core/services/nav.service";
+import {DefaultLayoutComponent} from "./core/components/default-layout/default-layout.component";
 
 @NgModule({
   declarations: [
     AppComponent,
+    DefaultLayoutComponent,
     HeaderComponent,
   ],
   imports: [

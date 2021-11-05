@@ -1,0 +1,5 @@
+<mat-list-item [routerLink]="['/agent/detail']" [queryParams]="{agentId: agent.id}">
+  <mat-icon mat-list-icon>{{agent.os | agentType}}</mat-icon>
+  <div mat-line class="font-ocra">{{agent.displayName}}</div>
+  <div mat-line> {{agent.os}} </div>
+</mat-list-item>

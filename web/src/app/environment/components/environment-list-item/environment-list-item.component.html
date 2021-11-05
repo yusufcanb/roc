@@ -1,0 +1,6 @@
+<mat-list-item [routerLink]="['/environment/detail']" [queryParams]="{environmentId: environment.id}">
+  <mat-icon mat-list-icon>code</mat-icon>
+  <div mat-line class="font-ocra">{{environment.name}}</div>
+  <div mat-line>{{environment.description}}</div>
+  <div mat-line>{{environment.variables.length}} Variables</div>
+</mat-list-item>
