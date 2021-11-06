@@ -54,6 +54,18 @@ export let menu: NavItem[] = [
         route: 'environment/detail',
       }
     ]
+  },
+  {
+    displayName: 'Task Force List',
+    iconName: 'grading',
+    route: 'task-force',
+    children: [
+      {
+        displayName: "Task Force Detail",
+        iconName: 'grading',
+        route: 'task-force/detail',
+      }
+    ]
   }
 
 ];

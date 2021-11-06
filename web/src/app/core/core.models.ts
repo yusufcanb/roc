@@ -5,6 +5,7 @@ export interface Dto {
 }
 
 export class DomainModel<T extends Dto> {
+
   constructor(obj?: T) {
     if (obj !== undefined) {
       for (let element in obj) {

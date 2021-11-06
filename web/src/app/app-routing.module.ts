@@ -8,6 +8,8 @@ import {ProjectDetailPageComponent} from "./project/pages/project-detail-page/pr
 import {DefaultLayoutComponent} from "./core/components/default-layout/default-layout.component";
 import {AgentDetailPageComponent} from "./agent/pages/agent-detail-page/agent-detail-page.component";
 import {EnvironmentDetailPageComponent} from "./environment/pages/environment-detail-page/environment-detail-page.component";
+import {TaskForceListPageComponent} from "./task-force/pages/task-force-list-page/task-force-list-page.component";
+import {TaskForceDetailPageComponent} from "./task-force/pages/task-force-detail-page/task-force-detail-page.component";
 
 const routes: Routes = [
   {
@@ -58,6 +60,20 @@ const routes: Routes = [
       {
         path: "detail",
         component: EnvironmentDetailPageComponent
+      }
+    ]
+  },
+  {
+    path: "task-force",
+    component: DefaultLayoutComponent,
+    children: [
+      {
+        path: "",
+        component: TaskForceListPageComponent
+      },
+      {
+        path: "detail",
+        component: TaskForceDetailPageComponent
       }
     ]
   }
