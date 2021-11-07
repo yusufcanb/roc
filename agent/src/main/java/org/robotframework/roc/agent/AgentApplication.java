@@ -16,6 +16,7 @@
 package org.robotframework.roc.agent;
 
 import lombok.extern.slf4j.Slf4j;
+import org.robotframework.roc.agent.job.SimpleJobRunner;
 import org.robotframework.roc.agent.payload.StompPayload;
 import org.robotframework.roc.agent.resource.JobResource;
 import org.robotframework.roc.core.models.Job;
@@ -24,21 +25,27 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.web.client.RestTemplate;
-import picocli.CommandLine;
 
+import java.io.IOException;
 import java.util.Optional;
-
 
 @SpringBootApplication
 @Slf4j
 public class AgentApplication {
 
     @Autowired
+    private TaskExecutor taskExecutor;
+
+    @Autowired
     private EventQueue queue;
 
     @Autowired
     private JobResource jobResource;
+
+    @Autowired
+    private SimpleJobRunner simpleJobRunner;
 
     public static void main(String[] args) {
         SpringApplication.run(AgentApplication.class, args);
@@ -50,22 +57,30 @@ public class AgentApplication {
     }
 
     @Bean
-    public CommandLineRunner initAgent(@Autowired AgentParameters params) {
+    public CommandLineRunner initAgent(@Autowired AgentRuntime agentRuntime) {
         return (String[] args) -> {
-            CommandLine cli = new CommandLine(params);
-            cli.parseArgs(args);
+            agentRuntime.initRuntime(args);
             while (true) {
                 if (!queue.getQueue().isEmpty()) {
                     StompPayload payload = queue.getQueue().poll();
                     Optional<Job> job = jobResource.getJobById(Long.valueOf(payload.getJobId()));
                     if (job.isPresent()) {
                         Job j = job.get();
-                        log.info("<Job {}>, with [Environment: {}, TaskForce: {}]", j.getId(), j.getEnvironment().getName(), j.getTaskForce().getId());
+                        log.info("<Job {}>, with [Environment: {}, TaskForce: {}]",
+                                j.getId(),
+                                j.getEnvironment().getName(),
+                                j.getTaskForce().getId());
+                        taskExecutor.execute(() -> {
+                            try {
+                                simpleJobRunner.run(j);
+                            } catch (IOException exception) {
+                                exception.printStackTrace();
+                            }
+                        });
                     }
-//                    Path destPath = Paths.get(System.getProperty("user.home"), ".roc-agent", "rcc.exe");
-//                    ZipUtils.copyResource("/windows/rcc.exe", destPath.toString(), this.getClass());
                 }
             }
         };
     }
 }
+

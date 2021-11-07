@@ -1,6 +1,5 @@
 package org.robotframework.roc.platform.project.controller;
 
-import org.robotframework.roc.core.beans.ProjectFile;
 import org.robotframework.roc.core.controllers.ProjectController;
 import org.robotframework.roc.core.models.GlobalVariable;
 import org.robotframework.roc.core.models.Project;
@@ -11,9 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class SimpleProjectController implements ProjectController {
@@ -22,14 +21,10 @@ public class SimpleProjectController implements ProjectController {
     ProjectService projectService;
 
     final
-    FileService fileService;
-
-    final
     GlobalVariableService globalVariableService;
 
-    public SimpleProjectController(ProjectService projectService, FileService fileService, GlobalVariableService globalVariableService) {
+    public SimpleProjectController(ProjectService projectService, GlobalVariableService globalVariableService) {
         this.projectService = projectService;
-        this.fileService = fileService;
         this.globalVariableService = globalVariableService;
     }
 
@@ -85,50 +80,12 @@ public class SimpleProjectController implements ProjectController {
         }
     }
 
-    @RequestMapping(value = "/project/{id}/files", method = RequestMethod.GET)
-    @Override
-    public ResponseEntity<List<ProjectFile>> getProjectFilesById(@PathVariable("id") Long id) {
-        Optional<Project> project = projectService.getProjectById(id);
-        try {
-            if (project.isEmpty()) {
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-            } else if (!project.get().getRepository().getIsInitialized()) {
-                return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(fileService.getProjectFiles(project.get()), HttpStatus.OK);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @RequestMapping(value = "/project/{id}/files/{path}", method = RequestMethod.GET)
-    @Override
-    public ResponseEntity<String> getProjectFilesByName(@PathVariable("id") Long id, @PathVariable("path") String filePath) {
-        Optional<Project> project = projectService.getProjectById(id);
-        if (!project.isPresent()) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        } else if (!project.get().getRepository().getIsInitialized()) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-        try {
-            String path = new String(Base64.getDecoder().decode(filePath), StandardCharsets.UTF_8);
-            return new ResponseEntity<>(fileService.getProjectFileContent(project.get(), path), HttpStatus.OK);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
-    }
-
     @RequestMapping(value = "/project/{id}/globals", method = RequestMethod.GET)
     @Override
     public ResponseEntity<Collection<GlobalVariable>> getProjectGlobalVariables(@PathVariable("id") Long id) {
         Optional<Project> project = projectService.getProjectById(id);
         if (project.isEmpty()) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        } else if (!project.get().getRepository().getIsInitialized()) {
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(globalVariableService.getGlobalVariablesByProject(project.get()), HttpStatus.OK);
         }

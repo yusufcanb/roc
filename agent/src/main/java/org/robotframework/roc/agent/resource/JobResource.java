@@ -19,7 +19,12 @@ public class JobResource extends Resource {
         }
     }
 
-    public void updateJobStatus(String status) {
+    public void updateJobStatus(Long id, String status) {
 
     }
+
+    public void updateJobExecutionReport(Long id) {
+
+    }
+
 }

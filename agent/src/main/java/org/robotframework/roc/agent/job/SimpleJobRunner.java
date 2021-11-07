@@ -1,113 +1,135 @@
 package org.robotframework.roc.agent.job;
 
-import com.github.yusufcanb.micromamba4j.Micromamba;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
-import org.robotframework.roc.core.models.Environment;
+import org.robotframework.roc.agent.AgentRuntime;
+import org.robotframework.roc.agent.resource.JobResource;
+import org.robotframework.roc.agent.resource.TaskForceResource;
+import org.robotframework.roc.agent.utils.ZipUtils;
 import org.robotframework.roc.core.models.Job;
-import org.robotframework.roc.core.models.TaskForce;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.util.FileCopyUtils;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
+import java.util.zip.ZipFile;
 
 @Slf4j
 @Component
 public class SimpleJobRunner {
 
-    private static final String REPOSITORY_URL = "https://github.com/robocorp/example-rpa-form-challenge/archive/refs/heads/main.zip";
-    private static final String MAMBA_EXECUTABLE_URL = "https://micromamba.snakepit.net/api/micromamba/win-64/latest";
+    private final AgentRuntime agentRuntime;
+    private final TaskForceResource taskForceResource;
 
-    private final RestTemplate restTemplate;
+    private final Runtime runtime = Runtime.getRuntime();
 
-    private Environment environment;
-    private TaskForce taskForce;
-
-    private String repoName = "example-rpa-form-challenge";
-
-    @Setter
-    private String cmd;
-
-    public SimpleJobRunner(final RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    public SimpleJobRunner(final AgentRuntime agentRuntime, final JobResource jobResource, final TaskForceResource taskForceResource) {
+        this.agentRuntime = agentRuntime;
+        this.taskForceResource = taskForceResource;
     }
 
+    private String getProjectByRepositoryURL(String url) {
+        String[] path = url.split("/");
+        return path[path.length - 1];
+    }
 
-    public void run(Long jobId) throws IOException {
-        String jobDetailEndpoint = String.format("http://localhost:8080/job/%s", jobId.toString());
-        ResponseEntity<Job> response = this.restTemplate.getForEntity(jobDetailEndpoint, Job.class);
+    private void pullSource(String binaryPath, String sourceUrl) throws IOException {
+        log.info("Executing command: {}", String.join(" ", binaryPath, "pull", sourceUrl));
+        ProcessBuilder pb = new ProcessBuilder()
+                .command(binaryPath, "pull", sourceUrl)
+                .directory(agentRuntime.getProjectsDir().toFile());
 
-        log.debug("<Job {}> fetching done. Return code is: {}", jobId, response.getStatusCode());
+        pb.redirectErrorStream(true);
 
-        Job job = response.getBody();
+        Process p = pb.start();
+        Reader reader = new InputStreamReader(p.getInputStream());
+        BufferedReader bf = new BufferedReader(reader);
 
-        this.environment = job.getEnvironment();
-        this.taskForce = job.getTaskForce();
+        String s;
+        while ((s = bf.readLine()) != null) {
+            System.out.println(s);
+        }
+    }
 
-        log.info("<TaskForce {}> will be used", this.taskForce.getId());
-        log.debug("<Environment {}> will be used", this.environment.getId());
+    private void executeRobotWithRepositoryUrl(String binaryPath, String repositoryUrl) throws IOException {
+        String cmd = String.format("%s run", binaryPath);
+        Path cwd = Paths.get(agentRuntime.getProjectsDir().toString(), this.getProjectByRepositoryURL(repositoryUrl) + "-main");
 
-        Path extractPath = Paths.get(System.getProperty("user.home"), "roc");
-
-//        File file = restTemplate.execute("https://github.com/robocorp/example-rpa-form-challenge/archive/refs/heads/main.zip", HttpMethod.GET, null, clientHttpResponse -> {
-//            File ret = File.createTempFile(repoName, ".zip");
-//            StreamUtils.copy(clientHttpResponse.getBody(), new FileOutputStream(ret));
-//            return ret;
-//        });
-//
-//        log.info("Robot repository downloaded to path: {}", file.getAbsolutePath());
-//        ZipUtils.extractZip(file.getAbsolutePath(), extractPath);
-//
-//        log.info("Downloading micromamba executable for {}", System.getProperty("os.name"));
-//        File micromambaArchive = restTemplate.execute(MAMBA_EXECUTABLE_URL, HttpMethod.GET, null, clientHttpResponse -> {
-//            File ret = File.createTempFile("micromamba-win64-", ".zip");
-//            StreamUtils.copy(clientHttpResponse.getBody(), new FileOutputStream(ret));
-//            return ret;
-//        });
-//        log.info("Micromamba archive downloaded to path: {}", micromambaArchive.getAbsolutePath());
-//
-//        ZipUtils.extractZip(micromambaArchive.getAbsolutePath(), extractPath);
-//        log.info("Micromamba executable copied to {}", extractPath);
-
-        Path mambaBinaryPath = Paths.get(extractPath.toString(), "micromamba");
-        Micromamba micromamba = new Micromamba(mambaBinaryPath);
-        micromamba.setRootPrefix(Paths.get(System.getProperty("user.home"), ".roc-agent"));
-        String virtualEnvironmentId = String.format("task-force-%s", taskForce.getId());
-
-        micromamba.create(virtualEnvironmentId);
-        micromamba.setActiveEnvironment(virtualEnvironmentId);
-        micromamba.install(new String[]{"python=3.7.9",});
-
-        Runtime runtime = Runtime.getRuntime();
-        String cmd;
-
-        cmd = String.format("%s -m pip install -q robotframework rpaframework", micromamba.getPythonInterpreter().getAbsolutePath());
-        log.info("Installing project requirements: {}", cmd);
-        executeCommand(runtime, cmd);
-
-        cmd = String.format("%s %s", micromamba.getExecutable("robot").getAbsolutePath(), "tasks.robot");
         log.info("Executing command: {}", cmd);
-        executeCommand(runtime, cmd);
+        ProcessBuilder pb = new ProcessBuilder()
+                .command(binaryPath, "run")
+                .directory(cwd.toFile());
 
-        log.info("Job processing finished");
+        pb.redirectErrorStream(true);
+
+        Process p = pb.start();
+        Reader reader = new InputStreamReader(p.getInputStream());
+        BufferedReader bf = new BufferedReader(reader);
+
+        String s;
+        while ((s = bf.readLine()) != null) {
+            System.out.println(s);
+        }
+
+        log.info("Execution finished");
+        if (p.exitValue() == 0) {
+            log.error("Robot execution success.");
+        } else {
+            log.error("Robot execution finished with return code: {}", p.exitValue());
+        }
     }
 
-    private void executeCommand(Runtime runtime, String cmd) throws IOException {
-        Path workingDirectory = Paths.get(System.getProperty("user.home"), "roc", "example-rpa-form-challenge-main");
-        Process p2 = runtime.exec(cmd, null, workingDirectory.toFile().getCanonicalFile());
-        try {
-            p2.waitFor();
-            String stdout = IOUtils.toString(p2.getInputStream(), Charset.defaultCharset());
-            String stderr = IOUtils.toString(p2.getErrorStream(), Charset.defaultCharset());
+    private void executeRobotWithPackage(String binaryPath, String packageName) throws IOException {
+        String cmd = String.format("%s run", binaryPath);
+        Path cwd = Paths.get(agentRuntime.getProjectsDir().toString(), packageName);
 
-            log.info("\n\n\n" + stderr);
-        } catch (InterruptedException ex) {
-            log.error(ex.getMessage());
+        log.info("Executing command: {}", cmd);
+        ProcessBuilder pb = new ProcessBuilder()
+                .command(binaryPath, "run")
+                .directory(cwd.toFile());
+
+        pb.redirectErrorStream(true);
+
+        Process p = pb.start();
+        Reader reader = new InputStreamReader(p.getInputStream());
+        BufferedReader bf = new BufferedReader(reader);
+
+        String s;
+        while ((s = bf.readLine()) != null) {
+            System.out.println(s);
+        }
+
+        log.info("Execution finished");
+        if (p.exitValue() == 0) {
+            log.info("Robot execution success.");
+        } else {
+            log.error("Robot execution finished with return code: {}", p.exitValue());
+        }
+    }
+
+    private void downloadPackage(Long taskForceId) throws IOException {
+        Optional<File> robotPackage = this.taskForceResource.getTaskForcePackage(taskForceId);
+        Path destination = Paths.get(agentRuntime.getProjectsDir().toString(), String.format("task-force-package-%s", taskForceId));
+        if (robotPackage.isPresent()) {
+            ZipUtils.unzip(robotPackage.get().toString(), destination.toString());
+        }
+    }
+
+    public void run(Job job) throws IOException {
+        String agentBinary = agentRuntime.getAgentBinary().toString();
+        String repositoryUrl = job.getTaskForce().getRepositoryUrl();
+        String sourceType = job.getTaskForce().getSourceType();
+
+        if (sourceType.equals("repository")) {
+            this.pullSource(agentBinary, repositoryUrl);
+            this.executeRobotWithRepositoryUrl(agentBinary, repositoryUrl);
+        }
+        if (sourceType.equals("package")) {
+            Long taskForceId = job.getTaskForce().getId();
+            this.downloadPackage(taskForceId);
+            this.executeRobotWithPackage(agentBinary, String.format("task-force-package-%s", taskForceId));
         }
     }
 

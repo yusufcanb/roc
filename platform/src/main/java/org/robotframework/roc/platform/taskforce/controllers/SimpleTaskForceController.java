@@ -1,22 +1,28 @@
 package org.robotframework.roc.platform.taskforce.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.robotframework.roc.core.controllers.TaskForceController;
 import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.Job;
 import org.robotframework.roc.core.models.TaskForce;
 import org.robotframework.roc.core.services.JobService;
 import org.robotframework.roc.core.services.TaskForceService;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
+@Slf4j
 public class SimpleTaskForceController implements TaskForceController {
 
     private final TaskForceService taskForceService;
@@ -53,6 +59,25 @@ public class SimpleTaskForceController implements TaskForceController {
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task force does not exists", null);
         }
+    }
+
+    @RequestMapping(value = "/task-force/{id}/download", method = RequestMethod.GET)
+    @Override
+    public ResponseEntity<FileSystemResource> downloadTaskForcePackage(@PathVariable Long id) {
+        Optional<TaskForce> taskForceOptional = taskForceService.getTaskForceById(id);
+        if (taskForceOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task force does not exists", null);
+        }
+        TaskForce taskForce = taskForceOptional.get();
+        File taskForcePackage = Paths.get(System.getProperty("user.home"), ".roc", "packages", taskForce.getRepositoryUrl()).toFile();
+        long fileLength = taskForcePackage.length();
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setContentLength(fileLength);
+        responseHeaders.setContentType(MediaType.valueOf("application/octet-stream"));
+        responseHeaders.setContentDispositionFormData("attachment", String.format("%s", taskForce.getRepositoryUrl()));
+
+        return new ResponseEntity<>(new FileSystemResource(taskForcePackage), responseHeaders, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/task-force/{id}", method = RequestMethod.PUT)

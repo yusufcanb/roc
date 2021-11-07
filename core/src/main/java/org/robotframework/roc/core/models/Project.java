@@ -26,10 +26,6 @@ public class Project {
     private Date createdAt;
     private Date updatedAt;
 
-    @OneToOne(mappedBy = "project", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private CodeRepository repository;
-
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<GlobalVariable> globalVariables;
 

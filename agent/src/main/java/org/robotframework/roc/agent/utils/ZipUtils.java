@@ -5,17 +5,37 @@ import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
 import org.apache.commons.compress.archivers.ArchiveStreamFactory;
 import org.apache.commons.io.IOUtils;
+import org.springframework.util.FileCopyUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 public abstract class ZipUtils {
+
+    public static void unzip(String source, String destination) throws IOException {
+        try (ZipFile zipFile = new ZipFile(source)) {
+            Enumeration<? extends ZipEntry> entries = zipFile.entries();
+            while (entries.hasMoreElements()) {
+                ZipEntry entry = entries.nextElement();
+                File entryDestination = new File(destination, entry.getName());
+                if (entry.isDirectory()) {
+                    entryDestination.mkdirs();
+                } else {
+                    entryDestination.getParentFile().mkdirs();
+                    try (InputStream in = zipFile.getInputStream(entry);
+                         OutputStream out = new FileOutputStream(entryDestination)) {
+                        IOUtils.copy(in, out);
+                    }
+                }
+            }
+        }
+    }
 
     public static void extractZip(String zipFilePath, Path extractDirectory) {
         InputStream inputStream = null;
@@ -38,7 +58,7 @@ public abstract class ZipUtils {
                         parent.mkdirs();
                     }
                     try (OutputStream outputStream = Files.newOutputStream(path)) {
-                        IOUtils.copy(archiveInputStream, outputStream);
+                        FileCopyUtils.copy(archiveInputStream, outputStream);
                     }
                 }
             }
