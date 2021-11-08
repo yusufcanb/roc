@@ -1,9 +1,11 @@
 package org.robotframework.roc.agent.payload;
 
-import java.time.LocalDateTime;
+import lombok.Data;
 
+@Data
 public class StompPayload {
     private String eventType;
     private Object eventPayload;
-    private LocalDateTime publishedAt;
+    private String jobId;
+    private String signature;
 }

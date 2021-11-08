@@ -21,4 +21,7 @@ public class TaskForce {
 
     private String name;
     private String assignedRobots;
+
+    private String sourceType;
+    private String repositoryUrl;
 }
