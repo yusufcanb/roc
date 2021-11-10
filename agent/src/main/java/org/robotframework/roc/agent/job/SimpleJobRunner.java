@@ -6,28 +6,29 @@ import org.robotframework.roc.agent.resource.JobResource;
 import org.robotframework.roc.agent.resource.TaskForceResource;
 import org.robotframework.roc.agent.utils.ZipUtils;
 import org.robotframework.roc.core.models.Job;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.FileCopyUtils;
 
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
-import java.util.zip.ZipFile;
 
 @Slf4j
 @Component
 public class SimpleJobRunner {
 
     private final AgentRuntime agentRuntime;
+
+    private final JobResource jobResource;
     private final TaskForceResource taskForceResource;
 
-    private final Runtime runtime = Runtime.getRuntime();
 
-    public SimpleJobRunner(final AgentRuntime agentRuntime, final JobResource jobResource, final TaskForceResource taskForceResource) {
+    public SimpleJobRunner(final AgentRuntime agentRuntime,
+                           final JobResource jobResource,
+                           final TaskForceResource taskForceResource) {
         this.agentRuntime = agentRuntime;
         this.taskForceResource = taskForceResource;
+        this.jobResource = jobResource;
     }
 
     private String getProjectByRepositoryURL(String url) {
@@ -53,7 +54,7 @@ public class SimpleJobRunner {
         }
     }
 
-    private void executeRobotWithRepositoryUrl(String binaryPath, String repositoryUrl) throws IOException {
+    private int executeRobotWithRepositoryUrl(String binaryPath, String repositoryUrl) throws IOException {
         String cmd = String.format("%s run", binaryPath);
         Path cwd = Paths.get(agentRuntime.getProjectsDir().toString(), this.getProjectByRepositoryURL(repositoryUrl) + "-main");
 
@@ -79,9 +80,10 @@ public class SimpleJobRunner {
         } else {
             log.error("Robot execution finished with return code: {}", p.exitValue());
         }
+        return p.exitValue();
     }
 
-    private void executeRobotWithPackage(String binaryPath, String packageName) throws IOException {
+    private int executeRobotWithPackage(String binaryPath, String packageName) throws IOException {
         String cmd = String.format("%s run", binaryPath);
         Path cwd = Paths.get(agentRuntime.getProjectsDir().toString(), packageName);
 
@@ -107,6 +109,7 @@ public class SimpleJobRunner {
         } else {
             log.error("Robot execution finished with return code: {}", p.exitValue());
         }
+        return p.exitValue();
     }
 
     private void downloadPackage(Long taskForceId) throws IOException {
@@ -130,6 +133,13 @@ public class SimpleJobRunner {
             Long taskForceId = job.getTaskForce().getId();
             this.downloadPackage(taskForceId);
             this.executeRobotWithPackage(agentBinary, String.format("task-force-package-%s", taskForceId));
+        }
+    }
+
+    public void run(Long jobId) throws Exception {
+        Optional<Job> job = jobResource.getJobById(jobId);
+        if (job.isPresent()) {
+            this.run(job.get());
         }
     }
 

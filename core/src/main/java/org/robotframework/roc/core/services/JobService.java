@@ -13,6 +13,9 @@ public interface JobService {
 
     Job createJob(Long projectId, JobCreateRequestBody job) throws ProjectNotFoundException;
 
+    Job createJob(Job job);
+
     Optional<Job> getJobById(Long jobId);
+
 
 }

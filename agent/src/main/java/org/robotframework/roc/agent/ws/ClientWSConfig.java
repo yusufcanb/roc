@@ -1,11 +1,14 @@
 package org.robotframework.roc.agent.ws;
 
 import lombok.extern.slf4j.Slf4j;
+import org.robotframework.roc.agent.job.SimpleJobRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.StringMessageConverter;
 import org.springframework.messaging.simp.stomp.StompSessionHandler;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.web.socket.WebSocketHttpHeaders;
 import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
@@ -22,15 +25,23 @@ import java.util.List;
 @Slf4j
 public class ClientWSConfig {
 
+    @Value("${roc.agent.id}")
+    private String agentId;
+
     @Value("${roc.platform.host}")
     private String host;
 
     @Value("${roc.platform.port}")
     private Integer port;
 
+    @Autowired
+    private SimpleJobRunner jobRunner;
+
     @Bean
     public WebSocketStompClient webSocketStompClient(WebSocketClient webSocketClient,
-                                                     StompSessionHandler stompSessionHandler) {
+                                                     StompSessionHandler stompSessionHandler,
+                                                     TaskScheduler taskScheduler
+    ) {
         WebSocketStompClient webSocketStompClient = new WebSocketStompClient(webSocketClient);
 
         WebSocketHttpHeaders stompHeaders = new WebSocketHttpHeaders();
@@ -38,6 +49,7 @@ public class ClientWSConfig {
         stompHeaders.add("passcode", "roc");
 
         webSocketStompClient.setMessageConverter(new StringMessageConverter());
+        webSocketStompClient.setTaskScheduler(taskScheduler);
         String url = "ws://{host}:{port}/ws";
 
         webSocketStompClient.connect(url, stompHeaders, stompSessionHandler, host, port);
@@ -54,7 +66,7 @@ public class ClientWSConfig {
 
     @Bean
     public StompSessionHandler stompSessionHandler() {
-        return new ClientStompSessionHandler();
+        return new ClientStompSessionHandler(agentId, jobRunner);
     }
 
 }

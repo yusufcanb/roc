@@ -2,10 +2,10 @@ package org.robotframework.roc.platform.taskforce.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.robotframework.roc.core.controllers.TaskForceController;
+import org.robotframework.roc.core.dto.taskforce.ExecuteTaskForceDTO;
 import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.Job;
 import org.robotframework.roc.core.models.TaskForce;
-import org.robotframework.roc.core.services.JobService;
 import org.robotframework.roc.core.services.TaskForceService;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
@@ -26,11 +26,9 @@ import java.util.Optional;
 public class SimpleTaskForceController implements TaskForceController {
 
     private final TaskForceService taskForceService;
-    private final JobService jobService;
 
-    public SimpleTaskForceController(TaskForceService taskForceService, JobService jobService) {
+    public SimpleTaskForceController(TaskForceService taskForceService) {
         this.taskForceService = taskForceService;
-        this.jobService = jobService;
     }
 
     @RequestMapping(value = "/task-force", method = RequestMethod.GET)
@@ -106,10 +104,11 @@ public class SimpleTaskForceController implements TaskForceController {
 
     @RequestMapping(value = "/task-force/{id}/execute", method = RequestMethod.POST)
     @Override
-    public ResponseEntity<Job> executeTaskForce(@PathVariable Long id, @RequestBody Object body) {
+    public ResponseEntity<Job> executeTaskForce(@PathVariable Long id, @RequestBody ExecuteTaskForceDTO body) {
         Optional<TaskForce> taskForce = taskForceService.getTaskForceById(id);
         if (taskForce.isPresent()) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_IMPLEMENTED);
+            Job job = taskForceService.executeTaskForce(taskForce.get(), body.getAgentId(), body.getEnvironmentId());
+            return new ResponseEntity<>(job, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }

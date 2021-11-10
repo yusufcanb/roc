@@ -1,43 +1,52 @@
 package org.robotframework.roc.agent.ws;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonParseException;
 import lombok.extern.slf4j.Slf4j;
-import org.robotframework.roc.agent.EventQueue;
-import org.robotframework.roc.agent.payload.StompPayload;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.robotframework.roc.agent.job.SimpleJobRunner;
+import org.robotframework.roc.core.dto.stomp.StompPayload;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
-import org.springframework.stereotype.Component;
+import org.springframework.util.MimeTypeUtils;
 
 @Slf4j
-@Component
 public class ClientStompSessionHandler extends StompSessionHandlerAdapter {
 
-    @Autowired
-    EventQueue queue;
-
-    @Value("${roc.agent.id}")
     private String agentId;
+    private StompSession stompSession;
+    private SimpleJobRunner jobRunner;
+
+    public ClientStompSessionHandler(String agentId, SimpleJobRunner jobRunner) {
+        this.agentId = agentId;
+        this.jobRunner = jobRunner;
+    }
 
     @Override
     public void afterConnected(StompSession session, StompHeaders headers) {
         log.info("Client connected: headers {}", headers);
-        session.subscribe(String.format("/queue/events.%s", this.agentId), this);
+        this.stompSession = session;
+        String destination = String.format("/queue/events.%s", this.agentId);
+
+        StompHeaders subscriptionHeaders = new StompHeaders();
+        subscriptionHeaders.setAck("client");
+        subscriptionHeaders.setDestination(destination);
+        subscriptionHeaders.setContentType(MimeTypeUtils.TEXT_PLAIN);
+        session.subscribe(subscriptionHeaders, this);
     }
 
     @Override
-    public void handleFrame(StompHeaders headers, Object payloadObj) {
-        log.info("Received frame: payload {}, headers {}", payloadObj, headers);
-        Gson g = new Gson();
+    public void handleFrame(StompHeaders headers, Object payload) {
+        log.info("Session id is: {}", this.stompSession.getSessionId());
+        log.info("Received frame: payload {}, headers {}", payload, headers);
+
+        Gson gson = new Gson();
+        StompPayload message = gson.fromJson(payload.toString(), StompPayload.class);
         try {
-            StompPayload payload = g.fromJson(payloadObj.toString(), StompPayload.class);
-            queue.getQueue().add(payload);
-        } catch (JsonParseException exception) {
-            log.error(exception.getMessage());
+            jobRunner.run(message.getJobId());
+        } catch (Exception e) {
+            log.error(e.getMessage());
         }
+        stompSession.acknowledge(headers.getAck(), true);
     }
 
 }

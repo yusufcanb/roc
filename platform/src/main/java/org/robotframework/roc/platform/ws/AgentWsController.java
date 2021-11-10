@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @CrossOrigin
 public class AgentWsController {
 
-    @Autowired
-    private SimpMessagingTemplate messagingTemplate;
-
     @MessageMapping("/hello/{id}")
     @SendTo("/queue/agent.*")
     public WsMessage chatEndpoint(@Payload WsMessage wsMessage, @DestinationVariable String id) {

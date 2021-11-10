@@ -1,5 +1,6 @@
 package org.robotframework.roc.core.controllers;
 
+import org.robotframework.roc.core.dto.taskforce.ExecuteTaskForceDTO;
 import org.robotframework.roc.core.models.Job;
 import org.robotframework.roc.core.models.TaskForce;
 import org.springframework.core.io.FileSystemResource;
@@ -20,7 +21,7 @@ public interface TaskForceController {
 
     ResponseEntity<FileSystemResource> downloadTaskForcePackage(@PathVariable Long id);
 
-    ResponseEntity<Job> executeTaskForce(@PathVariable Long id, @RequestBody Object body);
+    ResponseEntity<Job> executeTaskForce(@PathVariable Long id, @RequestBody ExecuteTaskForceDTO body);
 
     ResponseEntity<TaskForce> updateTaskForceById(@PathVariable Long id, @RequestBody Object body);
 
