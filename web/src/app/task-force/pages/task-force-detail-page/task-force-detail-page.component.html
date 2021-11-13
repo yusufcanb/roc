@@ -42,7 +42,7 @@
   </div>
   <div fxFlex="auto">
     <div fxLayout="column" fxLayoutAlign="space-around center" style="height: 100%; width: 100%">
-      <button mat-fab matTooltip="Execute Now" color="accent">
+      <button mat-fab matTooltip="Execute Now" color="accent" (click)="taskForceService.executeWithId(taskForce.id);">
         <mat-icon>play_arrow</mat-icon>
       </button>
       <button mat-fab matTooltip="Schedule" color="accent">

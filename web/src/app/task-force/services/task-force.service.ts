@@ -1,11 +1,14 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, zip} from "rxjs";
 import {Id} from "../../../types";
 import {environment as angularEnvironment} from "../../../environments/environment";
-import {filter, map} from "rxjs/operators";
+import {filter, map, take} from "rxjs/operators";
 import {HttpClient} from "@angular/common/http";
 import {TaskForce, TaskForceDto} from "../task-force.model";
 import {JobDto} from "../../job/job.model";
+import {AgentService} from "../../agent/services/agent.service";
+import {EnvironmentService} from "../../environment/services/environment.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +18,12 @@ export class TaskForceService {
   private readonly _taskForces = new BehaviorSubject<TaskForce[]>([]);
   readonly taskForces$ = this._taskForces.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private _snackBar: MatSnackBar,
+    private http: HttpClient,
+    private agentService: AgentService,
+    private environmentService: EnvironmentService
+  ) {
   }
 
   getTaskForcesByProjectId(projectId: Id) {
@@ -47,6 +55,28 @@ export class TaskForceService {
       agentId: agentId,
       environmentId: environmentId
     });
+  }
+
+  executeWithId(taskForceId: Id) {
+    zip(this.agentService.selectedAgent$, this.environmentService.selectedEnvironment$)
+      .pipe(take(1))
+      .subscribe(stream => {
+        const [environment, agent] = stream;
+        if (agent == null) {
+          this._snackBar.open("No agent selected", "Close")
+        } else if (environment === null) {
+          this._snackBar.open("No Environment selected", "Close")
+        } else {
+          this.executeTaskForce(taskForceId, environment.id, agent.id)
+            .subscribe(
+              response => this._snackBar.open(`New Job created with id: ${response.id}`, "Close"),
+              error => {
+                console.error(error);
+                this._snackBar.open(error.message, "Close")
+              },
+            );
+        }
+      })
   }
 
 }
