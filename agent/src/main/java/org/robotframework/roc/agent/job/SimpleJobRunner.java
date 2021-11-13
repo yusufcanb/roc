@@ -5,8 +5,11 @@ import org.robotframework.roc.agent.AgentRuntime;
 import org.robotframework.roc.agent.resource.JobResource;
 import org.robotframework.roc.agent.resource.TaskForceResource;
 import org.robotframework.roc.agent.utils.ZipUtils;
+import org.robotframework.roc.core.beans.JobStatus;
 import org.robotframework.roc.core.models.Job;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -17,16 +20,18 @@ import java.util.Optional;
 @Component
 public class SimpleJobRunner {
 
-    private final AgentRuntime agentRuntime;
+    @Autowired
+    private AgentRuntime agentRuntime;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     private final JobResource jobResource;
     private final TaskForceResource taskForceResource;
 
 
-    public SimpleJobRunner(final AgentRuntime agentRuntime,
-                           final JobResource jobResource,
+    public SimpleJobRunner(final JobResource jobResource,
                            final TaskForceResource taskForceResource) {
-        this.agentRuntime = agentRuntime;
         this.taskForceResource = taskForceResource;
         this.jobResource = jobResource;
     }
@@ -125,14 +130,27 @@ public class SimpleJobRunner {
         String repositoryUrl = job.getTaskForce().getRepositoryUrl();
         String sourceType = job.getTaskForce().getSourceType();
 
+        this.jobResource.updateJobStatus(job.getId(), JobStatus.RUN);
+
+        int returnCode;
         if (sourceType.equals("repository")) {
             this.pullSource(agentBinary, repositoryUrl);
-            this.executeRobotWithRepositoryUrl(agentBinary, repositoryUrl);
+            returnCode = this.executeRobotWithRepositoryUrl(agentBinary, repositoryUrl);
+            if (returnCode == 0) {
+                this.jobResource.updateJobStatus(job.getId(), JobStatus.SUCCESS);
+            } else {
+                this.jobResource.updateJobStatus(job.getId(), JobStatus.FAIL);
+            }
         }
         if (sourceType.equals("package")) {
             Long taskForceId = job.getTaskForce().getId();
             this.downloadPackage(taskForceId);
-            this.executeRobotWithPackage(agentBinary, String.format("task-force-package-%s", taskForceId));
+            returnCode = this.executeRobotWithPackage(agentBinary, String.format("task-force-package-%s", taskForceId));
+            if (returnCode == 0) {
+                this.jobResource.updateJobStatus(job.getId(), JobStatus.SUCCESS);
+            } else {
+                this.jobResource.updateJobStatus(job.getId(), JobStatus.FAIL);
+            }
         }
     }
 

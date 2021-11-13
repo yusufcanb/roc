@@ -12,7 +12,7 @@ import java.util.Optional;
 public class TaskForceResource extends Resource {
 
     public Optional<File> getTaskForcePackage(Long taskForceId) {
-        String url = String.format("http://%s:%s/task-force/%s/download", this.host, this.port, taskForceId);
+        String url = String.format("http://%s:%s/task-force/%s/download", this.getHost(), this.getPort(), taskForceId);
         File file = restTemplate.execute(url, HttpMethod.GET, null, clientHttpResponse -> {
             String packageName = String.format("task-force-%s-package", taskForceId);
             File ret = File.createTempFile(packageName, ".zip");

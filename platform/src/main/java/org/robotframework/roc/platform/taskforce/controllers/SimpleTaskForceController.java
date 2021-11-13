@@ -6,6 +6,7 @@ import org.robotframework.roc.core.dto.taskforce.ExecuteTaskForceDTO;
 import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.Job;
 import org.robotframework.roc.core.models.TaskForce;
+import org.robotframework.roc.core.services.JobService;
 import org.robotframework.roc.core.services.TaskForceService;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
@@ -26,9 +27,11 @@ import java.util.Optional;
 public class SimpleTaskForceController implements TaskForceController {
 
     private final TaskForceService taskForceService;
+    private final JobService jobService;
 
-    public SimpleTaskForceController(TaskForceService taskForceService) {
+    public SimpleTaskForceController(TaskForceService taskForceService, JobService jobService) {
         this.taskForceService = taskForceService;
+        this.jobService = jobService;
     }
 
     @RequestMapping(value = "/task-force", method = RequestMethod.GET)
@@ -56,6 +59,17 @@ public class SimpleTaskForceController implements TaskForceController {
             return new ResponseEntity<>(taskForce.get(), HttpStatus.OK);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task force does not exists", null);
+        }
+    }
+
+    @RequestMapping(value = "/task-force/{id}/jobs", method = RequestMethod.GET)
+    public ResponseEntity<List<Job>> getJobsByTaskForce(@PathVariable Long id) {
+        Optional<TaskForce> taskForce = taskForceService.getTaskForceById(id);
+        if (taskForce.isPresent()) {
+            List<Job> jobs = jobService.getJobsByTaskForce(taskForce.get().getId());
+            return new ResponseEntity<>(jobs, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 

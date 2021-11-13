@@ -2,6 +2,7 @@ package org.robotframework.roc.agent;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Component;
 import picocli.CommandLine;
@@ -15,11 +16,9 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 @Component
-public class AgentRuntime {
+@Slf4j
 
-    @Getter
-    @Setter
-    private AgentParameters parameters;
+public class AgentRuntime {
 
     @Getter
     @Setter
@@ -38,13 +37,9 @@ public class AgentRuntime {
     };
 
     public AgentRuntime() {
-        this.parameters = new AgentParameters();
     }
 
-    public void initRuntime(String[] args) throws IOException {
-        CommandLine cli = new CommandLine(this.parameters);
-        cli.parseArgs(args);
-
+    public void initRuntime() throws IOException {
         if (!agentHome.toFile().exists()) {
             FileUtils.forceMkdir(agentHome.toFile());
         }
@@ -61,6 +56,12 @@ public class AgentRuntime {
     public void copyAgentBinary() throws IOException {
         InputStream src = getClass().getResourceAsStream("/bin/rcc-win32.exe");
         Files.copy(src, agentBinary, StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    public void agentMainLoop() {
+        while (true) {
+            // keep spring running
+        }
     }
 
 }

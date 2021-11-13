@@ -2,6 +2,7 @@ package org.robotframework.roc.platform.job.services;
 
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
+import org.robotframework.roc.core.beans.JobStatus;
 import org.robotframework.roc.core.dto.job.JobCreateRequestBody;
 import org.robotframework.roc.core.dto.stomp.StompPayload;
 import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
@@ -47,8 +48,18 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
+    public Job save(Job j) {
+        return jobRepository.save(j);
+    }
+
+    @Override
     public List<Job> getJobsByProject(Long projectId) {
         return jobRepository.findAll();
+    }
+
+    @Override
+    public List<Job> getJobsByTaskForce(Long taskForceId) {
+        return jobRepository.findAllByTaskForceId(taskForceId);
     }
 
     @Override
@@ -83,6 +94,8 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public Job createJob(Job job) {
+        job.setStatus(JobStatus.QUEUE);
+        job.setCreatedAt(new Date());
         job = jobRepository.save(job);
 
         String queueName = String.format("/queue/events.%s", job.getAgent().getId());
@@ -99,6 +112,10 @@ public class JobServiceImpl implements JobService {
         messagingTemplate.convertAndSend(queueName, g.toJson(payload), headers);
         log.info("Message sent to: {}", queueName);
         return job;
+    }
+
+    void updateJobStatus(Long id, JobStatus status) {
+
     }
 
 }

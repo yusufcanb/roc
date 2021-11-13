@@ -2,6 +2,7 @@ package org.robotframework.roc.platform.job.controller;
 
 import org.robotframework.roc.core.controllers.JobController;
 import org.robotframework.roc.core.dto.job.JobCreateRequestBody;
+import org.robotframework.roc.core.dto.job.JobStatusUpdateDto;
 import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.Job;
 import org.robotframework.roc.core.services.JobService;
@@ -44,6 +45,18 @@ public class SimpleJobController implements JobController {
     public ResponseEntity<Job> getJobById(@PathVariable Long id) {
         Optional<Job> job = jobService.getJobById(id);
         if (job.isPresent()) {
+            return new ResponseEntity<>(job.get(), HttpStatus.OK);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Job does not found", null);
+        }
+    }
+
+    @RequestMapping(value = "/job/{id}/status", method = RequestMethod.POST)
+    public ResponseEntity<Job> updateJobStatusById(@PathVariable Long id, @RequestBody JobStatusUpdateDto dto) {
+        Optional<Job> job = jobService.getJobById(id);
+        if (job.isPresent()) {
+            job.get().setStatus(dto.getJobStatus());
+            jobService.save(job.get());
             return new ResponseEntity<>(job.get(), HttpStatus.OK);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Job does not found", null);

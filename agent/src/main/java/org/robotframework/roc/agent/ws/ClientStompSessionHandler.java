@@ -16,8 +16,7 @@ public class ClientStompSessionHandler extends StompSessionHandlerAdapter {
     private StompSession stompSession;
     private SimpleJobRunner jobRunner;
 
-    public ClientStompSessionHandler(String agentId, SimpleJobRunner jobRunner) {
-        this.agentId = agentId;
+    public ClientStompSessionHandler(SimpleJobRunner jobRunner) {
         this.jobRunner = jobRunner;
     }
 
@@ -25,7 +24,7 @@ public class ClientStompSessionHandler extends StompSessionHandlerAdapter {
     public void afterConnected(StompSession session, StompHeaders headers) {
         log.info("Client connected: headers {}", headers);
         this.stompSession = session;
-        String destination = String.format("/queue/events.%s", this.agentId);
+        String destination = String.format("/queue/events.%s", System.getProperty("roc.agent.id"));
 
         StompHeaders subscriptionHeaders = new StompHeaders();
         subscriptionHeaders.setAck("client");
@@ -43,8 +42,8 @@ public class ClientStompSessionHandler extends StompSessionHandlerAdapter {
         StompPayload message = gson.fromJson(payload.toString(), StompPayload.class);
         try {
             jobRunner.run(message.getJobId());
-        } catch (Exception e) {
-            log.error(e.getMessage());
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
         stompSession.acknowledge(headers.getAck(), true);
     }

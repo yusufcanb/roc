@@ -9,7 +9,11 @@ import java.util.Optional;
 
 public interface JobService {
 
+    Job save(Job j);
+
     List<Job> getJobsByProject(Long projectId);
+
+    List<Job> getJobsByTaskForce(Long taskForceId);
 
     Job createJob(Long projectId, JobCreateRequestBody job) throws ProjectNotFoundException;
 

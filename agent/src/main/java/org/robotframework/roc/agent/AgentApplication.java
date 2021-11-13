@@ -16,21 +16,29 @@
 package org.robotframework.roc.agent;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.task.TaskSchedulerBuilder;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.client.RestTemplate;
+import picocli.CommandLine;
 
 @SpringBootApplication
 @Slf4j
 public class AgentApplication {
 
-
     public static void main(String[] args) {
+        AgentParameters parameters = new AgentParameters();
+
+        CommandLine cli = new CommandLine(parameters);
+        cli.parseArgs(args);
+
+        System.setProperty("roc.platform.host", parameters.getHost());
+        System.setProperty("roc.platform.port", parameters.getPort().toString());
+        System.setProperty("roc.agent.id", parameters.getAgentId());
+
+        log.info("Agent initialization finished: {}", String.join(" ", args));
         SpringApplication.run(AgentApplication.class, args);
     }
 
@@ -39,18 +47,13 @@ public class AgentApplication {
         return new RestTemplate();
     }
 
-    @Bean
-    public ThreadPoolTaskScheduler taskScheduler(TaskSchedulerBuilder builder) {
-        return builder.poolSize(1).build();
-    }
 
     @Bean
-    public CommandLineRunner initAgent(@Autowired AgentRuntime agentRuntime) {
+    public CommandLineRunner initAgent(ApplicationContext context) {
         return (String[] args) -> {
-            agentRuntime.initRuntime(args);
-            while (true) {
-
-            }
+            AgentRuntime runtime = context.getBean(AgentRuntime.class);
+            runtime.initRuntime();
+            runtime.agentMainLoop();
         };
     }
 
