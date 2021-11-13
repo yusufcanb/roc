@@ -1,4 +1,18 @@
-<mat-list-item [routerLink]="['/task-force/detail']" [queryParams]="{taskForceId: taskForce.id}">
-  <mat-icon mat-list-icon>account_tree</mat-icon>
+<mat-list-item>
+  <mat-icon class="task-icon" mat-list-avatar>account_tree</mat-icon>
   <div mat-line class="font-ocra">{{taskForce.name}}</div>
+  <div mat-line><strong>Source:</strong> {{taskForce.repositoryUrl}}</div>
+  <div mat-line><strong>Source Type:</strong> {{taskForce.sourceType}}</div>
+
+  <div fxLayout="row" fxLayoutAlign="space-between center" style="min-width: 100px;">
+    <button mat-mini-fab aria-label="Task Force Detail" matTooltip="View Details" matTooltipPosition="below"
+            [routerLink]="['/', 'task-force', 'detail']" [queryParams]="{taskForceId: taskForce.id}">
+      <mat-icon>visibility</mat-icon>
+    </button>
+    <button mat-mini-fab color="primary" aria-label="Execute Task" (click)="onExecuteTask()">
+      <mat-icon>play_arrow</mat-icon>
+    </button>
+  </div>
+
 </mat-list-item>
+

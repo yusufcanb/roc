@@ -8,6 +8,7 @@
           (click)="projectService.selectProject(project.id)">
     <mat-icon>workspaces</mat-icon>
     <span>{{project.name}}</span>
+    <span>{{project.slug}}</span>
   </button>
   <mat-divider></mat-divider>
   <button mat-menu-item routerLink="project">

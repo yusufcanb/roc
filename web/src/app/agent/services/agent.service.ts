@@ -5,6 +5,7 @@ import {BehaviorSubject} from "rxjs";
 import {environment as angularEnvironment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
 import {Agent, AgentDTO} from "../agent.model";
+import {ProjectService} from "../../project/services/project.service";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,14 @@ export class AgentService {
   readonly agents$ = this._agents$.asObservable();
   readonly selectedAgent$ = this._selectedAgent$.asObservable();
 
-  constructor(private readonly http: HttpClient) {
+  constructor(private readonly projectService: ProjectService, private readonly http: HttpClient) {
+    this.projectService.selectedProject$
+      .subscribe(project => {
+        if (project) {
+          console.log(project);
+          this.getAgentsByProjectId(project.id).subscribe(agents => console.log(agents));
+        }
+      })
   }
 
   getAgentsByProjectId(projectId: Id) {
@@ -41,6 +49,5 @@ export class AgentService {
       } else this._selectedAgent$.next(null);
     });
   }
-
 
 }

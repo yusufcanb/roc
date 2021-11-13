@@ -1,0 +1,31 @@
+.mat-card {
+  border: 3px solid black;
+  box-sizing: content-box !important;
+
+  .mat-table {
+    width: 100%;
+  }
+}
+
+.card {
+  min-height: 150px;
+
+  .mat-card-content {
+    height: 100%;
+  }
+
+  .mat-card-footer {
+    margin: 0;
+  }
+}
+
+.mat-card-subtitle {
+  color: #2e2e2e;
+}
+
+.mat-fab {
+  &:hover {
+    background: #03a062;
+  }
+}
+

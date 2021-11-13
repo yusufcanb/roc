@@ -10,6 +10,8 @@ import {AgentDetailPageComponent} from "./agent/pages/agent-detail-page/agent-de
 import {EnvironmentDetailPageComponent} from "./environment/pages/environment-detail-page/environment-detail-page.component";
 import {TaskForceListPageComponent} from "./task-force/pages/task-force-list-page/task-force-list-page.component";
 import {TaskForceDetailPageComponent} from "./task-force/pages/task-force-detail-page/task-force-detail-page.component";
+import {JobListPageComponent} from "./job/pages/job-list-page/job-list-page.component";
+import {JobDetailPageComponent} from "./job/pages/job-detail-page/job-detail-page.component";
 
 const routes: Routes = [
   {
@@ -74,6 +76,20 @@ const routes: Routes = [
       {
         path: "detail",
         component: TaskForceDetailPageComponent
+      }
+    ]
+  },
+  {
+    path: "job",
+    component: DefaultLayoutComponent,
+    children: [
+      {
+        path: "",
+        component: JobListPageComponent
+      },
+      {
+        path: "detail",
+        component: JobDetailPageComponent
       }
     ]
   }

@@ -8,12 +8,15 @@ import {TaskForceService} from "./services/task-force.service";
 import {TaskForceCreatePageComponent} from './pages/task-force-create-page/task-force-create-page.component';
 import {RouterModule} from "@angular/router";
 import {MaterialModule} from "../material.module";
+import {TaskForceIconPipe} from "./pipes/task-force-icon.pipe";
 
 
 @NgModule({
   declarations: [
     TaskForceListComponent,
     TaskForceListItemComponent,
+
+    TaskForceIconPipe,
 
     TaskForceListPageComponent,
     TaskForceDetailPageComponent,

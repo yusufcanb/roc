@@ -1,1 +1,3 @@
-<roc-task-force-list [taskForceList]="taskForces"></roc-task-force-list>
+<roc-task-force-list [taskForceList]="taskForces"
+                     (executeTask)="onExecuteTaskClicked($event)">
+</roc-task-force-list>

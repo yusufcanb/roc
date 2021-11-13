@@ -66,6 +66,18 @@ export let menu: NavItem[] = [
         route: 'task-force/detail',
       }
     ]
+  },
+  {
+    displayName: 'Job List',
+    iconName: 'grading',
+    route: 'job',
+    children: [
+      {
+        displayName: "Job Detail",
+        iconName: 'grading',
+        route: 'job/detail',
+      }
+    ]
   }
 
 ];

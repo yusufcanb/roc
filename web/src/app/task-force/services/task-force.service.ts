@@ -2,9 +2,10 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {Id} from "../../../types";
 import {environment as angularEnvironment} from "../../../environments/environment";
-import {map} from "rxjs/operators";
+import {filter, map} from "rxjs/operators";
 import {HttpClient} from "@angular/common/http";
 import {TaskForce, TaskForceDto} from "../task-force.model";
+import {JobDto} from "../../job/job.model";
 
 @Injectable({
   providedIn: 'root'
@@ -29,4 +30,23 @@ export class TaskForceService {
         map(taskForces => this._taskForces.next(taskForces))
       );
   }
+
+  getTaskForceById(taskForceId: Id) {
+    const endpoint = `${angularEnvironment.apiService}/task-force/${taskForceId}`;
+    return this.http.get<TaskForceDto>(endpoint);
+  }
+
+  getJobsByTaskForceId(taskForceId: Id) {
+    const endpoint = `${angularEnvironment.apiService}/task-force/${taskForceId}/jobs`;
+    return this.http.get<any>(endpoint);
+  }
+
+  executeTaskForce(taskForceId: Id, environmentId: Id, agentId: Id) {
+    const endpoint = `${angularEnvironment.apiService}/task-force/${taskForceId}/execute`;
+    return this.http.post<any>(endpoint, {
+      agentId: agentId,
+      environmentId: environmentId
+    });
+  }
+
 }

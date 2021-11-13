@@ -1,5 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TaskForce} from "../../task-force.model";
+import {Id} from "../../../../types";
 
 @Component({
   selector: 'roc-task-force-list-item',
@@ -8,11 +9,14 @@ import {TaskForce} from "../../task-force.model";
 })
 export class TaskForceListItemComponent implements OnInit {
   @Input() taskForce!: TaskForce;
+  @Output() executeTask = new EventEmitter<Id>();
 
-  constructor() {
+  ngOnInit() {
   }
 
-  ngOnInit(): void {
+  onExecuteTask() {
+    this.executeTask.emit(this.taskForce.id)
   }
+
 
 }
