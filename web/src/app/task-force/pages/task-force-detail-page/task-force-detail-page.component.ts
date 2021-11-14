@@ -6,6 +6,8 @@ import {JobService} from "../../../job/services/job.service";
 import {Job} from "../../../job/job.model";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
+import {MatDialog} from "@angular/material/dialog";
+import {TaskForceSourceEditDialogComponent} from "../../components/task-force-source-edit-dialog/task-force-source-edit-dialog.component";
 
 
 @Component({
@@ -24,7 +26,7 @@ export class TaskForceDetailPageComponent implements OnInit {
   // @ts-ignore
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private route: ActivatedRoute, public taskForceService: TaskForceService, public jobService: JobService) {
+  constructor(private route: ActivatedRoute, public dialog: MatDialog, public taskForceService: TaskForceService, public jobService: JobService) {
   }
 
   ngOnInit(): void {
@@ -45,6 +47,17 @@ export class TaskForceDetailPageComponent implements OnInit {
           this.dataSource.paginator = this.paginator;
         }
       )
+  }
+
+  openSourceEditDialog() {
+    const dialogRef = this.dialog.open(TaskForceSourceEditDialogComponent, {
+      hasBackdrop: true,
+      minWidth: 500
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
   get queuedJobCount(): number {

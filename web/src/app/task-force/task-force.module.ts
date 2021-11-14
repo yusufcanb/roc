@@ -9,6 +9,8 @@ import {TaskForceCreatePageComponent} from './pages/task-force-create-page/task-
 import {RouterModule} from "@angular/router";
 import {MaterialModule} from "../material.module";
 import {TaskForceIconPipe} from "./pipes/task-force-icon.pipe";
+import {TaskForceSourceEditDialogComponent} from './components/task-force-source-edit-dialog/task-force-source-edit-dialog.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -20,12 +22,15 @@ import {TaskForceIconPipe} from "./pipes/task-force-icon.pipe";
 
     TaskForceListPageComponent,
     TaskForceDetailPageComponent,
-    TaskForceCreatePageComponent
+    TaskForceCreatePageComponent,
+    TaskForceSourceEditDialogComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
-    MaterialModule
+    ReactiveFormsModule,
+    MaterialModule,
+    FormsModule
   ],
   providers: [
     TaskForceService

@@ -20,7 +20,7 @@
       <mat-card-title fxLayout="row" fxLayoutAlign="space-between center">
         <span>Package Information</span>
         <span>
-            <button mat-icon-button matTooltip="Configure Task Force Package">
+            <button mat-icon-button matTooltip="Configure Task Force Package" (click)="openSourceEditDialog()">
               <mat-icon>
                 upload
               </mat-icon>
@@ -58,7 +58,7 @@
       Job History
     </span>
     <span>
-      <button mat-icon-button [routerLink]="['/', 'job']" [queryParams]="{taskForceId: '?'}">
+      <button mat-icon-button [routerLink]="['/', 'job']" [queryParams]="{taskForceId: taskForce.id}">
         <mat-icon>history</mat-icon>
       </button>
     </span>
