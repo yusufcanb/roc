@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiService: "http://localhost:8080"
+  apiService: "http://localhost:8080",
+  objectStorageService: "http://localhost:9000"
 };
 
 /*

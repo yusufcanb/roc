@@ -15,24 +15,24 @@
     <input #robotFile hidden name="file" type="file" (change)="onFileChange($event)">
     <mat-form-field appearance="fill" floatLabel="always" *ngIf="sourceType == 'repository'">
       <mat-label>Repository</mat-label>
-      <input [(ngModel)]="sourceUrl" [ngModelOptions]="{standalone: true}" matInput
+      <input [(ngModel)]="repositoryUrl" [ngModelOptions]="{standalone: true}" matInput
              placeholder="github.com/robocorp/robot-template">
       <span matPrefix>https://</span>
     </mat-form-field>
 
     <mat-form-field appearance="fill" floatLabel="always" *ngIf="sourceType == 'package'">
       <mat-label>Upload Package</mat-label>
-      <input matInput [disabled]="true" [value]="sourceUrl"/>
-      <button mat-icon-button matSuffix (click)="onPackageUploadClicked($event)">
-        <mat-icon>upload</mat-icon>
+      <input matInput [disabled]="true" [value]="repositoryUrl"/>
+      <button mat-icon-button matSuffix (click)="onPackageUploadClicked($event)" [disabled]="isUploading">
+        <mat-icon *ngIf="!isUploading">upload</mat-icon>
+        <mat-icon *ngIf="isUploading" class="loading">cached</mat-icon>
       </button>
     </mat-form-field>
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
-  <button mat-raised-button color="primary" [mat-dialog-close]="{sourceType: sourceType, sourceUrl: sourceUrl}"
-          cdkFocusInitial>Install
+  <button mat-raised-button color="warn" [mat-dialog-close]="{success: false}">Cancel</button>
+  <button mat-raised-button color="primary" cdkFocusInitial (click)="onInstallClicked()">Install
   </button>
 </mat-dialog-actions>

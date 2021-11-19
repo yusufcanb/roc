@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiService: "http://localhost:8080"
+  apiService: "/api/v1",
+  objectStorageService: "/s3"
 };

@@ -3,15 +3,19 @@ import {Id} from "../../types";
 import {Environment} from "../environment/environment.model";
 import {TaskForce} from "../task-force/task-force.model";
 import {Agent} from "../agent/agent.model";
+import {environment} from "../../environments/environment";
 
 export interface JobDto extends Dto {
   projectId: Id;
 
   name: string;
   status: string;
+  reportUrl: string;
+
   environment: Environment;
   agent: Agent;
   taskForce: TaskForce;
+
 }
 
 export class Job extends DomainModel<JobDto> {
@@ -23,6 +27,8 @@ export class Job extends DomainModel<JobDto> {
   private _environment!: Environment;
   private _agent!: Agent;
   private _taskForce!: TaskForce;
+
+  private _reportUrl!: string;
 
   get projectId(): Id {
     return this._projectId;
@@ -80,5 +86,11 @@ export class Job extends DomainModel<JobDto> {
     this._id = value;
   }
 
+  get reportUrl(): string {
+    return `${environment.objectStorageService}/${this._reportUrl}`;
+  }
 
+  set reportUrl(value: string) {
+    this._reportUrl = value;
+  }
 }

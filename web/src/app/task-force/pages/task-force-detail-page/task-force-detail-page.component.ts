@@ -8,6 +8,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatDialog} from "@angular/material/dialog";
 import {TaskForceSourceEditDialogComponent} from "../../components/task-force-source-edit-dialog/task-force-source-edit-dialog.component";
+import {environment} from "../../../../environments/environment";
 
 
 @Component({
@@ -18,6 +19,7 @@ import {TaskForceSourceEditDialogComponent} from "../../components/task-force-so
 export class TaskForceDetailPageComponent implements OnInit {
   isLoading = false;
   taskForce!: TaskForce;
+
 
   jobs: Job[] = [];
   displayedColumns: string[] = ['id', 'environment', 'agent', 'createdAt', 'state'];
@@ -34,7 +36,9 @@ export class TaskForceDetailPageComponent implements OnInit {
     this.isLoading = true;
     this.taskForceService.getTaskForceById(taskForceId)
       .subscribe(
-        taskForceDto => this.taskForce = new TaskForce(taskForceDto),
+        taskForceDto => {
+          this.taskForce = new TaskForce(taskForceDto);
+        },
         () => null,
         () => this.isLoading = false
       );
@@ -43,7 +47,8 @@ export class TaskForceDetailPageComponent implements OnInit {
       .subscribe(
         jobs => {
           this.jobs = jobs;
-          this.dataSource = new MatTableDataSource<Job>(jobs);
+          this.jobs = this.jobs.sort((j: any) => -j.createdAt);
+          this.dataSource = new MatTableDataSource<Job>(this.jobs);
           this.dataSource.paginator = this.paginator;
         }
       )
@@ -52,11 +57,17 @@ export class TaskForceDetailPageComponent implements OnInit {
   openSourceEditDialog() {
     const dialogRef = this.dialog.open(TaskForceSourceEditDialogComponent, {
       hasBackdrop: true,
-      minWidth: 500
+      minWidth: 500,
+      disableClose: true,
+      data: this.taskForce
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      if (result.success) {
+        this.taskForce.sourceType = result.data.sourceType;
+        this.taskForce.repositoryUrl = result.data.repositoryUrl;
+        this.taskForce.packageUrl = result.data.packageUrl;
+      }
     });
   }
 
@@ -65,10 +76,10 @@ export class TaskForceDetailPageComponent implements OnInit {
   }
 
   get successJobCount(): number {
-    return this.jobs.filter(job => job.status == "FAILED").length;
+    return this.jobs.filter(job => job.status == "SUCCESS").length;
   }
 
   get failedJobCount(): number {
-    return this.jobs.filter(job => job.status == "SUCCESS").length;
+    return this.jobs.filter(job => job.status == "FAIL").length;
   }
 }

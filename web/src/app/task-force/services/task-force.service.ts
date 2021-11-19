@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, zip} from "rxjs";
+import {BehaviorSubject, Observable, zip} from "rxjs";
 import {Id} from "../../../types";
 import {environment as angularEnvironment} from "../../../environments/environment";
-import {filter, map, take} from "rxjs/operators";
+import {catchError, filter, map, take} from "rxjs/operators";
 import {HttpClient} from "@angular/common/http";
 import {TaskForce, TaskForceDto} from "../task-force.model";
-import {JobDto} from "../../job/job.model";
+import {Job, JobDto} from "../../job/job.model";
 import {AgentService} from "../../agent/services/agent.service";
 import {EnvironmentService} from "../../environment/services/environment.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -22,20 +22,23 @@ export class TaskForceService {
     private _snackBar: MatSnackBar,
     private http: HttpClient,
     private agentService: AgentService,
-    private environmentService: EnvironmentService
+    private environmentService: EnvironmentService,
   ) {
   }
+
+  private convertDtosToModels<T, M>(dtos: Array<T>, type: (new (obj: any) => M)): Array<M> {
+    const models: Array<M> = [];
+    dtos.forEach(dto => models.push(new type(dto)));
+    return models;
+  }
+
 
   getTaskForcesByProjectId(projectId: Id) {
     const endpoint = `${angularEnvironment.apiService}/task-force/?projectId=${projectId}`;
     return this.http.get<TaskForceDto[]>(endpoint)
       .pipe(
-        map(taskForceDtos => {
-          const taskForces: TaskForce[] = [];
-          taskForceDtos.forEach(dto => taskForces.push(new TaskForce(dto)))
-          return taskForces;
-        }),
-        map(taskForces => this._taskForces.next(taskForces))
+        map((dtos: TaskForceDto[]) => this.convertDtosToModels<TaskForceDto, TaskForce>(dtos, TaskForce)),
+        map((taskForces: TaskForce[]) => this._taskForces.next(taskForces))
       );
   }
 
@@ -44,9 +47,30 @@ export class TaskForceService {
     return this.http.get<TaskForceDto>(endpoint);
   }
 
-  getJobsByTaskForceId(taskForceId: Id) {
+
+  updateTaskForce(taskForceId: Id, taskForce: Partial<TaskForce>) {
+    const endpoint = `${angularEnvironment.apiService}/task-force/${taskForceId}`;
+    return this.http.put<any>(endpoint, taskForce);
+  }
+
+  getJobsByTaskForceId(taskForceId: Id): Observable<Job[]> {
     const endpoint = `${angularEnvironment.apiService}/task-force/${taskForceId}/jobs`;
-    return this.http.get<any>(endpoint);
+    return this.http.get<any>(endpoint)
+      .pipe(
+        map((dtos: JobDto[]) => this.convertDtosToModels<JobDto, Job>(dtos, Job)),
+      );
+  }
+
+  uploadPackage(taskForceId: Id, robotPackage: File): Observable<boolean> {
+    // const endpoint = `${angularEnvironment.apiService}/oss/upload`;
+    const endpoint = `${angularEnvironment.apiService}/task-force/${taskForceId}/package`;
+    const formData: FormData = new FormData();
+    formData.append('file', robotPackage, robotPackage.name);
+    return this.http
+      .post(endpoint, formData)
+      .pipe(
+        map(() => true)
+      );
   }
 
   executeTaskForce(taskForceId: Id, environmentId: Id, agentId: Id) {
@@ -56,6 +80,7 @@ export class TaskForceService {
       environmentId: environmentId
     });
   }
+
 
   executeWithId(taskForceId: Id) {
     zip(this.agentService.selectedAgent$, this.environmentService.selectedEnvironment$)
@@ -78,5 +103,6 @@ export class TaskForceService {
         }
       })
   }
+
 
 }
