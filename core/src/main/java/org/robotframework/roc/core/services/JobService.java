@@ -3,7 +3,9 @@ package org.robotframework.roc.core.services;
 import org.robotframework.roc.core.dto.job.JobCreateRequestBody;
 import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.Job;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,5 +23,5 @@ public interface JobService {
 
     Optional<Job> getJobById(Long jobId);
 
-
+    void saveJobReport(Job job, MultipartFile file) throws Exception;
 }

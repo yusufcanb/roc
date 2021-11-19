@@ -44,4 +44,18 @@ public class Job {
     @Temporal(TemporalType.TIMESTAMP)
     private Date finishedAt = null;
 
+    public String getBucketName() {
+        return project.getSlug();
+    }
+
+    public String getReportUrl() {
+        return new StringBuilder()
+                .append(getBucketName())
+                .append("/job")
+                .append("/").append(id)
+                .append("/reports")
+                .append("/log.html")
+                .toString();
+    }
+
 }
