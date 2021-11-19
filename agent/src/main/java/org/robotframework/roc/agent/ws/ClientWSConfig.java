@@ -34,20 +34,38 @@ public class ClientWSConfig {
     private SimpleJobRunner jobRunner;
 
     @Bean
+    public ThreadPoolTaskScheduler taskScheduler(TaskSchedulerBuilder builder) {
+        return builder.poolSize(5).build();
+    }
+
+    @Bean
+    public WebSocketClient webSocketClient() {
+        List<Transport> transportList = new ArrayList<>();
+        transportList.add(new WebSocketTransport(new StandardWebSocketClient()));
+//        transportList.add(new RestTemplateXhrTransport());
+        return new SockJsClient(transportList);
+    }
+
+    @Bean
+    public StompSessionHandler stompSessionHandler(TaskScheduler taskScheduler) {
+        return new ClientStompSessionHandler(jobRunner);
+    }
+
+    @Bean
     public WebSocketStompClient webSocketStompClient(
             WebSocketClient webSocketClient,
             StompSessionHandler stompSessionHandler,
             TaskScheduler taskScheduler
     ) {
         WebSocketStompClient webSocketStompClient = new WebSocketStompClient(webSocketClient);
-
         WebSocketHttpHeaders stompHeaders = new WebSocketHttpHeaders();
+
         stompHeaders.add("login", "roc");
         stompHeaders.add("passcode", "roc");
 
         webSocketStompClient.setMessageConverter(new StringMessageConverter());
+        webSocketStompClient.setDefaultHeartbeat(new long[]{100L, 100L});
         webSocketStompClient.setTaskScheduler(taskScheduler);
-        webSocketStompClient.setReceiptTimeLimit(3600L * 3600L);
 
         String url = "ws://{host}:{port}/ws";
         String host = System.getProperty("roc.platform.host");
@@ -55,27 +73,8 @@ public class ClientWSConfig {
 
         log.info("Stomp client url: {}", String.format(url, host, port));
         webSocketStompClient.connect(url, stompHeaders, stompSessionHandler, host, Integer.valueOf(port));
+
         return webSocketStompClient;
     }
-
-    @Bean
-    public ThreadPoolTaskScheduler taskScheduler(TaskSchedulerBuilder builder) {
-        return builder.poolSize(1).build();
-    }
-
-
-    @Bean
-    public WebSocketClient webSocketClient() {
-        List<Transport> transportList = new ArrayList<>();
-        transportList.add(new WebSocketTransport(new StandardWebSocketClient()));
-        transportList.add(new RestTemplateXhrTransport());
-        return new SockJsClient(transportList);
-    }
-
-    @Bean
-    public StompSessionHandler stompSessionHandler() {
-        return new ClientStompSessionHandler(jobRunner);
-    }
-
 
 }

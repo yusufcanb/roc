@@ -13,7 +13,7 @@ import java.util.Optional;
 public class JobResource extends Resource {
 
     public Optional<Job> getJobById(Long id) {
-        String url = String.format("http://%s:%s/job", this.getHost(), this.getPort());
+        String url = String.format("http://%s:%s/api/v1/job", this.getHost(), this.getPort());
         ResponseEntity<Job> response = this.restTemplate.getForEntity(String.format("%s/%s", url, id.toString()), Job.class);
         if (response.getStatusCodeValue() == 200) {
             return Optional.of(response.getBody());
@@ -23,7 +23,7 @@ public class JobResource extends Resource {
     }
 
     public void updateJobStatus(Long id, JobStatus status) {
-        String url = String.format("http://%s:%s/job/%s/status", this.getHost(), this.getPort(), id);
+        String url = String.format("http://%s:%s/api/v1/job/%s/status", this.getHost(), this.getPort(), id);
 
         JobStatusUpdateDto jobStatusDto = new JobStatusUpdateDto();
         jobStatusDto.setJobStatus(status);

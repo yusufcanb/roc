@@ -7,8 +7,16 @@ import org.robotframework.roc.agent.resource.TaskForceResource;
 import org.robotframework.roc.agent.utils.ZipUtils;
 import org.robotframework.roc.core.beans.JobStatus;
 import org.robotframework.roc.core.models.Job;
+import org.robotframework.roc.core.models.TaskForce;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
@@ -76,7 +84,7 @@ public class SimpleJobRunner {
 
         String s;
         while ((s = bf.readLine()) != null) {
-            System.out.println(s);
+            log.info(s);
         }
 
         log.info("Execution finished");
@@ -105,7 +113,7 @@ public class SimpleJobRunner {
 
         String s;
         while ((s = bf.readLine()) != null) {
-            System.out.println(s);
+            log.info(s);
         }
 
         log.info("Execution finished");
@@ -117,12 +125,25 @@ public class SimpleJobRunner {
         return p.exitValue();
     }
 
-    private void downloadPackage(Long taskForceId) throws IOException {
-        Optional<File> robotPackage = this.taskForceResource.getTaskForcePackage(taskForceId);
-        Path destination = Paths.get(agentRuntime.getProjectsDir().toString(), String.format("task-force-package-%s", taskForceId));
+    private void downloadPackage(TaskForce taskForce) throws IOException {
+        Optional<File> robotPackage = this.taskForceResource.getTaskForcePackage(taskForce);
+        Path destination = Paths.get(agentRuntime.getProjectsDir().toString(), taskForce.getRepositoryUrl());
         if (robotPackage.isPresent()) {
             ZipUtils.unzip(robotPackage.get().toString(), destination.toString());
         }
+    }
+
+    private void uploadExecutionReport(Job job) {
+        HttpHeaders headers = new org.springframework.http.HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        Path reportPath = Paths.get(agentRuntime.getAgentHome().toString(), "projects", job.getTaskForce().getRepositoryUrl(), "output", "log.html");
+        body.add("file", new FileSystemResource(reportPath));
+
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+        String url = String.format("http://localhost:8080/job/%s/report", job.getId());
+        restTemplate.postForEntity(url, requestEntity, String.class);
     }
 
     public void run(Job job) throws IOException {
@@ -143,15 +164,16 @@ public class SimpleJobRunner {
             }
         }
         if (sourceType.equals("package")) {
-            Long taskForceId = job.getTaskForce().getId();
-            this.downloadPackage(taskForceId);
-            returnCode = this.executeRobotWithPackage(agentBinary, String.format("task-force-package-%s", taskForceId));
+            TaskForce taskForce = job.getTaskForce();
+            this.downloadPackage(taskForce);
+            returnCode = this.executeRobotWithPackage(agentBinary, taskForce.getRepositoryUrl());
             if (returnCode == 0) {
                 this.jobResource.updateJobStatus(job.getId(), JobStatus.SUCCESS);
             } else {
                 this.jobResource.updateJobStatus(job.getId(), JobStatus.FAIL);
             }
         }
+        this.uploadExecutionReport(job);
     }
 
     public void run(Long jobId) throws Exception {

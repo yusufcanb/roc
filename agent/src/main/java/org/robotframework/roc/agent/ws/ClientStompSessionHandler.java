@@ -9,11 +9,12 @@ import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
 import org.springframework.util.MimeTypeUtils;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 @Slf4j
 public class ClientStompSessionHandler extends StompSessionHandlerAdapter {
 
-    private String agentId;
-    private StompSession stompSession;
     private SimpleJobRunner jobRunner;
 
     public ClientStompSessionHandler(SimpleJobRunner jobRunner) {
@@ -23,11 +24,10 @@ public class ClientStompSessionHandler extends StompSessionHandlerAdapter {
     @Override
     public void afterConnected(StompSession session, StompHeaders headers) {
         log.info("Client connected: headers {}", headers);
-        this.stompSession = session;
-        String destination = String.format("/queue/events.%s", System.getProperty("roc.agent.id"));
 
+        String destination = String.format("/queue/events.%s", System.getProperty("roc.agent.id"));
         StompHeaders subscriptionHeaders = new StompHeaders();
-        subscriptionHeaders.setAck("client");
+        subscriptionHeaders.setAck("auto");
         subscriptionHeaders.setDestination(destination);
         subscriptionHeaders.setContentType(MimeTypeUtils.TEXT_PLAIN);
         session.subscribe(subscriptionHeaders, this);
@@ -35,17 +35,21 @@ public class ClientStompSessionHandler extends StompSessionHandlerAdapter {
 
     @Override
     public void handleFrame(StompHeaders headers, Object payload) {
-        log.info("Session id is: {}", this.stompSession.getSessionId());
         log.info("Received frame: payload {}, headers {}", payload, headers);
-
         Gson gson = new Gson();
         StompPayload message = gson.fromJson(payload.toString(), StompPayload.class);
         try {
-            jobRunner.run(message.getJobId());
+            Executor executor = Executors.newFixedThreadPool(5);
+            executor.execute(() -> {
+                try {
+                    jobRunner.run(message.getJobId());
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            });
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-        stompSession.acknowledge(headers.getAck(), true);
     }
 
 }

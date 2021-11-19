@@ -5,6 +5,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProjectResource extends Resource {
 
-    private String url = String.format("http://%s:%s/project", this.getHost(), this.getPort());
+    private String url = String.format("http://%s:%s/api/v1/project", this.getHost(), this.getPort());
 
 }
