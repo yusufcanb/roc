@@ -1,6 +1,7 @@
 package org.robotframework.roc.platform.job.services;
 
 import com.google.gson.Gson;
+import io.minio.errors.MinioException;
 import lombok.extern.slf4j.Slf4j;
 import org.robotframework.roc.core.beans.JobStatus;
 import org.robotframework.roc.core.dto.job.JobCreateRequestBody;
@@ -12,6 +13,7 @@ import org.robotframework.roc.platform.agent.repositories.AgentRepository;
 import org.robotframework.roc.platform.environment.repositories.EnvironmentRepository;
 import org.robotframework.roc.platform.job.repository.JobRepository;
 import org.robotframework.roc.platform.project.repository.ProjectRepository;
+import org.robotframework.roc.platform.s3.ObjectStorageService;
 import org.robotframework.roc.platform.taskforce.repository.TaskForceRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,9 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -31,6 +35,7 @@ public class JobServiceImpl implements JobService {
     private final TaskForceRepository taskForceRepository;
     private final EnvironmentRepository environmentRepository;
     private final JobRepository jobRepository;
+    private final ObjectStorageService oss;
     private final SimpMessagingTemplate messagingTemplate;
 
     public JobServiceImpl(ProjectRepository projectRepository,
@@ -38,12 +43,14 @@ public class JobServiceImpl implements JobService {
                           EnvironmentRepository environmentRepository,
                           TaskForceRepository taskForceRepository,
                           JobRepository jobRepository,
+                          ObjectStorageService oss,
                           SimpMessagingTemplate simpMessagingTemplate) {
         this.projectRepository = projectRepository;
         this.jobRepository = jobRepository;
         this.agentRepository = agentRepository;
         this.taskForceRepository = taskForceRepository;
         this.environmentRepository = environmentRepository;
+        this.oss = oss;
         this.messagingTemplate = simpMessagingTemplate;
     }
 
@@ -54,7 +61,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public List<Job> getJobsByProject(Long projectId) {
-        return jobRepository.findAll();
+        return jobRepository.findAllByProjectId(projectId);
     }
 
     @Override
@@ -65,6 +72,15 @@ public class JobServiceImpl implements JobService {
     @Override
     public Optional<Job> getJobById(Long jobId) {
         return jobRepository.findById(jobId);
+    }
+
+    @Override
+    public void saveJobReport(Job job, MultipartFile file) throws IOException, MinioException {
+        String reportPath = new StringBuilder()
+                .append("/job").append("/").append(job.getId())
+                .append("/reports").append("/").append(file.getOriginalFilename())
+                .toString();
+        oss.upload(job.getBucketName(), reportPath, file.getInputStream(), file.getContentType());
     }
 
     @Override
@@ -80,6 +96,7 @@ public class JobServiceImpl implements JobService {
             Job job = new Job();
 
             job.setName(jobDto.getName());
+            job.setProject(project.get());
             job.setEnvironment(environment.get());
             job.setAgent(agent.get());
             job.setTaskForce(taskForce.get());

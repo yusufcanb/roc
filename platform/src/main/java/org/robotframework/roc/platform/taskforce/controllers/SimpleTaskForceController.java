@@ -3,22 +3,20 @@ package org.robotframework.roc.platform.taskforce.controllers;
 import lombok.extern.slf4j.Slf4j;
 import org.robotframework.roc.core.controllers.TaskForceController;
 import org.robotframework.roc.core.dto.taskforce.ExecuteTaskForceDTO;
+import org.robotframework.roc.core.dto.taskforce.TaskForceUpdateDto;
 import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.Job;
 import org.robotframework.roc.core.models.TaskForce;
 import org.robotframework.roc.core.services.JobService;
 import org.robotframework.roc.core.services.TaskForceService;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpHeaders;
+import org.robotframework.roc.platform.s3.ObjectStorageService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.File;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,10 +26,12 @@ public class SimpleTaskForceController implements TaskForceController {
 
     private final TaskForceService taskForceService;
     private final JobService jobService;
+    private final ObjectStorageService oss;
 
-    public SimpleTaskForceController(TaskForceService taskForceService, JobService jobService) {
+    public SimpleTaskForceController(TaskForceService taskForceService, JobService jobService, ObjectStorageService objectStorageService) {
         this.taskForceService = taskForceService;
         this.jobService = jobService;
+        this.oss = objectStorageService;
     }
 
     @RequestMapping(value = "/task-force", method = RequestMethod.GET)
@@ -62,6 +62,21 @@ public class SimpleTaskForceController implements TaskForceController {
         }
     }
 
+    @RequestMapping(value = "/task-force/{id}/package", method = RequestMethod.POST)
+    public ResponseEntity<TaskForce> uploadTaskForcePackage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+        Optional<TaskForce> taskForceOptional = taskForceService.getTaskForceById(id);
+        if (taskForceOptional.isPresent()) {
+            try {
+                taskForceService.uploadTaskForcePackage(taskForceOptional.get(), file);
+                return new ResponseEntity<>(taskForceOptional.get(), HttpStatus.OK);
+            } catch (Exception e) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Object storage connection failed.", e);
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task force does not exists", null);
+        }
+    }
+
     @RequestMapping(value = "/task-force/{id}/jobs", method = RequestMethod.GET)
     public ResponseEntity<List<Job>> getJobsByTaskForce(@PathVariable Long id) {
         Optional<TaskForce> taskForce = taskForceService.getTaskForceById(id);
@@ -73,31 +88,12 @@ public class SimpleTaskForceController implements TaskForceController {
         }
     }
 
-    @RequestMapping(value = "/task-force/{id}/download", method = RequestMethod.GET)
-    @Override
-    public ResponseEntity<FileSystemResource> downloadTaskForcePackage(@PathVariable Long id) {
-        Optional<TaskForce> taskForceOptional = taskForceService.getTaskForceById(id);
-        if (taskForceOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task force does not exists", null);
-        }
-        TaskForce taskForce = taskForceOptional.get();
-        File taskForcePackage = Paths.get(System.getProperty("user.home"), ".roc", "packages", taskForce.getRepositoryUrl()).toFile();
-        long fileLength = taskForcePackage.length();
-
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setContentLength(fileLength);
-        responseHeaders.setContentType(MediaType.valueOf("application/octet-stream"));
-        responseHeaders.setContentDispositionFormData("attachment", String.format("%s", taskForce.getRepositoryUrl()));
-
-        return new ResponseEntity<>(new FileSystemResource(taskForcePackage), responseHeaders, HttpStatus.OK);
-    }
-
     @RequestMapping(value = "/task-force/{id}", method = RequestMethod.PUT)
     @Override
-    public ResponseEntity<TaskForce> updateTaskForceById(@PathVariable Long id, @RequestBody Object body) {
+    public ResponseEntity<TaskForce> updateTaskForceById(@PathVariable Long id, @RequestBody TaskForceUpdateDto dto) {
         Optional<TaskForce> taskForce = taskForceService.getTaskForceById(id);
         if (taskForce.isPresent()) {
-            taskForceService.updateTaskForce(id, (TaskForce) body);
+            taskForceService.updateTaskForce(taskForce.get(), dto);
             return new ResponseEntity<>(taskForce.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

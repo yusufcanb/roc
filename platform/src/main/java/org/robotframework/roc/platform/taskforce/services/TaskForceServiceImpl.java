@@ -1,5 +1,7 @@
 package org.robotframework.roc.platform.taskforce.services;
 
+import io.minio.errors.MinioException;
+import org.robotframework.roc.core.dto.taskforce.TaskForceUpdateDto;
 import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.*;
 import org.robotframework.roc.core.services.JobService;
@@ -7,11 +9,14 @@ import org.robotframework.roc.core.services.TaskForceService;
 import org.robotframework.roc.platform.agent.repositories.AgentRepository;
 import org.robotframework.roc.platform.environment.repositories.EnvironmentRepository;
 import org.robotframework.roc.platform.project.repository.ProjectRepository;
+import org.robotframework.roc.platform.s3.ObjectStorageService;
 import org.robotframework.roc.platform.taskforce.repository.TaskForceRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,18 +29,21 @@ public class TaskForceServiceImpl implements TaskForceService {
 
     private final ProjectRepository projectRepository;
     private final JobService jobService;
+    private final ObjectStorageService oss;
 
     public TaskForceServiceImpl(ProjectRepository projectRepository,
                                 TaskForceRepository taskForceRepository,
                                 AgentRepository agentRepository,
                                 EnvironmentRepository environmentRepository,
-                                JobService jobService
+                                JobService jobService,
+                                ObjectStorageService oss
     ) {
         this.taskForceRepository = taskForceRepository;
         this.projectRepository = projectRepository;
         this.agentRepository = agentRepository;
         this.environmentRepository = environmentRepository;
         this.jobService = jobService;
+        this.oss = oss;
     }
 
     @Override
@@ -49,8 +57,31 @@ public class TaskForceServiceImpl implements TaskForceService {
     }
 
     @Override
-    public TaskForce updateTaskForce(Long id, TaskForce taskForce) {
+    public TaskForce updateTaskForce(TaskForce taskForce) {
         return taskForceRepository.save(taskForce);
+    }
+
+    @Override
+    public TaskForce updateTaskForce(Long id, TaskForceUpdateDto dto) {
+        TaskForce tf = taskForceRepository.getOne(id);
+        tf.setName(dto.getName());
+        tf.setSourceType(dto.getSourceType());
+        tf.setRepositoryUrl(dto.getRepositoryUrl());
+        return taskForceRepository.save(tf);
+    }
+
+    @Override
+    public TaskForce updateTaskForce(TaskForce taskForce, TaskForceUpdateDto dto) {
+        taskForce.setName(dto.getName() == null ? taskForce.getName() : dto.getName());
+        taskForce.setSourceType(dto.getSourceType());
+        taskForce.setRepositoryUrl(dto.getRepositoryUrl());
+        return taskForceRepository.save(taskForce);
+    }
+
+    @Override
+    public void uploadTaskForcePackage(TaskForce taskForce, MultipartFile file) throws IOException, MinioException {
+        String packageUrl = taskForce.buildPackageUrl(file.getOriginalFilename());
+        oss.upload(taskForce.getBucketName(), packageUrl, file.getInputStream(), file.getContentType());
     }
 
     @Override
@@ -58,19 +89,19 @@ public class TaskForceServiceImpl implements TaskForceService {
         Optional<Environment> optionalEnvironment = environmentRepository.findById(environmentId);
         Optional<Agent> optionalAgent = agentRepository.findById(agentId);
 
-        if (optionalAgent.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Agent does not exists", null);
-        } else if (optionalEnvironment.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Environment does not exists", null);
-        } else {
-            Job job = new Job();
-
-            job.setTaskForce(taskForce);
-            job.setEnvironment(optionalEnvironment.get());
-            job.setAgent(optionalAgent.get());
-
-            return jobService.createJob(job);
+        for (Optional<Object> optional : new Optional[]{optionalAgent, optionalEnvironment}) {
+            if (!optional.isPresent()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad request", null);
+            }
         }
+
+        Job job = new Job();
+        job.setProject(taskForce.getProject());
+        job.setTaskForce(taskForce);
+        job.setEnvironment(optionalEnvironment.get());
+        job.setAgent(optionalAgent.get());
+
+        return jobService.createJob(job);
     }
 
     @Override

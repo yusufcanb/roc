@@ -9,5 +9,7 @@ import java.util.List;
 @Repository
 public interface JobRepository extends JpaRepository<Job, Long> {
 
+    List<Job> findAllByProjectId(Long projectId);
+
     List<Job> findAllByTaskForceId(Long taskForceId);
 }
