@@ -22,7 +22,9 @@ public class HealthCheck {
     @Scheduled(fixedDelay = 2500)
     public void agentHeartBeat() {
         Long id = Long.valueOf(System.getProperty("roc.agent.id"));
-        restTemplate.execute(String.format("http://localhost:8080/agent/%s/health-check", id), HttpMethod.POST, null, null);
+        String host = System.getProperty("roc.platform.host");
+        String port = System.getProperty("roc.platform.port");
+        restTemplate.execute(String.format("http://%s:%s/api/v1/agent/%s/health-check", host, port, id), HttpMethod.POST, null, null);
         log.debug("Health check task execution finished, Device: {}");
     }
 }
