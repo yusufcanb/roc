@@ -1,5 +1,6 @@
 <button mat-button class="environment-select-button" [matMenuTriggerFor]="envMenu"
         aria-label="Example icon-button with a menu">
+  <mat-icon>grid_3x3</mat-icon>
   {{(environmentService.selectedEnvironment$ | async)?.name ?? "Select Environment"}}
   <mat-icon>keyboard_arrow_down</mat-icon>
 </button>

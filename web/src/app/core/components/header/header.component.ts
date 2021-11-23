@@ -17,6 +17,10 @@ import {Component, OnInit} from '@angular/core';
                   aria-label="Example icon-button with share icon">
             <mat-icon>settings</mat-icon>
           </button>
+          <button mat-icon-button class="example-icon" matTooltip="About this Platform"
+                  aria-label="Tool information">
+            <mat-icon>info</mat-icon>
+          </button>
         </div>
       </div>
     </mat-toolbar>

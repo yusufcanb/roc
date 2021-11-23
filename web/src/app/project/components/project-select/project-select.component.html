@@ -1,4 +1,5 @@
 <button class="project-select-button" mat-button [matMenuTriggerFor]="projectMenu">
+  <mat-icon>workspaces</mat-icon>
   {{(projectService.selectedProject$ | async)?.name ?? "Select Project"}}
   <mat-icon>keyboard_arrow_down</mat-icon>
 </button>

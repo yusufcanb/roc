@@ -1,4 +1,8 @@
-<div class="page-content" fxFlexFill fxLayoutGap="25px" *ngIf="!isLoading">
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <app-breadcrumb></app-breadcrumb>
+</div>
+
+<div class="info-container" fxFlexFill fxLayoutGap="25px" *ngIf="!isLoading">
   <div fxFlex="30">
     <mat-card class="card">
       <mat-card-title fxLayout="row" fxLayoutAlign="space-between center">
@@ -54,7 +58,7 @@
   </div>
 </div>
 
-<mat-card style="margin-top: 25px; min-height: 40vh" *ngIf="!isLoading">
+<mat-card class="job-history-container" *ngIf="!isLoading">
   <mat-card-title fxLayout="row" fxLayoutAlign="space-between center">
     <span>
       Job History

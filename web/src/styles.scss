@@ -36,14 +36,6 @@ body {
   border: 2px solid white;
 }
 
-.default-layout-container {
-  height: calc(100vh - 228px);
-  width: 100%;
-  padding: 15px 18px;
-}
-
-.default-layout-content {
-  //height: 100%;
-  margin-top: 25px;
-  margin-right: 50px;
+.mat-raised-button:hover {
+  background: $color-roc-primary;
 }
