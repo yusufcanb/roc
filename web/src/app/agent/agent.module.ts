@@ -10,11 +10,13 @@ import {RouterModule} from "@angular/router";
 import {AgentListComponent} from './components/agent-list/agent-list.component';
 import {AgentItemComponent} from './components/agent-item/agent-item.component';
 import {AgentTypePipe} from "./agent-type.pipe";
+import {DateAgoPipe} from "../core/pipes/date-ago.pipe";
 
 
 @NgModule({
   declarations: [
     AgentTypePipe,
+    DateAgoPipe,
     AgentSelectComponent,
     AgentListPageComponent,
     AgentDetailPageComponent,

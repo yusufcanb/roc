@@ -3,7 +3,7 @@ import {Id, Nullable} from "../../../types";
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject} from "rxjs";
 import {environment as angularEnvironment} from "../../../environments/environment";
-import {map} from "rxjs/operators";
+import {map, tap} from "rxjs/operators";
 import {Agent, AgentDTO} from "../agent.model";
 import {ProjectService} from "../../project/services/project.service";
 
@@ -32,9 +32,13 @@ export class AgentService {
     const endpoint = `${angularEnvironment.apiService}/agent/?projectId=${projectId}`;
     return this.http.get<AgentDTO[]>(endpoint)
       .pipe(
-        map(agentDtos => {
+        map((agentDtos: AgentDTO[]) => {
           const agents: Agent[] = [];
-          agentDtos.forEach(a => agents.push(new Agent(a)))
+          for (let dto of agentDtos) {
+            let agent = new Agent(dto);
+            agent.setLastActive(dto.lastActive);
+            agents.push(agent);
+          }
           return agents;
         }),
         map(agents => this._agents$.next(agents))

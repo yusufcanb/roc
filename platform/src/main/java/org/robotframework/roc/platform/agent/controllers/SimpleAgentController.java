@@ -64,6 +64,13 @@ public class SimpleAgentController implements AgentController {
         }
     }
 
+    @RequestMapping(value = "/agent/{id}/health-check", method = RequestMethod.POST)
+    @Override
+    public ResponseEntity<String> heartBeat(@PathVariable Long id) {
+        agentService.heartBeat(id);
+        return new ResponseEntity<>("OK!", HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/agent/{id}", method = RequestMethod.DELETE)
     @Override
     public ResponseEntity<Agent> deleteAgentById(@PathVariable Long id) {

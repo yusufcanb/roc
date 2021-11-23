@@ -21,6 +21,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.socket.client.WebSocketClient;
 import picocli.CommandLine;
@@ -48,13 +49,12 @@ public class AgentApplication {
         return new RestTemplate();
     }
 
-
     @Bean
     public CommandLineRunner initAgent(ApplicationContext context) {
         return (String[] args) -> {
             AgentRuntime runtime = context.getBean(AgentRuntime.class);
             runtime.initRuntime();
-            runtime.agentMainLoop();
+//            runtime.agentMainLoop();
         };
     }
 

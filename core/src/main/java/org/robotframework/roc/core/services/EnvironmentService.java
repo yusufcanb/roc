@@ -1,5 +1,6 @@
 package org.robotframework.roc.core.services;
 
+import org.robotframework.roc.core.dto.environment.EnvironmentUpdateDto;
 import org.robotframework.roc.core.models.Environment;
 
 import java.util.List;
@@ -10,7 +11,9 @@ public interface EnvironmentService extends CRUDService<Long> {
 
     Environment createEnvironment(Long id, Environment environment);
 
-    Environment updateEnvironment(Long id, Environment environment);
+    Environment updateEnvironment(Long id, EnvironmentUpdateDto dto) throws Exception;
+
+    Environment updateEnvironment(Environment environment, EnvironmentUpdateDto dto) throws Exception;
 
     void deleteEnvironment(Long id);
 

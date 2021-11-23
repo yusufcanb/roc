@@ -1,7 +1,9 @@
 package org.robotframework.roc.core.controllers;
 
+import org.robotframework.roc.core.dto.environment.EnvironmentUpdateDto;
 import org.robotframework.roc.core.models.Environment;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -15,7 +17,8 @@ public interface EnvironmentController {
 
     ResponseEntity<Environment> createNewEnvironment(@RequestParam Long projectId, @RequestBody Environment environment);
 
-    ResponseEntity<Environment> updateEnvironmentById(@RequestParam Long environmentId, @RequestBody Environment environment);
+    ResponseEntity<Environment> updateEnvironmentById(@PathVariable Long environmentId, @RequestBody EnvironmentUpdateDto dto);
 
-    ResponseEntity<Environment> deleteEnvironmentById(@RequestParam Long environmentId);
+    ResponseEntity<Environment> deleteEnvironmentById(@PathVariable Long environmentId);
+
 }

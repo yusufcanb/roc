@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {HttpClient, HttpParams} from "@angular/common/http";
-import {environment} from "../../../environments/environment";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {environment as angularEnvironment} from "../../../environments/environment";
 import {Id, Nullable} from "../../../types";
 import {map} from "rxjs/operators";
 import {Environment, EnvironmentDTO} from "../environment.model";
@@ -30,7 +30,7 @@ export class EnvironmentService {
   }
 
   fetchEnvironmentsByProjectId(projectId: Id) {
-    const endpoint = `${environment.apiService}/environment?projectId=${projectId}`;
+    const endpoint = `${angularEnvironment.apiService}/environment?projectId=${projectId}`;
     return this.http.get<EnvironmentDTO[]>(endpoint)
       .pipe(
         map(response => this.setEnvironmentsWithDtos(response))
@@ -47,4 +47,8 @@ export class EnvironmentService {
     this._environments$.next(envs);
   }
 
+  saveEnvironment(environmentId: Id, dto: { name: string, description: string, code: string }) {
+    const endpoint = `${angularEnvironment.apiService}/environment/${environmentId}`;
+    return this.http.put<EnvironmentDTO[]>(endpoint, dto);
+  }
 }

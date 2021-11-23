@@ -1,6 +1,12 @@
-<mat-list-item [routerLink]="['/environment/detail']" [queryParams]="{environmentId: environment.id}">
-  <mat-icon mat-list-icon>code</mat-icon>
+<mat-list-item>
+  <mat-icon mat-list-icon class="environment-icon">grid_3x3</mat-icon>
   <div mat-line class="font-ocra">{{environment.name}}</div>
-  <div mat-line>{{environment.description}}</div>
-  <div mat-line>{{environment.variables.length}} Variables</div>
+  <div
+    mat-line>{{environment.description ? environment.description : "No description available for this environment"}}</div>
+
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <button mat-mini-fab aria-label="Edit" matTooltip="Edit" (click)="onEditEnvironment(environment)">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </div>
 </mat-list-item>

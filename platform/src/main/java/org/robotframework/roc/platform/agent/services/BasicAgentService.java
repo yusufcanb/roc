@@ -3,11 +3,14 @@ package org.robotframework.roc.platform.agent.services;
 import org.robotframework.roc.core.models.Agent;
 import org.robotframework.roc.core.services.AgentService;
 import org.robotframework.roc.platform.agent.repositories.AgentRepository;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
+import java.time.Instant;
 import java.util.Base64;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -60,6 +63,13 @@ public class BasicAgentService implements AgentService {
 
         secureRandom.nextBytes(randomBytes);
         agent.setAccessSecret(base64Encoder.encodeToString(randomBytes));
+    }
+
+    @Override
+    public void heartBeat(Long id) {
+        Agent agent = agentRepository.getOne(id);
+        agent.setLastActive(Date.from(Instant.now()));
+        agentRepository.save(agent);
     }
 
     @Override

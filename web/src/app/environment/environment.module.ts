@@ -8,6 +8,10 @@ import {RouterModule} from "@angular/router";
 import {EnvironmentListPageComponent} from './pages/environment-list-page/environment-list-page.component';
 import {EnvironmentListComponent} from './components/environment-list/environment-list.component';
 import {EnvironmentListItemComponent} from './components/environment-list-item/environment-list-item.component';
+import {MonacoEditorModule} from 'ngx-monaco-editor';
+import {FormsModule} from "@angular/forms";
+import {monacoConfig} from "./monaco.config";
+import {VariableEditDialogComponent} from './components/variable-edit-dialog/variable-edit-dialog.component';
 
 
 @NgModule({
@@ -16,17 +20,20 @@ import {EnvironmentListItemComponent} from './components/environment-list-item/e
     EnvironmentDetailPageComponent,
     EnvironmentListPageComponent,
     EnvironmentListComponent,
-    EnvironmentListItemComponent
+    EnvironmentListItemComponent,
+    VariableEditDialogComponent
   ],
-    imports: [
-        CommonModule,
-        HttpClientModule,
-        MaterialModule,
-        RouterModule
-    ],
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    MaterialModule,
+    RouterModule,
+    MonacoEditorModule.forRoot(monacoConfig),
+    FormsModule
+  ],
   exports: [
     EnvironmentSelectComponent
-  ],
+  ]
 })
 export class EnvironmentModule {
 }

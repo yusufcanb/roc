@@ -1,3 +1,5 @@
+@import "~src/colors";
+
 .mat-card {
   border: 3px solid black;
   box-sizing: content-box !important;
@@ -25,7 +27,7 @@
 
 .mat-fab {
   &:hover {
-    background: #03a062;
+    background: $color-roc-primary;
   }
 }
 

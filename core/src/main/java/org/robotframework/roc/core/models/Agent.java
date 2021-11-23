@@ -8,6 +8,7 @@ import org.robotframework.roc.core.beans.OS;
 import javax.persistence.*;
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.Date;
 
 @Data
 @Entity(name = "agents")
@@ -22,6 +23,8 @@ public class Agent {
     private String accessKey;
     private String accessSecret;
     private boolean initialized = false;
+
+    private Date lastActive;
 
     @ManyToOne
     @JoinColumn(columnDefinition = "projectId")

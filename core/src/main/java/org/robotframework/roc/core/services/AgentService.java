@@ -3,6 +3,7 @@ package org.robotframework.roc.core.services;
 import org.robotframework.roc.core.models.Agent;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.Optional;
 
 public interface AgentService extends CRUDService<Long> {
@@ -16,5 +17,8 @@ public interface AgentService extends CRUDService<Long> {
 
     Optional<Agent> getAgentById(Long id);
 
+    void heartBeat(Long id);
+
     void generateAccessTokens(Agent agent);
+
 }

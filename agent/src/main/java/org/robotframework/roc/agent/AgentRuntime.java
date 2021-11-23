@@ -17,7 +17,6 @@ import java.nio.file.StandardCopyOption;
 
 @Component
 @Slf4j
-
 public class AgentRuntime {
 
     @Getter
@@ -56,12 +55,6 @@ public class AgentRuntime {
     public void copyAgentBinary() throws IOException {
         InputStream src = getClass().getResourceAsStream("/bin/rcc-win32.exe");
         Files.copy(src, agentBinary, StandardCopyOption.REPLACE_EXISTING);
-    }
-
-    public void agentMainLoop() {
-        while (true) {
-            // keep spring running
-        }
     }
 
 }

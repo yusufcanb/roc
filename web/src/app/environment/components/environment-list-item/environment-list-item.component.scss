@@ -1,3 +1,5 @@
+@import "~src/colors";
+
 .mat-list-item {
   margin-top: 10px;
   border: 3px solid #000;
@@ -6,10 +8,14 @@
   cursor: pointer;
 
   &:hover {
-    border-color: #03a062;
+    border-color: #3dc9b0;
   }
 
-  .mat-icon {
+  .mat-mini-fab:hover {
+    background: $color-roc-primary;
+  }
+
+  .environment-icon {
     height: 35px;
     width: 35px;
     font-size: 35px;
