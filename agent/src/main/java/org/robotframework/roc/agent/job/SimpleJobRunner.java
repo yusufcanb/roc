@@ -6,6 +6,7 @@ import org.robotframework.roc.agent.resource.JobResource;
 import org.robotframework.roc.agent.resource.TaskForceResource;
 import org.robotframework.roc.agent.utils.ZipUtils;
 import org.robotframework.roc.core.beans.JobStatus;
+import org.robotframework.roc.core.models.Environment;
 import org.robotframework.roc.core.models.Job;
 import org.robotframework.roc.core.models.TaskForce;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,7 +143,8 @@ public class SimpleJobRunner {
         body.add("file", new FileSystemResource(reportPath));
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-        String url = String.format("http://localhost:8080/job/%s/report", job.getId());
+
+        String url = String.format("http://%s:%s/api/v1/job/%s/report", System.getProperty("roc.platform.host"), System.getProperty("roc.platform.port"), job.getId());
         restTemplate.postForEntity(url, requestEntity, String.class);
     }
 
@@ -166,6 +168,7 @@ public class SimpleJobRunner {
         if (sourceType.equals("package")) {
             TaskForce taskForce = job.getTaskForce();
             this.downloadPackage(taskForce);
+            this.downloadVariables(job.getEnvironment());
             returnCode = this.executeRobotWithPackage(agentBinary, taskForce.getRepositoryUrl());
             if (returnCode == 0) {
                 this.jobResource.updateJobStatus(job.getId(), JobStatus.SUCCESS);
@@ -174,6 +177,12 @@ public class SimpleJobRunner {
             }
         }
         this.uploadExecutionReport(job);
+    }
+
+    private void downloadVariables(Environment environment) {
+        String url = String.format("http://%s:%s/s3/environment/%s/variables.yaml", System.getProperty("roc.platform.host"), System.getProperty("roc.platform.port"), environment.getId());
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+
     }
 
     public void run(Long jobId) throws Exception {
