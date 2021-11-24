@@ -1,8 +1,11 @@
 package org.robotframework.roc.platform.environment.services;
 
 import io.minio.errors.MinioException;
+import org.robotframework.roc.core.dto.environment.EnvironmentCreateDto;
 import org.robotframework.roc.core.dto.environment.EnvironmentUpdateDto;
+import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.Environment;
+import org.robotframework.roc.core.models.Project;
 import org.robotframework.roc.core.services.EnvironmentService;
 import org.robotframework.roc.platform.environment.repositories.EnvironmentRepository;
 import org.robotframework.roc.platform.project.repository.ProjectRepository;
@@ -57,8 +60,26 @@ public class BasicEnvironmentService implements EnvironmentService {
     }
 
     @Override
-    public Environment createEnvironment(Long id, Environment environment) {
-        return null;
+    public Environment createEnvironment(Long projectId, EnvironmentCreateDto dto) throws ProjectNotFoundException, MinioException {
+
+        Optional<Project> optionalProject = projectRepository.findById(projectId);
+
+        if (optionalProject.isEmpty()) {
+            throw new ProjectNotFoundException();
+        }
+
+        Environment environment = new Environment();
+        environment.setName(dto.getName());
+        environment.setDescription(dto.getDescription());
+        environment.setProject(optionalProject.get());
+
+        environment = environmentRepository.save(environment);
+        if (!dto.getCode().isEmpty()) {
+            InputStream stream = new ByteArrayInputStream(dto.getCode().getBytes(StandardCharsets.UTF_8));
+            String path = String.join("/", "environment", environment.getId().toString(), "variables.yaml");
+            oss.upload("default-project", path, stream, "application/yaml");
+        }
+        return environment;
     }
 
     @Override
@@ -82,6 +103,6 @@ public class BasicEnvironmentService implements EnvironmentService {
 
     @Override
     public void deleteEnvironment(Long id) {
-
+        environmentRepository.deleteById(id);
     }
 }

@@ -1,14 +1,18 @@
 package org.robotframework.roc.platform.environment.controllers;
 
+import io.minio.errors.MinioException;
 import lombok.extern.slf4j.Slf4j;
 import org.robotframework.roc.core.controllers.EnvironmentController;
+import org.robotframework.roc.core.dto.environment.EnvironmentCreateDto;
 import org.robotframework.roc.core.dto.environment.EnvironmentUpdateDto;
+import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.Environment;
 import org.robotframework.roc.core.services.EnvironmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,9 +29,21 @@ public class SimpleEnvironmentController implements EnvironmentController {
 
     @RequestMapping(value = "/environment", method = RequestMethod.POST)
     @Override
-    public ResponseEntity<Environment> createNewEnvironment(@RequestParam Long projectId, @RequestBody Environment environment) {
-        Environment created = environmentService.createEnvironment(projectId, environment);
-        return new ResponseEntity<>(created, HttpStatus.CREATED);
+    public ResponseEntity<Environment> createNewEnvironment(@RequestParam Long projectId, @RequestBody EnvironmentCreateDto dto) {
+        Environment created = null;
+        try {
+            created = environmentService.createEnvironment(projectId, dto);
+            return new ResponseEntity<>(created, HttpStatus.CREATED);
+        } catch (ProjectNotFoundException ex1) {
+            log.error(ex1.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Project does not exists", ex1);
+        } catch (MinioException ex2) {
+            log.error(ex2.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Minio connection failed", ex2);
+        } catch (Exception ex3) {
+            log.error(ex3.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong", ex3);
+        }
     }
 
     @RequestMapping(value = "/environment", method = RequestMethod.GET)

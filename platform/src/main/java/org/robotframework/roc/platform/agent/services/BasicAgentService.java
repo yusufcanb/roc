@@ -1,9 +1,13 @@
 package org.robotframework.roc.platform.agent.services;
 
+import org.robotframework.roc.core.beans.OS;
+import org.robotframework.roc.core.dto.agent.AgentCreateDTO;
+import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.Agent;
+import org.robotframework.roc.core.models.Project;
+import org.robotframework.roc.platform.project.repository.ProjectRepository;
 import org.robotframework.roc.core.services.AgentService;
 import org.robotframework.roc.platform.agent.repositories.AgentRepository;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
@@ -17,9 +21,13 @@ import java.util.Optional;
 public class BasicAgentService implements AgentService {
 
     final
+    ProjectRepository projectRepository;
+
+    final
     AgentRepository agentRepository;
 
-    public BasicAgentService(AgentRepository agentRepository) {
+    public BasicAgentService(ProjectRepository projectRepository, AgentRepository agentRepository) {
+        this.projectRepository = projectRepository;
         this.agentRepository = agentRepository;
     }
 
@@ -27,6 +35,22 @@ public class BasicAgentService implements AgentService {
     public Long createAgent(Agent agent) {
         this.generateAccessTokens(agent);
         return agentRepository.save(agent).getId();
+    }
+
+    @Override
+    public Agent createAgent(Long projectId, AgentCreateDTO dto) throws ProjectNotFoundException {
+        Optional<Project> optional = projectRepository.findById(projectId);
+
+        if (optional.isEmpty()) {
+            throw new ProjectNotFoundException();
+        }
+
+        Agent agent = new Agent();
+        agent.setDisplayName(dto.getDisplayName());
+        agent.setOs(OS.valueOf(dto.getOs()));
+        agent.setProject(optional.get());
+        agent.setInitialized(false);
+        return agentRepository.save(agent);
     }
 
     @Override
