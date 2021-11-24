@@ -180,7 +180,7 @@ public class SimpleJobRunner {
     }
 
     private void downloadVariables(Environment environment) {
-        String url = String.format("http://%s:%s/s3/environment/%s/variables.yaml", System.getProperty("roc.platform.host"), System.getProperty("roc.platform.port"), environment.getId());
+        String url = String.format("http://%s:%s/s3/default-project/environment/%s/variables.yaml", System.getProperty("roc.platform.host"), System.getProperty("roc.platform.port"), environment.getId());
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
     }
