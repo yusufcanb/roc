@@ -1,7 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output} from '@angular/core';
 import {Environment} from "../../environment.model";
 import {MatDialog} from "@angular/material/dialog";
 import {VariableEditDialogComponent} from "../variable-edit-dialog/variable-edit-dialog.component";
+import {Id} from "../../../../types";
+import {EnvironmentService} from "../../services/environment.service";
 
 @Component({
   selector: 'roc-environment-list-item',
@@ -11,7 +13,8 @@ import {VariableEditDialogComponent} from "../variable-edit-dialog/variable-edit
 export class EnvironmentListItemComponent implements OnInit {
   @Input() environment!: Environment;
 
-  constructor(public dialog: MatDialog) {
+
+  constructor(public dialog: MatDialog, public environmentService: EnvironmentService) {
   }
 
   ngOnInit(): void {
@@ -23,7 +26,10 @@ export class EnvironmentListItemComponent implements OnInit {
       disableClose: true,
       height: "75vh",
       width: "50vw",
-      data: environment
+      data: {
+        mode: "update",
+        obj: environment
+      }
     });
 
     dialogRef.afterClosed()
@@ -35,5 +41,8 @@ export class EnvironmentListItemComponent implements OnInit {
       });
   }
 
-
+  onDelete(environmentId: Id) {
+    this.environmentService.deleteEnvironment(environmentId)
+      .subscribe(response => console.log(response));
+  }
 }

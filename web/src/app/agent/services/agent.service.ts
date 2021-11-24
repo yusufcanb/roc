@@ -54,4 +54,8 @@ export class AgentService {
     });
   }
 
+  createAgent(projectId: Id, dto: { os: any; displayName: any }) {
+    const endpoint = `${angularEnvironment.apiService}/agent/?projectId=${projectId}`;
+    return this.http.post(endpoint, dto);
+  }
 }

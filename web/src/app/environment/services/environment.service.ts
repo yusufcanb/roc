@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {environment as angularEnvironment} from "../../../environments/environment";
 import {Id, Nullable} from "../../../types";
 import {map} from "rxjs/operators";
@@ -51,4 +51,15 @@ export class EnvironmentService {
     const endpoint = `${angularEnvironment.apiService}/environment/${environmentId}`;
     return this.http.put<EnvironmentDTO[]>(endpoint, dto);
   }
+
+  createEnvironment(projectId: Id, dto: { code: string; name: string; description: string }) {
+    const endpoint = `${angularEnvironment.apiService}/environment?projectId=${projectId}`;
+    return this.http.post<EnvironmentDTO>(endpoint, dto);
+  }
+
+  deleteEnvironment(environmentId: Id) {
+    const endpoint = `${angularEnvironment.apiService}/environment/${environmentId}`;
+    return this.http.delete<any>(endpoint);
+  }
+
 }

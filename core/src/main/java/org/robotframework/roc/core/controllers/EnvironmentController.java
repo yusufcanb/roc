@@ -1,5 +1,6 @@
 package org.robotframework.roc.core.controllers;
 
+import org.robotframework.roc.core.dto.environment.EnvironmentCreateDto;
 import org.robotframework.roc.core.dto.environment.EnvironmentUpdateDto;
 import org.robotframework.roc.core.models.Environment;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ public interface EnvironmentController {
 
     ResponseEntity<Environment> getEnvironmentById(@RequestParam Long environmentId);
 
-    ResponseEntity<Environment> createNewEnvironment(@RequestParam Long projectId, @RequestBody Environment environment);
+    ResponseEntity<Environment> createNewEnvironment(@RequestParam Long projectId, @RequestBody EnvironmentCreateDto dto);
 
     ResponseEntity<Environment> updateEnvironmentById(@PathVariable Long environmentId, @RequestBody EnvironmentUpdateDto dto);
 

@@ -11,6 +11,8 @@ import {AgentListComponent} from './components/agent-list/agent-list.component';
 import {AgentItemComponent} from './components/agent-item/agent-item.component';
 import {AgentTypePipe} from "./agent-type.pipe";
 import {DateAgoPipe} from "../core/pipes/date-ago.pipe";
+import { AgentCreateDialogComponent } from './components/agent-create-dialog/agent-create-dialog.component';
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -21,14 +23,16 @@ import {DateAgoPipe} from "../core/pipes/date-ago.pipe";
     AgentListPageComponent,
     AgentDetailPageComponent,
     AgentListComponent,
-    AgentItemComponent
+    AgentItemComponent,
+    AgentCreateDialogComponent
   ],
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    MaterialModule,
-    RouterModule
-  ],
+    imports: [
+        CommonModule,
+        HttpClientModule,
+        MaterialModule,
+        RouterModule,
+        FormsModule
+    ],
   exports: [
     AgentSelectComponent
   ],

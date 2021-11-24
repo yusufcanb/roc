@@ -68,7 +68,7 @@ services:
       ROC_GIT_REPOSITORY_DIR: /home/git/roc
       ROC_S3_HOST: roc-minio
       ROC_S3_PORT: 9000
-      ROC_S3_USER: ro c
+      ROC_S3_USER: roc
       ROC_S3_PWD: roc-minio-pwd
   roc-nginx:
     build:

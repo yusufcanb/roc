@@ -2,11 +2,11 @@
   <div class="form-field-container" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
     <mat-form-field appearance="outline" [floatLabel]="'always'">
       <mat-label>Name</mat-label>
-      <input [(ngModel)]="name" matInput placeholder="Dev, Prod, etc.">
+      <input [(ngModel)]="name" matInput placeholder="e.g Alice's Wonderland" autocomplete="off">
     </mat-form-field>
     <mat-form-field appearance="outline" [floatLabel]="'always'">
       <mat-label>Description</mat-label>
-      <input [(ngModel)]="description" matInput placeholder="Description about the environment">
+      <input [(ngModel)]="description" matInput placeholder="Description about the environment" autocomplete="off">
     </mat-form-field>
   </div>
   <ngx-monaco-editor class="environment-editor" [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>
