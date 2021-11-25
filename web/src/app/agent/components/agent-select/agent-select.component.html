@@ -1,0 +1,18 @@
+<button mat-button class="agent-select-button" [matMenuTriggerFor]="envMenu"
+        aria-label="Example icon-button with a menu">
+  <mat-icon>support_agent</mat-icon>
+  {{(agentService.selectedAgent$ | async)?.displayName ?? "Select Agent"}}
+  <mat-icon>keyboard_arrow_down</mat-icon>
+</button>
+<mat-menu #envMenu="matMenu">
+  <button mat-menu-item *ngFor="let agent of (agentService.agents$ | async)"
+          (click)="agentService.selectAgent(agent.id)">
+    <mat-icon>support_agent</mat-icon>
+    <span>{{agent.displayName}}</span>
+  </button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item routerLink="agent">
+    <mat-icon>settings</mat-icon>
+    <span>Manage Agents</span>
+  </button>
+</mat-menu>

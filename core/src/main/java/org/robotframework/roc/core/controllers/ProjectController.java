@@ -1,6 +1,5 @@
 package org.robotframework.roc.core.controllers;
 
-import org.robotframework.roc.core.beans.ProjectFile;
 import org.robotframework.roc.core.models.GlobalVariable;
 import org.robotframework.roc.core.models.Project;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +19,6 @@ public interface ProjectController {
     ResponseEntity<Project> updateProjectById(@PathVariable Long id, @RequestBody Project project);
 
     ResponseEntity<Long> deleteProjectById(@PathVariable Long id);
-
-    ResponseEntity<List<ProjectFile>> getProjectFilesById(@PathVariable Long id);
-
-    ResponseEntity<String> getProjectFilesByName(@PathVariable Long id, @PathVariable("path") String filePath);
 
     ResponseEntity<Collection<GlobalVariable>> getProjectGlobalVariables(@PathVariable Long id);
 }

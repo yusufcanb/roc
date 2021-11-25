@@ -16,23 +16,29 @@
 package org.robotframework.roc.agent;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 import picocli.CommandLine;
-
 
 @SpringBootApplication
 @Slf4j
 public class AgentApplication {
 
-    @Autowired
-    private EventQueue queue;
-
     public static void main(String[] args) {
+        AgentParameters parameters = new AgentParameters();
+
+        CommandLine cli = new CommandLine(parameters);
+        cli.parseArgs(args);
+
+        System.setProperty("roc.platform.host", parameters.getHost());
+        System.setProperty("roc.platform.port", parameters.getPort().toString());
+        System.setProperty("roc.agent.id", parameters.getAgentId());
+
+        log.info("Agent initialization finished: {}", String.join(" ", args));
         SpringApplication.run(AgentApplication.class, args);
     }
 
@@ -42,16 +48,12 @@ public class AgentApplication {
     }
 
     @Bean
-    public CommandLineRunner initAgent(@Autowired AgentParameters params) {
+    public CommandLineRunner initAgent(ApplicationContext context) {
         return (String[] args) -> {
-            CommandLine cli = new CommandLine(params);
-            cli.parseArgs(args);
-            while (true) {
-                if (!queue.getQueue().isEmpty()) {
-                    Object payload = queue.getQueue().poll();
-                    log.info(payload.toString());
-                }
-            }
+            AgentRuntime runtime = context.getBean(AgentRuntime.class);
+            runtime.initRuntime();
         };
     }
+
 }
+

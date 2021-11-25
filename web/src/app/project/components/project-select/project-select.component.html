@@ -1,0 +1,18 @@
+<button class="project-select-button" mat-button [matMenuTriggerFor]="projectMenu">
+  <mat-icon>workspaces</mat-icon>
+  {{(projectService.selectedProject$ | async)?.name ?? "Select Project"}}
+  <mat-icon>keyboard_arrow_down</mat-icon>
+</button>
+
+<mat-menu #projectMenu="matMenu">
+  <button class="header-button" mat-menu-item *ngFor="let project of (projectService.projects$ | async)"
+          (click)="projectService.selectProject(project.id)">
+    <mat-icon>workspaces</mat-icon>
+    <span>{{project.name}}</span>
+  </button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item routerLink="project">
+    <mat-icon>settings</mat-icon>
+    <span class="font-ocra">Manage Projects</span>
+  </button>
+</mat-menu>

@@ -1,65 +1,44 @@
 {
-  "name": "roc-web",
-  "version": "0.1.0",
+  "name": "web",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
   "private": true,
   "dependencies": {
-    "@date-io/date-fns": "^1.3.13",
-    "@date-io/moment": "^1.3.13",
-    "@fortawesome/fontawesome-free": "^5.15.3",
-    "@material-ui/core": "4.11.3",
-    "@material-ui/data-grid": "^4.0.0-alpha.37",
-    "@material-ui/icons": "4.11.2",
-    "@material-ui/lab": "4.0.0-alpha.39",
-    "@material-ui/pickers": "3.2.10",
-    "@monaco-editor/react": "4.1.1",
-    "@types/jest": "^26.0.22",
-    "@types/node": "^12.0.0",
-    "@types/react": "^16.9.56",
-    "@types/react-dom": "^16.9.8",
-    "axios": "^0.21.1",
-    "cra-template-typescript": "1.1.2",
-    "date-fns": "^2.24.0",
-    "json-server": "^0.16.3",
-    "mobx": "^6.1.4",
-    "mobx-react-lite": "^3.2.0",
-    "moment": "^2.29.1",
-    "node-sass": "^4.14.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
-    "typescript": "^4.0.3",
-    "web-vitals": "^0.2.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "start:db": "json-server --host=0.0.0.0 --port=5001 --watch db.json",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "@angular/animations": "~12.2.0",
+    "@angular/cdk": "^12.2.12",
+    "@angular/common": "~12.2.0",
+    "@angular/compiler": "~12.2.0",
+    "@angular/core": "~12.2.0",
+    "@angular/flex-layout": "^12.0.0-beta.35",
+    "@angular/forms": "~12.2.0",
+    "@angular/material": "^12.2.12",
+    "@angular/platform-browser": "~12.2.0",
+    "@angular/platform-browser-dynamic": "~12.2.0",
+    "@angular/router": "~12.2.0",
+    "monaco-editor": "^0.30.1",
+    "ngx-monaco-editor": "^12.0.0",
+    "rxjs": "~6.6.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^12.0.0",
-    "@types/react-router-dom": "^5.1.7",
-    "jest-dom": "^4.0.0"
+    "@angular-devkit/build-angular": "~12.2.12",
+    "@angular/cli": "~12.2.12",
+    "@angular/compiler-cli": "~12.2.0",
+    "@types/jasmine": "~3.8.0",
+    "@types/node": "^12.11.1",
+    "jasmine-core": "~3.8.0",
+    "karma": "~6.3.0",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage": "~2.0.3",
+    "karma-jasmine": "~4.0.0",
+    "karma-jasmine-html-reporter": "~1.7.0",
+    "typescript": "~4.3.5"
   }
 }

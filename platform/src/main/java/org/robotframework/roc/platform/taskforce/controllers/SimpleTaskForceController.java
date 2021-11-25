@@ -1,30 +1,37 @@
 package org.robotframework.roc.platform.taskforce.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.robotframework.roc.core.controllers.TaskForceController;
+import org.robotframework.roc.core.dto.taskforce.ExecuteTaskForceDTO;
+import org.robotframework.roc.core.dto.taskforce.TaskForceUpdateDto;
 import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.Job;
 import org.robotframework.roc.core.models.TaskForce;
 import org.robotframework.roc.core.services.JobService;
 import org.robotframework.roc.core.services.TaskForceService;
+import org.robotframework.roc.platform.s3.ObjectStorageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
+@Slf4j
 public class SimpleTaskForceController implements TaskForceController {
 
     private final TaskForceService taskForceService;
     private final JobService jobService;
+    private final ObjectStorageService oss;
 
-    public SimpleTaskForceController(TaskForceService taskForceService, JobService jobService) {
+    public SimpleTaskForceController(TaskForceService taskForceService, JobService jobService, ObjectStorageService objectStorageService) {
         this.taskForceService = taskForceService;
         this.jobService = jobService;
+        this.oss = objectStorageService;
     }
 
     @RequestMapping(value = "/task-force", method = RequestMethod.GET)
@@ -55,12 +62,38 @@ public class SimpleTaskForceController implements TaskForceController {
         }
     }
 
-    @RequestMapping(value = "/task-force/{id}", method = RequestMethod.PUT)
-    @Override
-    public ResponseEntity<TaskForce> updateTaskForceById(@PathVariable Long id, @RequestBody Object body) {
+    @RequestMapping(value = "/task-force/{id}/package", method = RequestMethod.POST)
+    public ResponseEntity<TaskForce> uploadTaskForcePackage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+        Optional<TaskForce> taskForceOptional = taskForceService.getTaskForceById(id);
+        if (taskForceOptional.isPresent()) {
+            try {
+                taskForceService.uploadTaskForcePackage(taskForceOptional.get(), file);
+                return new ResponseEntity<>(taskForceOptional.get(), HttpStatus.OK);
+            } catch (Exception e) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Object storage connection failed.", e);
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task force does not exists", null);
+        }
+    }
+
+    @RequestMapping(value = "/task-force/{id}/jobs", method = RequestMethod.GET)
+    public ResponseEntity<List<Job>> getJobsByTaskForce(@PathVariable Long id) {
         Optional<TaskForce> taskForce = taskForceService.getTaskForceById(id);
         if (taskForce.isPresent()) {
-            taskForceService.updateTaskForce(id, (TaskForce) body);
+            List<Job> jobs = jobService.getJobsByTaskForce(taskForce.get().getId());
+            return new ResponseEntity<>(jobs, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @RequestMapping(value = "/task-force/{id}", method = RequestMethod.PUT)
+    @Override
+    public ResponseEntity<TaskForce> updateTaskForceById(@PathVariable Long id, @RequestBody TaskForceUpdateDto dto) {
+        Optional<TaskForce> taskForce = taskForceService.getTaskForceById(id);
+        if (taskForce.isPresent()) {
+            taskForceService.updateTaskForce(taskForce.get(), dto);
             return new ResponseEntity<>(taskForce.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -81,10 +114,11 @@ public class SimpleTaskForceController implements TaskForceController {
 
     @RequestMapping(value = "/task-force/{id}/execute", method = RequestMethod.POST)
     @Override
-    public ResponseEntity<Job> executeTaskForce(@PathVariable Long id, @RequestBody Object body) {
+    public ResponseEntity<Job> executeTaskForce(@PathVariable Long id, @RequestBody ExecuteTaskForceDTO body) {
         Optional<TaskForce> taskForce = taskForceService.getTaskForceById(id);
         if (taskForce.isPresent()) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_IMPLEMENTED);
+            Job job = taskForceService.executeTaskForce(taskForce.get(), body.getAgentId(), body.getEnvironmentId());
+            return new ResponseEntity<>(job, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }

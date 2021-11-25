@@ -1,0 +1,121 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <app-breadcrumb></app-breadcrumb>
+</div>
+
+<div class="info-container" fxFlexFill fxLayoutGap="25px" *ngIf="!isLoading">
+  <div fxFlex="30">
+    <mat-card class="card">
+      <mat-card-title fxLayout="row" fxLayoutAlign="space-between center">
+        <span>
+          Task Force Information
+        </span>
+        <span>
+            <button mat-icon-button>
+              <mat-icon>edit</mat-icon>
+            </button>
+          </span>
+      </mat-card-title>
+      <mat-card-subtitle><strong>Name: </strong>{{taskForce.name}}</mat-card-subtitle>
+      <mat-card-subtitle><strong>Description: </strong>No description specified.</mat-card-subtitle>
+    </mat-card>
+  </div>
+  <div fxFlex="30">
+    <mat-card class="card">
+      <mat-card-title fxLayout="row" fxLayoutAlign="space-between center">
+        <span>Package Information</span>
+        <span>
+            <button mat-icon-button matTooltip="Configure Task Force Package" (click)="openSourceEditDialog()">
+              <mat-icon>
+                upload
+              </mat-icon>
+            </button>
+          </span>
+      </mat-card-title>
+      <mat-card-subtitle><strong>Type: </strong> {{taskForce.sourceType}}</mat-card-subtitle>
+      <mat-card-subtitle><strong>Source: </strong> <a target="_blank"
+                                                      [href]="taskForce.packageUrl">{{taskForce.repositoryUrl}}</a>
+      </mat-card-subtitle>
+    </mat-card>
+  </div>
+  <div fxFlex="25">
+    <mat-card class="card">
+      <div fxLayout="column" fxLayoutAlign="space-around center">
+        <span class="font-ocra" style="font-size: calc(1.5vw + 1.5vh);">{{successJobCount}} / {{failedJobCount}}
+          / {{queuedJobCount}}</span>
+        <span>Success / Fail / Queued</span>
+      </div>
+    </mat-card>
+  </div>
+  <div fxFlex="auto">
+    <div fxLayout="column" fxLayoutAlign="space-around center" style="height: 100%; width: 100%">
+      <button mat-fab matTooltip="Execute Now" color="accent" (click)="taskForceService.executeWithId(taskForce.id);">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+      <button mat-fab matTooltip="Schedule" color="accent">
+        <mat-icon>schedule</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
+<mat-card class="job-history-container" *ngIf="!isLoading">
+  <mat-card-title fxLayout="row" fxLayoutAlign="space-between center">
+    <span>
+      Job History
+    </span>
+    <span>
+      <button mat-icon-button [routerLink]="['/', 'job']" [queryParams]="{taskForceId: taskForce.id}">
+        <mat-icon>history</mat-icon>
+      </button>
+    </span>
+  </mat-card-title>
+  <mat-card-content>
+    <table *ngIf="!isLoading" mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> #</th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="task-force">
+        <th mat-header-cell *matHeaderCellDef>Task Force</th>
+        <td mat-cell *matCellDef="let element"> {{element.taskForce.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="source">
+        <th mat-header-cell *matHeaderCellDef>Source</th>
+        <td mat-cell *matCellDef="let element">{{element.taskForce.repositoryUrl}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="environment">
+        <th mat-header-cell *matHeaderCellDef> Environment</th>
+        <td mat-cell *matCellDef="let element"> {{element.environment.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="agent">
+        <th mat-header-cell *matHeaderCellDef>Agent</th>
+        <td mat-cell *matCellDef="let element"> {{element.agent.displayName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let element"> {{element.createdAt | date:'medium' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="state">
+        <th mat-header-cell *matHeaderCellDef>State</th>
+        <td mat-cell *matCellDef="let element"><a [href]="element.reportUrl">{{element.status }}</a></td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator
+      pageSize="5"
+      showFirstLastButtons
+      aria-label="Job history paginator">
+    </mat-paginator>
+
+  </mat-card-content>
+</mat-card>

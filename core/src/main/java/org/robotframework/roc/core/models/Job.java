@@ -3,6 +3,7 @@ package org.robotframework.roc.core.models;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
+import org.robotframework.roc.core.beans.JobStatus;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,7 +21,7 @@ public class Job {
     @Getter(AccessLevel.NONE)
     private Project project;
     private String name;
-    private String status;
+    private JobStatus status;
 
     @ManyToOne
     private Agent agent;
@@ -42,5 +43,19 @@ public class Job {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date finishedAt = null;
+
+    public String getBucketName() {
+        return project.getSlug();
+    }
+
+    public String getReportUrl() {
+        return new StringBuilder()
+                .append(getBucketName())
+                .append("/job")
+                .append("/").append(id)
+                .append("/reports")
+                .append("/log.html")
+                .toString();
+    }
 
 }

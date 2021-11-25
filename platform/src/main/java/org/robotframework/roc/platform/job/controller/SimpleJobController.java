@@ -2,15 +2,26 @@ package org.robotframework.roc.platform.job.controller;
 
 import org.robotframework.roc.core.controllers.JobController;
 import org.robotframework.roc.core.dto.job.JobCreateRequestBody;
+import org.robotframework.roc.core.dto.job.JobStatusUpdateDto;
 import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.Job;
+import org.robotframework.roc.core.models.TaskForce;
 import org.robotframework.roc.core.services.JobService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -47,6 +58,33 @@ public class SimpleJobController implements JobController {
             return new ResponseEntity<>(job.get(), HttpStatus.OK);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Job does not found", null);
+        }
+    }
+
+    @RequestMapping(value = "/job/{id}/status", method = RequestMethod.POST)
+    public ResponseEntity<Job> updateJobStatusById(@PathVariable Long id, @RequestBody JobStatusUpdateDto dto) {
+        Optional<Job> job = jobService.getJobById(id);
+        if (job.isPresent()) {
+            job.get().setStatus(dto.getJobStatus());
+            jobService.save(job.get());
+            return new ResponseEntity<>(job.get(), HttpStatus.OK);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Job does not found", null);
+        }
+    }
+
+    @RequestMapping(value = "/job/{id}/report", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> uploadJobReport(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+        Optional<Job> jobOptional = jobService.getJobById(id);
+        if (jobOptional.isPresent()) {
+            try {
+                jobService.saveJobReport(jobOptional.get(), file);
+                return new ResponseEntity<>("{'success': true}", HttpStatus.OK);
+            } catch (Exception e) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Object storage connection failed.", e);
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Job does not exists", null);
         }
     }
 

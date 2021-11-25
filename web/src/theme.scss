@@ -1,0 +1,42 @@
+@use '~@angular/material' as mat;
+@import "./colors";
+
+@font-face {
+  font-family: "RBTFNT";
+  src: url(./assets/fonts/RBTFNT.woff) format("woff");
+  font-display: swap
+}
+
+@font-face {
+  font-family: "OCRA";
+  src: url(./assets/fonts/OCRA.woff) format("woff");
+  font-display: swap
+}
+
+@font-face {
+  font-family: "Courier Code";
+  src: url(./assets/fonts/CourierCode-Roman.woff) format("woff");
+  font-display: swap;
+  font-weight: 400
+}
+
+
+@include mat.core();
+
+$theme-primary: mat.define-palette($roc-primary, 500);
+$theme-accent: mat.define-palette($roc-accent, 500, 600, 700);
+
+$theme-typography: mat.define-typography-config(
+  $font-family: 'Courier Code',
+);
+
+$roc-theme: mat.define-light-theme((
+  color: (
+    primary: $theme-primary,
+    accent: $theme-accent,
+  ),
+  typography: $theme-typography,
+));
+
+@include mat.core-theme($roc-theme);
+@include mat.all-component-themes($roc-theme);

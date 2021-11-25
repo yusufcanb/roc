@@ -1,0 +1,11 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <app-breadcrumb></app-breadcrumb>
+  <button mat-raised-button color="accent">
+    <mat-icon>add</mat-icon>
+    <span class="font-ocra">Create Task Force</span>
+  </button>
+</div>
+
+<roc-task-force-list [taskForceList]="taskForces"
+                     (executeTask)="onExecuteTaskClicked($event)">
+</roc-task-force-list>

@@ -1,16 +1,19 @@
 package org.robotframework.roc.agent;
 
-import org.springframework.stereotype.Component;
+import lombok.Data;
 import picocli.CommandLine;
 
-@Component
+@Data
 public class AgentParameters {
 
-    @CommandLine.Option(names = {"-h", "--host"}, description = "Host URL of Robot Operation Center")
+    @CommandLine.Option(names = {"-h", "--host"}, description = "Host URL of Robot Operation Center", required = true)
     String host;
 
-    @CommandLine.Option(names = {"-p", "--port"}, description = "Port URL of Robot Operation Center")
-    String port;
+    @CommandLine.Option(names = {"-p", "--port"}, description = "Port URL of Robot Operation Center", required = true)
+    Integer port;
+
+    @CommandLine.Option(names = {"-i", "--id"}, description = "Device Id", required = true)
+    String agentId;
 
     @CommandLine.Option(names = {"--access-token"}, description = "Access key for authentication")
     String accessToken;
@@ -20,4 +23,5 @@ public class AgentParameters {
 
     @CommandLine.Option(names = "--help", usageHelp = true, description = "display a help message")
     private boolean helpRequested = false;
+
 }
