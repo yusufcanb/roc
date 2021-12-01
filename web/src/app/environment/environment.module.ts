@@ -12,6 +12,7 @@ import {MonacoEditorModule} from 'ngx-monaco-editor';
 import {FormsModule} from "@angular/forms";
 import {monacoConfig} from "./monaco.config";
 import {VariableEditDialogComponent} from './components/variable-edit-dialog/variable-edit-dialog.component';
+import {TranslateModule} from "@ngx-translate/core";
 
 
 @NgModule({
@@ -23,14 +24,15 @@ import {VariableEditDialogComponent} from './components/variable-edit-dialog/var
     EnvironmentListItemComponent,
     VariableEditDialogComponent
   ],
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    MaterialModule,
-    RouterModule,
-    MonacoEditorModule.forRoot(monacoConfig),
-    FormsModule
-  ],
+    imports: [
+        CommonModule,
+        HttpClientModule,
+        MaterialModule,
+        RouterModule,
+        MonacoEditorModule.forRoot(monacoConfig),
+        FormsModule,
+        TranslateModule
+    ],
   exports: [
     EnvironmentSelectComponent
   ]

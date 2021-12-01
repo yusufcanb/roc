@@ -1,0 +1,17 @@
+{
+  "words": {
+    "last-active": "最后一次露面",
+    "operating-system": "操作系统",
+    "dashboard": "仪表盘",
+    "job": "工作",
+    "task-force": "专案组",
+    "select-agent": "选择代理",
+    "select-environment": "选择环境"
+  },
+  "dashboard": {
+    "empty": {
+      "title": "仪表板未准备好",
+      "caption": "仪表板未准备好，因为您没有任何工作"
+    }
+  }
+}

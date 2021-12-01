@@ -4,6 +4,10 @@ import {ProjectDTO} from "./project/project.model";
 import {EnvironmentService} from "./environment/services/environment.service";
 import {AgentService} from "./agent/services/agent.service";
 import {zip} from "rxjs";
+import {MatDialog} from "@angular/material/dialog";
+import {OnBoardingDialogComponent} from "./dashboard/components/on-boarding-dialog/on-boarding-dialog.component";
+import {TranslateService} from "@ngx-translate/core";
+
 
 export interface Tile {
   color: string;
@@ -27,9 +31,14 @@ export class AppComponent implements OnInit {
     {text: 'Four', cols: 4, rows: 1, color: '#DDBDF1'},
   ];
 
-  constructor(private projectService: ProjectService,
-              private environmentService: EnvironmentService,
-              private agentService: AgentService) {
+  constructor(
+    private translate: TranslateService,
+    private dialog: MatDialog,
+    private projectService: ProjectService,
+    private environmentService: EnvironmentService,
+    private agentService: AgentService) {
+    translate.setDefaultLang('en');
+    translate.use('en');
   }
 
   ngOnInit(): void {
@@ -54,7 +63,17 @@ export class AppComponent implements OnInit {
       );
 
       subject.subscribe(response => console.log(response));
+    } else {
+      const dialogRef = this.dialog.open(OnBoardingDialogComponent, {
+        height: "100vh",
+        width: "100%",
+        disableClose: true,
+        backdropClass: "backdrop-black"
+      })
+
+      dialogRef.afterClosed().subscribe(closed => this.ngOnInit())
     }
+
   }
 
 }

@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'core-header',
@@ -13,9 +14,9 @@ import {Component, OnInit} from '@angular/core';
           <roc-project-select></roc-project-select>
         </div>
         <div class="right">
-          <button mat-icon-button class="example-icon" matTooltip="Project settings"
-                  aria-label="Example icon-button with share icon">
-            <mat-icon>settings</mat-icon>
+          <button mat-icon-button class="example-icon" matTooltip="Switch Language"
+                  aria-label="Example icon-button with share icon" (click)="switchLang()">
+            <mat-icon>translate</mat-icon>
           </button>
           <button mat-icon-button class="example-icon" matTooltip="About this Platform"
                   aria-label="Tool information">
@@ -26,9 +27,9 @@ import {Component, OnInit} from '@angular/core';
     </mat-toolbar>
 
     <mat-toolbar class="mat-elevation-z3 second-toolbar">
-      <button mat-button routerLink="/">Dashboard</button>
-      <button mat-button routerLink="/job">Job</button>
-      <button mat-button routerLink="/task-force">Task Force</button>
+      <button mat-button routerLink="/">{{'words.dashboard' | translate}}</button>
+      <button mat-button routerLink="/job">{{'words.job' | translate}}</button>
+      <button mat-button routerLink="/task-force">{{'words.task-force' | translate}}</button>
 
       <span class="flex-spacer"></span>
 
@@ -62,9 +63,15 @@ import {Component, OnInit} from '@angular/core';
 
 export class HeaderComponent implements OnInit {
 
-  constructor() {
+  constructor(private translateService: TranslateService) {
   }
 
   ngOnInit() {
+  }
+
+  switchLang() {
+    this.translateService.currentLang == "en"
+      ? this.translateService.use("zh")
+      : this.translateService.use("en")
   }
 }

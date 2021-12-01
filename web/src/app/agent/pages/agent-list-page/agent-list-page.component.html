@@ -6,4 +6,12 @@
   </button>
 </div>
 
-<roc-agent-list [agentList]="agents"></roc-agent-list>
+
+<div class="page-h-full" *ngIf="agents.length == 0">
+  <roc-empty-state icon="support_agent" title="No Agent Exists"
+                   caption="No Agent found on this project. You can create new Agent using Create Agent button on the top right corner."></roc-empty-state>
+</div>
+
+<roc-agent-list *ngIf="agents.length > 0"
+                [agentList]="agents">
+</roc-agent-list>

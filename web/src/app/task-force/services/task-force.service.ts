@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, zip} from "rxjs";
+import {BehaviorSubject, Observable, of, zip} from "rxjs";
 import {Id} from "../../../types";
 import {environment as angularEnvironment} from "../../../environments/environment";
 import {catchError, filter, map, take} from "rxjs/operators";
@@ -33,10 +33,10 @@ export class TaskForceService {
   }
 
 
-  getTaskForcesByProjectId(projectId: Id) {
+  getTaskForcesByProjectId(projectId: Id): Observable<TaskForce[]> {
     const endpoint = `${angularEnvironment.apiService}/task-force/?projectId=${projectId}`;
     return this.http.get<TaskForceDto[]>(endpoint)
-      .pipe(
+      .pipe<TaskForce[], any>(
         map((dtos: TaskForceDto[]) => this.convertDtosToModels<TaskForceDto, TaskForce>(dtos, TaskForce)),
         map((taskForces: TaskForce[]) => this._taskForces.next(taskForces))
       );
@@ -46,7 +46,6 @@ export class TaskForceService {
     const endpoint = `${angularEnvironment.apiService}/task-force/${taskForceId}`;
     return this.http.get<TaskForceDto>(endpoint);
   }
-
 
   updateTaskForce(taskForceId: Id, taskForce: Partial<TaskForce>) {
     const endpoint = `${angularEnvironment.apiService}/task-force/${taskForceId}`;

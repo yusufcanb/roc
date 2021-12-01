@@ -6,8 +6,6 @@ import {Id} from "../../../../types";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AgentService} from "../../../agent/services/agent.service";
 import {EnvironmentService} from "../../../environment/services/environment.service";
-import {zip} from "rxjs";
-import {take} from "rxjs/operators";
 
 @Component({
   selector: 'roc-task-force-list-page',

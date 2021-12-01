@@ -3,8 +3,8 @@
     <mat-icon class="agent-icon" mat-list-icon>support_agent</mat-icon>
   </div>
   <div mat-line class="font-ocra">{{agent.displayName}}</div>
-  <div mat-line><strong>Last Active: </strong>{{agent.lastActive | dateAgo}} </div>
-  <div mat-line><strong>Operating System: </strong>{{ agent.os }} </div>
+  <div mat-line><strong>{{'words.last-active' | translate}}: </strong>{{agent.lastActive | dateAgo}} </div>
+  <div mat-line><strong>{{'words.operating-system' | translate}}: </strong>{{ agent.os }} </div>
 
   <div fxLayout="row" fxLayoutAlign="space-between center" style="min-width: 125px;">
     <button mat-mini-fab aria-label="Task Force Detail" matTooltip="View Details" matTooltipPosition="below">

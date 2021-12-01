@@ -6,4 +6,10 @@
   </button>
 </div>
 
-<roc-environment-list [environmentList]="environments"></roc-environment-list>
+
+<div class="page-h-full" *ngIf="environments.length == 0">
+  <roc-empty-state icon="code" title="No Environment Exists"
+                   caption="No Environment found on this project. You can create new environment using Create Environment button on the top right corner."></roc-empty-state>
+</div>
+
+<roc-environment-list *ngIf="environments.length > 0" [environmentList]="environments"></roc-environment-list>

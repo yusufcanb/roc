@@ -1,0 +1,17 @@
+{
+  "words": {
+    "last-active": "Last Active",
+    "operating-system": "Operating System",
+    "dashboard": "Dashboard",
+    "job": "Job",
+    "task-force": "Task Force",
+    "select-agent": "Select Agent",
+    "select-environment": "Select Environment"
+  },
+  "dashboard": {
+    "empty": {
+      "title": "Dashboard Not Ready",
+      "caption": "Dashboard not ready since you don't have any jobs"
+    }
+  }
+}

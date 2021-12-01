@@ -23,7 +23,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     TaskForceListPageComponent,
     TaskForceDetailPageComponent,
     TaskForceCreatePageComponent,
-    TaskForceSourceEditDialogComponent
+    TaskForceSourceEditDialogComponent,
   ],
   imports: [
     CommonModule,

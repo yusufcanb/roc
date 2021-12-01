@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, of} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Project, ProjectDTO} from "../project.model";
 import {Id, Nullable} from "../../../types";
@@ -22,6 +22,7 @@ export class ProjectService {
   fetchProjects() {
     const endpoint = `${environment.apiService}/project`;
     return this.http.get<Array<ProjectDTO>>(endpoint);
+    // return of([]);
   }
 
   fetchProjectById(projectId: Id) {

@@ -1,7 +1,7 @@
 <button mat-button class="agent-select-button" [matMenuTriggerFor]="envMenu"
         aria-label="Example icon-button with a menu">
   <mat-icon>support_agent</mat-icon>
-  {{(agentService.selectedAgent$ | async)?.displayName ?? "Select Agent"}}
+  {{(agentService.selectedAgent$ | async)?.displayName ?? "words.select-agent" | translate}}
   <mat-icon>keyboard_arrow_down</mat-icon>
 </button>
 <mat-menu #envMenu="matMenu">

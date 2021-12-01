@@ -44,11 +44,16 @@ import {MatTableModule} from '@angular/material/table';
 
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {BreadcrumbModule} from "./core/components/breadcrumb/breadcrumb.module";
+import {EmptyStateComponent} from "./core/components/empty-state/empty-state.component";
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    EmptyStateComponent
+  ],
   imports: [
-    CommonModule
+    CommonModule,
+    FlexLayoutModule,
+    MatIconModule
   ],
   exports: [
     MatAutocompleteModule,
@@ -87,7 +92,9 @@ import {BreadcrumbModule} from "./core/components/breadcrumb/breadcrumb.module";
     MatSortModule,
     MatTableModule,
     FlexLayoutModule,
-    BreadcrumbModule
+    BreadcrumbModule,
+
+    EmptyStateComponent
   ]
 })
 export class MaterialModule {

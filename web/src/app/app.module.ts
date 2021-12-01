@@ -14,6 +14,15 @@ import {TaskForceModule} from "./task-force/task-force.module";
 import {DashboardModule} from "./dashboard/dashboard.module";
 import {NavService} from "./core/services/nav.service";
 import {DefaultLayoutComponent} from "./core/components/default-layout/default-layout.component";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {HttpClient} from "@angular/common/http";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient);
+}
+
 
 @NgModule({
   declarations: [
@@ -25,8 +34,16 @@ import {DefaultLayoutComponent} from "./core/components/default-layout/default-l
     BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
     AppRoutingModule,
     DashboardModule,
+
 
     // Domain Modules
     ProjectModule,

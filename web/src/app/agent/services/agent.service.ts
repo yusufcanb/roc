@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Id, Nullable} from "../../../types";
 import {HttpClient} from "@angular/common/http";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {environment as angularEnvironment} from "../../../environments/environment";
-import {map, tap} from "rxjs/operators";
+import {map} from "rxjs/operators";
 import {Agent, AgentDTO} from "../agent.model";
 import {ProjectService} from "../../project/services/project.service";
 
@@ -28,10 +28,10 @@ export class AgentService {
       })
   }
 
-  getAgentsByProjectId(projectId: Id) {
+  getAgentsByProjectId(projectId: Id): Observable<Agent[]> {
     const endpoint = `${angularEnvironment.apiService}/agent/?projectId=${projectId}`;
     return this.http.get<AgentDTO[]>(endpoint)
-      .pipe(
+      .pipe<Agent[], any>(
         map((agentDtos: AgentDTO[]) => {
           const agents: Agent[] = [];
           for (let dto of agentDtos) {

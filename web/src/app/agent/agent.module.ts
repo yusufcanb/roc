@@ -13,6 +13,7 @@ import {AgentTypePipe} from "./agent-type.pipe";
 import {DateAgoPipe} from "../core/pipes/date-ago.pipe";
 import { AgentCreateDialogComponent } from './components/agent-create-dialog/agent-create-dialog.component';
 import {FormsModule} from "@angular/forms";
+import {TranslateModule} from "@ngx-translate/core";
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import {FormsModule} from "@angular/forms";
         HttpClientModule,
         MaterialModule,
         RouterModule,
-        FormsModule
+        FormsModule,
+        TranslateModule
     ],
   exports: [
     AgentSelectComponent
