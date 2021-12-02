@@ -6,6 +6,8 @@ import {Id} from "../../../../types";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AgentService} from "../../../agent/services/agent.service";
 import {EnvironmentService} from "../../../environment/services/environment.service";
+import {MatDialog} from "@angular/material/dialog";
+import {TaskForceCreateDialogComponent} from "../../components/task-force-create-dialog/task-force-create-dialog.component";
 
 @Component({
   selector: 'roc-task-force-list-page',
@@ -17,6 +19,7 @@ export class TaskForceListPageComponent implements OnInit {
 
 
   constructor(private _snackBar: MatSnackBar,
+              private _dialog: MatDialog,
               private projectService: ProjectService,
               private taskForceService: TaskForceService,
               private agentService: AgentService,
@@ -41,6 +44,13 @@ export class TaskForceListPageComponent implements OnInit {
   onExecuteTaskClicked(taskForceId: Id) {
     console.log("Task force will executed: " + taskForceId);
     this.taskForceService.executeWithId(taskForceId);
+  }
+
+  onCreateClicked() {
+    this._dialog.open(TaskForceCreateDialogComponent, {
+      height: "80vh",
+      width: "35vw"
+    })
   }
 
 }

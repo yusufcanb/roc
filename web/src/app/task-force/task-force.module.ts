@@ -11,6 +11,7 @@ import {MaterialModule} from "../material.module";
 import {TaskForceIconPipe} from "./pipes/task-force-icon.pipe";
 import {TaskForceSourceEditDialogComponent} from './components/task-force-source-edit-dialog/task-force-source-edit-dialog.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { TaskForceCreateDialogComponent } from './components/task-force-create-dialog/task-force-create-dialog.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     TaskForceDetailPageComponent,
     TaskForceCreatePageComponent,
     TaskForceSourceEditDialogComponent,
+    TaskForceCreateDialogComponent,
   ],
   imports: [
     CommonModule,
