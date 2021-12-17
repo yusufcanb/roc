@@ -1,10 +1,7 @@
 package org.robotframework.roc.agent.resource;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 public class Resource {
@@ -17,6 +14,5 @@ public class Resource {
 
     @Autowired
     protected RestTemplate restTemplate;
-
 
 }

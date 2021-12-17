@@ -15,7 +15,6 @@ import org.springframework.web.socket.WebSocketHttpHeaders;
 import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
-import org.springframework.web.socket.sockjs.client.RestTemplateXhrTransport;
 import org.springframework.web.socket.sockjs.client.SockJsClient;
 import org.springframework.web.socket.sockjs.client.Transport;
 import org.springframework.web.socket.sockjs.client.WebSocketTransport;
@@ -35,7 +34,9 @@ public class ClientWSConfig {
 
     @Bean
     public ThreadPoolTaskScheduler taskScheduler(TaskSchedulerBuilder builder) {
-        return builder.poolSize(5).build();
+        int cores = Runtime.getRuntime().availableProcessors();
+        log.info("Setting pool size to {}", cores);
+        return builder.poolSize(cores).build();
     }
 
     @Bean
