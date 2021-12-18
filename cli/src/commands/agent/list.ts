@@ -1,11 +1,12 @@
 import {Command, Flags} from '@oclif/core'
 
+import * as api from "./api";
+
 export default class AgentListCommand extends Command {
   static description = 'List agents by project'
 
   static examples = [
     `$ roc agent list -p default
-
 `,
   ]
 
@@ -19,13 +20,9 @@ export default class AgentListCommand extends Command {
 
   async run(): Promise<void> {
     const {args, flags} = await this.parse(AgentListCommand)
-    this.log(`[OK] Agent list for project ${flags.project}`)
 
-    const structDatas = [
-      {id: 1, name: 'subnet-vip-1', lastActive: Date.now()},
-      {id: 2, name: 'subnet-vip-2', lastActive: Date.now()},
-    ];
-    console.table(structDatas)
+    const agents = await api.getAgentsByProject(flags.project)
+    console.table(agents)
   }
 
 

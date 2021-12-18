@@ -1,5 +1,7 @@
 import {Command, Flags} from '@oclif/core'
 
+import * as api from "./api"
+
 export default class EnvironmentListCommand extends Command {
   static description = 'List environments by project'
 
@@ -19,13 +21,10 @@ export default class EnvironmentListCommand extends Command {
 
   async run(): Promise<void> {
     const {args, flags} = await this.parse(EnvironmentListCommand)
-    this.log(`[OK] Environment list for project ${flags.project}`)
 
-    const structDatas = [
-      {id: 1, name: 'development', lastActive: Date.now()},
-      {id: 2, name: 'production', lastActive: Date.now()},
-    ];
-    console.table(structDatas)
+    const environments = await api.getEnvironmentsByProject(flags.project)
+
+    console.table(environments)
   }
 
 

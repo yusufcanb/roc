@@ -1,5 +1,7 @@
 import {Command, Flags} from '@oclif/core'
 
+import * as api from "./api";
+
 export default class AgentCreateCommand extends Command {
   static description = 'Create new agent for specific project'
 
@@ -16,13 +18,22 @@ export default class AgentCreateCommand extends Command {
     name: Flags.string(
       {char: 'n', description: 'Name of the agent', required: true}
     ),
+    os: Flags.string(
+      {char: 'o', description: 'Name of the agent', required: false}
+    ),
   }
 
   static args = []
 
   async run(): Promise<void> {
     const {args, flags} = await this.parse(AgentCreateCommand)
-    this.log(`[OK] Agent ${flags.name} created`)
+
+    if (await api.createAgent(flags.project, flags.name, flags.os) === 201) {
+      this.log(`[OK] Agent ${flags.name} created`)
+    } else {
+      this.log(`[FAIL] Agent creation failed`)
+    }
+
   }
 
 
