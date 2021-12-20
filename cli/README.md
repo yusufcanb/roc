@@ -19,11 +19,11 @@ oclif example Hello World CLI
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g roc
+$ npm install -g roc-ctl
 $ roc COMMAND
 running command...
 $ roc (--version)
-roc/0.0.0 win32-x64 node-v12.15.0
+roc-ctl/0.1.0-alpha.0 win32-x64 node-v12.15.0
 $ roc --help [COMMAND]
 USAGE
   $ roc COMMAND
@@ -44,13 +44,252 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
+* [`roc agent create`](#roc-agent-create)
+* [`roc agent delete [ID]`](#roc-agent-delete-id)
+* [`roc agent list`](#roc-agent-list)
+* [`roc command`](#roc-command)
+* [`roc config get-project`](#roc-config-get-project)
+* [`roc config get-url`](#roc-config-get-url)
+* [`roc config set-credentials`](#roc-config-set-credentials)
+* [`roc config set-project PROJECT`](#roc-config-set-project-project)
+* [`roc config set-url URL`](#roc-config-set-url-url)
+* [`roc environment create`](#roc-environment-create)
+* [`roc environment delete [ID]`](#roc-environment-delete-id)
+* [`roc environment list`](#roc-environment-list)
+* [`roc environment variables ID`](#roc-environment-variables-id)
 * [`roc help [COMMAND]`](#roc-help-command)
-* [`roc plugins`](#roc-plugins)
-* [`roc plugins:inspect PLUGIN...`](#roc-pluginsinspect-plugin)
-* [`roc plugins:install PLUGIN...`](#roc-pluginsinstall-plugin)
-* [`roc plugins:link PLUGIN`](#roc-pluginslink-plugin)
-* [`roc plugins:uninstall PLUGIN...`](#roc-pluginsuninstall-plugin)
-* [`roc plugins update`](#roc-plugins-update)
+* [`roc project create`](#roc-project-create)
+* [`roc project delete [ID]`](#roc-project-delete-id)
+* [`roc project list`](#roc-project-list)
+* [`roc task-force create`](#roc-task-force-create)
+* [`roc task-force delete [ID]`](#roc-task-force-delete-id)
+* [`roc task-force exec ID`](#roc-task-force-exec-id)
+* [`roc task-force list`](#roc-task-force-list)
+
+## `roc agent create`
+
+Create new agent for specific project
+
+```
+USAGE
+  $ roc agent create -n <value> [-p <value>] [-o <value>]
+
+FLAGS
+  -n, --name=<value>     (required) Name of the agent
+  -o, --os=<value>       Name of the agent
+  -p, --project=<value>  Project identifier
+
+DESCRIPTION
+  Create new agent for specific project
+
+EXAMPLES
+  $ roc agent create -n z3-subnet-1 -p default
+  [OK] Agent z3-subnet-1 created
+```
+
+## `roc agent delete [ID]`
+
+Delete agent by its identifier
+
+```
+USAGE
+  $ roc agent delete [ID]
+
+DESCRIPTION
+  Delete agent by its identifier
+
+EXAMPLES
+  $ roc agent delete agent-1
+  [OK] agent-1 deleted
+```
+
+## `roc agent list`
+
+List agents by project
+
+```
+USAGE
+  $ roc agent list [-p <value>]
+
+FLAGS
+  -p, --project=<value>  Project identifier
+
+DESCRIPTION
+  List agents by project
+
+EXAMPLES
+  $ roc agent list -p default
+```
+
+## `roc command`
+
+```
+USAGE
+  $ roc command
+```
+
+_See code: [dist/commands/command.ts](https://github.com/yusufcanb/roc/blob/v0.1.0-alpha.0/dist/commands/command.ts)_
+
+## `roc config get-project`
+
+Set configurations for ROC
+
+```
+USAGE
+  $ roc config get-project
+
+DESCRIPTION
+  Set configurations for ROC
+
+EXAMPLES
+  $ roc config get-project
+  [OK] default-project
+```
+
+## `roc config get-url`
+
+Set configurations for ROC
+
+```
+USAGE
+  $ roc config get-url
+
+DESCRIPTION
+  Set configurations for ROC
+
+EXAMPLES
+  $ roc config get-url
+  [OK] http://example.roc-service.local
+```
+
+## `roc config set-credentials`
+
+Set credentials of ROC
+
+```
+USAGE
+  $ roc config set-credentials -k <value> -s <value>
+
+FLAGS
+  -k, --key=<value>     (required) API Key of ROC Platform
+  -s, --secret=<value>  (required) API Secret of ROC Platform
+
+DESCRIPTION
+  Set credentials of ROC
+
+EXAMPLES
+  $ roc config set-credentials --key [YOUR_KEY] --secret [YOUR_SECRET]
+  [OK] Platform credentials saved
+```
+
+## `roc config set-project PROJECT`
+
+Set default project for Robot Operation Center CLI
+
+```
+USAGE
+  $ roc config set-project [PROJECT]
+
+ARGUMENTS
+  PROJECT  Identifier of project
+
+DESCRIPTION
+  Set default project for Robot Operation Center CLI
+
+EXAMPLES
+  $ roc config set-project default-project
+  [OK] default project set
+```
+
+## `roc config set-url URL`
+
+Set configurations for ROC
+
+```
+USAGE
+  $ roc config set-url [URL]
+
+ARGUMENTS
+  URL  URL of the ROC Platform
+
+DESCRIPTION
+  Set configurations for ROC
+
+EXAMPLES
+  $ roc config set-url https://roc.platform
+  ROC platform set to https://roc.platform
+```
+
+## `roc environment create`
+
+Create new environment for specific project
+
+```
+USAGE
+  $ roc environment create -n <value> -v <value> [-p <value>] [-d <value>]
+
+FLAGS
+  -d, --description=<value>  Description of the environment
+  -n, --name=<value>         (required) Name of the environment
+  -p, --project=<value>      Project identifier
+  -v, --variables=<value>    (required) Variables file of the environment
+
+DESCRIPTION
+  Create new environment for specific project
+
+EXAMPLES
+  $ roc environment create -p default -n development -v variables.yaml
+  [OK] Environment development created
+```
+
+## `roc environment delete [ID]`
+
+Delete environment by its identifier
+
+```
+USAGE
+  $ roc environment delete [ID]
+
+DESCRIPTION
+  Delete environment by its identifier
+
+EXAMPLES
+  $ roc environment delete development
+  [OK] Environment development deleted
+```
+
+## `roc environment list`
+
+List environments by project
+
+```
+USAGE
+  $ roc environment list [-p <value>]
+
+FLAGS
+  -p, --project=<value>  Project identifier
+
+DESCRIPTION
+  List environments by project
+
+EXAMPLES
+  $ roc environment list -p default
+```
+
+## `roc environment variables ID`
+
+Print variables of the environment
+
+```
+USAGE
+  $ roc environment variables [ID]
+
+DESCRIPTION
+  Print variables of the environment
+
+EXAMPLES
+  $ roc environment variables [env-id]
+```
 
 ## `roc help [COMMAND]`
 
@@ -72,150 +311,128 @@ DESCRIPTION
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.9/src/commands/help.ts)_
 
-## `roc plugins`
+## `roc project create`
 
-List installed plugins.
+Create new project
 
 ```
 USAGE
-  $ roc plugins [--core]
+  $ roc project create -n <value>
 
 FLAGS
-  --core  Show core plugins.
+  -n, --name=<value>  (required) Name of project
 
 DESCRIPTION
-  List installed plugins.
+  Create new project
 
 EXAMPLES
-  $ roc plugins
+  $ roc project create -n New Project
+  [OK] New Project created
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.0.11/src/commands/plugins/index.ts)_
+## `roc project delete [ID]`
 
-## `roc plugins:inspect PLUGIN...`
-
-Displays installation properties of a plugin.
+Delete project by its identifier
 
 ```
 USAGE
-  $ roc plugins:inspect PLUGIN...
-
-ARGUMENTS
-  PLUGIN  [default: .] Plugin to inspect.
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
+  $ roc project delete [ID]
 
 DESCRIPTION
-  Displays installation properties of a plugin.
+  Delete project by its identifier
 
 EXAMPLES
-  $ roc plugins:inspect myplugin
+  $ roc project delete demo-project
+  [OK] Environment demo-project deleted
 ```
 
-## `roc plugins:install PLUGIN...`
+## `roc project list`
 
-Installs a plugin into the CLI.
+List projects
 
 ```
 USAGE
-  $ roc plugins:install PLUGIN...
-
-ARGUMENTS
-  PLUGIN  Plugin to install.
-
-FLAGS
-  -f, --force    Run yarn install with force flag.
-  -h, --help     Show CLI help.
-  -v, --verbose
+  $ roc project list
 
 DESCRIPTION
-  Installs a plugin into the CLI.
-
-  Can be installed from npm or a git url.
-
-  Installation of a user-installed plugin will override a core plugin.
-
-  e.g. If you have a core plugin that has a 'hello' command, installing a user-installed plugin with a 'hello' command
-  will override the core plugin implementation. This is useful if a user needs to update core plugin functionality in
-  the CLI without the need to patch and update the whole CLI.
-
-ALIASES
-  $ roc plugins add
+  List projects
 
 EXAMPLES
-  $ roc plugins:install myplugin 
-
-  $ roc plugins:install https://github.com/someuser/someplugin
-
-  $ roc plugins:install someuser/someplugin
+  $ roc project list
 ```
 
-## `roc plugins:link PLUGIN`
+## `roc task-force create`
 
-Links a plugin into the CLI for development.
+Create new task force for specific project
 
 ```
 USAGE
-  $ roc plugins:link PLUGIN
-
-ARGUMENTS
-  PATH  [default: .] path to plugin
+  $ roc task-force create -p <value> -n <value>
 
 FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
+  -n, --name=<value>     (required) Name of the task force
+  -p, --project=<value>  (required) Project identifier
 
 DESCRIPTION
-  Links a plugin into the CLI for development.
-
-  Installation of a linked plugin will override a user-installed or core plugin.
-
-  e.g. If you have a user-installed or core plugin that has a 'hello' command, installing a linked plugin with a 'hello'
-  command will override the user-installed or core plugin implementation. This is useful for development work.
+  Create new task force for specific project
 
 EXAMPLES
-  $ roc plugins:link myplugin
+  $ roc task-force create -n api-health-checker -p default
+  [OK] Task Force api-health-checker created
 ```
 
-## `roc plugins:uninstall PLUGIN...`
+## `roc task-force delete [ID]`
 
-Removes a plugin from the CLI.
-
-```
-USAGE
-  $ roc plugins:uninstall PLUGIN...
-
-ARGUMENTS
-  PLUGIN  plugin to uninstall
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Removes a plugin from the CLI.
-
-ALIASES
-  $ roc plugins unlink
-  $ roc plugins remove
-```
-
-## `roc plugins update`
-
-Update installed plugins.
+Delete task force by its identifier
 
 ```
 USAGE
-  $ roc plugins update [-h] [-v]
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
+  $ roc task-force delete [ID]
 
 DESCRIPTION
-  Update installed plugins.
+  Delete task force by its identifier
+
+EXAMPLES
+  $ roc task-force delete form-processor
+  [OK] Task force form-processor deleted
+```
+
+## `roc task-force exec ID`
+
+Execute task force
+
+```
+USAGE
+  $ roc task-force exec [ID] -e <value> -a <value>
+
+FLAGS
+  -a, --agent=<value>  (required) Agent identifier
+  -e, --env=<value>    (required) Environment identifier
+
+DESCRIPTION
+  Execute task force
+
+EXAMPLES
+  $ roc task-force exec [task-force-id] --agent agent-1 --env development
+  [OK] Job queued with agent agent-1 and environment development
+```
+
+## `roc task-force list`
+
+List task forces by project
+
+```
+USAGE
+  $ roc task-force list -p <value>
+
+FLAGS
+  -p, --project=<value>  (required) Project identifier
+
+DESCRIPTION
+  List task forces by project
+
+EXAMPLES
+  $ roc task-force list -p default
 ```
 <!-- commandsstop -->
 * [`oex hello PERSON`](#oex-hello-person)

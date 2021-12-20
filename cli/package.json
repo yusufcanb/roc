@@ -1,10 +1,10 @@
 {
-  "name": "roc-cli",
+  "name": "roc-ctl",
   "description": "Command line interface for ROC (Robot Operation Center)",
   "version": "0.1.0-alpha.0",
   "author": "Yusuf Can Bayrak",
   "bin": {
-    "roc": "./bin/run"
+    "roc-ctl": "./bin/run"
   },
   "bugs": "https://github.com/yusufcanb/roc/issues",
   "dependencies": {
