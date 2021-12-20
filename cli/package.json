@@ -1,12 +1,12 @@
 {
   "name": "roc-cli",
   "description": "Command line interface for ROC (Robot Operation Center)",
-  "version": "0.1.0",
+  "version": "0.1.0-alpha.0",
   "author": "Yusuf Can Bayrak",
   "bin": {
     "roc": "./bin/run"
   },
-  "bugs": "https://github.com/D:/roc/issues",
+  "bugs": "https://github.com/yusufcanb/roc/issues",
   "dependencies": {
     "@oclif/core": "^1",
     "@oclif/plugin-help": "^5",
@@ -40,7 +40,7 @@
     "/npm-shrinkwrap.json",
     "/oclif.manifest.json"
   ],
-  "homepage": "https://github.com/D:/roc",
+  "homepage": "https://github.com/yusufcanb/roc",
   "keywords": [
     "oclif"
   ],
