@@ -1,8 +1,8 @@
-import {Command, Flags} from '@oclif/core'
+import {Flags} from '@oclif/core'
+import {RocCommand} from "../command";
 
-import * as api from "./api";
 
-export default class AgentCreateCommand extends Command {
+export default class AgentCreateCommand extends RocCommand {
   static description = 'Create new agent for specific project'
 
   static examples = [
@@ -13,7 +13,7 @@ export default class AgentCreateCommand extends Command {
 
   static flags = {
     project: Flags.string(
-      {char: 'p', description: 'Project identifier', required: true}
+      {char: 'p', description: 'Project identifier', required: false}
     ),
     name: Flags.string(
       {char: 'n', description: 'Name of the agent', required: true}
@@ -27,14 +27,27 @@ export default class AgentCreateCommand extends Command {
 
   async run(): Promise<void> {
     const {args, flags} = await this.parse(AgentCreateCommand)
+    let project;
 
-    if (await api.createAgent(flags.project, flags.name, flags.os) === 201) {
-      this.log(`[OK] Agent ${flags.name} created`)
+    console.log("flags.project is " + flags.project)
+    if (flags.project === undefined) {
+      try {
+        project = this.roc.getDefaultProject()
+        console.log("Default project is " + project)
+      } catch (e) {
+        throw new Error("Project is not specified. Use -p option or specify a default project.")
+      }
     } else {
+      project = flags.project
+    }
+
+    try {
+      await this.api.agent.createAgent(project, flags.name, flags.os)
+    } catch (e) {
+      console.error(e)
       this.log(`[FAIL] Agent creation failed`)
     }
 
   }
-
 
 }

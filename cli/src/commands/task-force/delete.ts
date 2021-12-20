@@ -1,6 +1,6 @@
-import {Command} from '@oclif/core'
+import {RocCommand} from "../command";
 
-export default class TaskForceDeleteCommand extends Command {
+export default class TaskForceDeleteCommand extends RocCommand {
   static description = 'Delete task force by its identifier'
 
   static examples = [

@@ -1,6 +1,6 @@
-import {Command} from '@oclif/core'
+import {RocCommand} from "../command";
 
-export default class AgentDeleteCommand extends Command {
+export default class AgentDeleteCommand extends RocCommand {
   static description = 'Delete agent by its identifier'
 
   static examples = [

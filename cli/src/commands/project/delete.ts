@@ -1,6 +1,6 @@
-import {Command} from '@oclif/core'
+import {RocCommand} from "../command";
 
-export default class ProjectDeleteCommand extends Command {
+export default class ProjectDeleteCommand extends RocCommand {
   static description = 'Delete project by its identifier'
 
   static examples = [

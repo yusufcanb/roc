@@ -1,8 +1,7 @@
-import {Command, Flags} from '@oclif/core'
+import {Flags} from '@oclif/core'
+import {RocCommand} from "../command";
 
-import * as api from "./api"
-
-export default class TaskForceListCommand extends Command {
+export default class TaskForceListCommand extends RocCommand {
   static description = 'List task forces by project'
 
   static examples = [
@@ -18,10 +17,11 @@ export default class TaskForceListCommand extends Command {
 
   static args = []
 
+
   async run(): Promise<void> {
     const {args, flags} = await this.parse(TaskForceListCommand)
 
-    const taskForces = await api.getTaskForcesByProject(flags.project)
+    const taskForces = await this.api.taskForce.getTaskForcesByProject(flags.project)
     console.table(taskForces)
   }
 

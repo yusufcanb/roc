@@ -1,7 +1,7 @@
-import {Command} from '@oclif/core'
 import {CLIError} from "@oclif/core/lib/errors";
+import {RocCommand} from "../command";
 
-export default class EnvironmentVariablesCommand extends Command {
+export default class EnvironmentVariablesCommand extends RocCommand {
   static description = 'Print variables of the environment'
 
   static examples = [

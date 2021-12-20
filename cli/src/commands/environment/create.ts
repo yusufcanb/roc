@@ -1,9 +1,9 @@
-import {Command, Flags} from '@oclif/core'
+import {Flags} from '@oclif/core'
+import {RocCommand} from "../command";
 
 import * as fs from "fs"
-import * as api from "./api"
 
-export default class EnvironmentCreateCommand extends Command {
+export default class EnvironmentCreateCommand extends RocCommand {
   static description = 'Create new environment for specific project'
 
   static examples = [
@@ -14,7 +14,7 @@ export default class EnvironmentCreateCommand extends Command {
 
   static flags = {
     project: Flags.string(
-      {char: 'p', description: 'Project identifier', required: true}
+      {char: 'p', description: 'Project identifier', required: false}
     ),
     name: Flags.string(
       {char: 'n', description: 'Name of the environment', required: true}
@@ -29,16 +29,25 @@ export default class EnvironmentCreateCommand extends Command {
 
   static args = []
 
-
   async getVariablesFromFile(path: string) {
     const content = fs.readFileSync(path, "utf-8")
-    this.log(content)
-
     return content
   }
 
   async run(): Promise<void> {
     const {args, flags} = await this.parse(EnvironmentCreateCommand)
+
+    let project;
+
+    if (flags.project === undefined) {
+      try {
+        project = this.roc.getDefaultProject()
+      } catch (e) {
+        throw new Error("Project is not specified. Use -p option or specify a default project.")
+      }
+    } else {
+      project = flags.project
+    }
 
     const dto: { code: string; name: string; description: string } = {
       name: flags.name,
@@ -46,11 +55,11 @@ export default class EnvironmentCreateCommand extends Command {
       code: await this.getVariablesFromFile(flags.variables)
     }
 
-    const rc = await api.createEnvironment(flags.project, dto)
+    const rc = await this.api.environment.createEnvironment(project, dto)
     if (rc == 201) {
       this.log(`[OK] Environment ${flags.name} created`)
     } else {
-      this.log(`[FAIL] Operation failed`)
+      this.log(`[FAIL] Operation failed`,)
     }
 
   }

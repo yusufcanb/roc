@@ -1,7 +1,6 @@
-import {Command} from '@oclif/core'
-import {CLIError} from "@oclif/core/lib/errors";
+import {RocCommand} from "../command";
 
-export default class EnvironmentDeleteCommand extends Command {
+export default class EnvironmentDeleteCommand extends RocCommand {
   static description = 'Delete environment by its identifier'
 
   static examples = [
@@ -19,7 +18,11 @@ export default class EnvironmentDeleteCommand extends Command {
   async run(): Promise<void> {
     const {args, flags} = await this.parse(EnvironmentDeleteCommand)
 
-    throw new CLIError("Not implemented yet")
+    try {
+      await this.api.environment.deleteEnvironment(args.id)
+    } catch (e: any) {
+      this.log("[FAIL] " + e.message)
+    }
   }
 
 }

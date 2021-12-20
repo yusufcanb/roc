@@ -1,6 +1,7 @@
-import {Command, Flags} from '@oclif/core'
+import {Flags} from '@oclif/core'
+import {RocCommand} from "../command";
 
-export default class SetCredentialsCommand extends Command {
+export default class SetCredentialsCommand extends RocCommand {
   static description = 'Set credentials of ROC'
 
   static examples = [

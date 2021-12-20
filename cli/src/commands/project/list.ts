@@ -1,13 +1,10 @@
-import {Command, Flags} from '@oclif/core'
+import {RocCommand} from "../command";
 
-import * as api from "./api"
-
-export default class ProjectListCommand extends Command {
+export default class ProjectListCommand extends RocCommand {
   static description = 'List projects'
 
   static examples = [
     `$ roc project list
-
 `,
   ]
 
@@ -16,9 +13,8 @@ export default class ProjectListCommand extends Command {
   static args = []
 
   async run(): Promise<void> {
-    const projects = await api.getProjects()
+    const projects = await this.api.project.getProjects()
     console.table(projects)
   }
-
 
 }

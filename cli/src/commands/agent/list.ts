@@ -1,8 +1,8 @@
-import {Command, Flags} from '@oclif/core'
+import {Flags} from '@oclif/core'
+import {RocCommand} from "../command";
 
-import * as api from "./api";
 
-export default class AgentListCommand extends Command {
+export default class AgentListCommand extends RocCommand {
   static description = 'List agents by project'
 
   static examples = [
@@ -12,7 +12,7 @@ export default class AgentListCommand extends Command {
 
   static flags = {
     project: Flags.string(
-      {char: 'p', description: 'Project identifier', required: true}
+      {char: 'p', description: 'Project identifier', required: false}
     ),
   }
 
@@ -20,10 +20,25 @@ export default class AgentListCommand extends Command {
 
   async run(): Promise<void> {
     const {args, flags} = await this.parse(AgentListCommand)
+    let project;
 
-    const agents = await api.getAgentsByProject(flags.project)
-    console.table(agents)
+    if (flags.project === undefined) {
+      try {
+        project = this.roc.getDefaultProject()
+        console.log("Using default project is " + project)
+      } catch (e) {
+        throw new Error("Project is not specified. Use -p option or specify a default project.")
+      }
+    } else {
+      project = flags.project
+    }
+
+    try {
+      const agents = await this.api.agent.getAgentsByProject(project)
+      console.table(agents)
+    } catch (e) {
+      console.error(e)
+    }
   }
-
 
 }

@@ -1,6 +1,6 @@
-import {Command} from '@oclif/core'
+import {RocCommand} from "../command";
 
-export default class SetUrlCommand extends Command {
+export default class SetUrlCommand extends RocCommand {
   static description = 'Set configurations for ROC'
 
   static examples = [
@@ -14,6 +14,7 @@ ROC platform set to https://roc.platform`,
 
   async run(): Promise<void> {
     const {args, flags} = await this.parse(SetUrlCommand)
-    this.log(`[OK] ROC Platform configured`)
+    this.roc.setPlatformUrl(args.url)
+    this.log(`[OK] ROC platform configured`)
   }
 }

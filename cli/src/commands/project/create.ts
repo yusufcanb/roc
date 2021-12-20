@@ -1,8 +1,8 @@
-import {Command, Flags} from '@oclif/core'
+import {Flags} from '@oclif/core'
+import {RocCommand} from "../command";
 
-import * as api from "./api"
 
-export default class ProjectCreateCommand extends Command {
+export default class ProjectCreateCommand extends RocCommand {
   static description = 'Create new project'
 
   static examples = [
@@ -22,7 +22,7 @@ export default class ProjectCreateCommand extends Command {
   async run(): Promise<void> {
     const {args, flags} = await this.parse(ProjectCreateCommand)
 
-    if (await api.createProject(flags.name) === 200) {
+    if (await this.api.project.createProject(flags.name) === 200) {
       this.log(`[OK] ${flags.name} created`)
     } else {
       this.log(`[ERROR] Project creation failed`)

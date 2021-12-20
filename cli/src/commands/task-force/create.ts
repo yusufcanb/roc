@@ -1,6 +1,7 @@
-import {Command, Flags} from '@oclif/core'
+import {Flags} from '@oclif/core'
+import {RocCommand} from "../command";
 
-export default class TaskForceCreateCommand extends Command {
+export default class TaskForceCreateCommand extends RocCommand {
   static description = 'Create new task force for specific project'
 
   static examples = [

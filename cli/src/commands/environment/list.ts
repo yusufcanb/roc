@@ -1,8 +1,7 @@
-import {Command, Flags} from '@oclif/core'
+import {Flags} from '@oclif/core'
+import {RocCommand} from "../command";
 
-import * as api from "./api"
-
-export default class EnvironmentListCommand extends Command {
+export default class EnvironmentListCommand extends RocCommand {
   static description = 'List environments by project'
 
   static examples = [
@@ -13,7 +12,7 @@ export default class EnvironmentListCommand extends Command {
 
   static flags = {
     project: Flags.string(
-      {char: 'p', description: 'Project identifier', required: true}
+      {char: 'p', description: 'Project identifier', required: false}
     ),
   }
 
@@ -21,11 +20,22 @@ export default class EnvironmentListCommand extends Command {
 
   async run(): Promise<void> {
     const {args, flags} = await this.parse(EnvironmentListCommand)
+    let project;
 
-    const environments = await api.getEnvironmentsByProject(flags.project)
+    if (flags.project === undefined) {
+      try {
+        project = this.roc.getDefaultProject()
+        console.log("Default project is " + project)
+      } catch (e) {
+        throw new Error("Project is not specified. Use -p option or specify a default project.")
+      }
+    } else {
+      project = flags.project
+    }
+
+    const environments = await this.api.environment.getEnvironmentsByProject(project)
 
     console.table(environments)
   }
-
 
 }
