@@ -12,10 +12,13 @@ export default class TaskForceCreateCommand extends RocCommand {
 
   static flags = {
     project: Flags.string(
-      {char: 'p', description: 'Project identifier', required: true}
+      {char: 'p', description: 'Project identifier', required: false}
     ),
     name: Flags.string(
       {char: 'n', description: 'Name of the task force', required: true}
+    ),
+    package: Flags.string(
+      {char: 'p', description: 'Robot package', required: true}
     ),
   }
 
@@ -23,8 +26,11 @@ export default class TaskForceCreateCommand extends RocCommand {
 
   async run(): Promise<void> {
     const {args, flags} = await this.parse(TaskForceCreateCommand)
+    const project = this.getProjectOrDefault(flags.project)
+
+    const response = await this.api.taskForce.createTaskForce(project, flags.name)
+
     this.log(`[OK] Task force ${flags.name} created`)
   }
-
 
 }

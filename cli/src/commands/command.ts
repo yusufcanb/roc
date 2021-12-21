@@ -14,4 +14,21 @@ export abstract class RocCommand extends Command {
     this.api = new ROCApi(this.roc.getPlatformUrl())
   }
 
+  getProjectOrDefault(projectName: string | null | undefined) {
+    let project;
+
+    if (projectName === undefined) {
+      try {
+        project = this.roc.getDefaultProject()
+        console.log("Using default project is " + project)
+      } catch (e) {
+        throw new Error("Project is not specified. Use -p option or specify a default project.")
+      }
+    } else {
+      project = projectName
+    }
+
+    return project
+  }
+
 }

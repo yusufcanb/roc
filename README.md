@@ -5,7 +5,27 @@ operations which uses Robot Framework as it's executor. 🤖 🕹
 
 ## Overview
 
-![Screenshot 1](./docs/assets/screenshot-1.png)
+```
+$ roc-ctl --help
+
+Command line interface for ROC (Robot Operation Center)
+
+VERSION
+roc-ctl/0.1.0-alpha.0 win32-x64 node-v12.15.0
+
+USAGE
+$ roc [COMMAND]
+
+TOPICS
+agent        Create new agent for specific project
+config       ROC platform configurations
+environment  Create new environment for specific project
+project      Project operations (e.g. List, Create, Update)
+task-force   Create new task force for specific project
+
+COMMANDS
+help         Display help for roc-ctl.
+``
 
 ### Project Decomposition
 
@@ -20,13 +40,17 @@ operations which uses Robot Framework as it's executor. 🤖 🕹
 Run required services via docker-compose;
 
 ```
+
 docker compose up
+
 ```
 
 Start platform with;
 
 ```
+
 ./mvnw compile && ./mvnw -pl platform spring-boot:run
+
 ```
 
 Then, start frontend development server;

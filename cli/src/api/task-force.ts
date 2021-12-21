@@ -1,4 +1,6 @@
 import {API} from "./base";
+import {ReadStream} from "fs";
+import * as FormData from "form-data";
 
 
 export class TaskForceAPI extends API {
@@ -13,7 +15,7 @@ export class TaskForceAPI extends API {
     return response.data
   }
 
-  async createTaskForce(projectId: string, name: string, type: string, url: string) {
+  async createTaskForce(projectId: string, name: string) {
     const requestConfig = {
       params: {
         projectId: projectId
@@ -24,8 +26,14 @@ export class TaskForceAPI extends API {
       displayName: name,
     }
 
-    const response = await this.http.post("/task-force", requestData, requestConfig)
-    return response.status
+    return this.http.post("/task-force", requestData, requestConfig)
+  }
+
+  async uploadRobotPackage(taskForceId: Id, payload: { fileName: string, stream: ReadStream }) {
+    const formData: FormData = new FormData();
+
+    formData.append('file', payload.stream);
+    return this.http.post(`/task-force/${taskForceId}/package`, formData)
   }
 
   async executeTaskForce(taskForceId: string, environmentId: string, agentId: string) {
