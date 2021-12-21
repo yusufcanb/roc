@@ -102,7 +102,7 @@ public class SimpleTaskForceController implements TaskForceController {
 
     @RequestMapping(value = "/task-force/{id}", method = RequestMethod.DELETE)
     @Override
-    public ResponseEntity<Boolean> deleteTaskForceById(@PathVariable Long id, @RequestBody Object body) {
+    public ResponseEntity<Boolean> deleteTaskForceById(@PathVariable Long id) {
         Optional<TaskForce> taskForce = taskForceService.getTaskForceById(id);
         if (taskForce.isPresent()) {
             taskForceService.deleteTaskForceById(id);

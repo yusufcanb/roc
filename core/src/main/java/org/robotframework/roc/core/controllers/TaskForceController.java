@@ -27,6 +27,6 @@ public interface TaskForceController {
 
     ResponseEntity<TaskForce> updateTaskForceById(@PathVariable Long id, @RequestBody TaskForceUpdateDto body);
 
-    ResponseEntity<Boolean> deleteTaskForceById(@PathVariable Long id, @RequestBody Object body);
+    ResponseEntity<Boolean> deleteTaskForceById(@PathVariable Long id);
 
 }
