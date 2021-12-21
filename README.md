@@ -5,27 +5,7 @@ operations which uses Robot Framework as it's executor. 🤖 🕹
 
 ## Overview
 
-```
-$ roc-ctl --help
-
-Command line interface for ROC (Robot Operation Center)
-
-VERSION
-roc-ctl/0.1.0-alpha.0 win32-x64 node-v12.15.0
-
-USAGE
-$ roc [COMMAND]
-
-TOPICS
-agent        Create new agent for specific project
-config       ROC platform configurations
-environment  Create new environment for specific project
-project      Project operations (e.g. List, Create, Update)
-task-force   Create new task force for specific project
-
-COMMANDS
-help         Display help for roc-ctl.
-``
+![System Overview](./docs/assets/system-overview.png)
 
 ### Project Decomposition
 
@@ -33,38 +13,23 @@ help         Display help for roc-ctl.
 - `/platform`: Platform project is for backend operations of platform.
 - `/web`: Web UI project for platform. Created with `create-react-app`
 
-![System Overview](./docs/assets/system-overview.png)
+## Installation
 
-## Development
+> If you don't have any ROC deployment please skip to the deployment section for deployment steps.
 
-Run required services via docker-compose;
 
-```
+Install ```roc-ctl``` CLI tool for interacting the ROC;
 
-docker compose up
 
 ```
-
-Start platform with;
-
-```
-
-./mvnw compile && ./mvnw -pl platform spring-boot:run
-
-```
-
-Then, start frontend development server;
-
-```shell
-cd web
-npm install
-npm run start
+npm install -g roc-ctl
 ```
 
 ## Deployment
 
-Deploy on Kubernetes
+Start platform using `docker-compose`;
 
-```shell
-# Coming soon
 ```
+docker-compose up -d
+```
+
