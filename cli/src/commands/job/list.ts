@@ -1,12 +1,11 @@
 import {Flags} from '@oclif/core'
 import {RocCommand} from "../command";
 
-
-export default class AgentListCommand extends RocCommand {
-  static description = 'List agents by project'
+export default class JobListCommand extends RocCommand {
+  static description = 'List task forces by project'
 
   static examples = [
-    `$ roc-ctl agent list -p default
+    `$ roc task-force list -p default
 `,
   ]
 
@@ -18,8 +17,9 @@ export default class AgentListCommand extends RocCommand {
 
   static args = []
 
+
   async run(): Promise<void> {
-    const {args, flags} = await this.parse(AgentListCommand)
+    const {args, flags} = await this.parse(JobListCommand)
     let project;
 
     if (flags.project === undefined) {
@@ -33,12 +33,8 @@ export default class AgentListCommand extends RocCommand {
       project = flags.project
     }
 
-    try {
-      const agents = await this.api.agent.getAgentsByProject(project)
-      console.table(agents)
-    } catch (e) {
-      console.error(e)
-    }
+    const response = await this.api.job.getJobsByProject(project)
+    console.table(response.data)
   }
 
 }

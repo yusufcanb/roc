@@ -20,8 +20,20 @@ export default class TaskForceListCommand extends RocCommand {
 
   async run(): Promise<void> {
     const {args, flags} = await this.parse(TaskForceListCommand)
+    let project;
 
-    const taskForces = await this.api.taskForce.getTaskForcesByProject(flags.project)
+    if (flags.project === undefined) {
+      try {
+        project = this.roc.getDefaultProject()
+        console.log("Using default project is " + project)
+      } catch (e) {
+        throw new Error("Project is not specified. Use -p option or specify a default project.")
+      }
+    } else {
+      project = flags.project
+    }
+
+    const taskForces = await this.api.taskForce.getTaskForcesByProject(project)
     console.table(taskForces)
   }
 

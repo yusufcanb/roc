@@ -47,7 +47,7 @@
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "oclif": {
-    "bin": "roc",
+    "bin": "roc-ctl",
     "commands": "./dist/commands",
     "plugins": [
       "@oclif/plugin-help"
@@ -55,10 +55,22 @@
     "topicSeparator": " ",
     "topics": {
       "config": {
-        "description": "ROC platform configurations"
+        "description": "CLI configurations (e.g. Platform URL, Default Project, etc.)"
       },
       "project": {
         "description": "Project operations (e.g. List, Create, Update)"
+      },
+      "agent": {
+        "description": "Agent operations (e.g. List, Create, Update)"
+      },
+      "environment": {
+        "description": "Environment operations (e.g. List, Create, Update, Upload Variables)"
+      },
+      "task-force": {
+        "description": "Task force operations (e.g. List, Create, Update, Upload Variables)"
+      },
+      "job": {
+        "description": "Job operations (e.g. List, View Console, View Logs)"
       }
     }
   },

@@ -6,7 +6,7 @@ export default class AgentCreateCommand extends RocCommand {
   static description = 'Create new agent for specific project'
 
   static examples = [
-    `$ roc agent create -n z3-subnet-1 -p default
+    `$ roc-ctl agent create -n z3-subnet-1 -p default
 [OK] Agent z3-subnet-1 created
 `,
   ]

@@ -27,4 +27,9 @@ export class AgentAPI extends API {
     return response.status
   }
 
+  async deleteAgent(agentId: string | number) {
+    const response = await this.http.delete(`/agent/${agentId}`)
+    return response.status
+  }
+
 }
