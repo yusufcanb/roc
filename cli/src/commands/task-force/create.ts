@@ -1,6 +1,5 @@
 import {Flags} from '@oclif/core'
 import {RocCommand} from '../command'
-import {AxiosError} from "axios";
 
 export default class TaskForceCreateCommand extends RocCommand {
   static description = 'Create new task force for specific project'
