@@ -1,4 +1,4 @@
-name: Typescript CI for CLI
+name: cli
 on:
   push:
     branches: [ master ]
