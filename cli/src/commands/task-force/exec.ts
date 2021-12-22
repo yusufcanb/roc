@@ -1,6 +1,5 @@
 import {Flags} from '@oclif/core'
-import {RocCommand} from "../command";
-
+import {RocCommand} from '../command'
 
 export default class TaskForceExecuteCommand extends RocCommand {
   static description = 'Execute task force'
@@ -13,15 +12,14 @@ export default class TaskForceExecuteCommand extends RocCommand {
 
   static flags = {
     env: Flags.string(
-      {char: 'e', description: 'Environment identifier', required: true}
+      {char: 'e', description: 'Environment identifier', required: true},
     ),
     agent: Flags.string(
-      {char: 'a', description: 'Agent identifier', required: true}
+      {char: 'a', description: 'Agent identifier', required: true},
     ),
   }
 
-  static args = [{name: "id", required: true}]
-
+  static args = [{name: 'id', required: true}]
 
   async run(): Promise<void> {
     const {args, flags} = await this.parse(TaskForceExecuteCommand)
@@ -30,8 +28,7 @@ export default class TaskForceExecuteCommand extends RocCommand {
     if (response === 200) {
       this.log(`[OK] Job queued with agent ${flags.agent} and environment ${flags.env}`)
     } else {
-      this.log(`[FAIL] Command failed`)
+      this.log('[FAIL] Command failed')
     }
   }
-
 }
