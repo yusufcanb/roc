@@ -1,6 +1,7 @@
 # ROC | Robot Operation Center
 
-[![build](https://github.com/yusufcanb/roc/actions/workflows/npm-build.yml/badge.svg?branch=master)](https://github.com/yusufcanb/roc/actions/workflows/npm-build.yml)
+[![platform-build](https://github.com/yusufcanb/roc/actions/workflows/platform-ci.yml/badge.svg?branch=master)](https://github.com/yusufcanb/roc/actions/workflows/platform-ci.yml)
+[![cli-build](https://github.com/yusufcanb/roc/actions/workflows/npm-build.yml/badge.svg?branch=master)](https://github.com/yusufcanb/roc/actions/workflows/npm-build.yml)
 
 Robot Operation Center (ROC) is an Self hosted, lightweight, JVM based software automation platform for every day IT
 operations which uses Robot Framework as it's executor. 🤖 🕹
