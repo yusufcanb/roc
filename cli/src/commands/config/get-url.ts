@@ -1,4 +1,4 @@
-import {RocCommand} from "../command";
+import {RocCommand} from '../command'
 
 export default class GetUrlCommand extends RocCommand {
   static description = 'Set configurations for ROC'
@@ -9,6 +9,6 @@ export default class GetUrlCommand extends RocCommand {
   ]
 
   async run(): Promise<void> {
-    this.log("[OK] " + this.roc.getPlatformUrl())
+    this.log('[OK] ' + this.roc.getPlatformUrl())
   }
 }

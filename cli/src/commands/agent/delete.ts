@@ -1,4 +1,4 @@
-import {RocCommand} from "../command";
+import {RocCommand} from '../command'
 
 export default class AgentDeleteCommand extends RocCommand {
   static description = 'Delete agent by its identifier'
@@ -24,5 +24,4 @@ export default class AgentDeleteCommand extends RocCommand {
       this.log(`[FAIL] Delete failed. Return code is ${rc}`)
     }
   }
-
 }

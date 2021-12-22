@@ -1,6 +1,5 @@
 import {Flags} from '@oclif/core'
-import {RocCommand} from "../command";
-
+import {RocCommand} from '../command'
 
 export default class ProjectCreateCommand extends RocCommand {
   static description = 'Create new project'
@@ -13,7 +12,7 @@ export default class ProjectCreateCommand extends RocCommand {
 
   static flags = {
     name: Flags.string(
-      {char: 'n', description: 'Name of project', required: true}
+      {char: 'n', description: 'Name of project', required: true},
     ),
   }
 
@@ -25,8 +24,7 @@ export default class ProjectCreateCommand extends RocCommand {
     if (await this.api.project.createProject(flags.name) === 200) {
       this.log(`[OK] ${flags.name} created`)
     } else {
-      this.log(`[ERROR] Project creation failed`)
+      this.log('[ERROR] Project creation failed')
     }
   }
-
 }

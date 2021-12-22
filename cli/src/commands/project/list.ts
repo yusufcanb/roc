@@ -1,4 +1,4 @@
-import {RocCommand} from "../command"
+import {RocCommand} from '../command'
 
 export default class ProjectListCommand extends RocCommand {
   static description = 'List projects'
@@ -16,5 +16,4 @@ export default class ProjectListCommand extends RocCommand {
     const projects = await this.api.project.getProjects()
     console.table(projects)
   }
-
 }

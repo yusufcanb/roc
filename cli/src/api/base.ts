@@ -1,4 +1,4 @@
-import axios, {AxiosInstance} from "axios"
+import axios, {AxiosInstance} from 'axios'
 
 export class API {
   private _http: AxiosInstance
@@ -7,12 +7,11 @@ export class API {
   constructor(baseUrl: string) {
     this._baseUrl = baseUrl
     this._http = axios.create({
-      baseURL: baseUrl
+      baseURL: baseUrl,
     })
   }
 
   get http(): AxiosInstance {
-    return this._http;
+    return this._http
   }
-
 }

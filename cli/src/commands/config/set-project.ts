@@ -1,4 +1,4 @@
-import {RocCommand} from "../command";
+import {RocCommand} from '../command'
 
 export default class SetProjectCommand extends RocCommand {
   static description = 'Set default project for Robot Operation Center CLI'

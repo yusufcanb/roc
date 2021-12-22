@@ -1,43 +1,61 @@
-import {API} from "./base";
-import {ReadStream} from "fs";
-import * as FormData from "form-data";
+import {API} from './base'
+import {ReadStream} from 'node:fs'
+import * as FormData from 'form-data'
+import {AxiosResponse} from 'axios'
 
+export interface TaskForce {
+  id: string
+  name: string
+  sourceType: string
+  repositoryUrl: string
+  bucketName: string
+  packageUrl: string
+}
 
 export class TaskForceAPI extends API {
 
-  async getTaskForcesByProject(projectId: string) {
-
-    const response = await this.http.get("/task-force", {
+  /**
+   * Makes an API call to fetch all the task force entities of the given project
+   * @param projectId Project identifier
+   * @returns Promise of task forces list
+   */
+  async getTaskForcesByProject(projectId: string): Promise<TaskForce[]> {
+    const response = await this.http.get<TaskForce[]>('/task-force', {
       params: {
-        projectId: projectId
-      }
+        projectId: projectId,
+      },
     })
     return response.data
   }
 
-  async createTaskForce(projectId: string, name: string) {
+  /**
+   * Makes an API call to create new task force
+   * @param projectId Project id
+   * @param name Name of the task force to be created
+   * @returns
+   */
+  async createTaskForce(projectId: string, name: string): Promise<AxiosResponse> {
     const requestConfig = {
       params: {
-        projectId: projectId
-      }
+        projectId: projectId,
+      },
     }
 
     const requestData = {
-      displayName: name,
+      name: name,
     }
 
-    return this.http.post("/task-force", requestData, requestConfig)
+    return this.http.post('/task-force', requestData, requestConfig)
   }
 
-  async uploadRobotPackage(taskForceId: Id, payload: { fileName: string, stream: ReadStream }) {
-    const formData: FormData = new FormData();
+  async uploadRobotPackage(taskForceId: string | number, payload: { fileName: string, stream: ReadStream }): Promise<number> {
+    const formData: FormData = new FormData()
 
-    formData.append('file', payload.stream);
+    formData.append('file', payload.stream)
     return this.http.post(`/task-force/${taskForceId}/package`, formData)
   }
 
   async executeTaskForce(taskForceId: string, environmentId: string, agentId: string) {
-
     const requestData = {
       agentId: agentId,
       environmentId: environmentId,
@@ -47,6 +65,8 @@ export class TaskForceAPI extends API {
     return response.status
   }
 
+  async deleteTaskForceById(taskForceId: string | number): Promise<AxiosResponse> {
+    return this.http.delete(`/task-force/${taskForceId}`)
+  }
 }
-
 

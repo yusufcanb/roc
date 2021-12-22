@@ -1,4 +1,4 @@
-import {RocCommand} from "../command";
+import {RocCommand} from '../command'
 
 export default class SetUrlCommand extends RocCommand {
   static description = 'Set configurations for ROC'
@@ -15,6 +15,6 @@ ROC platform set to https://roc.platform`,
   async run(): Promise<void> {
     const {args, flags} = await this.parse(SetUrlCommand)
     this.roc.setPlatformUrl(args.url)
-    this.log(`[OK] ROC platform configured`)
+    this.log('[OK] ROC platform configured')
   }
 }

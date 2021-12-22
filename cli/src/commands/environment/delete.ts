@@ -1,4 +1,4 @@
-import {RocCommand} from "../command";
+import {RocCommand} from '../command'
 
 export default class EnvironmentDeleteCommand extends RocCommand {
   static description = 'Delete environment by its identifier'
@@ -20,9 +20,8 @@ export default class EnvironmentDeleteCommand extends RocCommand {
 
     try {
       await this.api.environment.deleteEnvironment(args.id)
-    } catch (e: any) {
-      this.log("[FAIL] " + e.message)
+    } catch (error: any) {
+      this.log('[FAIL] ' + error.message)
     }
   }
-
 }

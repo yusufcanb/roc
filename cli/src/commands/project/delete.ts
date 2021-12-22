@@ -1,4 +1,4 @@
-import {RocCommand} from "../command";
+import {RocCommand} from '../command'
 
 export default class ProjectDeleteCommand extends RocCommand {
   static description = 'Delete project by its identifier'
@@ -19,5 +19,4 @@ export default class ProjectDeleteCommand extends RocCommand {
     const {args, flags} = await this.parse(ProjectDeleteCommand)
     this.log(`[OK] Project ${args.id} deleted`)
   }
-
 }
