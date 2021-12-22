@@ -1,10 +1,10 @@
 import {expect, test} from '@oclif/test'
 
-describe('Config Command Tests', () => {
+describe('config', () => {
   test
-  .stdout()
-  .command(['config'])
-  .it('should run config', ctx => {
-    expect(ctx.stdout).to.contain('CLI configurations')
-  })
+    .stdout()
+    .command(['help'])
+    .it('should run help', ctx => {
+      expect(ctx.stdout).to.contain('Command line interface for ROC (Robot Operation Center)')
+    })
 })
