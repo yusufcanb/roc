@@ -1,6 +1,6 @@
 import {API} from './base'
-import {ReadStream} from 'node:fs'
-import * as FormData from 'form-data'
+import {ReadStream} from 'fs'
+import FormData from 'form-data'
 import {AxiosResponse} from 'axios'
 
 export interface TaskForce {
@@ -13,7 +13,6 @@ export interface TaskForce {
 }
 
 export class TaskForceAPI extends API {
-
   /**
    * Makes an API call to fetch all the task force entities of the given project
    * @param projectId Project identifier
@@ -32,7 +31,7 @@ export class TaskForceAPI extends API {
    * Makes an API call to create new task force
    * @param projectId Project id
    * @param name Name of the task force to be created
-   * @returns
+   * @returns AxiosResponse response of the request
    */
   async createTaskForce(projectId: string, name: string): Promise<AxiosResponse> {
     const requestConfig = {
@@ -55,7 +54,7 @@ export class TaskForceAPI extends API {
     return this.http.post(`/task-force/${taskForceId}/package`, formData)
   }
 
-  async executeTaskForce(taskForceId: string, environmentId: string, agentId: string) {
+  async executeTaskForce(taskForceId: string, environmentId: string, agentId: string): Promise<number> {
     const requestData = {
       agentId: agentId,
       environmentId: environmentId,

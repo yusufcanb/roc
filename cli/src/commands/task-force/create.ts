@@ -25,7 +25,7 @@ export default class TaskForceCreateCommand extends RocCommand {
   static args = []
 
   async run(): Promise<void> {
-    const {args, flags} = await this.parse(TaskForceCreateCommand)
+    const {flags} = await this.parse(TaskForceCreateCommand)
     const project = this.getProjectOrDefault(flags.project)
 
     try {
@@ -36,9 +36,7 @@ export default class TaskForceCreateCommand extends RocCommand {
         this.log(`[FAIL] Task force cannot be created. ${response.data}`)
       }
     } catch (error: unknown) {
-      this.log("[ERROR] " + error)
+      this.log('[ERROR] ' + error)
     }
-
-
   }
 }

@@ -18,7 +18,7 @@ export default class JobListCommand extends RocCommand {
   static args = []
 
   async run(): Promise<void> {
-    const {args, flags} = await this.parse(JobListCommand)
+    const {flags} = await this.parse(JobListCommand)
     let project
 
     if (flags.project === undefined) {

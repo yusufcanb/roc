@@ -1,13 +1,17 @@
 import {API} from './base'
+import {AxiosResponse} from 'axios'
+
+export interface Job {
+  id: string
+}
 
 export class JobAPI extends API {
-  async getJobsByProject(projectId: string | number) {
+  async getJobsByProject(projectId: string | number): Promise<AxiosResponse<Job[]>> {
     const requestConfig = {
       params: {
         projectId: projectId,
       },
     }
-
-    return this.http.get('/job', requestConfig)
+    return this.http.get<Job[]>('/job', requestConfig)
   }
 }

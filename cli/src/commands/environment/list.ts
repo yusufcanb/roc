@@ -19,7 +19,7 @@ export default class EnvironmentListCommand extends RocCommand {
   static args = []
 
   async run(): Promise<void> {
-    const {args, flags} = await this.parse(EnvironmentListCommand)
+    const {flags} = await this.parse(EnvironmentListCommand)
     let project
 
     if (flags.project === undefined) {

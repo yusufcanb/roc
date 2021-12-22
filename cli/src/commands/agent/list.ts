@@ -18,7 +18,7 @@ export default class AgentListCommand extends RocCommand {
   static args = []
 
   async run(): Promise<void> {
-    const {args, flags} = await this.parse(AgentListCommand)
+    const {flags} = await this.parse(AgentListCommand)
     let project
 
     if (flags.project === undefined) {

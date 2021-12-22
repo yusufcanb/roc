@@ -14,7 +14,7 @@ export abstract class RocCommand extends Command {
     this.api = new ROCApi(this.roc.getPlatformUrl())
   }
 
-  getProjectOrDefault(projectName: string | null | undefined) {
+  getProjectOrDefault(projectName: string | null | undefined): string {
     let project
 
     if (projectName === undefined) {

@@ -21,7 +21,7 @@ export default class SetCredentialsCommand extends RocCommand {
   static args = []
 
   async run(): Promise<void> {
-    const {args, flags} = await this.parse(SetCredentialsCommand)
+    // const {args, flags} = await this.parse(SetCredentialsCommand)
     this.log('[OK] Platform credentials saved')
   }
 }

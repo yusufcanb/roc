@@ -16,7 +16,7 @@ export default class ProjectDeleteCommand extends RocCommand {
   ]
 
   async run(): Promise<void> {
-    const {args, flags} = await this.parse(ProjectDeleteCommand)
+    const {args} = await this.parse(ProjectDeleteCommand)
     this.log(`[OK] Project ${args.id} deleted`)
   }
 }

@@ -16,7 +16,7 @@ export default class TaskForceDeleteCommand extends RocCommand {
   ]
 
   async run(): Promise<void> {
-    const {args, flags} = await this.parse(TaskForceDeleteCommand)
+    const {args} = await this.parse(TaskForceDeleteCommand)
 
     try {
       const response = await this.api.taskForce.deleteTaskForceById(args.id)

@@ -14,7 +14,7 @@ export default class EnvironmentVariablesCommand extends RocCommand {
   static args = [{name: 'id', required: true}]
 
   async run(): Promise<void> {
-    const {args, flags} = await this.parse(EnvironmentVariablesCommand)
+    // const {args, flags} = await this.parse(EnvironmentVariablesCommand)
 
     throw new CLIError('Not implemented yet')
   }

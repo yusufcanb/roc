@@ -29,13 +29,13 @@ export default class EnvironmentCreateCommand extends RocCommand {
 
   static args = []
 
-  async getVariablesFromFile(path: string) {
+  async getVariablesFromFile(path: string): Promise<string> {
     const content = fs.readFileSync(path, 'utf-8')
     return content
   }
 
   async run(): Promise<void> {
-    const {args, flags} = await this.parse(EnvironmentCreateCommand)
+    const {flags} = await this.parse(EnvironmentCreateCommand)
 
     let project
 
@@ -56,7 +56,7 @@ export default class EnvironmentCreateCommand extends RocCommand {
     }
 
     const rc = await this.api.environment.createEnvironment(project, dto)
-    if (rc == 201) {
+    if (rc === 201) {
       this.log(`[OK] Environment ${flags.name} created`)
     } else {
       this.log('[FAIL] Operation failed')

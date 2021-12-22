@@ -1,6 +1,6 @@
-import * as fs from 'fs'
-import * as path from 'path'
-import * as os from 'os'
+import fs from 'fs'
+import path from 'path'
+import os from 'os'
 
 export class ROC {
   private static CONFIG_PATH = path.join(os.homedir(), '.roc.json')
@@ -20,7 +20,7 @@ export class ROC {
     }
   }
 
-  syncConfig() {
+  syncConfig(): void {
     try {
       const content = fs.readFileSync(ROC.CONFIG_PATH)
       const obj = JSON.parse(content.toString())
@@ -35,11 +35,11 @@ export class ROC {
     }
   }
 
-  persistConfig() {
+  persistConfig(): void {
     fs.writeFileSync(ROC.CONFIG_PATH, JSON.stringify(this.config))
   }
 
-  getPlatformUrl() {
+  getPlatformUrl(): string {
     if (this.config.rocUrl === null) {
       throw new Error('Host is not configured')
     } else {
@@ -47,12 +47,12 @@ export class ROC {
     }
   }
 
-  setPlatformUrl(value: string) {
+  setPlatformUrl(value: string): void {
     this.config.rocUrl = value
     this.persistConfig()
   }
 
-  getDefaultProject() {
+  getDefaultProject(): string {
     console.log(this.config.defaultProject)
     if (this.config.rocUrl === null || this.config.rocUrl === '') {
       throw new Error('Default project is not configured')
@@ -61,9 +61,8 @@ export class ROC {
     }
   }
 
-  setDefaultProject(value: string) {
-    this.config.defaultProject = Number.parseInt(value)
+  setDefaultProject(value: string): void {
+    this.config.defaultProject = Number(value)
     this.persistConfig()
   }
 }
-

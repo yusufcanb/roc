@@ -16,7 +16,7 @@ export default class EnvironmentDeleteCommand extends RocCommand {
   ]
 
   async run(): Promise<void> {
-    const {args, flags} = await this.parse(EnvironmentDeleteCommand)
+    const {args} = await this.parse(EnvironmentDeleteCommand)
 
     try {
       await this.api.environment.deleteEnvironment(args.id)

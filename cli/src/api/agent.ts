@@ -1,7 +1,8 @@
 import {API} from './base'
 
 export interface Agent {
-
+  id: string | number
+  displayName: string
 }
 
 export class AgentAPI extends API {

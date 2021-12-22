@@ -13,7 +13,7 @@ ROC platform set to https://roc.platform`,
   static args = [{name: 'url', description: 'URL of the ROC Platform', required: true}]
 
   async run(): Promise<void> {
-    const {args, flags} = await this.parse(SetUrlCommand)
+    const {args} = await this.parse(SetUrlCommand)
     this.roc.setPlatformUrl(args.url)
     this.log('[OK] ROC platform configured')
   }

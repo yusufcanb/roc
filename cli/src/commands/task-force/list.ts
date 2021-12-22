@@ -18,7 +18,7 @@ export default class TaskForceListCommand extends RocCommand {
   static args = []
 
   async run(): Promise<void> {
-    const {args, flags} = await this.parse(TaskForceListCommand)
+    const {flags} = await this.parse(TaskForceListCommand)
 
     const taskForces = await this.api.taskForce.getTaskForcesByProject(this.getProjectOrDefault(flags.project))
     console.table(taskForces)
