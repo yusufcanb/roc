@@ -6,14 +6,20 @@ import {EnvironmentApi} from './environment'
 import {JobAPI} from './job'
 
 export class ROCApi extends API {
-  public project: ProjectAPI
-  public agent: AgentAPI
-  public environment: EnvironmentApi
-  public taskForce: TaskForceAPI
-  public job: JobAPI
+  public project!: ProjectAPI
+  public agent!: AgentAPI
+  public environment!: EnvironmentApi
+  public taskForce!: TaskForceAPI
+  public job!: JobAPI
 
-  constructor(baseUrl: string) {
-    super(baseUrl)
+  constructor(baseUrl: string | null) {
+    if (baseUrl) {
+      super(baseUrl)
+      this.setBaseUrl(baseUrl)
+    }
+  }
+
+  setBaseUrl(baseUrl: string) {
     this.project = new ProjectAPI(baseUrl)
     this.agent = new AgentAPI(baseUrl)
     this.environment = new EnvironmentApi(baseUrl)

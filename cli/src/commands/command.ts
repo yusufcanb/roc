@@ -28,6 +28,6 @@ export abstract class RocCommand extends Command {
       project = projectName
     }
 
-    return project
+    return project as string
   }
 }
