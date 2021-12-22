@@ -19,7 +19,7 @@ export class ROCApi extends API {
     }
   }
 
-  setBaseUrl(baseUrl: string) {
+  setBaseUrl(baseUrl: string): void {
     this.project = new ProjectAPI(baseUrl)
     this.agent = new AgentAPI(baseUrl)
     this.environment = new EnvironmentApi(baseUrl)
