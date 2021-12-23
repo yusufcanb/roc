@@ -8,7 +8,6 @@ export interface Environment {
 }
 
 export class EnvironmentApi extends API {
-
   async getEnvironmentsByProject(projectId: string): Promise<any> {
     const response = await this.http.get('/environment', {
       params: {
@@ -29,7 +28,6 @@ export class EnvironmentApi extends API {
         projectId: projectId,
       },
     }
-
     const response = await this.http.post('/environment', dto, requestConfig)
     return response.status
   }

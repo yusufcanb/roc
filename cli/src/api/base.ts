@@ -8,10 +8,10 @@ export class API {
   constructor(baseUrl: string) {
     this._baseUrl = baseUrl
     this._http = axios.create({
-      baseURL: baseUrl + "/api/v1",
+      baseURL: baseUrl + '/api/v1',
     })
     this._s3 = axios.create({
-      baseURL: baseUrl + "/s3/roc",
+      baseURL: baseUrl + '/s3/roc',
     })
   }
 
