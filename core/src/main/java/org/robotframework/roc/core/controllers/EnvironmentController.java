@@ -14,7 +14,7 @@ public interface EnvironmentController {
 
     ResponseEntity<List<Environment>> getEnvironments(@RequestParam Long projectId);
 
-    ResponseEntity<Environment> getEnvironmentById(@RequestParam Long environmentId);
+    ResponseEntity<Environment> getEnvironmentById(@PathVariable Long id);
 
     ResponseEntity<Environment> createNewEnvironment(@RequestParam Long projectId, @RequestBody EnvironmentCreateDto dto);
 

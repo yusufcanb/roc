@@ -72,12 +72,11 @@ public class BasicEnvironmentService implements EnvironmentService {
         environment.setName(dto.getName());
         environment.setDescription(dto.getDescription());
         environment.setProject(optionalProject.get());
-
         environment = environmentRepository.save(environment);
         if (!dto.getCode().isEmpty()) {
             InputStream stream = new ByteArrayInputStream(dto.getCode().getBytes(StandardCharsets.UTF_8));
-            String path = String.join("/", "environment", environment.getId().toString(), "variables.yaml");
-            oss.upload("default-project", path, stream, "application/yaml");
+            String path = String.join("/", "projects", environment.getProjectId().toString(), "environment", environment.getId().toString(), "variables.yaml");
+            oss.upload("roc", path, stream, "application/yaml");
         }
         return environment;
     }
