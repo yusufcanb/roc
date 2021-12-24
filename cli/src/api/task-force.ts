@@ -52,7 +52,7 @@ export class TaskForceAPI extends API {
 
     formData.append('file', payload.stream)
     return this.http.post(`/task-force/${taskForceId}/package`, formData, {
-      headers: formData.getHeaders()
+      headers: formData.getHeaders(),
     })
   }
 

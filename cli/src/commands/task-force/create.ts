@@ -33,12 +33,12 @@ export default class TaskForceCreateCommand extends RocCommand {
     try {
       const response = await this.api.taskForce.createTaskForce(project, flags.name)
       if (response.status >= 200 && response.status < 400) {
-        this.log(`[1] Creating entity`)
-        const r2 = await this.api.taskForce.uploadRobotPackage(response.data.id, {
+        this.log('[1] Creating entity')
+        await this.api.taskForce.uploadRobotPackage(response.data.id, {
           fileName: 'robot.zip',
-          stream: fs.createReadStream(flags.file)
+          stream: fs.createReadStream(flags.file),
         })
-        this.log(`[2] Uploading package`)
+        this.log('[2] Uploading package')
         this.log(`[OK] Task force ${flags.name} created`)
       } else {
         this.log(`[FAIL] Task force cannot be created. ${JSON.stringify(response.data)}`)
