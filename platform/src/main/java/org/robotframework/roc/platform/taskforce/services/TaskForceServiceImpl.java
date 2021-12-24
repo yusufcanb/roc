@@ -80,8 +80,7 @@ public class TaskForceServiceImpl implements TaskForceService {
 
     @Override
     public void uploadTaskForcePackage(TaskForce taskForce, MultipartFile file) throws IOException, MinioException {
-        String packageUrl = taskForce.buildPackageUrl(file.getOriginalFilename());
-        oss.upload(taskForce.getBucketName(), packageUrl, file.getInputStream(), file.getContentType());
+        oss.upload(taskForce.getPackageUrl(), file.getInputStream(), file.getContentType());
     }
 
     @Override

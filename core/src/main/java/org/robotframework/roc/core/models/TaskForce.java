@@ -1,8 +1,6 @@
 package org.robotframework.roc.core.models;
 
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Getter;
 
 import javax.persistence.*;
 
@@ -24,19 +22,12 @@ public class TaskForce {
     private String repositoryUrl;
 
     public String getPackageUrl() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder
-                .append(project.getSlug())
-                .append("/")
-                .append(this.buildPackageUrl(repositoryUrl));
-        return stringBuilder.toString();
+        return String.join("/",
+                "projects",
+                String.valueOf(project.getId()),
+                "task-force",
+                String.valueOf(id),
+                "robot.zip");
     }
 
-    public String getBucketName() {
-        return String.valueOf(project.getSlug());
-    }
-
-    public String buildPackageUrl(String filename) {
-        return String.join("/", "task-force", String.valueOf(id), "packages", filename);
-    }
 }
