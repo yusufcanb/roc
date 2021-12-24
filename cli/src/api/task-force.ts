@@ -47,11 +47,13 @@ export class TaskForceAPI extends API {
     return this.http.post('/task-force', requestData, requestConfig)
   }
 
-  async uploadRobotPackage(taskForceId: string | number, payload: { fileName: string, stream: ReadStream }): Promise<number> {
+  async uploadRobotPackage(taskForceId: string | number, payload: { fileName: string, stream: ReadStream }): Promise<AxiosResponse<any>> {
     const formData: FormData = new FormData()
 
     formData.append('file', payload.stream)
-    return this.http.post(`/task-force/${taskForceId}/package`, formData)
+    return this.http.post(`/task-force/${taskForceId}/package`, formData, {
+      headers: formData.getHeaders()
+    })
   }
 
   async executeTaskForce(taskForceId: string, environmentId: string, agentId: string): Promise<number> {

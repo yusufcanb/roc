@@ -32,6 +32,18 @@ export default class JobListCommand extends RocCommand {
     }
 
     const response = await this.api.job.getJobsByProject(project)
-    console.table(response.data)
+    const jobs: any = []
+    response.data.forEach((j: any) => {
+      jobs.push(
+        {
+          "Id": j.id,
+          "Agent": j.agent.displayName,
+          "Environment": j.environment.name,
+          "Task Force": j.taskForce.name,
+          "Status": j.status
+        }
+      )
+    })
+    console.table(jobs)
   }
 }

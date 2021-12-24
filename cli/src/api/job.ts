@@ -6,7 +6,7 @@ export interface Job {
 }
 
 export class JobAPI extends API {
-  async getJobsByProject(projectId: string | number): Promise<AxiosResponse<Job[]>> {
+  async getJobsByProject(projectId: string | number): Promise<AxiosResponse> {
     const requestConfig = {
       params: {
         projectId: projectId,
