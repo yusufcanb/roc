@@ -15,6 +15,10 @@ export class API {
     })
   }
 
+  get baseUrl(): string {
+    return this._baseUrl
+  }
+
   get http(): AxiosInstance {
     return this._http
   }

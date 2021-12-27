@@ -19,17 +19,7 @@ export default class JobListCommand extends RocCommand {
 
   async run(): Promise<void> {
     const {flags} = await this.parse(JobListCommand)
-    let project
-
-    if (flags.project === undefined) {
-      try {
-        project = this.roc.getDefaultProject()
-      } catch {
-        throw new Error('Project is not specified. Use -p option or specify a default project.')
-      }
-    } else {
-      project = flags.project
-    }
+    const project = this.getProjectOrDefault(flags.project)
 
     const response = await this.api.job.getJobsByProject(project)
     const jobs: any = []
