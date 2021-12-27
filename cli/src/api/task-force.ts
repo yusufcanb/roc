@@ -2,7 +2,11 @@ import {API} from './base'
 import {ReadStream} from 'fs'
 import FormData from 'form-data'
 import {AxiosResponse} from 'axios'
+import {Job} from "./job";
 
+/**
+ * Task force interface
+ */
 export interface TaskForce {
   id: string
   name: string
@@ -47,7 +51,16 @@ export class TaskForceAPI extends API {
     return this.http.post('/task-force', requestData, requestConfig)
   }
 
-  async uploadRobotPackage(taskForceId: string | number, payload: { fileName: string, stream: ReadStream }): Promise<AxiosResponse<any>> {
+  /**
+   * Update a task force with it's id
+   * @param taskForceId Identifier of the task force
+   * @param dto Task force update DTO
+   */
+  async updateTaskForceById(taskForceId: string, dto: any): Promise<AxiosResponse<Job>> {
+    return this.http.put<Job>(`/task-force/${taskForceId}`, dto)
+  }
+
+  async uploadRobotPackage(taskForceId: string | number, payload: { fileName: string, stream: ReadStream }): Promise<AxiosResponse> {
     const formData: FormData = new FormData()
 
     formData.append('file', payload.stream)
