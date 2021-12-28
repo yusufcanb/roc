@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class TaskForceUpdateDto {
     private Long projectId;
     private String name;
+    private String robot;
     private String sourceType;
     private String repositoryUrl;
 }

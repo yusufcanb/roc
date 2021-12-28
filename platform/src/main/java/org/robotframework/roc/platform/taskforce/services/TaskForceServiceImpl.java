@@ -65,22 +65,27 @@ public class TaskForceServiceImpl implements TaskForceService {
     public TaskForce updateTaskForce(Long id, TaskForceUpdateDto dto) {
         TaskForce tf = taskForceRepository.getOne(id);
         tf.setName(dto.getName());
-        tf.setSourceType(dto.getSourceType());
-        tf.setRepositoryUrl(dto.getRepositoryUrl());
+        tf.setRobot(dto.getRobot());
         return taskForceRepository.save(tf);
     }
 
     @Override
     public TaskForce updateTaskForce(TaskForce taskForce, TaskForceUpdateDto dto) {
         taskForce.setName(dto.getName() == null ? taskForce.getName() : dto.getName());
-        taskForce.setSourceType(dto.getSourceType());
-        taskForce.setRepositoryUrl(dto.getRepositoryUrl());
+        taskForce.setRobot(dto.getRobot());
         return taskForceRepository.save(taskForce);
     }
 
     @Override
     public void uploadTaskForcePackage(TaskForce taskForce, MultipartFile file) throws IOException, MinioException {
-        oss.upload(taskForce.getPackageUrl(), file.getInputStream(), file.getContentType());
+        String s3Path = String.format(
+                "/projects/%s/task-force/%s/%s",
+                taskForce.getProject().getId().toString(),
+                taskForce.getId().toString(),
+                file.getOriginalFilename());
+        taskForce.setRobot("s3://roc" + s3Path);
+        taskForceRepository.save(taskForce);
+        oss.upload(s3Path, file.getInputStream(), file.getContentType());
     }
 
     @Override

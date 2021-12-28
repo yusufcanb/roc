@@ -229,7 +229,7 @@ public class ObjectStorageService {
         try {
             PutObjectArgs args = PutObjectArgs.builder()
                     .bucket(defaultBucketName)
-                    .object(source.toString())
+                    .object(source)
                     .stream(file, file.available(), -1)
                     .contentType(contentType)
                     .build();
