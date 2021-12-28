@@ -128,7 +128,7 @@ public class SimpleJobRunner {
 
     private void downloadPackage(TaskForce taskForce) throws IOException {
         Optional<File> robotPackage = this.taskForceResource.getTaskForcePackage(taskForce);
-        Path destination = Paths.get(agentRuntime.getProjectsDir().toString(), taskForce.getRepositoryUrl());
+        Path destination = Paths.get(agentRuntime.getProjectsDir().toString(), taskForce.getRobot());
         if (robotPackage.isPresent()) {
             ZipUtils.unzip(robotPackage.get().toString(), destination.toString());
         }
@@ -139,7 +139,7 @@ public class SimpleJobRunner {
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        Path reportPath = Paths.get(agentRuntime.getAgentHome().toString(), "projects", job.getTaskForce().getRepositoryUrl(), "output", "log.html");
+        Path reportPath = Paths.get(agentRuntime.getAgentHome().toString(), "projects", job.getTaskForce().getRobot(), "output", "log.html");
         body.add("file", new FileSystemResource(reportPath));
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
@@ -150,26 +150,25 @@ public class SimpleJobRunner {
 
     public void run(Job job) throws IOException {
         String agentBinary = agentRuntime.getAgentBinary().toString();
-        String repositoryUrl = job.getTaskForce().getRepositoryUrl();
-        String sourceType = job.getTaskForce().getSourceType();
+        String robotUrl = job.getTaskForce().getRobot();
 
         this.jobResource.updateJobStatus(job.getId(), JobStatus.RUN);
 
         int returnCode;
-        if (sourceType.equals("repository")) {
-            this.pullSource(agentBinary, repositoryUrl);
-            returnCode = this.executeRobotWithRepositoryUrl(agentBinary, repositoryUrl);
+        if (robotUrl.startsWith("https://")) {
+            this.pullSource(agentBinary, robotUrl);
+            returnCode = this.executeRobotWithRepositoryUrl(agentBinary, robotUrl);
             if (returnCode == 0) {
                 this.jobResource.updateJobStatus(job.getId(), JobStatus.SUCCESS);
             } else {
                 this.jobResource.updateJobStatus(job.getId(), JobStatus.FAIL);
             }
         }
-        if (sourceType.equals("package")) {
+        if (robotUrl.startsWith("s3://")) {
             TaskForce taskForce = job.getTaskForce();
             this.downloadPackage(taskForce);
             this.downloadVariables(job.getEnvironment());
-            returnCode = this.executeRobotWithPackage(agentBinary, taskForce.getRepositoryUrl());
+            returnCode = this.executeRobotWithPackage(agentBinary, taskForce.getRobot());
             if (returnCode == 0) {
                 this.jobResource.updateJobStatus(job.getId(), JobStatus.SUCCESS);
             } else {
@@ -182,7 +181,6 @@ public class SimpleJobRunner {
     private void downloadVariables(Environment environment) {
         String url = String.format("http://%s:%s/s3/default-project/environment/%s/variables.yaml", System.getProperty("roc.platform.host"), System.getProperty("roc.platform.port"), environment.getId());
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-
     }
 
     public void run(Long jobId) throws Exception {
