@@ -11,6 +11,7 @@
     "@oclif/core": "^1",
     "@oclif/plugin-help": "^5",
     "axios": "^0.24.0",
+    "file-type": "^16.5.3",
     "form-data": "^4.0.0",
     "open": "^8.4.0"
   },

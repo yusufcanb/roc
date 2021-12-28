@@ -1,6 +1,8 @@
 import {RocCommand} from '../command'
-import {Flags} from "@oclif/core";
-import fs from "fs";
+import {Flags} from '@oclif/core'
+import path from 'path'
+import fs from 'fs'
+import fileType from 'file-type'
 
 export default class TaskForceSetRobotCommand extends RocCommand {
   static description = 'Set robot package of task force. It can be a local file or remote git repository url.'
@@ -26,15 +28,18 @@ export default class TaskForceSetRobotCommand extends RocCommand {
 
   async run(): Promise<void> {
     const {args, flags} = await this.parse(TaskForceSetRobotCommand)
-    console.log(flags)
 
     if (flags.repository) {
       await this.api.taskForce.updateTaskForceById(args.id, {robot: flags.repository})
       this.log("[OK] Task force robot updated")
     } else if (flags.file) {
       try {
+        const mimeType = await fileType.fromFile(flags.file)
+        if (mimeType?.ext !== 'zip' && mimeType?.mime !== 'application/zip') {
+          this.log('[ERROR] ' + "Invalid robot package specified")
+        }
         await this.api.taskForce.uploadRobotPackage(args.id, {
-          fileName: 'robot.zip',
+          fileName: path.basename(flags.file),
           stream: fs.createReadStream(flags.file),
         })
         this.log("[OK] Task force package uploaded")
