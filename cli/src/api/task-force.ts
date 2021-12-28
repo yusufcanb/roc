@@ -10,10 +10,7 @@ import {Job} from "./job";
 export interface TaskForce {
   id: string
   name: string
-  sourceType: string
-  repositoryUrl: string
-  bucketName: string
-  packageUrl: string
+  robot: string
 }
 
 export class TaskForceAPI extends API {
@@ -29,6 +26,22 @@ export class TaskForceAPI extends API {
       },
     })
     return response.data
+  }
+
+  /**
+   * Makes an API call to get a task force by id
+   * @param taskForceId Id of the task force
+   * @returns Promise Task force with given id
+   */
+  async getTaskForcesById(taskForceId: string): Promise<TaskForce> {
+    const response = await this.http.get<TaskForce>(`/task-force/${taskForceId}`)
+    return response.data
+  }
+
+  async downloadTaskForceRobot(taskForce: TaskForce, outputPath: string): Promise<void> {
+    const robotPackageUrl = taskForce.robot.replace('s3://roc', '')
+    console.log(robotPackageUrl)
+    await this.downloadFile(robotPackageUrl, outputPath)
   }
 
   /**
@@ -64,6 +77,7 @@ export class TaskForceAPI extends API {
     const formData: FormData = new FormData()
 
     formData.append('file', payload.stream)
+    formData.append('filename', payload.fileName)
     return this.http.post(`/task-force/${taskForceId}/package`, formData, {
       headers: formData.getHeaders(),
     })

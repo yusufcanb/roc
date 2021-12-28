@@ -2,6 +2,7 @@ import {Flags} from '@oclif/core'
 import {RocCommand} from '../command'
 
 import fs from 'fs'
+import path from 'path'
 
 export default class TaskForceCreateCommand extends RocCommand {
   static description = 'Create new task force for specific project'
@@ -35,7 +36,7 @@ export default class TaskForceCreateCommand extends RocCommand {
       if (response.status >= 200 && response.status < 400) {
         this.log('[1] Creating entity')
         await this.api.taskForce.uploadRobotPackage(response.data.id, {
-          fileName: 'robot.zip',
+          fileName: path.basename(flags.file),
           stream: fs.createReadStream(flags.file),
         })
         this.log('[2] Uploading package')

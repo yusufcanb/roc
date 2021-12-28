@@ -1,4 +1,6 @@
 import axios, {AxiosInstance} from 'axios'
+import fs from 'fs'
+import {promisify} from 'util';
 
 export class API {
   private readonly _http: AxiosInstance
@@ -25,5 +27,15 @@ export class API {
 
   get s3(): AxiosInstance {
     return this._s3
+  }
+
+  async downloadFile(fileUrl: string, outputLocationPath: string): Promise<void> {
+    const writer = fs.createWriteStream(outputLocationPath);
+    const response = await this.s3.request({
+      method: 'get',
+      url: fileUrl,
+      responseType: 'stream',
+    })
+    response.data.pipe(writer);
   }
 }
