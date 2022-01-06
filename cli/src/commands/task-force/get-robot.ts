@@ -21,6 +21,6 @@ export default class TaskForceGetRobotCommand extends RocCommand {
     const taskForce = await this.api.taskForce.getTaskForcesById(args.id)
 
     await this.api.taskForce.downloadTaskForceRobot(taskForce, flags.output ?? taskForce.robot.split("/").pop() as string)
-    this.log("Done")
+    this.log("[OK] Done")
   }
 }
