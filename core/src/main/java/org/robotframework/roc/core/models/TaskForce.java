@@ -28,13 +28,4 @@ public class TaskForce {
     @Setter
     private String robot;
 
-    public String getPackageUrl() {
-        return String.join("/",
-                "projects",
-                String.valueOf(project.getId()),
-                "task-force",
-                String.valueOf(id),
-                "robot.zip");
-    }
-
 }

@@ -40,5 +40,4 @@ public class Agent {
         return base64Encoder.encodeToString(randomBytes);
     }
 
-
 }

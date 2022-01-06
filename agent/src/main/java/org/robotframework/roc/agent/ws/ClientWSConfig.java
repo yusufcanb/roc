@@ -49,7 +49,8 @@ public class ClientWSConfig {
 
     @Bean
     public StompSessionHandler stompSessionHandler(TaskScheduler taskScheduler) {
-        return new ClientStompSessionHandler(jobRunner);
+        ClientStompSessionHandler sessionHandler = new ClientStompSessionHandler();
+        return sessionHandler;
     }
 
     @Bean

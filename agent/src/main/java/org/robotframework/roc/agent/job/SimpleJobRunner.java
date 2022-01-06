@@ -38,7 +38,6 @@ public class SimpleJobRunner {
     private final JobResource jobResource;
     private final TaskForceResource taskForceResource;
 
-
     public SimpleJobRunner(final JobResource jobResource,
                            final TaskForceResource taskForceResource) {
         this.taskForceResource = taskForceResource;

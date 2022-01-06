@@ -16,7 +16,7 @@ public class JobResource extends Resource {
         String url = String.format("http://%s:%s/api/v1/job", this.getHost(), this.getPort());
         ResponseEntity<Job> response = this.restTemplate.getForEntity(String.format("%s/%s", url, id.toString()), Job.class);
         if (response.getStatusCodeValue() == 200) {
-            return Optional.of(response.getBody());
+            return Optional.ofNullable(response.getBody());
         } else {
             return Optional.empty();
         }

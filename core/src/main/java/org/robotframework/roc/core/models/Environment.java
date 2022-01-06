@@ -5,14 +5,11 @@ import lombok.Data;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
 @Data
 public class Environment {
 
-    @OneToMany
-    Collection<EnvironmentVariable> variables;
     @GeneratedValue
     @Id
     private Long id;
