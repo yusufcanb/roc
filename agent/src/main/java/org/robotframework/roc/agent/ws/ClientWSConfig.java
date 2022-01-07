@@ -1,8 +1,7 @@
 package org.robotframework.roc.agent.ws;
 
 import lombok.extern.slf4j.Slf4j;
-import org.robotframework.roc.agent.AgentRuntime;
-import org.robotframework.roc.agent.job.SimpleJobRunner;
+import org.robotframework.roc.agent.AgentRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.task.TaskSchedulerBuilder;
 import org.springframework.context.annotation.Bean;
@@ -27,10 +26,7 @@ import java.util.List;
 public class ClientWSConfig {
 
     @Autowired
-    AgentRuntime agentRuntime;
-
-    @Autowired
-    private SimpleJobRunner jobRunner;
+    private AgentRunner agentRunner;
 
     @Bean
     public ThreadPoolTaskScheduler taskScheduler(TaskSchedulerBuilder builder) {
@@ -49,7 +45,7 @@ public class ClientWSConfig {
 
     @Bean
     public StompSessionHandler stompSessionHandler(TaskScheduler taskScheduler) {
-        ClientStompSessionHandler sessionHandler = new ClientStompSessionHandler();
+        ClientStompSessionHandler sessionHandler = new ClientStompSessionHandler(agentRunner);
         return sessionHandler;
     }
 

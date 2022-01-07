@@ -1,9 +1,9 @@
-package org.robotframework.roc.agent.job;
+package org.robotframework.roc.agent.runner;
 
 import org.robotframework.roc.core.models.Job;
 
 public interface JobRunner {
 
-    void run(Job job);
+    int run(Job job);
 
 }
