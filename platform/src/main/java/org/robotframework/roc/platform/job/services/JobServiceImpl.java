@@ -76,11 +76,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public void saveJobReport(Job job, MultipartFile file) throws IOException, MinioException {
-        String reportPath = new StringBuilder()
-                .append("/job").append("/").append(job.getId())
-                .append("/reports").append("/").append(file.getOriginalFilename())
-                .toString();
-        oss.upload(job.getBucketName(), reportPath, file.getInputStream(), file.getContentType());
+        oss.upload(job.getReportPath(), file.getInputStream(), file.getContentType());
     }
 
     @Override
