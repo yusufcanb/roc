@@ -4,7 +4,8 @@
 [![cli-build](https://github.com/yusufcanb/roc/actions/workflows/npm-build.yml/badge.svg?branch=master)](https://github.com/yusufcanb/roc/actions/workflows/npm-build.yml)
 [![cli-npm](https://img.shields.io/npm/v/roc-ctl.svg)](https://npmjs.org/package/roc-ctl)
 
-Robot Operation Center (ROC). Automation platform to distribute and execute robots across different platforms or subnets. 🤖 🕹
+Robot Operation Center (ROC). Automation platform to distribute and execute robots across different platforms or
+subnets. 🤖 🕹
 
 ## Overview
 
@@ -18,11 +19,9 @@ Robot Operation Center (ROC). Automation platform to distribute and execute robo
 
 ## Installation
 
-> If you don't have any ROC deployment please skip to the deployment section for deployment steps.
-
+> If you don't have any ROC deployment please skip to the [deployment section](#Deployment) for deployment steps.
 
 Install ```roc-ctl``` CLI tool for interacting the ROC;
-
 
 ```
 npm install -g roc-ctl
@@ -41,18 +40,16 @@ USAGE
   $ roc-ctl [COMMAND]
 
 TOPICS
-  agent        Agent operations (e.g. List, Create, Update)
+  agent        Agent commands (e.g. list, create, update)
   config       CLI configurations (e.g. Platform URL, Default Project, etc.)
-  environment  Environment operations (e.g. List, Create, Update, Upload Variables)
-  job          Job operations (e.g. List, View Console, View Logs)
-  project      Project operations (e.g. List, Create, Update)
-  task-force   Task force operations (e.g. List, Create, Update, Upload Variables)
+  environment  Environment commands (e.g. list, create, update or upload variables)
+  job          Job commands (e.g. list jobs, view job logs, etc.)
+  project      Project operations (e.g. create, list or update project)
+  task-force   Task force operations (e.g. list, create, update task forces)
 
 COMMANDS
-  command
   help     Display help for roc-ctl.
 ```
-
 
 ## Deployment
 
@@ -65,6 +62,7 @@ git clone https://github.com/yusufcanb/roc
 ```
 
 Execute command below to run the platform;
+
 ```
 docker-compose up -d
 ```
