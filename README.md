@@ -4,8 +4,7 @@
 [![cli-build](https://github.com/yusufcanb/roc/actions/workflows/npm-build.yml/badge.svg?branch=master)](https://github.com/yusufcanb/roc/actions/workflows/npm-build.yml)
 [![cli-npm](https://img.shields.io/npm/v/roc-ctl.svg)](https://npmjs.org/package/roc-ctl)
 
-Robot Operation Center (ROC) is an Self hosted, lightweight, JVM based software automation platform for every day IT
-operations which uses Robot Framework as it's executor. 🤖 🕹
+Robot Operation Center (ROC). Automation platform to distribute and execute robots across different platforms or subnets. 🤖 🕹
 
 ## Overview
 
@@ -15,7 +14,7 @@ operations which uses Robot Framework as it's executor. 🤖 🕹
 
 - `/agent`: Agent project manages executions on installed platforms.
 - `/platform`: Platform project is for backend operations of platform.
-- `/web`: Web UI project for platform. Created with `create-react-app`
+- `/cli`: Command line interface of the platform.
 
 ## Installation
 
@@ -36,7 +35,7 @@ Then, execute `roc-ctl` command;
 Command line interface for ROC (Robot Operation Center)
 
 VERSION
-  roc-ctl/0.1.0-alpha.0 darwin-x64 node-v16.13.0
+  roc-ctl/0.1.0-alpha.1 darwin-x64 node-v16.13.0
 
 USAGE
   $ roc-ctl [COMMAND]
@@ -57,9 +56,19 @@ COMMANDS
 
 ## Deployment
 
-Start platform using `docker-compose`;
+### Using Docker Compose
 
+Clone the repository;
+
+```
+git clone https://github.com/yusufcanb/roc
+```
+
+Execute command below to run the platform;
 ```
 docker-compose up -d
 ```
 
+### Kubernetes
+
+> K8s deployment guide will be published soon
