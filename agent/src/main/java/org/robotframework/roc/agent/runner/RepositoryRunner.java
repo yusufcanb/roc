@@ -44,6 +44,10 @@ public class RepositoryRunner extends BaseRunner {
         return path[path.length - 1];
     }
 
+    private Path getWorkingDirectoryByRobot(String robot) {
+        return Paths.get(runtime.getProjectsDir().toString(), this.getProjectByRepositoryURL(robot) + "-master");
+    }
+
     @Override
     public int run(Job job) {
         log.info("Repository runner {}", job.getId());
@@ -60,7 +64,7 @@ public class RepositoryRunner extends BaseRunner {
         this.platform.jobApi.updateJobStatus(job.getId(), JobStatus.RUN);
 
         String cmd = String.format("%s run", agentBinary);
-        Path cwd = Paths.get(runtime.getProjectsDir().toString(), this.getProjectByRepositoryURL(robotUrl) + "-master");
+        Path cwd = this.getWorkingDirectoryByRobot(job.getTaskForce().getRobot());
 
         log.info("Executing command: {}", cmd);
         ProcessBuilder pb = new ProcessBuilder()
@@ -80,10 +84,14 @@ public class RepositoryRunner extends BaseRunner {
                 log.info(s);
             }
 
-            log.info("Execution finished");
+            log.info("Execution finished with return value: {}", p.exitValue());
             if (p.exitValue() == 0) {
+                this.platform.jobApi.uploadJobReport(job.getId(), this.getWorkingDirectoryByRobot(job.getTaskForce().getRobot()));
+                this.platform.jobApi.updateJobStatus(job.getId(), JobStatus.SUCCESS);
                 log.info("Robot execution success.");
             } else {
+                this.platform.jobApi.uploadJobReport(job.getId(), this.getWorkingDirectoryByRobot(job.getTaskForce().getRobot()));
+                this.platform.jobApi.updateJobStatus(job.getId(), JobStatus.FAIL);
                 log.error("Robot execution finished with return code: {}", p.exitValue());
             }
             return p.exitValue();
