@@ -23,11 +23,12 @@ export default class JobReportCommand extends RocCommand {
       const job = new JobModel(response.data)
       if (job.reportAvailable()) {
         await this.api.job.getJobReportById(args.id)
+        this.log("[OK] Job report opened on default browser")
       } else {
-        console.log("[FAIL] Job report is not available now")
+        this.log("[FAIL] Job report is not available now")
       }
     } else {
-      console.log("[FAIL] Job not exists")
+      this.log("[FAIL] Job not exists")
     }
   }
 }

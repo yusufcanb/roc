@@ -4,6 +4,7 @@ import open from 'open'
 
 export interface Job {
   id: string
+  projectId: string
   status: string
 }
 
@@ -17,7 +18,7 @@ export class JobModel {
   }
 
   reportAvailable(): boolean {
-    return !(this.status !== 'QUEUE' || 'RUN');
+    return this.status === 'SUCCESS' || this.status === 'FAIL'
   }
 
 }
@@ -36,7 +37,8 @@ export class JobAPI extends API {
     return this.http.get<Job>(`/job/${projectId}`)
   }
 
-  async getJobReportById(job: Job | JobModel) {
-    return open(`${this.baseUrl}/s3/roc`)
+  async getJobReportById(id: string | number) {
+    return open(`${this.baseUrl}/s3/roc/projects/1/job/${id}/report.html`)
   }
+
 }
