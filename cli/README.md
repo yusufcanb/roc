@@ -10,8 +10,23 @@ ROC Command Line Interface
 * [Usage](#usage)
 * [Commands](#commands)
 <!-- tocstop -->
+* [Usage](#usage)
+* [Commands](#commands)
+<!-- tocstop -->
 # Usage
 <!-- usage -->
+```sh-session
+$ npm install -g roc-ctl
+$ roc-ctl COMMAND
+running command...
+$ roc-ctl (--version)
+roc-ctl/0.1.0-alpha.1 win32-x64 node-v12.15.0
+$ roc-ctl --help [COMMAND]
+USAGE
+  $ roc-ctl COMMAND
+...
+```
+<!-- usagestop -->
 ```sh-session
 $ npm install -g roc-ctl
 $ roc COMMAND
@@ -38,6 +53,477 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
+* [`roc-ctl agent create`](#roc-ctl-agent-create)
+* [`roc-ctl agent delete [ID]`](#roc-ctl-agent-delete-id)
+* [`roc-ctl agent list`](#roc-ctl-agent-list)
+* [`roc-ctl command`](#roc-ctl-command)
+* [`roc-ctl config get-project`](#roc-ctl-config-get-project)
+* [`roc-ctl config get-url`](#roc-ctl-config-get-url)
+* [`roc-ctl config set-credentials`](#roc-ctl-config-set-credentials)
+* [`roc-ctl config set-project PROJECT`](#roc-ctl-config-set-project-project)
+* [`roc-ctl config set-url URL`](#roc-ctl-config-set-url-url)
+* [`roc-ctl environment create`](#roc-ctl-environment-create)
+* [`roc-ctl environment delete [ID]`](#roc-ctl-environment-delete-id)
+* [`roc-ctl environment list`](#roc-ctl-environment-list)
+* [`roc-ctl environment variables ID`](#roc-ctl-environment-variables-id)
+* [`roc-ctl help [COMMAND]`](#roc-ctl-help-command)
+* [`roc-ctl job list`](#roc-ctl-job-list)
+* [`roc-ctl job report [ID]`](#roc-ctl-job-report-id)
+* [`roc-ctl project create`](#roc-ctl-project-create)
+* [`roc-ctl project delete [ID]`](#roc-ctl-project-delete-id)
+* [`roc-ctl project list`](#roc-ctl-project-list)
+* [`roc-ctl task-force create`](#roc-ctl-task-force-create)
+* [`roc-ctl task-force delete [ID]`](#roc-ctl-task-force-delete-id)
+* [`roc-ctl task-force exec ID`](#roc-ctl-task-force-exec-id)
+* [`roc-ctl task-force get-robot ID`](#roc-ctl-task-force-get-robot-id)
+* [`roc-ctl task-force list`](#roc-ctl-task-force-list)
+* [`roc-ctl task-force set-robot ID`](#roc-ctl-task-force-set-robot-id)
+
+## `roc-ctl agent create`
+
+Create new agent for specific project
+
+```
+USAGE
+  $ roc-ctl agent create -n <value> [-p <value>] [-o <value>]
+
+FLAGS
+  -n, --name=<value>     (required) Name of the agent
+  -o, --os=<value>       Name of the agent
+  -p, --project=<value>  Project identifier
+
+DESCRIPTION
+  Create new agent for specific project
+
+EXAMPLES
+  $ roc-ctl agent create -n z3-subnet-1 -p default
+  [OK] Agent z3-subnet-1 created
+```
+
+## `roc-ctl agent delete [ID]`
+
+Delete agent by its identifier
+
+```
+USAGE
+  $ roc-ctl agent delete [ID]
+
+DESCRIPTION
+  Delete agent by its identifier
+
+EXAMPLES
+  $ roc-ctl agent delete agent-1
+  [OK] agent-1 deleted
+```
+
+## `roc-ctl agent list`
+
+List agents by project
+
+```
+USAGE
+  $ roc-ctl agent list [-p <value>]
+
+FLAGS
+  -p, --project=<value>  Project identifier
+
+DESCRIPTION
+  List agents by project
+
+EXAMPLES
+  $ roc-ctl agent list -p default
+```
+
+## `roc-ctl command`
+
+```
+USAGE
+  $ roc-ctl command
+```
+
+_See code: [dist/commands/command.ts](https://github.com/yusufcanb/roc/blob/v0.1.0-alpha.1/dist/commands/command.ts)_
+
+## `roc-ctl config get-project`
+
+Set configurations for ROC
+
+```
+USAGE
+  $ roc-ctl config get-project
+
+DESCRIPTION
+  Set configurations for ROC
+
+EXAMPLES
+  $ roc config get-project
+  [OK] default-project
+```
+
+## `roc-ctl config get-url`
+
+Set configurations for ROC
+
+```
+USAGE
+  $ roc-ctl config get-url
+
+DESCRIPTION
+  Set configurations for ROC
+
+EXAMPLES
+  $ roc config get-url
+  [OK] http://example.roc-service.local
+```
+
+## `roc-ctl config set-credentials`
+
+Set credentials of ROC
+
+```
+USAGE
+  $ roc-ctl config set-credentials -k <value> -s <value>
+
+FLAGS
+  -k, --key=<value>     (required) API Key of ROC Platform
+  -s, --secret=<value>  (required) API Secret of ROC Platform
+
+DESCRIPTION
+  Set credentials of ROC
+
+EXAMPLES
+  $ roc config set-credentials --key [YOUR_KEY] --secret [YOUR_SECRET]
+  [OK] Platform credentials saved
+```
+
+## `roc-ctl config set-project PROJECT`
+
+Set default project for Robot Operation Center CLI
+
+```
+USAGE
+  $ roc-ctl config set-project [PROJECT]
+
+ARGUMENTS
+  PROJECT  Identifier of project
+
+DESCRIPTION
+  Set default project for Robot Operation Center CLI
+
+EXAMPLES
+  $ roc config set-project default-project
+  [OK] default project set
+```
+
+## `roc-ctl config set-url URL`
+
+Set configurations for ROC
+
+```
+USAGE
+  $ roc-ctl config set-url [URL]
+
+ARGUMENTS
+  URL  URL of the ROC Platform
+
+DESCRIPTION
+  Set configurations for ROC
+
+EXAMPLES
+  $ roc config set-url https://roc.platform
+  ROC platform set to https://roc.platform
+```
+
+## `roc-ctl environment create`
+
+Create new environment for specific project
+
+```
+USAGE
+  $ roc-ctl environment create -n <value> -v <value> [-p <value>] [-d <value>]
+
+FLAGS
+  -d, --description=<value>  Description of the environment
+  -n, --name=<value>         (required) Name of the environment
+  -p, --project=<value>      Project identifier
+  -v, --variables=<value>    (required) Variables file of the environment
+
+DESCRIPTION
+  Create new environment for specific project
+
+EXAMPLES
+  $ roc environment create -p default -n development -v variables.yaml
+  [OK] Environment development created
+```
+
+## `roc-ctl environment delete [ID]`
+
+Delete environment by its identifier
+
+```
+USAGE
+  $ roc-ctl environment delete [ID]
+
+DESCRIPTION
+  Delete environment by its identifier
+
+EXAMPLES
+  $ roc environment delete development
+  [OK] Environment development deleted
+```
+
+## `roc-ctl environment list`
+
+List environments by project
+
+```
+USAGE
+  $ roc-ctl environment list [-p <value>]
+
+FLAGS
+  -p, --project=<value>  Project identifier
+
+DESCRIPTION
+  List environments by project
+
+EXAMPLES
+  $ roc environment list -p default
+```
+
+## `roc-ctl environment variables ID`
+
+Print variables of the environment
+
+```
+USAGE
+  $ roc-ctl environment variables [ID]
+
+DESCRIPTION
+  Print variables of the environment
+
+EXAMPLES
+  $ roc environment variables [env-id]
+```
+
+## `roc-ctl help [COMMAND]`
+
+Display help for roc-ctl.
+
+```
+USAGE
+  $ roc-ctl help [COMMAND] [-n]
+
+ARGUMENTS
+  COMMAND  Command to show help for.
+
+FLAGS
+  -n, --nested-commands  Include all nested commands in the output.
+
+DESCRIPTION
+  Display help for roc-ctl.
+```
+
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.10/src/commands/help.ts)_
+
+## `roc-ctl job list`
+
+List task forces by project
+
+```
+USAGE
+  $ roc-ctl job list [-p <value>]
+
+FLAGS
+  -p, --project=<value>  Project identifier
+
+DESCRIPTION
+  List task forces by project
+
+EXAMPLES
+  $ roc task-force list -p default
+```
+
+## `roc-ctl job report [ID]`
+
+Open job report in default browser
+
+```
+USAGE
+  $ roc-ctl job report [ID]
+
+DESCRIPTION
+  Open job report in default browser
+
+EXAMPLES
+  $ roc job report [job-id]
+```
+
+## `roc-ctl project create`
+
+Create new project
+
+```
+USAGE
+  $ roc-ctl project create -n <value>
+
+FLAGS
+  -n, --name=<value>  (required) Name of project
+
+DESCRIPTION
+  Create new project
+
+EXAMPLES
+  $ roc project create -n New Project
+  [OK] New Project created
+```
+
+## `roc-ctl project delete [ID]`
+
+Delete project by its identifier
+
+```
+USAGE
+  $ roc-ctl project delete [ID]
+
+DESCRIPTION
+  Delete project by its identifier
+
+EXAMPLES
+  $ roc project delete demo-project
+  [OK] Environment demo-project deleted
+```
+
+## `roc-ctl project list`
+
+List projects
+
+```
+USAGE
+  $ roc-ctl project list
+
+DESCRIPTION
+  List projects
+
+EXAMPLES
+  $ roc project list
+```
+
+## `roc-ctl task-force create`
+
+Create new task force for specific project
+
+```
+USAGE
+  $ roc-ctl task-force create -n <value> -f <value> [-p <value>]
+
+FLAGS
+  -f, --file=<value>     (required) Robot package file
+  -n, --name=<value>     (required) Name of the task force
+  -p, --project=<value>  Project identifier
+
+DESCRIPTION
+  Create new task force for specific project
+
+EXAMPLES
+  $ roc task-force create -n api-health-checker -p default
+  [OK] Task Force api-health-checker created
+```
+
+## `roc-ctl task-force delete [ID]`
+
+Delete task force by its identifier
+
+```
+USAGE
+  $ roc-ctl task-force delete [ID]
+
+DESCRIPTION
+  Delete task force by its identifier
+
+EXAMPLES
+  $ roc task-force delete form-processor
+  [OK] Task force form-processor deleted
+```
+
+## `roc-ctl task-force exec ID`
+
+Execute task force
+
+```
+USAGE
+  $ roc-ctl task-force exec [ID] -e <value> -a <value>
+
+FLAGS
+  -a, --agent=<value>  (required) Agent identifier
+  -e, --env=<value>    (required) Environment identifier
+
+DESCRIPTION
+  Execute task force
+
+EXAMPLES
+  $ roc task-force exec [task-force-id] --agent agent-1 --env development
+  [OK] Job queued with agent agent-1 and environment development
+```
+
+## `roc-ctl task-force get-robot ID`
+
+Get robot package of task force
+
+```
+USAGE
+  $ roc-ctl task-force get-robot [ID] [-o <value>]
+
+FLAGS
+  -o, --output=<value>  Output path of downloaded file
+
+DESCRIPTION
+  Get robot package of task force
+
+EXAMPLES
+  $ roc task-force get-robot [task-force-id]
+  [OK] Robot package downloaded.
+```
+
+## `roc-ctl task-force list`
+
+List task forces by project
+
+```
+USAGE
+  $ roc-ctl task-force list [-p <value>]
+
+FLAGS
+  -p, --project=<value>  Project identifier
+
+DESCRIPTION
+  List task forces by project
+
+EXAMPLES
+  $ roc task-force list -p default
+```
+
+## `roc-ctl task-force set-robot ID`
+
+Set robot package of task force. It can be a local file or remote git repository url.
+
+```
+USAGE
+  $ roc-ctl task-force set-robot [ID] [-r <value>] [-f <value>]
+
+FLAGS
+  -f, --file=<value>        Local robot package file
+  -r, --repository=<value>  Robot repository url
+
+DESCRIPTION
+  Set robot package of task force. It can be a local file or remote git repository url.
+
+EXAMPLES
+  $ roc task-force set-robot [task-force-id] -f example-robot.zip
+  [OK] Robot package uploaded.
+
+  $ roc task-force set-robot [task-force-id] -r https://github.com/yusufcanb/robot-template
+  [OK] Robot package set to repository https://github.com/yusufcanb/robot-template.
+```
+<!-- commandsstop -->
 * [`roc agent create`](#roc-agent-create)
 * [`roc agent delete [ID]`](#roc-agent-delete-id)
 * [`roc agent list`](#roc-agent-list)

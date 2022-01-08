@@ -1,7 +1,7 @@
 {
   "name": "roc-ctl",
   "description": "Command line interface for ROC (Robot Operation Center)",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0-alpha.1",
   "author": "Yusuf Can Bayrak",
   "bin": {
     "roc-ctl": "./bin/run"
@@ -45,7 +45,7 @@
   ],
   "homepage": "https://github.com/yusufcanb/roc",
   "keywords": [
-    "oclif"
+    "roc-ctl"
   ],
   "license": "Apache-2.0",
   "main": "dist/index.js",
