@@ -9,13 +9,6 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=my-secret-pw
       - MYSQL_DATABASE=roc_dev_db
-  redis:
-    image: 'redis:alpine'
-    hostname: roc-redis
-    container_name: roc-redis
-    ports:
-      - '6379:6379'
-    command: redis-server --requirepass adminadmin
   rabbitmq:
     build:
       context: .
@@ -54,7 +47,6 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - redis
       - rabbitmq
       - mysql
     environment:
