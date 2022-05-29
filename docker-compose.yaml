@@ -1,29 +1,11 @@
 version: "3"
 services:
-  mysql:
-    image: mysql:8
-    hostname: roc-mysql
-    container_name: roc-mysql
+  redis:
+    image: redis:6.2
+    hostname: roc-redis
+    container_name: roc-redis
     ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=my-secret-pw
-      - MYSQL_DATABASE=roc_dev_db
-  rabbitmq:
-    build:
-      context: .
-      dockerfile: ./platform/src/main/resources/docker/rabbitmq/Dockerfile
-    container_name: roc-rabbitmq
-    hostname: roc-rabbitmq
-    environment:
-      RABBITMQ_DEFAULT_USER: "roc"
-      RABBITMQ_DEFAULT_PASS: "roc"
-    ports:
-      - "5672:5672"
-      - "15671:15671"
-      - "15672:15672"
-      - "15674:15674"
-      - "61613:61613"
+      - "6379:6379"
   minio:
     image: minio/minio
     command: server /data --console-address ":9001"
@@ -40,28 +22,30 @@ services:
   roc-platform:
     build:
       context: .
-      dockerfile: ./platform/Dockerfile
+      dockerfile: ./Dockerfile.platform
     container_name: roc-platform
     hostname: roc-platform
     restart: on-failure
     ports:
       - "8080:8080"
     depends_on:
-      - rabbitmq
-      - mysql
+      - redis
     environment:
-      DATASOURCE_HOST: roc-mysql
-      DATASOURCE_PORT: 3306
-      DATASOURCE_DB: roc_dev_db
-      DATASOURCE_USERNAME: root
-      DATASOURCE_PASSWORD: my-secret-pw
-      STOMP_HOST: roc-rabbitmq
-      STOMP_PORT: 61613
-      ROC_GIT_REPOSITORY_DIR: /home/git/roc
-      ROC_S3_HOST: roc-minio
-      ROC_S3_PORT: 9000
-      ROC_S3_USER: roc
-      ROC_S3_PWD: roc-minio-pwd
+      REDIS_URL: redis://roc-redis:6379
+      S3_URL: minio://roc:roc-minio-pwd@roc-minio:9000
+  roc-tunnel:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.ws-tunnel
+    container_name: roc-tunnel
+    hostname: roc-tunnel
+    restart: on-failure
+    ports:
+      - "8081:8080"
+    depends_on:
+      - redis
+    environment:
+      REDIS_URL: redis://roc-redis:6379
   roc-nginx:
     build:
       context: ./web
