@@ -17,11 +17,64 @@
  *   Yusuf Can Bayrak - initial implementation and documentation.
  *
  */
-
 package main
 
-import "fmt"
+import (
+	"context"
+	"github.com/gorilla/websocket"
+	"log"
+	"net/http"
+	"sync"
+)
+
+var ch = make(chan string)
+var ctx = context.Background()
+var rd = redis.NewClient(&redis.Options{
+	Addr: "localhost:6379",
+})
+
+func beginPubSubSubscription(wg *sync.WaitGroup, c chan string) {
+	for {
+		sub := rd.PSubscribe(ctx, "*")
+		ch := sub.Channel()
+
+		for msg := range ch {
+			c <- msg.Payload
+		}
+		close(c)
+		wg.Done()
+	}
+}
+
+func beginWebSocketTunnel(wg *sync.WaitGroup, c chan string) {
+	http.HandleFunc("/ws", func(writer http.ResponseWriter, request *http.Request) {
+		upgrader := websocket.Upgrader{CheckOrigin: func(*http.Request) bool { return true }}
+		conn, err := upgrader.Upgrade(writer, request, nil)
+		if err != nil {
+			log.Fatal("websocket connection err:", err)
+			return
+		}
+		defer conn.Close()
+		for i := range c {
+			err := conn.WriteMessage(websocket.TextMessage, []byte(i))
+			if err != nil {
+				log.Fatal("websocket write err:", err)
+			}
+		}
+		wg.Done()
+	})
+
+	log.Println("Pub-Sub Websocket Channel started.", "http://localhost:5000")
+	log.Fatal(http.ListenAndServe("localhost:5000", nil))
+}
 
 func main() {
-	fmt.Println("WS Tunnel started.")
+	wg := sync.WaitGroup{}
+
+	wg.Add(2)
+
+	go beginPubSubSubscription(&wg, ch)
+	go beginWebSocketTunnel(&wg, ch)
+
+	wg.Wait()
 }
