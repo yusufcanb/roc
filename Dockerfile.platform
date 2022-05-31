@@ -1,15 +1,15 @@
-FROM golang:1.18-alpine
+FROM golang:1.18-alpine AS build
 
-WORKDIR app
+WORKDIR /src
 
-COPY . .
+RUN apk --no-cache add git gcc
+ADD . /src
 
-# Download all the dependencies
 RUN go get -d -v ./...
-
-# Install the package
 RUN go build -o roc-platform cmd/platform/main.go
 
-EXPOSE 8080
 
-CMD ["./roc-platform"]
+FROM alpine
+WORKDIR /app
+COPY --from=build /src/roc-platform /app/
+ENTRYPOINT ./roc-platform

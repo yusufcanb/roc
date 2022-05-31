@@ -77,7 +77,7 @@ func beginWebSocketTunnel(wg *sync.WaitGroup, c chan string) {
 	})
 
 	log.Println("Pub-Sub Websocket Channel started.", "http://localhost:5000")
-	log.Fatal(http.ListenAndServe("localhost:5000", nil))
+	log.Fatal(http.ListenAndServe(":5000", nil))
 }
 
 func main() {

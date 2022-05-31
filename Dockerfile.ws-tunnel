@@ -1,15 +1,15 @@
-FROM golang:1.18-alpine
+FROM golang:1.18-alpine AS build
 
-WORKDIR app
+WORKDIR /src
 
-COPY . .
+RUN apk --no-cache add git gcc
+ADD . /src
 
-# Download all the dependencies
 RUN go get -d -v ./...
+RUN go build -o roc-tunnel cmd/ws-tunnel/main.go
 
-# Install the package
-RUN go build -o ws-tunnel cmd/ws-tunnel/main.go
 
-EXPOSE 5000
-
-CMD ["./ws-tunnel"]
+FROM alpine
+WORKDIR /app
+COPY --from=build /src/roc-tunnel /app/
+ENTRYPOINT ./roc-tunnel
