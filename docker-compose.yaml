@@ -41,11 +41,11 @@ services:
     hostname: roc-tunnel
     restart: on-failure
     ports:
-      - "8081:8080"
+      - "5000:5000"
     depends_on:
       - redis
     environment:
-      REDIS_URL: redis://roc-redis:6379
+      REDIS_URL: roc-redis:6379
   roc-nginx:
     build:
       context: ./web
@@ -54,6 +54,6 @@ services:
     hostname: roc-nginx
     restart: on-failure
     ports:
-      - "8000:80"
+      - "8080:80"
 volumes:
   data:

@@ -10,6 +10,6 @@ RUN go get -d -v ./...
 # Install the package
 RUN go build -o ws-tunnel cmd/ws-tunnel/main.go
 
-EXPOSE 8080
+EXPOSE 5000
 
 CMD ["./ws-tunnel"]

@@ -1,17 +1,30 @@
 package main
 
-import "fmt"
-import "math"
+import (
+	"fmt"
+	"net/http"
+)
+
+func hello(w http.ResponseWriter, req *http.Request) {
+	fmt.Fprintf(w, "hello\n")
+}
+
+func headers(w http.ResponseWriter, req *http.Request) {
+
+	for name, headers := range req.Header {
+		for _, h := range headers {
+			fmt.Fprintf(w, "%v: %v\n", name, h)
+		}
+	}
+}
 
 func main() {
-	var x float64
-	var list []int
 
-	list = []int{1, 2, 3, 4, 5}
-	for _, i := range list {
-		x = math.Pow(float64(i), 2)
-		fmt.Println(i, " -> ", x)
+	http.HandleFunc("/hello", hello)
+	http.HandleFunc("/headers", headers)
+
+	err := http.ListenAndServe(":8000", nil)
+	if err != nil {
+		return
 	}
-
-	fmt.Println("ROC platform started...")
 }

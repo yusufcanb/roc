@@ -21,19 +21,31 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"github.com/go-redis/redis/v8"
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
+	"os"
 	"sync"
 )
 
 var ch = make(chan string)
 var ctx = context.Background()
+
 var rd = redis.NewClient(&redis.Options{
-	Addr: "localhost:6379",
+	Addr: os.Getenv("REDIS_URL"),
+	DB:   0, // use default DB
 })
 
 func beginPubSubSubscription(wg *sync.WaitGroup, c chan string) {
+	status := rd.Ping(ctx)
+
+	if _, err := status.Result(); err != nil {
+		fmt.Println("Unable to connect Redis.")
+		os.Exit(-1)
+	}
+
 	for {
 		sub := rd.PSubscribe(ctx, "*")
 		ch := sub.Channel()

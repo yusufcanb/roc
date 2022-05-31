@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"github.com/yusufcanb/roc/pkg/agent"
 	"log"
 	"os"
 	"os/signal"
@@ -25,6 +27,10 @@ func receiveHandler(connection *websocket.Conn) {
 }
 
 func main() {
+	a := agent.Agent{}
+	a.SetName("WINDOWS")
+
+	fmt.Println(a.Name())
 	done = make(chan interface{})    // Channel to indicate that the receiverHandler is done
 	interrupt = make(chan os.Signal) // Channel to listen for interrupt signal to terminate gracefully
 
