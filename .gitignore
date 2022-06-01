@@ -31,3 +31,5 @@ hs_err_pid*
 *.iml
 
 **/target/*
+tools/runner/**/*.html
+tools/runner/**/*.xml

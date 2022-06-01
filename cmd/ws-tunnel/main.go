@@ -22,12 +22,13 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/go-redis/redis/v8"
-	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
 	"os"
 	"sync"
+
+	"github.com/go-redis/redis/v8"
+	"github.com/gorilla/websocket"
 )
 
 var ch = make(chan string)
