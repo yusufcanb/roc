@@ -6,7 +6,7 @@ RUN apk --no-cache add git gcc
 ADD . /src
 
 RUN go get -d -v ./...
-RUN go build -o roc-platform cmd/platform/main.go
+RUN go build -o roc-platform cmd/platform/*.go
 
 
 FROM alpine
