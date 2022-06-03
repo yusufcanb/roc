@@ -20,9 +20,9 @@ jobs:
         with:
           node-version: 12
       - run: npm install
-        working-directory: ./tool/cli
+        working-directory: ./tools/cli
       - run: npm run build
-        working-directory: ./tool/cli
+        working-directory: ./tools/cli
   lint:
     runs-on: ubuntu-latest
     steps:
