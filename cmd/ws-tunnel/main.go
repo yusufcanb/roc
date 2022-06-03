@@ -33,6 +33,7 @@ import (
 
 var ch = make(chan string)
 var ctx = context.Background()
+var connections = []*websocket.Conn{}
 
 var rd = redis.NewClient(&redis.Options{
 	Addr: os.Getenv("REDIS_URL"),
@@ -63,21 +64,24 @@ func beginWebSocketTunnel(wg *sync.WaitGroup, c chan string) {
 	http.HandleFunc("/ws", func(writer http.ResponseWriter, request *http.Request) {
 		upgrader := websocket.Upgrader{CheckOrigin: func(*http.Request) bool { return true }}
 		conn, err := upgrader.Upgrade(writer, request, nil)
+		connections = append(connections, conn)
 		if err != nil {
 			log.Fatal("websocket connection err:", err)
 			return
 		}
 		defer conn.Close()
 		for i := range c {
-			err := conn.WriteMessage(websocket.TextMessage, []byte(i))
-			if err != nil {
-				log.Fatal("websocket write err:", err)
+			for _, connection := range connections {
+				err := connection.WriteMessage(websocket.TextMessage, []byte(i))
+				if err != nil {
+					log.Fatal("websocket write err:", err)
+				}
 			}
 		}
 		wg.Done()
 	})
 
-	log.Println("Pub-Sub Websocket Channel started.", "http://localhost:5000")
+	log.Println("Pub-Sub Websocket Channel started.")
 	log.Fatal(http.ListenAndServe(":5000", nil))
 }
 
