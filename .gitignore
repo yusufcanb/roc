@@ -33,3 +33,5 @@ hs_err_pid*
 **/target/*
 tools/runner/**/*.html
 tools/runner/**/*.xml
+
+.vscode/
