@@ -22,7 +22,7 @@ import {API} from './base'
 import {ReadStream} from 'fs'
 import FormData from 'form-data'
 import {AxiosResponse} from 'axios'
-import {Job} from "./job";
+import {Job} from './job'
 
 /**
  * Task force interface
@@ -88,8 +88,9 @@ export class TaskForceAPI extends API {
    * Update a task force with it's id
    * @param taskForceId Identifier of the task force
    * @param dto Task force update DTO
+   * @returns Promise<AxiosResponse<Job>>
    */
-  async updateTaskForceById(taskForceId: string, dto: any): Promise<AxiosResponse<Job>> {
+  async updateTaskForceById(taskForceId: string, dto: Partial<TaskForce>): Promise<AxiosResponse<Job>> {
     return this.http.put<Job>(`/task-force/${taskForceId}`, dto)
   }
 

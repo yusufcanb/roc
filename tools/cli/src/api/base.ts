@@ -49,12 +49,12 @@ export class API {
   }
 
   async downloadFile(fileUrl: string, outputLocationPath: string): Promise<void> {
-    const writer = fs.createWriteStream(outputLocationPath);
+    const writer = fs.createWriteStream(outputLocationPath)
     const response = await this.s3.request({
       method: 'get',
       url: fileUrl,
       responseType: 'stream',
     })
-    response.data.pipe(writer);
+    response.data.pipe(writer)
   }
 }

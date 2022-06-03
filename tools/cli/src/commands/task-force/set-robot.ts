@@ -51,18 +51,19 @@ export default class TaskForceSetRobotCommand extends RocCommand {
 
     if (flags.repository) {
       await this.api.taskForce.updateTaskForceById(args.id, {robot: flags.repository})
-      this.log("[OK] Task force robot updated")
+      this.log('[OK] Task force robot updated')
     } else if (flags.file) {
       try {
         const mimeType = await fileType.fromFile(flags.file)
         if (mimeType?.ext !== 'zip' && mimeType?.mime !== 'application/zip') {
-          this.log('[ERROR] ' + "Invalid robot package specified")
+          this.log('[ERROR] Invalid robot package specified')
         }
+
         await this.api.taskForce.uploadRobotPackage(args.id, {
           fileName: path.basename(flags.file),
           stream: fs.createReadStream(flags.file),
         })
-        this.log("[OK] Task force package uploaded")
+        this.log('[OK] Task force package uploaded')
       } catch (error: any) {
         this.log('[ERROR] ' + error.toString())
       }

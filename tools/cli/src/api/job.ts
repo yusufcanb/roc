@@ -21,6 +21,7 @@
 import {API} from './base'
 import {AxiosResponse} from 'axios'
 import open from 'open'
+import {ChildProcess} from 'child_process'
 
 export interface Job {
   id: string
@@ -40,7 +41,6 @@ export class JobModel {
   reportAvailable(): boolean {
     return this.status === 'SUCCESS' || this.status === 'FAIL'
   }
-
 }
 
 export class JobAPI extends API {
@@ -53,12 +53,11 @@ export class JobAPI extends API {
     return this.http.get<Job[]>('/job', requestConfig)
   }
 
-  async getJobById(projectId: string | number) {
+  async getJobById(projectId: string | number): Promise<AxiosResponse> {
     return this.http.get<Job>(`/job/${projectId}`)
   }
 
-  async getJobReportById(id: string | number) {
+  async getJobReportById(id: string | number): Promise<ChildProcess> {
     return open(`${this.baseUrl}/s3/roc/projects/1/job/${id}/report.html`)
   }
-
 }
