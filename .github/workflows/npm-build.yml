@@ -42,6 +42,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 12
+      - run: echo "{\"rocUrl\":\"https://example-platform.com\",\"defaultProject\":null}" > ~/.roc.json
       - run: npm install
         working-directory: ./tools/cli
       - run: npm run test
