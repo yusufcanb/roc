@@ -469,6 +469,119 @@ paths:
           description: Successful operation.
   # ------------- End Task Force ------------- #
 
+  # ------------- Job ------------- # 
+  /job:
+    get:
+      operationId: getJobs
+      summary: List all jobs by project id
+      tags:
+        - job
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: query
+          name: agentId
+          description: Filter jobs by agent
+          required: false
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: query
+          name: environmentId
+          description: Filter jobs by environment
+          required: false
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: query
+          name: taskForceId
+          description: Filter jobs by task force
+          required: false
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: project object to be returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+    post:
+      operationId: triggerJob
+      summary: Execute new job
+      tags:
+        - job
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Returns a job object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+  /job/{jobId}/log:
+    get:
+      operationId: getJobLog
+      summary: Get job log file
+      tags:
+        - job
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: jobId
+          description: Identifier of job id
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: project object to be returned
+          content:
+            text/html:
+              schema:
+                type: string
+  /job/{jobId}/report:
+    get:
+      operationId: getJobReport
+      summary: Get job report file
+      tags:
+        - job
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: jobId
+          description: Identifier of job id
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: project object to be returned
+          content:
+            text/html:
+              schema:
+                type: string
+  # ------------- End Job ------------- #
+
 components:
   securitySchemes:
     AccessTokenAuth:
@@ -548,17 +661,23 @@ components:
         agentId: "1"
         environmentId: "1"
         tasks: ["demo.robot"]   
-    
     Job:
       type: object
       properties:
         id:
           type: integer
-        name:
-          type: string
-        runner:
+        taskForceId:
           type: string
         agentId:
           type: string
         environmentId:
           type: string
+        createdAt:
+          type: string
+        status:
+          type: string
+          enum:
+            - IDLE
+            - RUNNING
+            - SUCCESS
+            - FAIL
