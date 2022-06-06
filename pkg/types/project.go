@@ -1,6 +1,8 @@
 package types
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 type Project struct {
 	Id        string `json:"id"`
@@ -16,6 +18,14 @@ func (it *Project) AsJson() string {
 	return string(jsonStr)
 }
 
+func (it *Project) AsMap() map[string]interface{} {
+	var projectMap map[string]interface{}
+	data, _ := json.Marshal(it)
+	json.Unmarshal(data, &projectMap)
+
+	return projectMap
+}
+
 func (it *Project) FromJson(jsonStr string) *Project {
 	var dat map[string]interface{}
 	byt := []byte(jsonStr)
@@ -25,7 +35,17 @@ func (it *Project) FromJson(jsonStr string) *Project {
 
 	it.Id = dat["id"].(string)
 	it.Name = dat["name"].(string)
-	it.IsDefault = dat["isDefault"].(bool)
 
 	return it
+}
+
+func (it *Project) FromMap(projectMap map[string]string) (*Project, error) {
+	data, _ := json.Marshal(projectMap)
+	err := json.Unmarshal(data, it)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return it, nil
 }

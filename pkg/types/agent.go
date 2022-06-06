@@ -1,7 +1,7 @@
 package types
 
 type Agent struct {
-	Id        string
-	ProjectId string
-	Name      string
+	Id        string `json:"id"`
+	ProjectId string `json:"projectId"`
+	Name      string `json:"name"`
 }

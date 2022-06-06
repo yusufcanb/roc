@@ -8,14 +8,15 @@ import (
 
 var keyStr = "project.%s"
 
-func SaveProject(project types.Project) bool {
-	jsonStr := project.AsJson()
-	status := rdb.Set(ctx, fmt.Sprintf(keyStr, project.Id), jsonStr, 0)
+func SaveProject(project types.Project) (bool, error) {
+	projectMap := project.AsMap()
+	projectKey := fmt.Sprintf(keyStr, project.Id)
+	status := rdb.HSet(ctx, projectKey, projectMap)
 	if status.Err() != nil {
-		return false
+		return false, status.Err()
 	} else {
 		rdb.Publish(ctx, "project.created", project.Id)
-		return true
+		return true, nil
 	}
 }
 
@@ -29,15 +30,14 @@ func GetProjectList() *[]types.Project {
 }
 
 func GetProjectById(id string) (*types.Project, error) {
-	ret := rdb.Get(ctx, fmt.Sprintf(keyStr, id))
+	ret := rdb.HGetAll(ctx, fmt.Sprintf(keyStr, id))
 	err := ret.Err()
 	if err != nil {
 		return nil, err
-	} else {
-		p := types.Project{}
-		p.FromJson(ret.Val())
-		return &p, nil
 	}
+	p := types.Project{}
+	p.FromMap(ret.Val())
+	return &p, nil
 }
 
 func UpdateProject(id string, project types.Project) types.Project {

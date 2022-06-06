@@ -3,13 +3,13 @@ package types
 import "encoding/json"
 
 type Job struct {
-	Id            string `json: "id"`
-	ProjectId     string `json: "projectId"`
-	AgentId       string `json: "agentId"`
-	EnvironmentId string `json: "environmentId"`
-	TaskForceId   string `json: "taskForceId"`
-	CreatedAt     string `json: "createdAt"`
-	Status        string `json: "status"`
+	Id            string `json:"id"`
+	ProjectId     string `json:"projectId"`
+	AgentId       string `json:"agentId"`
+	EnvironmentId string `json:"environmentId"`
+	TaskForceId   string `json:"taskForceId"`
+	CreatedAt     string `json:"createdAt"`
+	Status        string `json:"status"`
 }
 
 func (it *Job) AsJson() string {

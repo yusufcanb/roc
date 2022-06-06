@@ -11,14 +11,19 @@ import (
 // for a valid return value.
 func TestCreateProject(t *testing.T) {
 	p := types.Project{Id: "1", Name: "Hello World!", IsDefault: true}
-	ok := SaveProject(p)
+	ok, err := SaveProject(p)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	if !ok {
 		t.Fatalf("Unable to save project")
 	}
 
-	returned := rdb.Get(ctx, fmt.Sprintf(keyStr, p.Id))
+	returned := rdb.HGetAll(ctx, fmt.Sprintf(keyStr, p.Id))
 	if value, err := returned.Result(); err == nil {
-		if value != p.AsJson() {
+		if value["id"] != p.Id {
 			t.Fatalf("Does not matched")
 		}
 	} else {
@@ -26,14 +31,15 @@ func TestCreateProject(t *testing.T) {
 	}
 }
 
-func TestGetProjectList(t *testing.T) {
-}
-
 // TestGetProject calls repository.GetProject with an identifier
 // for a valid return value.
 func TestGetProject(t *testing.T) {
-	_, err := GetProjectById("1")
+	p, err := GetProjectById("1")
 	if err != nil {
 		t.Fatal(err)
+	}
+	t.Log(p)
+	if p.Id != "1" {
+		t.Fatal("Incorrect object returned")
 	}
 }
