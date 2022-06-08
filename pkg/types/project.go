@@ -39,13 +39,13 @@ func (it *Project) FromJson(jsonStr string) *Project {
 	return it
 }
 
-func (it *Project) FromMap(projectMap map[string]string) (*Project, error) {
+func (it *Project) FromMap(projectMap map[string]string) error {
 	data, _ := json.Marshal(projectMap)
 	err := json.Unmarshal(data, it)
 
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	return it, nil
+	return nil
 }

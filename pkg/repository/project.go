@@ -22,11 +22,10 @@ func SaveProject(project types.Project) (bool, error) {
 
 func GetProjectList() *[]types.Project {
 	var projectMap map[string]string
-	projectList := make([]types.Project, 5)
-	pipeline := rdb.Pipeline()
+	projectList := make([]types.Project, 0)
 	projectKeys := rdb.Keys(ctx, "project.*")
 	for _, key := range projectKeys.Val() {
-		projectMap = pipeline.HGetAll(ctx, key).Val()
+		projectMap = rdb.HGetAll(ctx, key).Val()
 		project := new(types.Project)
 		project.FromMap(projectMap)
 		projectList = append(projectList, *project)
