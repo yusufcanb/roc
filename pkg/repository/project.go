@@ -21,12 +21,18 @@ func SaveProject(project types.Project) (bool, error) {
 }
 
 func GetProjectList() *[]types.Project {
-	projectSlice := make([]types.Project, 5)
+	var projectMap map[string]string
+	projectList := make([]types.Project, 5)
+	pipeline := rdb.Pipeline()
 	projectKeys := rdb.Keys(ctx, "project.*")
 	for _, key := range projectKeys.Val() {
-		projectSlice = append(projectSlice, types.Project{Name: key})
+		projectMap = pipeline.HGetAll(ctx, key).Val()
+		project := new(types.Project)
+		project.FromMap(projectMap)
+		projectList = append(projectList, *project)
 	}
-	return &projectSlice
+
+	return &projectList
 }
 
 func GetProjectById(id string) (*types.Project, error) {

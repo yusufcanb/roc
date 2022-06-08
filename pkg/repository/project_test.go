@@ -43,3 +43,10 @@ func TestGetProject(t *testing.T) {
 		t.Fatal("Incorrect object returned")
 	}
 }
+
+func Test_Playground(t *testing.T) {
+	projects := GetProjectList()
+	for _, v := range *projects {
+		t.Log(v)
+	}
+}
