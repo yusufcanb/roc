@@ -1,16 +1,17 @@
 package main
 
 import (
-	"net/http"
+	"github.com/gofiber/fiber"
+	"github.com/yusufcanb/roc/pkg/api"
 )
 
 func main() {
+	app := fiber.New()
 
-	http.HandleFunc("/hello", hello)
-	http.HandleFunc("/headers", headers)
+	app.Get("/projects", api.GetProjects)
+	app.Get("/projects/:id", api.GetProject)
+	app.Delete("/projects/:id", api.DeleteProject)
 
-	err := http.ListenAndServe(":8000", nil)
-	if err != nil {
-		return
-	}
+	app.Listen(":8000")
+
 }

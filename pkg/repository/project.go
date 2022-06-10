@@ -8,9 +8,17 @@ import (
 
 var keyStr = "project.%s"
 
+func getProjectKey(id string) string {
+	return fmt.Sprintf(keyStr, id)
+}
+
+func ProjectExists(id string) bool {
+	return CheckKeyExists(getProjectKey(id))
+}
+
 func SaveProject(project types.Project) (bool, error) {
 	projectMap := project.AsMap()
-	projectKey := fmt.Sprintf(keyStr, project.Id)
+	projectKey := getProjectKey(project.Id)
 	status := rdb.HSet(ctx, projectKey, projectMap)
 	if status.Err() != nil {
 		return false, status.Err()
@@ -35,7 +43,8 @@ func GetProjectList() *[]types.Project {
 }
 
 func GetProjectById(id string) (*types.Project, error) {
-	ret := rdb.HGetAll(ctx, fmt.Sprintf(keyStr, id))
+	key := getProjectKey(id)
+	ret := rdb.HGetAll(ctx, key)
 	err := ret.Err()
 	if err != nil {
 		return nil, err
@@ -43,6 +52,15 @@ func GetProjectById(id string) (*types.Project, error) {
 	p := types.Project{}
 	p.FromMap(ret.Val())
 	return &p, nil
+}
+
+func DeleteProjectById(id string) (bool, error) {
+	key := getProjectKey(id)
+	cmd := rdb.Del(ctx, key)
+	if cmd.Err() != nil {
+		return false, cmd.Err()
+	}
+	return true, nil
 }
 
 func UpdateProject(id string, project types.Project) types.Project {

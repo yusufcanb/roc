@@ -12,3 +12,12 @@ var rdb = redis.NewClient(&redis.Options{
 	Password: "", // no password set
 	DB:       0,  // use default DB
 })
+
+func CheckKeyExists(key string) bool {
+	cmd := rdb.Exists(ctx, key)
+	if cmd.Val() == 0 {
+		return false
+	} else {
+		return true
+	}
+}
