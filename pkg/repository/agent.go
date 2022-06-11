@@ -7,7 +7,7 @@ import (
 	"github.com/yusufcanb/roc/pkg/types"
 )
 
-func getAgentKey(id string) string {
+func GetAgentKey(id string) string {
 	return fmt.Sprintf(agentKey, id)
 }
 
@@ -26,8 +26,9 @@ func GetAgents() *[]types.Agent {
 }
 
 func SaveAgent(agent *types.Agent) error {
-	id := namesgenerator.GetRandomName(1)
-	cmd := rdb.HSet(ctx, getAgentKey(id), agent.AsMap())
+	id := namesgenerator.GetRandomName(0)
+	agent.Id = id
+	cmd := rdb.HSet(ctx, GetAgentKey(id), agent.AsMap())
 
 	if cmd.Err() != nil {
 		return cmd.Err()

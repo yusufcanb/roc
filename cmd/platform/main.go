@@ -1,13 +1,13 @@
 package main
 
 import (
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 	"github.com/yusufcanb/roc/pkg/api"
 )
 
 func main() {
-	app := fiber.New(&fiber.Settings{
-		ServerHeader: "ROC Platform",
+	app := fiber.New(fiber.Config{
+		AppName: "ROC Platform",
 	})
 
 	//  Project handlers

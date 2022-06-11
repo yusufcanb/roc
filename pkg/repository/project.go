@@ -3,26 +3,29 @@ package repository
 import (
 	"fmt"
 
+	"github.com/gosimple/slug"
 	"github.com/yusufcanb/roc/pkg/types"
 )
 
-func getProjectKey(id string) string {
+func GetProjectKey(id string) string {
 	return fmt.Sprintf(projectKey, id)
 }
 
 func ProjectExists(id string) bool {
-	return CheckKeyExists(getProjectKey(id))
+	return CheckKeyExists(GetProjectKey(id))
 }
 
-func SaveProject(project types.Project) (bool, error) {
+func SaveProject(project *types.Project) error {
+	project.Id = slug.Make(project.Name)
 	projectMap := project.AsMap()
-	projectKey := getProjectKey(project.Id)
+
+	projectKey := GetProjectKey(project.Id)
 	status := rdb.HSet(ctx, projectKey, projectMap)
 	if status.Err() != nil {
-		return false, status.Err()
+		return status.Err()
 	} else {
 		rdb.Publish(ctx, "project.created", project.Id)
-		return true, nil
+		return nil
 	}
 }
 
@@ -41,7 +44,7 @@ func GetProjectList() *[]types.Project {
 }
 
 func GetProjectById(id string) (*types.Project, error) {
-	key := getProjectKey(id)
+	key := GetProjectKey(id)
 	ret := rdb.HGetAll(ctx, key)
 	err := ret.Err()
 	if err != nil {
@@ -53,7 +56,7 @@ func GetProjectById(id string) (*types.Project, error) {
 }
 
 func DeleteProjectById(id string) (bool, error) {
-	key := getProjectKey(id)
+	key := GetProjectKey(id)
 	cmd := rdb.Del(ctx, key)
 	if cmd.Err() != nil {
 		return false, cmd.Err()

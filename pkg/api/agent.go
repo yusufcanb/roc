@@ -1,27 +1,27 @@
 package api
 
 import (
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 	"github.com/yusufcanb/roc/pkg/repository"
 	"github.com/yusufcanb/roc/pkg/types"
 )
 
-func GetAgents(c *fiber.Ctx) {
+func GetAgents(c *fiber.Ctx) error {
 	agents := repository.GetAgents()
-	c.JSON(agents)
+	return c.JSON(agents)
 }
 
-func CreateAgent(c *fiber.Ctx) {
+func CreateAgent(c *fiber.Ctx) error {
 	payload := types.Agent{}
 
 	if err := c.BodyParser(&payload); err != nil {
-		c.SendStatus(fiber.StatusBadRequest)
+		return c.SendStatus(fiber.StatusBadRequest)
 	}
 
 	err := repository.SaveAgent(&payload)
 	if err != nil {
-		c.SendStatus(fiber.StatusBadGateway)
+		return c.SendStatus(fiber.StatusBadGateway)
 	}
 
-	c.SendStatus(fiber.StatusCreated)
+	return c.SendStatus(fiber.StatusCreated)
 }
