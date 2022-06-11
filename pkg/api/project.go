@@ -10,7 +10,6 @@ import (
 func GetProjects(c *fiber.Ctx) error {
 	projects := repository.GetProjectList()
 	return c.JSON(projects)
-
 }
 
 func GetProject(c *fiber.Ctx) error {
