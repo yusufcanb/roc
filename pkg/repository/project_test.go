@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/yusufcanb/roc/pkg/types"
@@ -21,7 +20,7 @@ func TestCreateProject(t *testing.T) {
 		t.Fatalf("Unable to save project")
 	}
 
-	returned := rdb.HGetAll(ctx, fmt.Sprintf(keyStr, p.Id))
+	returned := rdb.HGetAll(ctx, getProjectKey(p.Id))
 	if value, err := returned.Result(); err == nil {
 		if value["id"] != p.Id {
 			t.Fatalf("Does not matched")

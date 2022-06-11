@@ -6,10 +6,8 @@ import (
 	"github.com/yusufcanb/roc/pkg/types"
 )
 
-var keyStr = "project.%s"
-
 func getProjectKey(id string) string {
-	return fmt.Sprintf(keyStr, id)
+	return fmt.Sprintf(projectKey, id)
 }
 
 func ProjectExists(id string) bool {

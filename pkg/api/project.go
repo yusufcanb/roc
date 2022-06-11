@@ -2,7 +2,9 @@ package api
 
 import (
 	"github.com/gofiber/fiber"
+	"github.com/google/uuid"
 	"github.com/yusufcanb/roc/pkg/repository"
+	"github.com/yusufcanb/roc/pkg/types"
 )
 
 func GetProjects(c *fiber.Ctx) {
@@ -36,9 +38,23 @@ func DeleteProject(c *fiber.Ctx) {
 	}
 
 	c.SendStatus(fiber.StatusOK)
-
 }
 
-func UpdateProject(c *fiber.Ctx) {
+func CreateProject(c *fiber.Ctx) {
+	payload := struct {
+		Name      string `json:"name"`
+		IsDefault string `json:"isDefault"`
+	}{}
 
+	if err := c.BodyParser(&payload); err != nil {
+		c.SendStatus(fiber.StatusBadRequest)
+	}
+
+	project := types.Project{Id: uuid.New().String(), Name: payload.Name, IsDefault: false}
+	ok, _ := repository.SaveProject(project)
+	if ok {
+		c.JSON(project)
+	}
+
+	c.SendStatus(fiber.StatusBadGateway)
 }

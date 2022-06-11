@@ -628,6 +628,8 @@ components:
           type: string
         version:
           type: string
+        dockerVersion:
+          type: string
         lastSeen:
           type: string
     Environment:

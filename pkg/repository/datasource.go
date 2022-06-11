@@ -13,6 +13,12 @@ var rdb = redis.NewClient(&redis.Options{
 	DB:       0,  // use default DB
 })
 
+var projectKey = "project.%s"
+var agentKey = "agent.%s"
+var environmentKey = "environment.%s"
+var taskForceKey = "task-force.%s"
+var jobKey = "job.%s"
+
 func CheckKeyExists(key string) bool {
 	cmd := rdb.Exists(ctx, key)
 	if cmd.Val() == 0 {
