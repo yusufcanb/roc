@@ -9,7 +9,7 @@ import (
 
 func GetProjects(c *fiber.Ctx) error {
 	projects := repository.GetProjectList()
-	return c.JSON(projects)
+	return c.JSON(types.SuccessResponseBody(projects))
 }
 
 func GetProject(c *fiber.Ctx) error {
@@ -21,7 +21,8 @@ func GetProject(c *fiber.Ctx) error {
 
 	project, err := repository.GetProjectById(id)
 	if err != nil {
-		return c.SendString("ERROR!")
+		c.JSON(types.UnexpectedErrorResponseBody(err))
+		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 	if project == nil {
 		return c.SendStatus(fiber.StatusNotFound)
@@ -52,6 +53,7 @@ func CreateProject(c *fiber.Ctx) error {
 	}{}
 
 	if err := c.BodyParser(&payload); err != nil {
+		c.JSON(types.BadRequestResponseBody(err))
 		return c.SendStatus(fiber.StatusBadRequest)
 	}
 

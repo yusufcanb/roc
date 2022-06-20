@@ -4,11 +4,12 @@ import (
 	"context"
 
 	"github.com/go-redis/redis/v8"
+	"github.com/yusufcanb/roc/pkg/config"
 )
 
 var ctx = context.Background()
 var rdb = redis.NewClient(&redis.Options{
-	Addr:     "localhost:6379",
+	Addr:     config.GetDBUrl(),
 	Password: "", // no password set
 	DB:       0,  // use default DB
 })
@@ -18,6 +19,14 @@ var agentKey = "agent.%s"
 var environmentKey = "environment.%s"
 var taskForceKey = "task-force.%s"
 var jobKey = "job.%s"
+
+func PingDB() error {
+	cmd := rdb.Ping(ctx)
+	if cmd.Err() != nil {
+		return cmd.Err()
+	}
+	return nil
+}
 
 func CheckKeyExists(key string) bool {
 	cmd := rdb.Exists(ctx, key)

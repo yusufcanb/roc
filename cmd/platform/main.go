@@ -10,9 +10,9 @@ func return502NotImplemented(c *fiber.Ctx) error {
 }
 
 func main() {
+
 	app := fiber.New(fiber.Config{
 		AppName: "ROC Platform",
-		Prefork: false,
 	})
 
 	//  Project handlers
@@ -50,5 +50,4 @@ func main() {
 	app.Delete("/job/:id", return502NotImplemented)
 
 	app.Listen(":8000")
-
 }
