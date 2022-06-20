@@ -1,0 +1,16 @@
+FROM golang:1.18-alpine AS build
+
+WORKDIR /src
+
+RUN apk --no-cache add git gcc
+ADD . /src
+
+RUN go get -d -v ./...
+RUN go build -o roc-agent cmd/agent/main.go
+
+
+FROM alpine
+WORKDIR /app
+COPY --from=build /src/roc-agent /app/
+
+ENTRYPOINT ./roc-agent

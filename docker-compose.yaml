@@ -46,6 +46,17 @@ services:
       - redis
     environment:
       REDIS_URL: roc-redis:6379
+
+  roc-agent:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.agent
+    container_name: roc-agent
+    hostname: roc-agent
+    restart: on-failure
+    depends_on:
+      - roc-nginx
+    command: /app/roc-agent --host roc-nginx:80
   roc-nginx:
     build:
       context: ./web
