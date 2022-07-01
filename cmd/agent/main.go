@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"log"
@@ -10,16 +11,19 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
+	"github.com/yusufcanb/roc/pkg/agent"
+	"github.com/yusufcanb/roc/pkg/types"
 )
 
 var addr = flag.String("addr", "roc-nginx:80", "ROC Platform URL")
 var accessToken = flag.String("access-token", "", "Authorization key to platform")
+var ctx = context.Background()
 
 func main() {
 	fmt.Println("ROC Agent has started")
 	flag.Parse()
-	fmt.Println("platform url ->", addr)
-	fmt.Println("access token -> ", accessToken)
+	fmt.Println("platform url ->", *addr)
+	fmt.Println("access token -> ", *accessToken)
 	log.SetFlags(0)
 
 	interrupt := make(chan os.Signal, 1)
@@ -45,6 +49,7 @@ func main() {
 				return
 			}
 			log.Printf("recv: %s", message)
+			go agent.ExecuteTaskForce(&types.TaskForce{Runner: "ghcr.io/yusufcanb/roc-runner:latest"})
 		}
 	}()
 
@@ -63,7 +68,6 @@ func main() {
 			}
 		case <-interrupt:
 			log.Println("interrupt")
-
 			// Cleanly close the connection by sending a close message and then
 			// waiting (with timeout) for the server to close the connection.
 			err := c.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseNormalClosure, ""))
