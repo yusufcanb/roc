@@ -9,7 +9,11 @@ RUN go get -d -v ./...
 RUN go build -o roc-agent cmd/agent/main.go
 
 
-FROM alpine
+FROM alpine:3
+
+RUN apk add --update docker openrc
+RUN rc-update add docker boot
+
 WORKDIR /app
 COPY --from=build /src/roc-agent /app/
 
