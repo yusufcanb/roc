@@ -1,0 +1,19 @@
+{
+  "name": "ws-tunnel",
+  "version": "1.0.0",
+  "description": "Tunnel for forwarding Redis messages over websocket connection",
+  "main": "server.ts",
+  "scripts": {
+    "start": "node server.js",
+    "watch": "nodemon server.js"
+  },
+  "author": "",
+  "license": "Apache",
+  "devDependencies": {
+    "nodemon": "^2.0.18"
+  },
+  "dependencies": {
+    "redis": "^4.1.1",
+    "ws": "^8.8.0"
+  }
+}

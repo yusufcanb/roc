@@ -18,6 +18,7 @@ import (
 var addr = flag.String("addr", "roc-nginx:80", "ROC Platform URL")
 var accessToken = flag.String("access-token", "", "Authorization key to platform")
 var ctx = context.Background()
+var messageCount int32 = 0
 
 func main() {
 	fmt.Println("ROC Agent has started")
@@ -50,6 +51,8 @@ func main() {
 			}
 			log.Printf("recv: %s", message)
 			go agent.ExecuteTaskForce(&types.TaskForce{Runner: "ghcr.io/yusufcanb/roc-runner:latest"})
+			log.Println(messageCount)
+			messageCount++
 		}
 	}()
 

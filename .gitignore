@@ -35,3 +35,7 @@ tools/runner/**/*.html
 tools/runner/**/*.xml
 
 .vscode/
+
+
+*-lock.json
+node_modules/

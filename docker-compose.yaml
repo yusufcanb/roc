@@ -35,8 +35,8 @@ services:
       S3_URL: minio://roc:roc-minio-pwd@roc-minio:9000
   roc-tunnel:
     build:
-      context: .
-      dockerfile: ./Dockerfile.ws-tunnel
+      context: ./tools/tunnel
+      dockerfile: Dockerfile
     container_name: roc-tunnel
     hostname: roc-tunnel
     restart: on-failure
@@ -45,7 +45,7 @@ services:
     depends_on:
       - redis
     environment:
-      REDIS_URL: roc-redis:6379
+      REDIS_URL: redis://roc-redis:6379
 
   roc-agent:
     build:
