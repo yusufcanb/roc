@@ -29,12 +29,13 @@ func TestCreateProject(t *testing.T) {
 // TestGetProject calls repository.GetProject with an identifier
 // for a valid return value.
 func TestGetProject(t *testing.T) {
-	p, err := GetProjectById("1")
+	id := "hello-world"
+	p, err := GetProjectById(id)
 	if err != nil {
 		t.Fatal(err)
 	}
 	t.Log(p)
-	if p.Id != "1" {
+	if p.Id != id {
 		t.Fatal("Incorrect object returned")
 	}
 }
