@@ -28,5 +28,9 @@ jobs:
       with:
         go-version: 1.18
 
-    - name: Build
+    - name: Build Platform
       run: go build -v ./cmd/platform/...
+      
+    - name: Build Agent
+      run: go build -v ./cmd/agent/...
+
