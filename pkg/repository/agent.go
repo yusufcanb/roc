@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/docker/docker/pkg/namesgenerator"
+	"github.com/yusufcanb/roc/pkg/events"
 	"github.com/yusufcanb/roc/pkg/types"
 )
 
@@ -34,5 +35,5 @@ func SaveAgent(agent *types.Agent) error {
 		return cmd.Err()
 	}
 
-	return nil
+	return PublishEvent(*events.AgentCreatedEvent(id))
 }

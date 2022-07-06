@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/gosimple/slug"
+	"github.com/yusufcanb/roc/pkg/events"
 	"github.com/yusufcanb/roc/pkg/types"
 )
 
@@ -24,8 +25,7 @@ func SaveProject(project *types.Project) error {
 	if status.Err() != nil {
 		return status.Err()
 	} else {
-		rdb.Publish(ctx, "project.created", project.Id)
-		return nil
+		return PublishEvent(*events.ProjectCreatedEvent(project.Id))
 	}
 }
 
@@ -61,6 +61,7 @@ func DeleteProjectById(id string) (bool, error) {
 	if cmd.Err() != nil {
 		return false, cmd.Err()
 	}
+	PublishEvent(*events.ProjectDeletedEvent(id))
 	return true, nil
 }
 

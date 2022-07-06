@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-redis/redis/v8"
 	"github.com/yusufcanb/roc/pkg/config"
+	"github.com/yusufcanb/roc/pkg/types"
 )
 
 var ctx = context.Background()
@@ -35,4 +36,13 @@ func CheckKeyExists(key string) bool {
 	} else {
 		return true
 	}
+}
+
+func PublishEvent(e types.Event) error {
+	cmd := rdb.Publish(ctx, e.Key, e.Payload)
+	if cmd.Err() != nil {
+		return cmd.Err()
+	}
+
+	return nil
 }

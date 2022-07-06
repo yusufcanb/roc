@@ -2,12 +2,14 @@ package types
 
 import (
 	"encoding/json"
+	"time"
 )
 
 type Project struct {
-	Id        string `json:"id"`
-	Name      string `json:"name"`
-	IsDefault bool   `json:"isDefault"`
+	Id        string    `json:"id"`
+	Name      string    `json:"name"`
+	IsDefault bool      `json:"isDefault"`
+	CreatedAt time.Time `json:"createdAt"`
 }
 
 func (it *Project) AsJson() string {

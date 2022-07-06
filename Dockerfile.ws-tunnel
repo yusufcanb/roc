@@ -1,0 +1,14 @@
+FROM node:16-alpine
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Install app dependencies
+COPY ./tools/tunnel/package*.json ./
+COPY ./tools/tunnel/server.js ./
+
+RUN npm install
+
+EXPOSE 5000
+
+CMD [ "node", "server.js" ]

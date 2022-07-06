@@ -35,8 +35,8 @@ services:
       S3_URL: minio://roc:roc-minio-pwd@roc-minio:9000
   roc-tunnel:
     build:
-      context: ./tools/tunnel
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile.ws-tunnel
     container_name: roc-tunnel
     hostname: roc-tunnel
     restart: on-failure
