@@ -39,3 +39,5 @@ tools/runner/**/*.xml
 
 *-lock.json
 node_modules/
+
+*.todo
