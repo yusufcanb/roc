@@ -18,18 +18,11 @@
  *
  */
 
-package org.robotframework.roc.platform.job.repository;
+package org.robotframework.roc.platform.project;
 
-import org.robotframework.roc.core.models.Job;
+import org.robotframework.roc.core.models.GlobalVariable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-import java.util.List;
+public interface GlobalVariableRepository extends JpaRepository<GlobalVariable, Long> {
 
-@Repository
-public interface JobRepository extends JpaRepository<Job, Long> {
-
-    List<Job> findAllByProjectId(Long projectId);
-
-    List<Job> findAllByTaskForceId(Long taskForceId);
 }

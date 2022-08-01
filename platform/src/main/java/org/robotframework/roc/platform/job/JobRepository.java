@@ -18,12 +18,18 @@
  *
  */
 
-package org.robotframework.roc.platform.agent.repositories;
+package org.robotframework.roc.platform.job;
 
-import org.robotframework.roc.core.models.Agent;
+import org.robotframework.roc.core.models.Job;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.Date;
+import java.util.List;
 
-public interface AgentRepository extends JpaRepository<Agent, Long> {
+@Repository
+public interface JobRepository extends JpaRepository<Job, Long> {
+
+    List<Job> findAllByProjectId(Long projectId);
+
+    List<Job> findAllByTaskForceId(Long taskForceId);
 }

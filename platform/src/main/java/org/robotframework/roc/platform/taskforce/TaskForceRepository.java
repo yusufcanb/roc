@@ -18,7 +18,7 @@
  *
  */
 
-package org.robotframework.roc.platform.taskforce.repository;
+package org.robotframework.roc.platform.taskforce;
 
 import org.robotframework.roc.core.models.TaskForce;
 import org.springframework.data.jpa.repository.JpaRepository;

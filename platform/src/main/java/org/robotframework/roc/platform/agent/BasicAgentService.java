@@ -18,16 +18,15 @@
  *
  */
 
-package org.robotframework.roc.platform.agent.services;
+package org.robotframework.roc.platform.agent;
 
 import org.robotframework.roc.core.beans.OS;
 import org.robotframework.roc.core.dto.agent.AgentCreateDTO;
 import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.Agent;
 import org.robotframework.roc.core.models.Project;
-import org.robotframework.roc.platform.project.repository.ProjectRepository;
+import org.robotframework.roc.platform.project.ProjectRepository;
 import org.robotframework.roc.core.services.AgentService;
-import org.robotframework.roc.platform.agent.repositories.AgentRepository;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;

@@ -18,12 +18,11 @@
  *
  */
 
-package org.robotframework.roc.platform.project.controller;
+package org.robotframework.roc.platform.project;
 
 import org.robotframework.roc.core.controllers.ProjectController;
 import org.robotframework.roc.core.models.GlobalVariable;
 import org.robotframework.roc.core.models.Project;
-import org.robotframework.roc.core.services.FileService;
 import org.robotframework.roc.core.services.GlobalVariableService;
 import org.robotframework.roc.core.services.ProjectService;
 import org.springframework.http.HttpStatus;
@@ -37,11 +36,9 @@ import java.util.Optional;
 @RestController
 public class SimpleProjectController implements ProjectController {
 
-    final
-    ProjectService projectService;
+    final ProjectService projectService;
 
-    final
-    GlobalVariableService globalVariableService;
+    final GlobalVariableService globalVariableService;
 
     public SimpleProjectController(ProjectService projectService, GlobalVariableService globalVariableService) {
         this.projectService = projectService;
@@ -70,11 +67,7 @@ public class SimpleProjectController implements ProjectController {
     @Override
     public ResponseEntity<Project> getProjectById(@PathVariable Long id) {
         Optional<Project> project = projectService.getProjectById(id);
-        if (project.isPresent()) {
-            return new ResponseEntity<>(project.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+        return project.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @RequestMapping(value = "/project/{id}", method = RequestMethod.PUT)

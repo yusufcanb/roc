@@ -18,7 +18,7 @@
  *
  */
 
-package org.robotframework.roc.platform.agent.controllers;
+package org.robotframework.roc.platform.agent;
 
 import lombok.extern.slf4j.Slf4j;
 import org.robotframework.roc.core.controllers.AgentController;
@@ -75,11 +75,7 @@ public class SimpleAgentController implements AgentController {
     @Override
     public ResponseEntity<Agent> getAgentById(@PathVariable Long id) {
         Optional<Agent> agent = agentService.getAgentById(id);
-        if (agent.isPresent()) {
-            return new ResponseEntity<>(agent.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+        return agent.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @RequestMapping(value = "/agent/{id}", method = RequestMethod.PUT)

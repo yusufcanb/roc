@@ -18,7 +18,7 @@
  *
  */
 
-package org.robotframework.roc.platform.job.controller;
+package org.robotframework.roc.platform.job;
 
 import org.robotframework.roc.core.controllers.JobController;
 import org.robotframework.roc.core.dto.job.JobCreateRequestBody;

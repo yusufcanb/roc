@@ -18,7 +18,7 @@
  *
  */
 
-package org.robotframework.roc.platform.taskforce.controllers;
+package org.robotframework.roc.platform.taskforce;
 
 import lombok.extern.slf4j.Slf4j;
 import org.robotframework.roc.core.controllers.TaskForceController;
@@ -46,12 +46,10 @@ public class SimpleTaskForceController implements TaskForceController {
 
     private final TaskForceService taskForceService;
     private final JobService jobService;
-    private final ObjectStorageService oss;
 
     public SimpleTaskForceController(TaskForceService taskForceService, JobService jobService, ObjectStorageService objectStorageService) {
         this.taskForceService = taskForceService;
         this.jobService = jobService;
-        this.oss = objectStorageService;
     }
 
     @RequestMapping(value = "/task-force", method = RequestMethod.GET)

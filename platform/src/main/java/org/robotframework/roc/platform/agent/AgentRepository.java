@@ -18,11 +18,12 @@
  *
  */
 
-package org.robotframework.roc.platform.project.repository;
+package org.robotframework.roc.platform.agent;
 
-import org.robotframework.roc.core.models.GlobalVariable;
+import org.robotframework.roc.core.models.Agent;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface GlobalVariableRepository extends JpaRepository<GlobalVariable, Long> {
+import java.util.Date;
 
+public interface AgentRepository extends JpaRepository<Agent, Long> {
 }

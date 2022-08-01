@@ -18,7 +18,7 @@
  *
  */
 
-package org.robotframework.roc.platform.job.services;
+package org.robotframework.roc.platform.job;
 
 import com.google.gson.Gson;
 import io.minio.errors.MinioException;
@@ -29,17 +29,11 @@ import org.robotframework.roc.core.dto.stomp.StompPayload;
 import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.*;
 import org.robotframework.roc.core.services.JobService;
-import org.robotframework.roc.platform.agent.repositories.AgentRepository;
-import org.robotframework.roc.platform.environment.repositories.EnvironmentRepository;
-import org.robotframework.roc.platform.job.repository.JobRepository;
-import org.robotframework.roc.platform.project.repository.ProjectRepository;
+import org.robotframework.roc.platform.agent.AgentRepository;
+import org.robotframework.roc.platform.environment.EnvironmentRepository;
+import org.robotframework.roc.platform.project.ProjectRepository;
 import org.robotframework.roc.platform.s3.ObjectStorageService;
-import org.robotframework.roc.platform.taskforce.repository.TaskForceRepository;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageHeaders;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.robotframework.roc.platform.taskforce.TaskForceRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,22 +50,19 @@ public class JobServiceImpl implements JobService {
     private final EnvironmentRepository environmentRepository;
     private final JobRepository jobRepository;
     private final ObjectStorageService oss;
-    private final SimpMessagingTemplate messagingTemplate;
 
     public JobServiceImpl(ProjectRepository projectRepository,
                           AgentRepository agentRepository,
                           EnvironmentRepository environmentRepository,
                           TaskForceRepository taskForceRepository,
                           JobRepository jobRepository,
-                          ObjectStorageService oss,
-                          SimpMessagingTemplate simpMessagingTemplate) {
+                          ObjectStorageService oss) {
         this.projectRepository = projectRepository;
         this.jobRepository = jobRepository;
         this.agentRepository = agentRepository;
         this.taskForceRepository = taskForceRepository;
         this.environmentRepository = environmentRepository;
         this.oss = oss;
-        this.messagingTemplate = simpMessagingTemplate;
     }
 
     @Override
@@ -106,7 +97,7 @@ public class JobServiceImpl implements JobService {
         Optional<TaskForce> taskForce = taskForceRepository.findById(jobDto.getTaskForceId());
         Optional<Environment> environment = environmentRepository.findById(jobDto.getEnvironmentId());
 
-        if (!project.isPresent()) {
+        if (project.isEmpty()) {
             throw new ProjectNotFoundException();
         } else {
             Job job = new Job();
@@ -120,7 +111,6 @@ public class JobServiceImpl implements JobService {
 
             job = jobRepository.save(job);
             String queueName = String.format("agent-%s", job.getAgent().getId());
-            messagingTemplate.convertAndSend(queueName, "[]");
             return job;
         }
     }
@@ -142,7 +132,6 @@ public class JobServiceImpl implements JobService {
         headers.put("ack", "none");
 
         Gson g = new Gson();
-        messagingTemplate.convertAndSend(queueName, g.toJson(payload), headers);
         log.info("Message sent to: {}", queueName);
         return job;
     }

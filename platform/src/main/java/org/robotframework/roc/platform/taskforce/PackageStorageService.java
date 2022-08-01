@@ -18,7 +18,7 @@
  *
  */
 
-package org.robotframework.roc.platform.taskforce.services;
+package org.robotframework.roc.platform.taskforce;
 
 import org.apache.commons.io.FileUtils;
 import org.robotframework.roc.core.services.FileStorageService;

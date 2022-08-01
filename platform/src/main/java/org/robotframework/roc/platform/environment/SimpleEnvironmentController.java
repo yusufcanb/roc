@@ -18,7 +18,7 @@
  *
  */
 
-package org.robotframework.roc.platform.environment.controllers;
+package org.robotframework.roc.platform.environment;
 
 import io.minio.errors.MinioException;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +49,7 @@ public class SimpleEnvironmentController implements EnvironmentController {
     @RequestMapping(value = "/environment", method = RequestMethod.POST)
     @Override
     public ResponseEntity<Environment> createNewEnvironment(@RequestParam Long projectId, @RequestBody EnvironmentCreateDto dto) {
-        Environment created = null;
+        Environment created;
         try {
             created = environmentService.createEnvironment(projectId, dto);
             return new ResponseEntity<>(created, HttpStatus.CREATED);
@@ -75,11 +75,7 @@ public class SimpleEnvironmentController implements EnvironmentController {
     @Override
     public ResponseEntity<Environment> getEnvironmentById(@PathVariable Long id) {
         Optional<Environment> env = environmentService.getEnvironmentById(id);
-        if (env.isPresent()) {
-            return new ResponseEntity<>(env.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+        return env.map(environment -> new ResponseEntity<>(environment, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @RequestMapping(value = "/environment/{id}", method = RequestMethod.PUT)

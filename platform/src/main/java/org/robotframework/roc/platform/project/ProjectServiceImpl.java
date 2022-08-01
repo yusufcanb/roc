@@ -18,12 +18,11 @@
  *
  */
 
-package org.robotframework.roc.platform.project.service;
+package org.robotframework.roc.platform.project;
 
 import org.robotframework.roc.core.models.Project;
 import org.robotframework.roc.core.services.GlobalVariableService;
 import org.robotframework.roc.core.services.ProjectService;
-import org.robotframework.roc.platform.project.repository.ProjectRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -39,8 +38,7 @@ public class ProjectServiceImpl implements ProjectService {
     final GlobalVariableService globalVariableService;
 
 
-    public ProjectServiceImpl(ProjectRepository projectRepository,
-                              GlobalVariableService globalVariableService) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, GlobalVariableService globalVariableService) {
         this.projectRepository = projectRepository;
         this.globalVariableService = globalVariableService;
     }

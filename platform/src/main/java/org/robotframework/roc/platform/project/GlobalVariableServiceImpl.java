@@ -18,12 +18,12 @@
  *
  */
 
-package org.robotframework.roc.platform.project.service;
+package org.robotframework.roc.platform.project;
 
 import org.robotframework.roc.core.models.GlobalVariable;
 import org.robotframework.roc.core.models.Project;
 import org.robotframework.roc.core.services.GlobalVariableService;
-import org.robotframework.roc.platform.project.repository.GlobalVariableRepository;
+import org.robotframework.roc.platform.project.GlobalVariableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

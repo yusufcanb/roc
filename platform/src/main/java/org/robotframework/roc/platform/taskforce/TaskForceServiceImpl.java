@@ -18,7 +18,7 @@
  *
  */
 
-package org.robotframework.roc.platform.taskforce.services;
+package org.robotframework.roc.platform.taskforce;
 
 import io.minio.errors.MinioException;
 import org.robotframework.roc.core.dto.taskforce.TaskForceUpdateDto;
@@ -26,11 +26,11 @@ import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.*;
 import org.robotframework.roc.core.services.JobService;
 import org.robotframework.roc.core.services.TaskForceService;
-import org.robotframework.roc.platform.agent.repositories.AgentRepository;
-import org.robotframework.roc.platform.environment.repositories.EnvironmentRepository;
-import org.robotframework.roc.platform.project.repository.ProjectRepository;
+import org.robotframework.roc.platform.agent.AgentRepository;
+import org.robotframework.roc.platform.environment.EnvironmentRepository;
+import org.robotframework.roc.platform.project.ProjectRepository;
 import org.robotframework.roc.platform.s3.ObjectStorageService;
-import org.robotframework.roc.platform.taskforce.repository.TaskForceRepository;
+import org.robotframework.roc.platform.taskforce.TaskForceRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -114,7 +114,7 @@ public class TaskForceServiceImpl implements TaskForceService {
         Optional<Agent> optionalAgent = agentRepository.findById(agentId);
 
         for (Optional<Object> optional : new Optional[]{optionalAgent, optionalEnvironment}) {
-            if (!optional.isPresent()) {
+            if (optional.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad request", null);
             }
         }
@@ -131,7 +131,7 @@ public class TaskForceServiceImpl implements TaskForceService {
     @Override
     public TaskForce createTaskForce(Long projectId, TaskForce taskForce) throws ProjectNotFoundException {
         Optional<Project> project = projectRepository.findById(projectId);
-        if (!project.isPresent()) {
+        if (project.isEmpty()) {
             throw new ProjectNotFoundException();
         }
         taskForce.setProject(project.get());

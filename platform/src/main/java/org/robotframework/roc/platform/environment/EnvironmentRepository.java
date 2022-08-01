@@ -18,25 +18,10 @@
  *
  */
 
-package org.robotframework.roc.platform.ws;
+package org.robotframework.roc.platform.environment;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
-import org.springframework.web.socket.messaging.SessionConnectedEvent;
-import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+import org.robotframework.roc.core.models.Environment;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Component
-@Slf4j
-public class WebSocketEventListener {
-
-    @EventListener
-    public void handleWebSocketConnectListener(SessionConnectedEvent event) {
-        log.info(event.toString());
-    }
-
-    @EventListener
-    public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
-        log.info(event.toString());
-    }
+public interface EnvironmentRepository extends JpaRepository<Environment, Long> {
 }
