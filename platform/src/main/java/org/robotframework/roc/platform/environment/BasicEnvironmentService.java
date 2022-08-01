@@ -49,11 +49,16 @@ public class BasicEnvironmentService implements EnvironmentService {
     final
     ObjectStorageService oss;
 
-
     public BasicEnvironmentService(EnvironmentRepository environmentRepository, ProjectRepository projectRepository, ObjectStorageService oss) {
         this.environmentRepository = environmentRepository;
         this.projectRepository = projectRepository;
         this.oss = oss;
+    }
+
+    private void saveStringAsVariableFile(Environment env, String yaml) throws MinioException {
+        InputStream stream = new ByteArrayInputStream(yaml.getBytes(StandardCharsets.UTF_8));
+        String path = String.join("/", "environment", env.getId().toString(), "variables.yaml");
+        oss.upload("default", path, stream, "application/yaml");
     }
 
     @Override
@@ -87,8 +92,16 @@ public class BasicEnvironmentService implements EnvironmentService {
         }
 
         Environment environment = new Environment();
+        environment.setProjectId(projectId);
         environment.setName(dto.getName());
-        environment.setDescription(dto.getDescription());
+        environment.setTags(dto.getTags());
+
+        environment = environmentRepository.save(environment);
+
+        if (!dto.getYaml().isEmpty()) {
+            this.saveStringAsVariableFile(environment, dto.getYaml());
+        }
+
         return environment;
     }
 
@@ -101,12 +114,10 @@ public class BasicEnvironmentService implements EnvironmentService {
     public Environment updateEnvironment(Environment environment, EnvironmentUpdateDto dto) throws MinioException {
 
         environment.setName(dto.getName());
-        environment.setDescription(dto.getDescription());
+        environment.setTags(dto.getTags());
 
-        if (!dto.getCode().isEmpty()) {
-            InputStream stream = new ByteArrayInputStream(dto.getCode().getBytes(StandardCharsets.UTF_8));
-            String path = String.join("/", "environment", environment.getId().toString(), "variables.yaml");
-            oss.upload("default-project", path, stream, "application/yaml");
+        if (!dto.getYaml().isEmpty()) {
+            this.saveStringAsVariableFile(environment, dto.getYaml());
         }
         return environmentRepository.save(environment);
     }

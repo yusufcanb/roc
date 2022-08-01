@@ -54,13 +54,13 @@ public class SimpleEnvironmentController implements EnvironmentController {
             created = environmentService.createEnvironment(projectId, dto);
             return new ResponseEntity<>(created, HttpStatus.CREATED);
         } catch (ProjectNotFoundException ex1) {
-            log.error(ex1.getMessage());
+            log.error("Project does not exists");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Project does not exists", ex1);
         } catch (MinioException ex2) {
-            log.error(ex2.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Minio connection failed", ex2);
+            log.error("Minio connection failed");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Minio connection failed", ex2);
         } catch (Exception ex3) {
-            log.error(ex3.getMessage());
+            log.error("Something went wrong");
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong", ex3);
         }
     }

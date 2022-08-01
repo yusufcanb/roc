@@ -229,7 +229,7 @@ paths:
   /environment:
     get:
       operationId: getEnvironments
-      summary: List all agents by project id
+      summary: List all environments by project id
       tags:
         - environment
       security:
@@ -252,7 +252,7 @@ paths:
                 $ref: '#/components/schemas/Environment'
     post:
       operationId: createEnvironment
-      summary: Create new agent
+      summary: Create new environment object
       tags:
         - environment
       security:
@@ -273,7 +273,7 @@ paths:
               $ref: '#/components/schemas/Environment'
       responses:
         '200':
-          description: Successful operation. Returns an agent object.
+          description: Successful operation. Returns an environment object.
           content:
             application/json:
               schema:
@@ -302,9 +302,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Environment'
-    patch:
+    put:
       operationId: updateEnvironment
-      summary: Update Environment State
+      summary: Update an environment object
       tags:
         - environment
       security:
@@ -320,7 +320,7 @@ paths:
               type: integer
       responses:
         '200':
-          description: Successful operation. Returns an agent object.
+          description: Successful operation. Returns an environment object.
           content:
             application/json:
               schema:
