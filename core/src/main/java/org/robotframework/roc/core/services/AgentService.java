@@ -1,6 +1,6 @@
 package org.robotframework.roc.core.services;
 
-import org.robotframework.roc.core.dto.agent.AgentCreateDTO;
+import org.robotframework.roc.core.dto.AgentCreateDTO;
 import org.robotframework.roc.core.models.Agent;
 
 import java.util.Collection;

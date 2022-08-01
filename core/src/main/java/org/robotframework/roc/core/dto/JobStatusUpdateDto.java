@@ -1,4 +1,4 @@
-package org.robotframework.roc.core.dto.job;
+package org.robotframework.roc.core.dto;
 
 import lombok.Data;
 import org.robotframework.roc.core.beans.JobStatus;

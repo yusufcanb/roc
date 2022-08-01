@@ -1,11 +1,11 @@
-package org.robotframework.roc.core.dto.environment;
+package org.robotframework.roc.core.dto;
 
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class EnvironmentUpdateDto {
+public class EnvironmentCreateDto {
     private String name;
     private List<String> tags;
     private String yaml;

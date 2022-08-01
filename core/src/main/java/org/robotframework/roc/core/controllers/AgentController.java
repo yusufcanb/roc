@@ -1,11 +1,10 @@
 package org.robotframework.roc.core.controllers;
 
 import org.robotframework.roc.core.models.Agent;
-import org.robotframework.roc.core.dto.agent.AgentCreateDTO;
+import org.robotframework.roc.core.dto.AgentCreateDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
 

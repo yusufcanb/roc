@@ -21,8 +21,8 @@
 package org.robotframework.roc.platform.controller;
 
 import org.robotframework.roc.core.controllers.JobController;
-import org.robotframework.roc.core.dto.job.JobCreateRequestBody;
-import org.robotframework.roc.core.dto.job.JobStatusUpdateDto;
+import org.robotframework.roc.core.dto.JobCreateRequestBody;
+import org.robotframework.roc.core.dto.JobStatusUpdateDto;
 import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.Job;
 import org.robotframework.roc.core.services.JobService;

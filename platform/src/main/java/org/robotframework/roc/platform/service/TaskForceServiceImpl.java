@@ -21,7 +21,7 @@
 package org.robotframework.roc.platform.service;
 
 import io.minio.errors.MinioException;
-import org.robotframework.roc.core.dto.taskforce.TaskForceUpdateDto;
+import org.robotframework.roc.core.dto.TaskForceUpdateDto;
 import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.*;
 import org.robotframework.roc.core.services.JobService;

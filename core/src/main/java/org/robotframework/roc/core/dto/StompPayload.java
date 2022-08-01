@@ -1,4 +1,4 @@
-package org.robotframework.roc.core.dto.stomp;
+package org.robotframework.roc.core.dto;
 
 import lombok.Data;
 

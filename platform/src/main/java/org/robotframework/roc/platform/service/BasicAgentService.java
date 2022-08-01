@@ -20,7 +20,7 @@
 
 package org.robotframework.roc.platform.service;
 
-import org.robotframework.roc.core.dto.agent.AgentCreateDTO;
+import org.robotframework.roc.core.dto.AgentCreateDTO;
 import org.robotframework.roc.core.models.Agent;
 import org.robotframework.roc.core.services.AgentService;
 import org.robotframework.roc.platform.repository.AgentRepository;

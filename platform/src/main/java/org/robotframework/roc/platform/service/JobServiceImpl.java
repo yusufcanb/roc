@@ -23,7 +23,7 @@ package org.robotframework.roc.platform.service;
 import io.minio.errors.MinioException;
 import lombok.extern.slf4j.Slf4j;
 import org.robotframework.roc.core.beans.JobStatus;
-import org.robotframework.roc.core.dto.job.JobCreateRequestBody;
+import org.robotframework.roc.core.dto.JobCreateRequestBody;
 import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.*;
 import org.robotframework.roc.core.services.JobService;

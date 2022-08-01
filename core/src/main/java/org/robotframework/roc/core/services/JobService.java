@@ -1,6 +1,6 @@
 package org.robotframework.roc.core.services;
 
-import org.robotframework.roc.core.dto.job.JobCreateRequestBody;
+import org.robotframework.roc.core.dto.JobCreateRequestBody;
 import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.Job;
 import org.springframework.web.multipart.MultipartFile;

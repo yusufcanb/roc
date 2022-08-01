@@ -1,7 +1,7 @@
 package org.robotframework.roc.core.controllers;
 
-import org.robotframework.roc.core.dto.environment.EnvironmentCreateDto;
-import org.robotframework.roc.core.dto.environment.EnvironmentUpdateDto;
+import org.robotframework.roc.core.dto.EnvironmentCreateDto;
+import org.robotframework.roc.core.dto.EnvironmentUpdateDto;
 import org.robotframework.roc.core.models.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;

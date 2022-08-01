@@ -1,4 +1,4 @@
-package org.robotframework.roc.core.dto.agent;
+package org.robotframework.roc.core.dto;
 
 import lombok.Data;
 

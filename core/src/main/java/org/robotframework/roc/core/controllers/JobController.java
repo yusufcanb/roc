@@ -1,6 +1,6 @@
 package org.robotframework.roc.core.controllers;
 
-import org.robotframework.roc.core.dto.job.JobCreateRequestBody;
+import org.robotframework.roc.core.dto.JobCreateRequestBody;
 import org.robotframework.roc.core.models.Job;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;

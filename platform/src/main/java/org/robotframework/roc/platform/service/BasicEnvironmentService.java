@@ -21,8 +21,8 @@
 package org.robotframework.roc.platform.service;
 
 import io.minio.errors.MinioException;
-import org.robotframework.roc.core.dto.environment.EnvironmentCreateDto;
-import org.robotframework.roc.core.dto.environment.EnvironmentUpdateDto;
+import org.robotframework.roc.core.dto.EnvironmentCreateDto;
+import org.robotframework.roc.core.dto.EnvironmentUpdateDto;
 import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.Environment;
 import org.robotframework.roc.core.models.Project;

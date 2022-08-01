@@ -1,7 +1,7 @@
 package org.robotframework.roc.core.services;
 
-import org.robotframework.roc.core.dto.environment.EnvironmentCreateDto;
-import org.robotframework.roc.core.dto.environment.EnvironmentUpdateDto;
+import org.robotframework.roc.core.dto.EnvironmentCreateDto;
+import org.robotframework.roc.core.dto.EnvironmentUpdateDto;
 import org.robotframework.roc.core.models.Environment;
 
 import java.util.List;

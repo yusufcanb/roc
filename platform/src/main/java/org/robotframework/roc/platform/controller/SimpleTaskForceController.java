@@ -22,8 +22,8 @@ package org.robotframework.roc.platform.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.robotframework.roc.core.controllers.TaskForceController;
-import org.robotframework.roc.core.dto.taskforce.ExecuteTaskForceDTO;
-import org.robotframework.roc.core.dto.taskforce.TaskForceUpdateDto;
+import org.robotframework.roc.core.dto.ExecuteTaskForceDTO;
+import org.robotframework.roc.core.dto.TaskForceUpdateDto;
 import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.Job;
 import org.robotframework.roc.core.models.TaskForce;
