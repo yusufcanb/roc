@@ -18,7 +18,7 @@
  *
  */
 
-package org.robotframework.roc.platform.job;
+package org.robotframework.roc.platform.service;
 
 import io.minio.errors.MinioException;
 import lombok.extern.slf4j.Slf4j;
@@ -27,11 +27,12 @@ import org.robotframework.roc.core.dto.job.JobCreateRequestBody;
 import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.*;
 import org.robotframework.roc.core.services.JobService;
-import org.robotframework.roc.platform.agent.AgentRepository;
-import org.robotframework.roc.platform.environment.EnvironmentRepository;
-import org.robotframework.roc.platform.project.ProjectRepository;
+import org.robotframework.roc.platform.repository.AgentRepository;
+import org.robotframework.roc.platform.repository.EnvironmentRepository;
+import org.robotframework.roc.platform.repository.ProjectRepository;
+import org.robotframework.roc.platform.repository.JobRepository;
 import org.robotframework.roc.platform.s3.ObjectStorageService;
-import org.robotframework.roc.platform.taskforce.TaskForceRepository;
+import org.robotframework.roc.platform.repository.TaskForceRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

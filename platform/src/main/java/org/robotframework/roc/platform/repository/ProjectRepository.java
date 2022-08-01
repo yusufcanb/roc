@@ -18,7 +18,7 @@
  *
  */
 
-package org.robotframework.roc.platform.project;
+package org.robotframework.roc.platform.repository;
 
 import org.robotframework.roc.core.models.Project;
 import org.springframework.data.repository.CrudRepository;

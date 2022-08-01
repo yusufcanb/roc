@@ -18,7 +18,7 @@
  *
  */
 
-package org.robotframework.roc.platform.environment;
+package org.robotframework.roc.platform.controller;
 
 import io.minio.errors.MinioException;
 import lombok.extern.slf4j.Slf4j;

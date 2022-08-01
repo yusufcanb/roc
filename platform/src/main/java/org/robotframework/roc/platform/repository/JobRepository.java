@@ -18,15 +18,18 @@
  *
  */
 
-package org.robotframework.roc.platform.taskforce;
+package org.robotframework.roc.platform.repository;
 
-import org.robotframework.roc.core.models.TaskForce;
+import org.robotframework.roc.core.models.Job;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface TaskForceRepository extends CrudRepository<TaskForce, Long> {
-    TaskForce getOne(Long id);
+@Repository
+public interface JobRepository extends CrudRepository<Job, Long> {
 
-    List<TaskForce> findAll();
+    List<Job> findAllByProjectId(Long projectId);
+
+    List<Job> findAllByTaskForceId(Long taskForceId);
 }

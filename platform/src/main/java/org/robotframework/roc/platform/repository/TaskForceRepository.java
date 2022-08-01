@@ -18,15 +18,15 @@
  *
  */
 
-package org.robotframework.roc.platform.agent;
+package org.robotframework.roc.platform.repository;
 
-import org.robotframework.roc.core.models.Agent;
+import org.robotframework.roc.core.models.TaskForce;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface AgentRepository extends CrudRepository<Agent, Long> {
-    Agent getOne(Long id);
+public interface TaskForceRepository extends CrudRepository<TaskForce, Long> {
+    TaskForce getOne(Long id);
 
-    List<Agent> findAll();
+    List<TaskForce> findAll();
 }

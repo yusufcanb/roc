@@ -18,7 +18,7 @@
  *
  */
 
-package org.robotframework.roc.platform.environment;
+package org.robotframework.roc.platform.service;
 
 import io.minio.errors.MinioException;
 import org.robotframework.roc.core.dto.environment.EnvironmentCreateDto;
@@ -27,7 +27,8 @@ import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.Environment;
 import org.robotframework.roc.core.models.Project;
 import org.robotframework.roc.core.services.EnvironmentService;
-import org.robotframework.roc.platform.project.ProjectRepository;
+import org.robotframework.roc.platform.repository.ProjectRepository;
+import org.robotframework.roc.platform.repository.EnvironmentRepository;
 import org.robotframework.roc.platform.s3.ObjectStorageService;
 import org.springframework.stereotype.Service;
 

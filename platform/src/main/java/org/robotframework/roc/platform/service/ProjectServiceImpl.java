@@ -18,10 +18,11 @@
  *
  */
 
-package org.robotframework.roc.platform.project;
+package org.robotframework.roc.platform.service;
 
 import org.robotframework.roc.core.models.Project;
 import org.robotframework.roc.core.services.ProjectService;
+import org.robotframework.roc.platform.repository.ProjectRepository;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 

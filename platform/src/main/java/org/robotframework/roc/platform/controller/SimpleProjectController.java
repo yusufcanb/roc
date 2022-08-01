@@ -18,7 +18,7 @@
  *
  */
 
-package org.robotframework.roc.platform.project;
+package org.robotframework.roc.platform.controller;
 
 import org.robotframework.roc.core.controllers.ProjectController;
 import org.robotframework.roc.core.models.Project;

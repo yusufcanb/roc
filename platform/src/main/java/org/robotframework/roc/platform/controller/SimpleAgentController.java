@@ -18,7 +18,7 @@
  *
  */
 
-package org.robotframework.roc.platform.agent;
+package org.robotframework.roc.platform.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.robotframework.roc.core.controllers.AgentController;
