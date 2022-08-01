@@ -21,8 +21,8 @@
 package org.robotframework.roc.platform.project;
 
 import org.robotframework.roc.core.models.Project;
-import org.robotframework.roc.core.services.GlobalVariableService;
 import org.robotframework.roc.core.services.ProjectService;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -34,19 +34,22 @@ import java.util.Optional;
 public class ProjectServiceImpl implements ProjectService {
 
     final ProjectRepository projectRepository;
+    final RedisTemplate<String, Object> redisTemplate;
 
-    final GlobalVariableService globalVariableService;
 
-
-    public ProjectServiceImpl(ProjectRepository projectRepository, GlobalVariableService globalVariableService) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, RedisTemplate<String, Object> redisTemplate) {
         this.projectRepository = projectRepository;
-        this.globalVariableService = globalVariableService;
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
     public Project createProject(Project project) {
         project.setCreatedAt(Date.from(Instant.now()));
-        return projectRepository.save(project);
+        Project saved = projectRepository.save(project);
+
+        redisTemplate.convertAndSend("project.created", saved);
+
+        return saved;
     }
 
     @Override
@@ -73,5 +76,6 @@ public class ProjectServiceImpl implements ProjectService {
     public boolean isExists(Long id) {
         return projectRepository.existsById(id);
     }
+
 
 }

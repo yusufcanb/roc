@@ -1,28 +1,18 @@
 package org.robotframework.roc.core.models;
 
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Getter;
+import org.springframework.data.redis.core.RedisHash;
 
-import javax.persistence.*;
+import java.io.Serializable;
 
-@Entity
 @Data
-public class Environment {
+@RedisHash("Environment")
+public class Environment implements Serializable {
 
-    @GeneratedValue
-    @Id
     private Long id;
+    private Long projectId;
+
     private String name;
     private String description;
-
-    @ManyToOne
-    @JoinColumn(columnDefinition = "projectId")
-    @Getter(AccessLevel.NONE)
-    private Project project;
-
-    public Long getProjectId() {
-        return project.getId();
-    }
 
 }

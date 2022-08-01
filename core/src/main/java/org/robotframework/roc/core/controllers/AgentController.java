@@ -11,15 +11,15 @@ import java.util.Collection;
 
 public interface AgentController {
 
-    ResponseEntity<Collection<Agent>> getAgents(@RequestParam Long projectId);
+    ResponseEntity<Collection<Agent>> getAgents();
 
-    ResponseEntity<Agent> createNewAgent(@RequestParam Long projectId, @RequestBody AgentCreateDTO agent);
+    ResponseEntity<Agent> createNewAgent(@RequestBody AgentCreateDTO agent);
 
     ResponseEntity<Agent> getAgentById(@PathVariable Long id);
 
     ResponseEntity<Agent> updateAgentById(@PathVariable Long id, @RequestBody Agent agent);
+    
+    ResponseEntity<Agent> deleteAgentById(@PathVariable Long id);
 
     ResponseEntity<String> heartBeat(@PathVariable Long id);
-
-    ResponseEntity<Agent> deleteAgentById(@PathVariable Long id);
 }

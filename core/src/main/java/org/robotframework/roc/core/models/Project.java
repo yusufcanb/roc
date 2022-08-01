@@ -2,34 +2,22 @@ package org.robotframework.roc.core.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.robotframework.roc.core.utils.Slugifier;
+import org.springframework.data.redis.core.RedisHash;
 
-import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
-@Entity
 @Data
 @NoArgsConstructor
-public class Project {
+@RedisHash("Project")
+public class Project implements Serializable {
 
-    @Id
-    @GeneratedValue
     private Long id;
 
-    @Column(unique = true)
     private String name;
-    private String type;
-    private boolean isDefault = false;
+    private String description;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
     private Date updatedAt;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
-    private List<GlobalVariable> globalVariables;
-
-    public String getSlug() {
-        return Slugifier.toSlug(this.name);
-    }
 }

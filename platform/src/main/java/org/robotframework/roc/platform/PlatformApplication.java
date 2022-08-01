@@ -32,6 +32,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 import org.robotframework.roc.core.services.ProjectService;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
@@ -43,7 +45,6 @@ public class PlatformApplication {
         SpringApplication.run(PlatformApplication.class);
     }
 
-
     @Bean
     CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return (String[] args) -> {
@@ -52,10 +53,21 @@ public class PlatformApplication {
                 log.info("No project exists.. creating a default project");
                 Project p = new Project();
                 p.setName("Default Project");
-                p.setDefault(true);
                 service.createProject(p);
             }
         };
+    }
+
+    @Bean
+    JedisConnectionFactory jedisConnectionFactory() {
+        return new JedisConnectionFactory();
+    }
+
+    @Bean
+    public RedisTemplate<String, Object> redisTemplate() {
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
+        template.setConnectionFactory(jedisConnectionFactory());
+        return template;
     }
 
 }

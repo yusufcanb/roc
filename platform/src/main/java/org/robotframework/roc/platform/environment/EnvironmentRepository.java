@@ -21,7 +21,11 @@
 package org.robotframework.roc.platform.environment;
 
 import org.robotframework.roc.core.models.Environment;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface EnvironmentRepository extends JpaRepository<Environment, Long> {
+import java.util.List;
+
+public interface EnvironmentRepository extends CrudRepository<Environment, Long> {
+
+    List<Environment> findAll();
 }

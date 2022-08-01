@@ -1,10 +1,12 @@
 openapi: 3.0.0
 info:
-  title: Robot Operation Platform
-  version: 0.1.0
-  description: Self hosted, lightweight, JVM based software automation platform for every day IT operations.
-servers:
-  - url: http://localhost:8080/
+  description: Robot Operation Center (ROC). Internal automation platform to distribute and execute robots across different subnets.
+  version: 1.0.0
+  title: ROC (Robot Operation Center)
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
 tags:
   - name: project
     description: Endpoints related to Project schema
@@ -16,6 +18,7 @@ tags:
     description: Endpoints related to TaskForce schema
   - name: job
     description: Endpoints related to Job schema
+
 paths:
   # ------------- Project ------------- #
   /project:
@@ -24,6 +27,8 @@ paths:
       summary: List all projects
       tags:
         - project
+      security:
+        - ApiKeyAuth: []
       responses:
         '200':
           description: Success
@@ -36,6 +41,8 @@ paths:
       summary: Create new project
       tags:
         - project
+      security:
+        - ApiKeyAuth: []
       requestBody:
         content:
           'application/json':
@@ -56,6 +63,8 @@ paths:
       summary: Get Project by Id
       tags:
         - project
+      security:
+        - ApiKeyAuth: []
       parameters:
         - in: path
           name: projectId
@@ -79,6 +88,8 @@ paths:
       summary: Update Project
       tags:
         - project
+      security:
+        - ApiKeyAuth: []
       parameters:
         - in: path
           name: projectId
@@ -96,123 +107,12 @@ paths:
       summary: Delete Project
       tags:
         - project
+      security:
+        - ApiKeyAuth: []
       parameters:
         - in: path
           name: projectId
           description: Id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-      responses:
-        '200':
-          description: Success
-  /project/{projectId}/files:
-    get:
-      operationId: getProjectFiles
-      summary: Get project files
-      tags:
-        - project
-      parameters:
-        - in: path
-          name: projectId
-          description: Id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-      responses:
-        '200':
-          description: Success
-  /project/{projectId}/files/{fileId}:
-    get:
-      operationId: getProjectFileById
-      summary: Get Project File by Id
-      tags:
-        - project
-      parameters:
-        - in: path
-          name: projectId
-          description: id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-        - in: path
-          name: fileId
-          description: id of file
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-      responses:
-        '200':
-          description: Success
-  /project/{projectId}/globals:
-    get:
-      operationId: getProjectGlobals
-      summary: Get Global Variables
-      tags:
-        - project
-      parameters:
-        - in: path
-          name: projectId
-          description: id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-      responses:
-        '200':
-          description: Success
-    post:
-      operationId: createProjectGlobal
-      summary: Create Global Variable
-      tags:
-        - project
-      parameters:
-        - in: path
-          name: projectId
-          description: id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-        - in: path
-          name: fileId
-          description: id of file
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-      responses:
-        '201':
-          description: Created
-  /project/{projectId}/globals/{globalId}:
-    get:
-      operationId: getProjectGlobalById
-      summary: List Global Variables
-      tags:
-        - project
-      parameters:
-        - in: path
-          name: projectId
-          description: id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-        - in: path
-          name: globalId
-          description: id of file
           required: true
           schema:
             type: string
@@ -222,7 +122,6 @@ paths:
         '200':
           description: Success
   # ------------- End Project ------------- #
-
   # ------------- Agent ------------- #
   /agent:
     get:
@@ -230,15 +129,8 @@ paths:
       summary: List all agents by project id
       tags:
         - agent
-      parameters:
-        - in: query
-          name: projectId
-          description: Id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
+      security:
+        - ApiKeyAuth: []
       responses:
         '200':
           description: project object to be returned
@@ -251,15 +143,8 @@ paths:
       summary: Create new agent
       tags:
         - agent
-      parameters:
-        - in: query
-          name: projectId
-          description: Id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
+      security:
+        - ApiKeyAuth: []
       requestBody:
         content:
           'application/json':
@@ -278,6 +163,8 @@ paths:
       summary: Get agent by id
       tags:
         - agent
+      security:
+        - ApiKeyAuth: []
       parameters:
         - in: path
           name: agentId
@@ -294,11 +181,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Agent'
-    put:
+    patch:
       operationId: updateAgent
-      summary: Update agent
+      summary: Update Agent State
       tags:
         - agent
+      security:
+        - ApiKeyAuth: []
       parameters:
         - in: path
           name: agentId
@@ -317,9 +206,11 @@ paths:
                 $ref: '#/components/schemas/Agent'
     delete:
       operationId: deleteAgent
-      summary: Deletes agent
+      summary: Delete Agent
       tags:
         - agent
+      security:
+        - ApiKeyAuth: []
       parameters:
         - in: path
           name: agentId
@@ -332,61 +223,127 @@ paths:
       responses:
         '204':
           description: Successful operation.
-
-  /agent/{agentId}/packages:
-    get:
-      operationId: getAgentPackages
-      summary: Get packages by agent
-      tags:
-        - agent
-      parameters:
-        - in: path
-          name: agentId
-          description: Id of agent
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-      responses:
-        '200':
-          description: Successful operation.
-    put:
-      operationId: installPackages
-      summary: Install new package(s)
-      tags:
-        - agent
-      parameters:
-        - in: path
-          name: agentId
-          description: Id of agent
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-      responses:
-        '200':
-          description: Successful operation.
-  /agent/{agentId}/logs:
-    get:
-      operationId: getAgentLogs
-      summary: Get logs by agent
-      tags:
-        - agent
-      parameters:
-        - in: path
-          name: agentId
-          description: Id of agent
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-      responses:
-        '200':
-          description: Successful operation.
   # ------------- End Agent ------------- #
+
+  # ------------- Environment ------------ #
+  /environment:
+    get:
+      operationId: getEnvironments
+      summary: List all agents by project id
+      tags:
+        - environment
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: project object to be returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+    post:
+      operationId: createEnvironment
+      summary: Create new agent
+      tags:
+        - environment
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Environment'
+      responses:
+        '200':
+          description: Successful operation. Returns an agent object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+  /environment/{environmentId}:
+    get:
+      operationId: getEnvironmentById
+      summary: Get environment by id
+      tags:
+        - environment
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: environmentId
+          description: Id of environment
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Successful operation. Returns an environment object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+    patch:
+      operationId: updateEnvironment
+      summary: Update Environment State
+      tags:
+        - environment
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: environmentId
+          description: Id of Environment
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Successful operation. Returns an agent object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+    delete:
+      operationId: deleteEnvironment
+      summary: Delete Environment
+      tags:
+        - environment
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: environmentId
+          description: Id of environment
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '204':
+          description: Successful operation.
 
   # ------------- Task Force ------------- #
   /task-force:
@@ -395,6 +352,8 @@ paths:
       summary: List Task Forces
       tags:
         - task-force
+      security:
+        - ApiKeyAuth: []
       parameters:
         - in: query
           name: projectId
@@ -407,6 +366,10 @@ paths:
       responses:
         '200':
           description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskForce'
     post:
       operationId: createTaskForce
       summary: Create new task force
@@ -424,18 +387,18 @@ paths:
       responses:
         '200':
           description: Successful operation.
-  /task-force/commands:
-    get:
-      taskForceId: getTaskForceCommands
-      summary: Get Commands
-      tags:
-        - task-force
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskForce'
   /task-force/{taskForceId}:
     get:
-      taskForceId: getTaskForceById
+      operationId: getTaskForceById
       summary: Get Task Force
       tags:
         - task-force
+      security:
+        - ApiKeyAuth: []
       parameters:
         - in: path
           name: taskForceId
@@ -453,6 +416,8 @@ paths:
       summary: Edit task force
       tags:
         - task-force
+      security:
+        - ApiKeyAuth: []
       parameters:
         - in: path
           name: taskForceId
@@ -467,9 +432,11 @@ paths:
           description: Successful operation.
     delete:
       operationId: deleteTaskForce
-      summary: Deletes a job
+      summary: Deletes a task force
       tags:
         - task-force
+      security:
+        - ApiKeyAuth: []
       parameters:
         - in: path
           name: taskForceId
@@ -482,24 +449,17 @@ paths:
       responses:
         '200':
           description: Successful operation.
-  /task-force/{taskForceId}/action:
-    post:
-      operationId: triggerTaskForceAction
-      summary: Trigger a task force action
-      tags:
-        - task-force
-      responses:
-        '200':
-          description: Successful operation.
   # ------------- End Task Force ------------- #
 
-  # ------------- Jobs ------------- #
+  # ------------- Job ------------- #
   /job:
     get:
       operationId: getJobs
-      summary: List all jobs
+      summary: List all jobs by project id
       tags:
         - job
+      security:
+        - ApiKeyAuth: []
       parameters:
         - in: query
           name: projectId
@@ -509,36 +469,63 @@ paths:
             type: string
             items:
               type: integer
+        - in: query
+          name: agentId
+          description: Filter jobs by agent
+          required: false
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: query
+          name: environmentId
+          description: Filter jobs by environment
+          required: false
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: query
+          name: taskForceId
+          description: Filter jobs by task force
+          required: false
+          schema:
+            type: string
+            items:
+              type: integer
       responses:
         '200':
-          description: Successful operation.
+          description: project object to be returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
     post:
-      operationId: createJob
-      summary: Create new job
+      operationId: triggerJob
+      summary: Execute new job
       tags:
         - job
-      parameters:
-        - in: query
-          name: projectId
-          description: Id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
+      security:
+        - ApiKeyAuth: []
       responses:
         '200':
-          description: Successful operation.
-  /job/{jobId}:
+          description: Returns a job object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+  /job/{jobId}/log:
     get:
-      operationId: getJobById
-      summary: Get job by id
+      operationId: getJobLog
+      summary: Get job log file
       tags:
         - job
+      security:
+        - ApiKeyAuth: []
       parameters:
         - in: path
           name: jobId
-          description: Id of Job
+          description: Identifier of job id
           required: true
           schema:
             type: string
@@ -546,16 +533,23 @@ paths:
               type: integer
       responses:
         '200':
-          description: Successful operation.
-    put:
-      operationId: editJob
-      summary: Edit job
+          description: project object to be returned
+          content:
+            text/html:
+              schema:
+                type: string
+  /job/{jobId}/report:
+    get:
+      operationId: getJobReport
+      summary: Get job report file
       tags:
         - job
+      security:
+        - ApiKeyAuth: []
       parameters:
         - in: path
           name: jobId
-          description: Id of Job
+          description: Identifier of job id
           required: true
           schema:
             type: string
@@ -563,260 +557,30 @@ paths:
               type: integer
       responses:
         '200':
-          description: Successful operation.
-    delete:
-      operationId: deleteJob
-      summary: Deletes a job
-      tags:
-        - job
-      parameters:
-        - in: path
-          name: jobId
-          description: Id of Job
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-      responses:
-        '200':
-          description: Successful operation.
-  /job/{jobId}/logs:
-    get:
-      operationId: getJobLogs
-      summary: Get job logs by id
-      tags:
-        - job
-      parameters:
-        - in: path
-          name: jobId
-          description: Id of Job
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-      responses:
-        '200':
-          description: Successful operation
-  # ------------- End Jobs ------------- #
-
-  # ------------- Environments ------------- #
-  /environment:
-    get:
-      operationId: getEnvironments
-      summary: List all environments
-      tags:
-        - environment
-      parameters:
-        - in: query
-          name: projectId
-          description: Project id of environment
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-      responses:
-        '200':
-          description: A list of environments
+          description: project object to be returned
           content:
-            application/json:
+            text/html:
               schema:
-                "$ref": "#/components/schemas/Environment"
-    post:
-      operationId: createEnvironment
-      summary: Create new environment
-      tags:
-        - environment
-      parameters:
-        - in: query
-          name: projectId
-          description: Project id of environment
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/Environment"
-      responses:
-        '201':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Environment"
-  /environment/{environmentId}:
-    get:
-      operationId: getEnvironmentById
-      summary: List environment by id
-      tags:
-        - environment
-      parameters:
-        - in: query
-          name: projectId
-          description: Id of project
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-        - in: path
-          name: environmentId
-          description: Id of Environment
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-      responses:
-        '200':
-          description: Environment with given id
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Environment"
-    put:
-      operationId: updateEnvironment
-      summary: Update existing environment
-      tags:
-        - environment
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/Environment"
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Environment"
-  /environment/{environmentId}/keys:
-    get:
-      operationId: getEnvironmentKey
-      summary: List all environments keys
-      tags:
-        - environment
-      responses:
-        '200':
-          description: A list of environment keys
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/EnvironmentKey"
-    post:
-      operationId: createEnvironmentKey
-      summary: Create new environment key
-      tags:
-        - environment
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/EnvironmentKey"
-      responses:
-        '201':
-          description: Successful operation
-  /environment/{environmentId}/keys/{keyId}:
-    get:
-      operationId: getEnvironmentKeyById
-      summary: Get environment key by id
-      tags:
-        - environment
-      parameters:
-        - in: path
-          name: environmentId
-          description: id of environment
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-        - in: path
-          name: keyId
-          description: id of key
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/EnvironmentKey"
-    put:
-      operationId: updateEnvironmentKey
-      summary: Update environment key
-      tags:
-        - environment
-      parameters:
-        - in: path
-          name: environmentId
-          description: id of environment
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-        - in: path
-          name: keyId
-          description: id of key
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/EnvironmentKey"
-    delete:
-      operationId: deleteEnvironmentKey
-      summary: Delete environment key
-      tags:
-        - environment
-      parameters:
-        - in: path
-          name: environmentId
-          description: id of environment
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-        - in: path
-          name: keyId
-          description: id of key
-          required: true
-          schema:
-            type: string
-            items:
-              type: integer
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/EnvironmentKey"
-  # ------------- End Environments ------------- #
+                type: string
+  # ------------- End Job ------------- #
 
 components:
+  securitySchemes:
+    AccessTokenAuth:
+      type: apiKey
+      in: header
+      name: X-Access-Token
+      description: Provide access token to perform operations.
+  requestBodies:
+    ProjectList:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Project"
+      description: List of user object
+      required: true
   schemas:
     Project:
       type: object
@@ -825,27 +589,14 @@ components:
           type: integer
         name:
           type: string
-        git:
+        description:
           type: string
-        size:
-          type: number
         createdAt:
           type: string
         updatedAt:
           type: string
         isDefault:
           type: boolean
-    Git:
-      type: object
-      properties:
-        id:
-          type: integer
-        projectId:
-          type: integer
-        http:
-          type: string
-        ssh:
-          type: string
     Agent:
       type: object
       properties:
@@ -853,23 +604,17 @@ components:
           type: integer
         name:
           type: string
-        os:
+        hostname:
+          type: string
+        platform:
           type: string
         version:
           type: string
-        status:
+        dockerVersion:
           type: string
-        logs:
-          type: array
-        pythonVersion:
+        lastSeen:
           type: string
-        rfVersion:
-          type: string
-        packages:
-          type: array
-        isInitialized:
-          type: boolean
-    Job:
+    Environment:
       type: object
       properties:
         id:
@@ -880,52 +625,43 @@ components:
       type: object
       properties:
         id:
-          type: integer
-        projectId:
-          type: integer
+          type: string
         name:
           type: string
-        robots:
-          type: array
-
-    TaskForceAction:
-      type: object
-      properties:
-        name:
+        runner:
           type: string
-          enum: [ run, schedule ]
-        robots:
-          type: array
-        args:
-          type: array
-        schedule_at:
+        agentId:
           type: string
-    Environment:
+        environmentId:
+          type: string
+        tasks:
+          type: array
+          items:
+            type: string
+      example:
+        id: 054fb42
+        name: Daily Health Checks
+        runner: gcr.io/yusufcanb/roc-runner:latest
+        agentId: "1"
+        environmentId: "1"
+        tasks: ["demo.robot"]
+    Job:
       type: object
       properties:
         id:
           type: integer
-        name:
+        taskForceId:
           type: string
-    EnvironmentKey:
-      type: object
-      properties:
+        agentId:
+          type: string
         environmentId:
-          type: integer
-        key:
           type: string
-        value:
+        createdAt:
           type: string
-        initial:
+        status:
           type: string
-        static:
-          type: boolean
-    UnAuthorizedResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        code:
-          type: number
-        message:
-          type: string
+          enum:
+            - IDLE
+            - RUNNING
+            - SUCCESS
+            - FAIL

@@ -1,6 +1,5 @@
 package org.robotframework.roc.core.controllers;
 
-import org.robotframework.roc.core.models.GlobalVariable;
 import org.robotframework.roc.core.models.Project;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,5 +19,4 @@ public interface ProjectController {
 
     ResponseEntity<Long> deleteProjectById(@PathVariable Long id);
 
-    ResponseEntity<Collection<GlobalVariable>> getProjectGlobalVariables(@PathVariable Long id);
 }

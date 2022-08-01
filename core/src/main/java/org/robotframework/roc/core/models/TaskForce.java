@@ -1,31 +1,18 @@
 package org.robotframework.roc.core.models;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import org.springframework.data.redis.core.RedisHash;
 
-import javax.persistence.*;
+import java.io.Serializable;
 
-@Entity
-public class TaskForce {
+@Data
+@RedisHash("TaskForce")
+public class TaskForce implements Serializable {
 
-    @Id
-    @GeneratedValue
-    @Getter
-    @Setter
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(columnDefinition = "projectId")
-    @Getter
-    @Setter
-    private Project project;
-
-    @Getter
-    @Setter
+    private Long projectId;
     private String name;
 
-    @Getter
-    @Setter
-    private String robot;
+    private String robots;
 
 }

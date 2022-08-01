@@ -30,7 +30,6 @@ import org.robotframework.roc.platform.agent.AgentRepository;
 import org.robotframework.roc.platform.environment.EnvironmentRepository;
 import org.robotframework.roc.platform.project.ProjectRepository;
 import org.robotframework.roc.platform.s3.ObjectStorageService;
-import org.robotframework.roc.platform.taskforce.TaskForceRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,13 +50,7 @@ public class TaskForceServiceImpl implements TaskForceService {
     private final JobService jobService;
     private final ObjectStorageService oss;
 
-    public TaskForceServiceImpl(ProjectRepository projectRepository,
-                                TaskForceRepository taskForceRepository,
-                                AgentRepository agentRepository,
-                                EnvironmentRepository environmentRepository,
-                                JobService jobService,
-                                ObjectStorageService oss
-    ) {
+    public TaskForceServiceImpl(ProjectRepository projectRepository, TaskForceRepository taskForceRepository, AgentRepository agentRepository, EnvironmentRepository environmentRepository, JobService jobService, ObjectStorageService oss) {
         this.taskForceRepository = taskForceRepository;
         this.projectRepository = projectRepository;
         this.agentRepository = agentRepository;
@@ -85,27 +78,25 @@ public class TaskForceServiceImpl implements TaskForceService {
     public TaskForce updateTaskForce(Long id, TaskForceUpdateDto dto) {
         TaskForce tf = taskForceRepository.getOne(id);
         tf.setName(dto.getName());
-        tf.setRobot(dto.getRobot());
         return taskForceRepository.save(tf);
     }
 
     @Override
     public TaskForce updateTaskForce(TaskForce taskForce, TaskForceUpdateDto dto) {
         taskForce.setName(dto.getName() == null ? taskForce.getName() : dto.getName());
-        taskForce.setRobot(dto.getRobot());
         return taskForceRepository.save(taskForce);
     }
 
     @Override
     public void uploadTaskForcePackage(TaskForce taskForce, MultipartFile file) throws IOException, MinioException {
-        String s3Path = String.format(
-                "/projects/%s/task-force/%s/%s",
-                taskForce.getProject().getId().toString(),
-                taskForce.getId().toString(),
-                file.getOriginalFilename());
-        taskForce.setRobot("s3://roc" + s3Path);
-        taskForceRepository.save(taskForce);
-        oss.upload(s3Path, file.getInputStream(), file.getContentType());
+//        String s3Path = String.format(
+//                "/projects/%s/task-force/%s/%s",
+//                taskForce.getProject().getId().toString(),
+//                taskForce.getId().toString(),
+//                file.getOriginalFilename());
+//        taskForce.setRobot("s3://roc" + s3Path);
+//        taskForceRepository.save(taskForce);
+//        oss.upload(s3Path, file.getInputStream(), file.getContentType());
     }
 
     @Override
@@ -113,17 +104,14 @@ public class TaskForceServiceImpl implements TaskForceService {
         Optional<Environment> optionalEnvironment = environmentRepository.findById(environmentId);
         Optional<Agent> optionalAgent = agentRepository.findById(agentId);
 
-        for (Optional<Object> optional : new Optional[]{optionalAgent, optionalEnvironment}) {
+        for (Optional optional : new Optional[]{optionalAgent, optionalEnvironment}) {
             if (optional.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad request", null);
             }
         }
 
         Job job = new Job();
-        job.setProject(taskForce.getProject());
-        job.setTaskForce(taskForce);
-        job.setEnvironment(optionalEnvironment.get());
-        job.setAgent(optionalAgent.get());
+        job.setId(1L);
 
         return jobService.createJob(job);
     }
@@ -134,7 +122,6 @@ public class TaskForceServiceImpl implements TaskForceService {
         if (project.isEmpty()) {
             throw new ProjectNotFoundException();
         }
-        taskForce.setProject(project.get());
         return taskForceRepository.save(taskForce);
     }
 

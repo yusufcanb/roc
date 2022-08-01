@@ -21,15 +21,12 @@
 package org.robotframework.roc.platform.project;
 
 import org.robotframework.roc.core.controllers.ProjectController;
-import org.robotframework.roc.core.models.GlobalVariable;
 import org.robotframework.roc.core.models.Project;
-import org.robotframework.roc.core.services.GlobalVariableService;
 import org.robotframework.roc.core.services.ProjectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,11 +35,8 @@ public class SimpleProjectController implements ProjectController {
 
     final ProjectService projectService;
 
-    final GlobalVariableService globalVariableService;
-
-    public SimpleProjectController(ProjectService projectService, GlobalVariableService globalVariableService) {
+    public SimpleProjectController(ProjectService projectService) {
         this.projectService = projectService;
-        this.globalVariableService = globalVariableService;
     }
 
     @RequestMapping(value = "/project", method = RequestMethod.GET)
@@ -90,17 +84,6 @@ public class SimpleProjectController implements ProjectController {
             return new ResponseEntity<>(id, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @RequestMapping(value = "/project/{id}/globals", method = RequestMethod.GET)
-    @Override
-    public ResponseEntity<Collection<GlobalVariable>> getProjectGlobalVariables(@PathVariable("id") Long id) {
-        Optional<Project> project = projectService.getProjectById(id);
-        if (project.isEmpty()) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(globalVariableService.getGlobalVariablesByProject(project.get()), HttpStatus.OK);
         }
     }
 

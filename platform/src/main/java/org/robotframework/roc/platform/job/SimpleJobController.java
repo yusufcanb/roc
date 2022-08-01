@@ -25,23 +25,15 @@ import org.robotframework.roc.core.dto.job.JobCreateRequestBody;
 import org.robotframework.roc.core.dto.job.JobStatusUpdateDto;
 import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.Job;
-import org.robotframework.roc.core.models.TaskForce;
 import org.robotframework.roc.core.services.JobService;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageHeaders;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController

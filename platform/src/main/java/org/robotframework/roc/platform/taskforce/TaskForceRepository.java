@@ -21,7 +21,12 @@
 package org.robotframework.roc.platform.taskforce;
 
 import org.robotframework.roc.core.models.TaskForce;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface TaskForceRepository extends JpaRepository<TaskForce, Long> {
+import java.util.List;
+
+public interface TaskForceRepository extends CrudRepository<TaskForce, Long> {
+    TaskForce getOne(Long id);
+
+    List<TaskForce> findAll();
 }

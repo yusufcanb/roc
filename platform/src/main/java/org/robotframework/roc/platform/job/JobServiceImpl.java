@@ -20,12 +20,10 @@
 
 package org.robotframework.roc.platform.job;
 
-import com.google.gson.Gson;
 import io.minio.errors.MinioException;
 import lombok.extern.slf4j.Slf4j;
 import org.robotframework.roc.core.beans.JobStatus;
 import org.robotframework.roc.core.dto.job.JobCreateRequestBody;
-import org.robotframework.roc.core.dto.stomp.StompPayload;
 import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
 import org.robotframework.roc.core.models.*;
 import org.robotframework.roc.core.services.JobService;
@@ -38,7 +36,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -51,12 +51,7 @@ public class JobServiceImpl implements JobService {
     private final JobRepository jobRepository;
     private final ObjectStorageService oss;
 
-    public JobServiceImpl(ProjectRepository projectRepository,
-                          AgentRepository agentRepository,
-                          EnvironmentRepository environmentRepository,
-                          TaskForceRepository taskForceRepository,
-                          JobRepository jobRepository,
-                          ObjectStorageService oss) {
+    public JobServiceImpl(ProjectRepository projectRepository, AgentRepository agentRepository, EnvironmentRepository environmentRepository, TaskForceRepository taskForceRepository, JobRepository jobRepository, ObjectStorageService oss) {
         this.projectRepository = projectRepository;
         this.jobRepository = jobRepository;
         this.agentRepository = agentRepository;
@@ -87,7 +82,6 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public void saveJobReport(Job job, MultipartFile file) throws IOException, MinioException {
-        oss.upload(job.getReportPath(), file.getInputStream(), file.getContentType());
     }
 
     @Override
@@ -103,14 +97,9 @@ public class JobServiceImpl implements JobService {
             Job job = new Job();
 
             job.setName(jobDto.getName());
-            job.setProject(project.get());
-            job.setEnvironment(environment.get());
-            job.setAgent(agent.get());
-            job.setTaskForce(taskForce.get());
             job.setCreatedAt(new Date());
 
             job = jobRepository.save(job);
-            String queueName = String.format("agent-%s", job.getAgent().getId());
             return job;
         }
     }
@@ -121,18 +110,6 @@ public class JobServiceImpl implements JobService {
         job.setCreatedAt(new Date());
         job = jobRepository.save(job);
 
-        String queueName = String.format("/queue/events.%s", job.getAgent().getId());
-
-        StompPayload payload = new StompPayload();
-        payload.setJobId(job.getId());
-        payload.setEventType("JOB_CREATED");
-
-        Map<String, Object> headers = new HashMap<>();
-        headers.put("receipt", "");
-        headers.put("ack", "none");
-
-        Gson g = new Gson();
-        log.info("Message sent to: {}", queueName);
         return job;
     }
 

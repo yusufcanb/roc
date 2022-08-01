@@ -21,13 +21,13 @@
 package org.robotframework.roc.platform.job;
 
 import org.robotframework.roc.core.models.Job;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface JobRepository extends JpaRepository<Job, Long> {
+public interface JobRepository extends CrudRepository<Job, Long> {
 
     List<Job> findAllByProjectId(Long projectId);
 

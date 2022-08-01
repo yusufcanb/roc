@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class EnvironmentCreateDto {
+    private Long id;
     private Long projectId;
     private String name;
     private String description;
     private String code;
-
 }

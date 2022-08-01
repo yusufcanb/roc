@@ -21,9 +21,12 @@
 package org.robotframework.roc.platform.agent;
 
 import org.robotframework.roc.core.models.Agent;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
-import java.util.Date;
+import java.util.List;
 
-public interface AgentRepository extends JpaRepository<Agent, Long> {
+public interface AgentRepository extends CrudRepository<Agent, Long> {
+    Agent getOne(Long id);
+
+    List<Agent> findAll();
 }
