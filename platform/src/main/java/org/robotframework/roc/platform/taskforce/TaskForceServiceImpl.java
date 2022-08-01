@@ -48,15 +48,13 @@ public class TaskForceServiceImpl implements TaskForceService {
 
     private final ProjectRepository projectRepository;
     private final JobService jobService;
-    private final ObjectStorageService oss;
 
-    public TaskForceServiceImpl(ProjectRepository projectRepository, TaskForceRepository taskForceRepository, AgentRepository agentRepository, EnvironmentRepository environmentRepository, JobService jobService, ObjectStorageService oss) {
+    public TaskForceServiceImpl(ProjectRepository projectRepository, TaskForceRepository taskForceRepository, AgentRepository agentRepository, EnvironmentRepository environmentRepository, JobService jobService) {
         this.taskForceRepository = taskForceRepository;
         this.projectRepository = projectRepository;
         this.agentRepository = agentRepository;
         this.environmentRepository = environmentRepository;
         this.jobService = jobService;
-        this.oss = oss;
     }
 
     @Override

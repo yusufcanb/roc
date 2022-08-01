@@ -29,7 +29,6 @@ import org.robotframework.roc.core.models.Job;
 import org.robotframework.roc.core.models.TaskForce;
 import org.robotframework.roc.core.services.JobService;
 import org.robotframework.roc.core.services.TaskForceService;
-import org.robotframework.roc.platform.s3.ObjectStorageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -47,7 +46,7 @@ public class SimpleTaskForceController implements TaskForceController {
     private final TaskForceService taskForceService;
     private final JobService jobService;
 
-    public SimpleTaskForceController(TaskForceService taskForceService, JobService jobService, ObjectStorageService objectStorageService) {
+    public SimpleTaskForceController(TaskForceService taskForceService, JobService jobService) {
         this.taskForceService = taskForceService;
         this.jobService = jobService;
     }

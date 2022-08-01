@@ -19,6 +19,19 @@ services:
       - '9001:9001'
     volumes:
       - data:/data
+  roc-tunnel:
+    build:
+      context: ./tunnel
+      dockerfile: Dockerfile
+    container_name: roc-tunnel
+    hostname: roc-tunnel
+    restart: on-failure
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+    environment:
+      REDIS_URL: redis://roc-redis:6379
   roc-platform:
     build:
       context: .
@@ -32,14 +45,6 @@ services:
       - redis
       - minio
     environment:
-      DATASOURCE_HOST: roc-mysql
-      DATASOURCE_PORT: 3306
-      DATASOURCE_DB: roc_dev_db
-      DATASOURCE_USERNAME: root
-      DATASOURCE_PASSWORD: my-secret-pw
-      STOMP_HOST: roc-rabbitmq
-      STOMP_PORT: 61613
-      ROC_GIT_REPOSITORY_DIR: /home/git/roc
       ROC_S3_HOST: roc-minio
       ROC_S3_PORT: 9000
       ROC_S3_USER: roc
