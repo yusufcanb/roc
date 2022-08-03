@@ -20,8 +20,8 @@
 
 package org.robotframework.roc.platform.service;
 
-import org.robotframework.roc.core.models.Project;
-import org.robotframework.roc.core.services.ProjectService;
+import org.robotframework.roc.core.project.Project;
+import org.robotframework.roc.core.project.ProjectService;
 import org.robotframework.roc.platform.repository.ProjectRepository;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,7 +37,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     final ProjectRepository projectRepository;
     final RedisTemplate<String, Object> redisTemplate;
-
 
     public ProjectServiceImpl(ProjectRepository projectRepository, RedisTemplate<String, Object> redisTemplate) {
         this.projectRepository = projectRepository;
@@ -64,8 +64,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Collection<Project> getProjects() {
-        return this.projectRepository.findAll();
+    public List<Project> getProjects() {
+        return (List<Project>) this.projectRepository.findAll();
     }
 
     @Override

@@ -20,9 +20,9 @@
 
 package org.robotframework.roc.platform.controller;
 
-import org.robotframework.roc.core.controllers.ProjectController;
-import org.robotframework.roc.core.models.Project;
-import org.robotframework.roc.core.services.ProjectService;
+import org.robotframework.roc.core.project.ProjectController;
+import org.robotframework.roc.core.project.Project;
+import org.robotframework.roc.core.project.ProjectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

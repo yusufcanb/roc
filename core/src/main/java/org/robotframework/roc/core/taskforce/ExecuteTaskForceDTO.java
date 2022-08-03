@@ -1,0 +1,9 @@
+package org.robotframework.roc.core.taskforce;
+
+import lombok.Data;
+
+@Data
+public class ExecuteTaskForceDTO {
+    private Long agentId;
+    private Long environmentId;
+}

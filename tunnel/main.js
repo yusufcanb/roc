@@ -43,11 +43,10 @@ server.on('connection', async (ws) => {
     const subscriber = redisClient.duplicate();
     await subscriber.connect();
 
-    await subscriber.pSubscribe('*', (message, channel) => {
+    await subscriber.pSubscribe('agent.*', (message, channel) => {
         console.log(`New event received -> ${channel}::${message}`)
         ws.send(`${channel}::${message}`);
     });
-
 });
 
 console.log(`WS Tunnel started at ws://${TUNNEL_HOST}:${TUNNEL_PORT}`);

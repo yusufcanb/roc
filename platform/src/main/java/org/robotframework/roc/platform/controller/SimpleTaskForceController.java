@@ -21,14 +21,14 @@
 package org.robotframework.roc.platform.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.robotframework.roc.core.controllers.TaskForceController;
-import org.robotframework.roc.core.dto.ExecuteTaskForceDTO;
-import org.robotframework.roc.core.dto.TaskForceUpdateDto;
-import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
-import org.robotframework.roc.core.models.Job;
-import org.robotframework.roc.core.models.TaskForce;
-import org.robotframework.roc.core.services.JobService;
-import org.robotframework.roc.core.services.TaskForceService;
+import org.robotframework.roc.core.taskforce.TaskForceController;
+import org.robotframework.roc.core.taskforce.ExecuteTaskForceDTO;
+import org.robotframework.roc.core.taskforce.TaskForceUpdateDto;
+import org.robotframework.roc.core.project.ProjectNotFoundException;
+import org.robotframework.roc.core.job.Job;
+import org.robotframework.roc.core.taskforce.TaskForce;
+import org.robotframework.roc.core.job.JobService;
+import org.robotframework.roc.core.taskforce.TaskForceService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -70,7 +70,7 @@ public class SimpleTaskForceController implements TaskForceController {
 
     @RequestMapping(value = "/task-force/{id}", method = RequestMethod.GET)
     @Override
-    public ResponseEntity<TaskForce> getTaskForceById(@PathVariable Long id) {
+    public ResponseEntity<TaskForce> getTaskForceById(@PathVariable String id) {
         Optional<TaskForce> taskForce = taskForceService.getTaskForceById(id);
         if (taskForce.isPresent()) {
             return new ResponseEntity<>(taskForce.get(), HttpStatus.OK);
@@ -80,7 +80,7 @@ public class SimpleTaskForceController implements TaskForceController {
     }
 
     @RequestMapping(value = "/task-force/{id}/package", method = RequestMethod.POST)
-    public ResponseEntity<TaskForce> uploadTaskForcePackage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<TaskForce> uploadTaskForcePackage(@PathVariable String id, @RequestParam("file") MultipartFile file) {
         Optional<TaskForce> taskForceOptional = taskForceService.getTaskForceById(id);
         if (taskForceOptional.isPresent()) {
             try {
@@ -95,7 +95,7 @@ public class SimpleTaskForceController implements TaskForceController {
     }
 
     @RequestMapping(value = "/task-force/{id}/jobs", method = RequestMethod.GET)
-    public ResponseEntity<List<Job>> getJobsByTaskForce(@PathVariable Long id) {
+    public ResponseEntity<List<Job>> getJobsByTaskForce(@PathVariable String id) {
         Optional<TaskForce> taskForce = taskForceService.getTaskForceById(id);
         if (taskForce.isPresent()) {
             List<Job> jobs = jobService.getJobsByTaskForce(taskForce.get().getId());
@@ -107,7 +107,7 @@ public class SimpleTaskForceController implements TaskForceController {
 
     @RequestMapping(value = "/task-force/{id}", method = RequestMethod.PUT)
     @Override
-    public ResponseEntity<TaskForce> updateTaskForceById(@PathVariable Long id, @RequestBody TaskForceUpdateDto dto) {
+    public ResponseEntity<TaskForce> updateTaskForceById(@PathVariable String id, @RequestBody TaskForceUpdateDto dto) {
         Optional<TaskForce> taskForce = taskForceService.getTaskForceById(id);
         if (taskForce.isPresent()) {
             taskForceService.updateTaskForce(taskForce.get(), dto);
@@ -119,7 +119,7 @@ public class SimpleTaskForceController implements TaskForceController {
 
     @RequestMapping(value = "/task-force/{id}", method = RequestMethod.DELETE)
     @Override
-    public ResponseEntity<Boolean> deleteTaskForceById(@PathVariable Long id) {
+    public ResponseEntity<Boolean> deleteTaskForceById(@PathVariable String id) {
         Optional<TaskForce> taskForce = taskForceService.getTaskForceById(id);
         if (taskForce.isPresent()) {
             taskForceService.deleteTaskForceById(id);
@@ -131,7 +131,7 @@ public class SimpleTaskForceController implements TaskForceController {
 
     @RequestMapping(value = "/task-force/{id}/execute", method = RequestMethod.POST)
     @Override
-    public ResponseEntity<Job> executeTaskForce(@PathVariable Long id, @RequestBody ExecuteTaskForceDTO body) {
+    public ResponseEntity<Job> executeTaskForce(@PathVariable String id, @RequestBody ExecuteTaskForceDTO body) {
         Optional<TaskForce> taskForce = taskForceService.getTaskForceById(id);
         if (taskForce.isPresent()) {
             Job job = taskForceService.executeTaskForce(taskForce.get(), body.getAgentId(), body.getEnvironmentId());

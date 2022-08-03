@@ -22,16 +22,19 @@ package org.robotframework.roc.platform.service;
 
 import io.minio.errors.MinioException;
 import lombok.extern.slf4j.Slf4j;
-import org.robotframework.roc.core.beans.JobStatus;
-import org.robotframework.roc.core.dto.JobCreateRequestBody;
-import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
-import org.robotframework.roc.core.models.*;
-import org.robotframework.roc.core.services.JobService;
+import org.robotframework.roc.core.agent.Agent;
+import org.robotframework.roc.core.job.JobStatus;
+import org.robotframework.roc.core.job.JobCreateRequestBody;
+import org.robotframework.roc.core.environment.Environment;
+import org.robotframework.roc.core.project.ProjectNotFoundException;
+import org.robotframework.roc.core.job.Job;
+import org.robotframework.roc.core.project.Project;
+import org.robotframework.roc.core.job.JobService;
+import org.robotframework.roc.core.taskforce.TaskForce;
 import org.robotframework.roc.platform.repository.AgentRepository;
 import org.robotframework.roc.platform.repository.EnvironmentRepository;
 import org.robotframework.roc.platform.repository.ProjectRepository;
 import org.robotframework.roc.platform.repository.JobRepository;
-import org.robotframework.roc.platform.s3.ObjectStorageService;
 import org.robotframework.roc.platform.repository.TaskForceRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,15 +53,13 @@ public class JobServiceImpl implements JobService {
     private final TaskForceRepository taskForceRepository;
     private final EnvironmentRepository environmentRepository;
     private final JobRepository jobRepository;
-    private final ObjectStorageService oss;
 
-    public JobServiceImpl(ProjectRepository projectRepository, AgentRepository agentRepository, EnvironmentRepository environmentRepository, TaskForceRepository taskForceRepository, JobRepository jobRepository, ObjectStorageService oss) {
+    public JobServiceImpl(ProjectRepository projectRepository, AgentRepository agentRepository, EnvironmentRepository environmentRepository, TaskForceRepository taskForceRepository, JobRepository jobRepository) {
         this.projectRepository = projectRepository;
         this.jobRepository = jobRepository;
         this.agentRepository = agentRepository;
         this.taskForceRepository = taskForceRepository;
         this.environmentRepository = environmentRepository;
-        this.oss = oss;
     }
 
     @Override
@@ -72,7 +73,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public List<Job> getJobsByTaskForce(Long taskForceId) {
+    public List<Job> getJobsByTaskForce(String taskForceId) {
         return jobRepository.findAllByTaskForceId(taskForceId);
     }
 

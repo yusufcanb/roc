@@ -75,4 +75,3 @@ docker-compose up -d
 ## User Guide
 
 > User guide will be published soon
-

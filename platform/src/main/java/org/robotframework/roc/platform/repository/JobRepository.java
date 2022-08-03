@@ -20,7 +20,7 @@
 
 package org.robotframework.roc.platform.repository;
 
-import org.robotframework.roc.core.models.Job;
+import org.robotframework.roc.core.job.Job;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -31,5 +31,5 @@ public interface JobRepository extends CrudRepository<Job, Long> {
 
     List<Job> findAllByProjectId(Long projectId);
 
-    List<Job> findAllByTaskForceId(Long taskForceId);
+    List<Job> findAllByTaskForceId(String taskForceId);
 }

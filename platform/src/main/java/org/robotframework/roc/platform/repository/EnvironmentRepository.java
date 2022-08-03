@@ -20,7 +20,7 @@
 
 package org.robotframework.roc.platform.repository;
 
-import org.robotframework.roc.core.models.Environment;
+import org.robotframework.roc.core.environment.Environment;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

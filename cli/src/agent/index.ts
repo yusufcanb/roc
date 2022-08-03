@@ -17,4 +17,22 @@
  *   Yusuf Can Bayrak - initial implementation and documentation.
  *
  */
+import os from 'os'
+import Docker from 'dockerode'
 
+export function getPlatform(): string {
+  return os.platform()
+}
+
+export function getHostname(): string {
+  return os.hostname()
+}
+
+export function getArch(): string {
+  return os.arch()
+}
+
+export async function getDockerVersion(): Promise<Docker.DockerVersion> {
+  const client = new Docker()
+  return client.version()
+}

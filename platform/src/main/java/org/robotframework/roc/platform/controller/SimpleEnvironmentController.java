@@ -22,12 +22,12 @@ package org.robotframework.roc.platform.controller;
 
 import io.minio.errors.MinioException;
 import lombok.extern.slf4j.Slf4j;
-import org.robotframework.roc.core.controllers.EnvironmentController;
-import org.robotframework.roc.core.dto.EnvironmentCreateDto;
-import org.robotframework.roc.core.dto.EnvironmentUpdateDto;
-import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
-import org.robotframework.roc.core.models.Environment;
-import org.robotframework.roc.core.services.EnvironmentService;
+import org.robotframework.roc.core.environment.EnvironmentController;
+import org.robotframework.roc.core.environment.EnvironmentCreateDto;
+import org.robotframework.roc.core.environment.EnvironmentUpdateDto;
+import org.robotframework.roc.core.project.ProjectNotFoundException;
+import org.robotframework.roc.core.environment.Environment;
+import org.robotframework.roc.core.environment.EnvironmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

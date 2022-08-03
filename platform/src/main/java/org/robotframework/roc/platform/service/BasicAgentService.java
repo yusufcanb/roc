@@ -20,24 +20,32 @@
 
 package org.robotframework.roc.platform.service;
 
-import org.robotframework.roc.core.dto.AgentCreateDTO;
-import org.robotframework.roc.core.models.Agent;
-import org.robotframework.roc.core.services.AgentService;
+import lombok.extern.slf4j.Slf4j;
+import org.robotframework.roc.core.agent.AgentCreateDTO;
+import org.robotframework.roc.core.agent.AgentNotFoundException;
+import org.robotframework.roc.core.agent.Agent;
+import org.robotframework.roc.core.agent.AgentService;
 import org.robotframework.roc.platform.repository.AgentRepository;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Service
+@Slf4j
 public class BasicAgentService implements AgentService {
 
     final AgentRepository agentRepository;
+    final RedisConnection redisConnection;
 
-    public BasicAgentService(AgentRepository agentRepository) {
+    public BasicAgentService(AgentRepository agentRepository, RedisTemplate<String, Object> redisTemplate) {
         this.agentRepository = agentRepository;
+        this.redisConnection = Objects.requireNonNull(redisTemplate.getConnectionFactory()).getConnection();
     }
 
     @Override
@@ -51,9 +59,14 @@ public class BasicAgentService implements AgentService {
         agent.setName(dto.getName());
         agent.setTags(dto.getTags());
         agent.setHostName(dto.getHostName());
+        agent.setPlatform(dto.getPlatform());
+        agent.setArch(dto.getArch());
         agent.setDockerVersion(dto.getDockerVersion());
         agent.setLastSeen(Date.from(Instant.now()));
-        return agentRepository.save(agent);
+        agent = agentRepository.save(agent);
+
+        redisConnection.publish("agent.created".getBytes(StandardCharsets.UTF_8), agent.getId().toString().getBytes(StandardCharsets.UTF_8));
+        return agent;
     }
 
     @Override
@@ -67,6 +80,7 @@ public class BasicAgentService implements AgentService {
     @Override
     public void deleteAgent(Long id) {
         agentRepository.deleteById(id);
+        redisConnection.publish("agent.deleted".getBytes(StandardCharsets.UTF_8), id.toString().getBytes(StandardCharsets.UTF_8));
     }
 
     @Override
@@ -80,10 +94,27 @@ public class BasicAgentService implements AgentService {
     }
 
     @Override
-    public void heartBeat(Long id) {
-        Agent agent = agentRepository.getOne(id);
+    public void heartBeat(Long id) throws AgentNotFoundException {
+        Optional<Agent> found = agentRepository.findById(id);
+        if (found.isEmpty()) {
+            throw new AgentNotFoundException();
+        }
+        Agent agent = found.get();
         agent.setLastSeen(Date.from(Instant.now()));
         agentRepository.save(agent);
+        redisConnection.publish("agent.ping".getBytes(StandardCharsets.UTF_8), id.toString().getBytes(StandardCharsets.UTF_8));
+    }
+
+    @Scheduled(cron = "*/2 * * * * ?")
+    public void destroyInactiveAgents() {
+        List<Agent> agents = agentRepository.findAll();
+        agents.forEach(agent -> {
+            long diff = agent.getLastSeen().getTime() - Date.from(Instant.now()).getTime();
+            if (Math.abs(TimeUnit.MILLISECONDS.toSeconds(diff)) > 2) {
+                log.info("Removing agent {} for 5 seconds of inactivity", agent.getName());
+                agentRepository.deleteById(agent.getId());
+            }
+        });
     }
 
     @Override

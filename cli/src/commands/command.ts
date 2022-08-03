@@ -40,7 +40,7 @@ export abstract class RocCommand extends Command {
     if (projectName === undefined) {
       try {
         project = this.roc.getDefaultProject()
-        console.log('Using default project is ' + project)
+        this.log('Using default project is ' + project)
       } catch {
         throw new Error('Project is not specified. Use -p option or specify a default project.')
       }

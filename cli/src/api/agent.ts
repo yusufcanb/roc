@@ -19,6 +19,9 @@
  */
 
 import {API} from './base'
+import * as agent from '../agent'
+// eslint-disable-next-line node/no-extraneous-import
+import JSONbig from 'json-bigint'
 
 export interface Agent {
   id: string | number
@@ -35,24 +38,32 @@ export class AgentAPI extends API {
     return response.data
   }
 
-  async createAgent(projectId: string, name: string, os = 'Linux'): Promise<number> {
+  async createAgent(name: string): Promise<Agent> {
     const requestConfig = {
-      params: {
-        projectId: projectId,
-      },
+      transformResponse: [(data: any) => data],
     }
 
+    const version = await agent.getDockerVersion()
     const requestData = {
-      displayName: name,
-      os: os,
+      name: name,
+      platform: agent.getPlatform(),
+      arch: agent.getArch(),
+      hostName: agent.getHostname(),
+      version: '1.0.0',
+      dockerVersion: version.Version,
     }
 
     const response = await this.http.post('/agent', requestData, requestConfig)
-    return response.status
+    return JSONbig.parse(response.data)
   }
 
   async deleteAgent(agentId: string | number): Promise<number> {
     const response = await this.http.delete(`/agent/${agentId}`)
+    return response.status
+  }
+
+  async heartBeat(agentId: string | number): Promise<any> {
+    const response = await this.http.post(`/agent/${agentId}/health-check`)
     return response.status
   }
 }

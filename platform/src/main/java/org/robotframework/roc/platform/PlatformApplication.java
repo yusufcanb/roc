@@ -21,7 +21,8 @@
 package org.robotframework.roc.platform;
 
 import lombok.extern.slf4j.Slf4j;
-import org.robotframework.roc.core.models.Project;
+import org.robotframework.roc.core.project.Project;
+import org.robotframework.roc.core.project.ProjectService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,13 +31,11 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-
-import org.robotframework.roc.core.services.ProjectService;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
+@EnableScheduling
 @EntityScan("org.robotframework.roc.*")
 @ComponentScan("org.robotframework.roc.*")
 @Slf4j
@@ -57,17 +56,4 @@ public class PlatformApplication {
             }
         };
     }
-
-    @Bean
-    JedisConnectionFactory jedisConnectionFactory() {
-        return new JedisConnectionFactory();
-    }
-
-    @Bean
-    public RedisTemplate<String, Object> redisTemplate() {
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
-        template.setConnectionFactory(jedisConnectionFactory());
-        return template;
-    }
-
 }

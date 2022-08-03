@@ -21,11 +21,12 @@
 package org.robotframework.roc.platform.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.robotframework.roc.core.controllers.AgentController;
-import org.robotframework.roc.core.dto.AgentCreateDTO;
-import org.robotframework.roc.core.models.Agent;
-import org.robotframework.roc.core.services.AgentService;
-import org.robotframework.roc.core.services.ProjectService;
+import org.robotframework.roc.core.agent.AgentController;
+import org.robotframework.roc.core.agent.AgentCreateDTO;
+import org.robotframework.roc.core.agent.AgentNotFoundException;
+import org.robotframework.roc.core.agent.Agent;
+import org.robotframework.roc.core.agent.AgentService;
+import org.robotframework.roc.core.project.ProjectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -81,7 +82,11 @@ public class SimpleAgentController implements AgentController {
     @RequestMapping(value = "/agent/{id}/health-check", method = RequestMethod.POST)
     @Override
     public ResponseEntity<String> heartBeat(@PathVariable Long id) {
-        agentService.heartBeat(id);
+        try {
+            agentService.heartBeat(id);
+        } catch (AgentNotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>("OK!", HttpStatus.OK);
     }
 

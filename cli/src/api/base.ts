@@ -24,13 +24,14 @@ import fs from 'fs'
 export class API {
   private readonly _http: AxiosInstance
   private readonly _s3: AxiosInstance
-  private _baseUrl: string
+  private readonly _baseUrl: string
 
   constructor(baseUrl: string) {
     this._baseUrl = baseUrl
     this._http = axios.create({
       baseURL: baseUrl + '/api/v1',
     })
+
     this._s3 = axios.create({
       baseURL: baseUrl + '/s3/roc',
     })
@@ -49,12 +50,12 @@ export class API {
   }
 
   async downloadFile(fileUrl: string, outputLocationPath: string): Promise<void> {
-    const writer = fs.createWriteStream(outputLocationPath);
+    const writer = fs.createWriteStream(outputLocationPath)
     const response = await this.s3.request({
       method: 'get',
       url: fileUrl,
       responseType: 'stream',
     })
-    response.data.pipe(writer);
+    response.data.pipe(writer)
   }
 }

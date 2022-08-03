@@ -21,11 +21,15 @@
 package org.robotframework.roc.platform.service;
 
 import io.minio.errors.MinioException;
-import org.robotframework.roc.core.dto.TaskForceUpdateDto;
-import org.robotframework.roc.core.exceptions.ProjectNotFoundException;
-import org.robotframework.roc.core.models.*;
-import org.robotframework.roc.core.services.JobService;
-import org.robotframework.roc.core.services.TaskForceService;
+import org.robotframework.roc.core.agent.Agent;
+import org.robotframework.roc.core.taskforce.TaskForceUpdateDto;
+import org.robotframework.roc.core.environment.Environment;
+import org.robotframework.roc.core.project.ProjectNotFoundException;
+import org.robotframework.roc.core.job.Job;
+import org.robotframework.roc.core.project.Project;
+import org.robotframework.roc.core.job.JobService;
+import org.robotframework.roc.core.taskforce.TaskForceService;
+import org.robotframework.roc.core.taskforce.TaskForce;
 import org.robotframework.roc.platform.repository.AgentRepository;
 import org.robotframework.roc.platform.repository.EnvironmentRepository;
 import org.robotframework.roc.platform.repository.ProjectRepository;
@@ -63,7 +67,7 @@ public class TaskForceServiceImpl implements TaskForceService {
     }
 
     @Override
-    public Optional<TaskForce> getTaskForceById(Long taskForceId) {
+    public Optional<TaskForce> getTaskForceById(String taskForceId) {
         return taskForceRepository.findById(taskForceId);
     }
 
@@ -73,7 +77,7 @@ public class TaskForceServiceImpl implements TaskForceService {
     }
 
     @Override
-    public TaskForce updateTaskForce(Long id, TaskForceUpdateDto dto) {
+    public TaskForce updateTaskForce(String id, TaskForceUpdateDto dto) {
         TaskForce tf = taskForceRepository.getOne(id);
         tf.setName(dto.getName());
         return taskForceRepository.save(tf);
@@ -129,7 +133,7 @@ public class TaskForceServiceImpl implements TaskForceService {
     }
 
     @Override
-    public void deleteTaskForceById(Long id) {
+    public void deleteTaskForceById(String id) {
         taskForceRepository.deleteById(id);
     }
 }

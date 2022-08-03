@@ -20,13 +20,10 @@
 
 package org.robotframework.roc.platform.repository;
 
-import org.robotframework.roc.core.models.Project;
+import org.robotframework.roc.core.project.Project;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public interface ProjectRepository extends CrudRepository<Project, Long> {
-    List<Project> findAll();
 }

@@ -45,6 +45,8 @@ services:
       - redis
       - minio
     environment:
+      REDIS_HOST: roc-redis
+      REDIS_PORT: 6379
       ROC_S3_HOST: roc-minio
       ROC_S3_PORT: 9000
       ROC_S3_USER: roc
