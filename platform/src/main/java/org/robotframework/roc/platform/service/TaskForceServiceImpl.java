@@ -95,6 +95,9 @@ public class TaskForceServiceImpl implements TaskForceService {
     public void uploadTaskForcePackage(TaskForce taskForce, MultipartFile file) throws IOException, MinioException {
         String s3Path = String.format("/task-force/%s/%s", taskForce.getId(), file.getOriginalFilename());
         oss.upload(s3Path, file.getInputStream(), file.getContentType());
+        taskForce.setPkg(file.getOriginalFilename());
+        taskForce.setUpdatedAt(Date.from(Instant.now()));
+        taskForceRepository.save(taskForce);
     }
 
     @Override

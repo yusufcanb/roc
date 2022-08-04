@@ -1,7 +1,7 @@
 package org.robotframework.roc.core.taskforce;
 
-import org.robotframework.roc.core.project.ProjectNotFoundException;
 import org.robotframework.roc.core.job.Job;
+import org.robotframework.roc.core.project.ProjectNotFoundException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

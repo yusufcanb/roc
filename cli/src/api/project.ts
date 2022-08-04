@@ -32,7 +32,7 @@ export class ProjectAPI extends API {
     const projects: Project[] = []
 
     for (const p of response.data) projects.push({
-      Id: p.slug,
+      Id: p.id,
       Name: p.name,
       'Created At': new Date(p.createdAt),
     })

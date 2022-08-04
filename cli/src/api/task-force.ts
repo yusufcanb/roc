@@ -22,7 +22,7 @@ import {API} from './base'
 import {ReadStream} from 'fs'
 import FormData from 'form-data'
 import {AxiosResponse} from 'axios'
-import {Job} from "./job";
+import {Job} from './job'
 
 /**
  * Task force interface

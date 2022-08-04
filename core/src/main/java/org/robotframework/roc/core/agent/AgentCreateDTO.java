@@ -1,7 +1,6 @@
 package org.robotframework.roc.core.agent;
 
 import lombok.Data;
-import reactor.core.publisher.FluxSink;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -12,7 +11,7 @@ import java.util.List;
 public class AgentCreateDTO {
 
     @NotNull
-    @Pattern(regexp = "^[a-z0-9-]+$", flags = Pattern.Flag.UNICODE_CASE)
+    @Pattern(regexp = "^[a-z0-9-_]+$", flags = Pattern.Flag.UNICODE_CASE)
     private String name;
 
     @NotNull
