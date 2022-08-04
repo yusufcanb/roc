@@ -22,14 +22,14 @@ package org.robotframework.roc.platform.service;
 
 import io.minio.errors.MinioException;
 import org.robotframework.roc.core.agent.Agent;
-import org.robotframework.roc.core.taskforce.TaskForceUpdateDto;
 import org.robotframework.roc.core.environment.Environment;
-import org.robotframework.roc.core.project.ProjectNotFoundException;
 import org.robotframework.roc.core.job.Job;
 import org.robotframework.roc.core.project.Project;
-import org.robotframework.roc.core.job.JobService;
-import org.robotframework.roc.core.taskforce.TaskForceService;
+import org.robotframework.roc.core.project.ProjectNotFoundException;
 import org.robotframework.roc.core.taskforce.TaskForce;
+import org.robotframework.roc.core.taskforce.TaskForceCreateDto;
+import org.robotframework.roc.core.taskforce.TaskForceService;
+import org.robotframework.roc.core.taskforce.TaskForceUpdateDto;
 import org.robotframework.roc.platform.repository.AgentRepository;
 import org.robotframework.roc.platform.repository.EnvironmentRepository;
 import org.robotframework.roc.platform.repository.ProjectRepository;
@@ -40,6 +40,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,20 +51,20 @@ public class TaskForceServiceImpl implements TaskForceService {
     private final EnvironmentRepository environmentRepository;
     private final AgentRepository agentRepository;
     private final TaskForceRepository taskForceRepository;
+    private final ObjectStorageService oss;
 
     private final ProjectRepository projectRepository;
-    private final JobService jobService;
 
-    public TaskForceServiceImpl(ProjectRepository projectRepository, TaskForceRepository taskForceRepository, AgentRepository agentRepository, EnvironmentRepository environmentRepository, JobService jobService) {
+    public TaskForceServiceImpl(ProjectRepository projectRepository, TaskForceRepository taskForceRepository, AgentRepository agentRepository, EnvironmentRepository environmentRepository, ObjectStorageService oss) {
         this.taskForceRepository = taskForceRepository;
         this.projectRepository = projectRepository;
         this.agentRepository = agentRepository;
         this.environmentRepository = environmentRepository;
-        this.jobService = jobService;
+        this.oss = oss;
     }
 
     @Override
-    public List<TaskForce> getTaskForcesByProject(Long projectId) {
+    public List<TaskForce> getTaskForcesByProject(String projectId) {
         return taskForceRepository.findAll();
     }
 
@@ -91,18 +93,12 @@ public class TaskForceServiceImpl implements TaskForceService {
 
     @Override
     public void uploadTaskForcePackage(TaskForce taskForce, MultipartFile file) throws IOException, MinioException {
-//        String s3Path = String.format(
-//                "/projects/%s/task-force/%s/%s",
-//                taskForce.getProject().getId().toString(),
-//                taskForce.getId().toString(),
-//                file.getOriginalFilename());
-//        taskForce.setRobot("s3://roc" + s3Path);
-//        taskForceRepository.save(taskForce);
-//        oss.upload(s3Path, file.getInputStream(), file.getContentType());
+        String s3Path = String.format("/task-force/%s/%s", taskForce.getId(), file.getOriginalFilename());
+        oss.upload(s3Path, file.getInputStream(), file.getContentType());
     }
 
     @Override
-    public Job executeTaskForce(TaskForce taskForce, Long environmentId, Long agentId) {
+    public Job executeTaskForce(TaskForce taskForce, String environmentId, String agentId) {
         Optional<Environment> optionalEnvironment = environmentRepository.findById(environmentId);
         Optional<Agent> optionalAgent = agentRepository.findById(agentId);
 
@@ -112,19 +108,24 @@ public class TaskForceServiceImpl implements TaskForceService {
             }
         }
 
-        Job job = new Job();
-        job.setId(1L);
-
-        return jobService.createJob(job);
+        throw new RuntimeException("Not implemented!");
     }
 
     @Override
-    public TaskForce createTaskForce(Long projectId, TaskForce taskForce) throws ProjectNotFoundException {
+    public TaskForce createTaskForce(String projectId, TaskForceCreateDto dto) throws ProjectNotFoundException {
         Optional<Project> project = projectRepository.findById(projectId);
         if (project.isEmpty()) {
             throw new ProjectNotFoundException();
         }
-        return taskForceRepository.save(taskForce);
+        TaskForce tf = new TaskForce();
+        tf.setProjectId(projectId);
+        tf.setName(dto.getName());
+        tf.setDescription(dto.getDescription());
+        tf.setPkg(null);
+        tf.setCreatedAt(Date.from(Instant.now()));
+        tf.setTags(dto.getTags());
+
+        return taskForceRepository.save(tf);
     }
 
     @Override

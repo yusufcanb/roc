@@ -22,23 +22,20 @@ package org.robotframework.roc.platform.controller;
 
 import io.minio.errors.MinioException;
 import lombok.extern.slf4j.Slf4j;
-import org.robotframework.roc.core.environment.EnvironmentController;
-import org.robotframework.roc.core.environment.EnvironmentCreateDto;
-import org.robotframework.roc.core.environment.EnvironmentUpdateDto;
+import org.robotframework.roc.core.environment.*;
 import org.robotframework.roc.core.project.ProjectNotFoundException;
-import org.robotframework.roc.core.environment.Environment;
-import org.robotframework.roc.core.environment.EnvironmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @Slf4j
-public class SimpleEnvironmentController implements EnvironmentController {
+public class SimpleEnvironmentController extends BaseController implements EnvironmentController {
 
     final EnvironmentService environmentService;
 
@@ -48,7 +45,7 @@ public class SimpleEnvironmentController implements EnvironmentController {
 
     @RequestMapping(value = "/environment", method = RequestMethod.POST)
     @Override
-    public ResponseEntity<Environment> createNewEnvironment(@RequestParam Long projectId, @RequestBody EnvironmentCreateDto dto) {
+    public ResponseEntity<Environment> createNewEnvironment(@RequestParam String projectId, @RequestBody @Valid EnvironmentCreateDto dto) {
         Environment created;
         try {
             created = environmentService.createEnvironment(projectId, dto);
@@ -67,20 +64,20 @@ public class SimpleEnvironmentController implements EnvironmentController {
 
     @RequestMapping(value = "/environment", method = RequestMethod.GET)
     @Override
-    public ResponseEntity<List<Environment>> getEnvironments(@RequestParam Long projectId) {
+    public ResponseEntity<List<Environment>> getEnvironments(@RequestParam String projectId) {
         return new ResponseEntity<>(environmentService.getEnvironments(projectId), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/environment/{id}", method = RequestMethod.GET)
     @Override
-    public ResponseEntity<Environment> getEnvironmentById(@PathVariable Long id) {
+    public ResponseEntity<Environment> getEnvironmentById(@PathVariable String id) {
         Optional<Environment> env = environmentService.getEnvironmentById(id);
         return env.map(environment -> new ResponseEntity<>(environment, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @RequestMapping(value = "/environment/{id}", method = RequestMethod.PUT)
     @Override
-    public ResponseEntity<Environment> updateEnvironmentById(@PathVariable Long id, @RequestBody EnvironmentUpdateDto dto) {
+    public ResponseEntity<Environment> updateEnvironmentById(@PathVariable String id, @RequestBody EnvironmentUpdateDto dto) {
         Optional<Environment> env = environmentService.getEnvironmentById(id);
         if (env.isPresent()) {
             try {
@@ -97,7 +94,7 @@ public class SimpleEnvironmentController implements EnvironmentController {
 
     @RequestMapping(value = "/environment/{id}", method = RequestMethod.DELETE)
     @Override
-    public ResponseEntity<Environment> deleteEnvironmentById(@PathVariable Long id) {
+    public ResponseEntity<Environment> deleteEnvironmentById(@PathVariable String id) {
         Optional<Environment> env = environmentService.getEnvironmentById(id);
         if (env.isPresent()) {
             environmentService.deleteEnvironment(id);

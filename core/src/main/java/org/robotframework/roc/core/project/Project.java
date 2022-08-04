@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.redis.core.RedisHash;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,8 +14,10 @@ import java.util.Date;
 @RedisHash("Project")
 public class Project implements Serializable {
 
-    private Long id;
+    private String id;
 
+    @NotNull
+    @Pattern(regexp = "^[a-z0-9-]+$", flags = Pattern.Flag.UNICODE_CASE)
     private String name;
     private String description;
 

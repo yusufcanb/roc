@@ -11,12 +11,12 @@ public class JobCreateRequestBody {
     Date scheduledAt;
 
     @NotNull
-    Long agentId;
+    String agentId;
 
     @NotNull
     String taskForceId;
 
     @NotNull
-    Long environmentId;
+    String environmentId;
 
 }

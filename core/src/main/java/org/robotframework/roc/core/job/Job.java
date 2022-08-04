@@ -10,13 +10,13 @@ import java.util.Date;
 @RedisHash("Job")
 public class Job implements Serializable {
 
-    private Long id;
+    private String id;
 
-    private Long projectId;
-    private Long agentId;
-    private Long environmentId;
-    private Long taskForceId;
-
+    private String projectId;
+    private String agentId;
+    private String environmentId;
+    private String taskForceId;
+    
     private String name;
     private JobStatus status;
 

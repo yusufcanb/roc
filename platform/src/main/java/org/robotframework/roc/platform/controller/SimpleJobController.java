@@ -20,12 +20,8 @@
 
 package org.robotframework.roc.platform.controller;
 
-import org.robotframework.roc.core.job.JobController;
-import org.robotframework.roc.core.job.JobCreateRequestBody;
-import org.robotframework.roc.core.job.JobStatusUpdateDto;
+import org.robotframework.roc.core.job.*;
 import org.robotframework.roc.core.project.ProjectNotFoundException;
-import org.robotframework.roc.core.job.Job;
-import org.robotframework.roc.core.job.JobService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +33,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class SimpleJobController implements JobController {
+public class SimpleJobController extends BaseController implements JobController {
 
     final
     JobService jobService;
@@ -48,13 +44,13 @@ public class SimpleJobController implements JobController {
 
     @RequestMapping(value = "/job", method = RequestMethod.GET)
     @Override
-    public ResponseEntity<List<Job>> getJobsByProject(@RequestParam Long projectId) {
+    public ResponseEntity<List<Job>> getJobsByProject(@RequestParam String projectId) {
         return new ResponseEntity<>(jobService.getJobsByProject(projectId), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/job", method = RequestMethod.POST)
     @Override
-    public ResponseEntity<Job> createJob(@RequestParam Long projectId, @RequestBody JobCreateRequestBody body) {
+    public ResponseEntity<Job> createJob(@RequestParam String projectId, @RequestBody JobCreateRequestBody body) {
         try {
             return new ResponseEntity<>(jobService.createJob(projectId, body), HttpStatus.OK);
         } catch (ProjectNotFoundException projectNotFoundException) {
@@ -64,7 +60,7 @@ public class SimpleJobController implements JobController {
 
     @RequestMapping(value = "/job/{id}", method = RequestMethod.GET)
     @Override
-    public ResponseEntity<Job> getJobById(@PathVariable Long id) {
+    public ResponseEntity<Job> getJobById(@PathVariable String id) {
         Optional<Job> job = jobService.getJobById(id);
         if (job.isPresent()) {
             return new ResponseEntity<>(job.get(), HttpStatus.OK);
@@ -74,7 +70,7 @@ public class SimpleJobController implements JobController {
     }
 
     @RequestMapping(value = "/job/{id}/status", method = RequestMethod.POST)
-    public ResponseEntity<Job> updateJobStatusById(@PathVariable Long id, @RequestBody JobStatusUpdateDto dto) {
+    public ResponseEntity<Job> updateJobStatusById(@PathVariable String id, @RequestBody JobStatusUpdateDto dto) {
         Optional<Job> job = jobService.getJobById(id);
         if (job.isPresent()) {
             job.get().setStatus(dto.getJobStatus());
@@ -86,7 +82,7 @@ public class SimpleJobController implements JobController {
     }
 
     @RequestMapping(value = "/job/{id}/report", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> uploadJobReport(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadJobReport(@PathVariable String id, @RequestParam("file") MultipartFile file) {
         Optional<Job> jobOptional = jobService.getJobById(id);
         if (jobOptional.isPresent()) {
             try {

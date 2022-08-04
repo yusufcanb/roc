@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface TaskForceService {
 
-    List<TaskForce> getTaskForcesByProject(Long projectId);
+    List<TaskForce> getTaskForcesByProject(String projectId);
 
     Optional<TaskForce> getTaskForceById(String taskForceId);
 
@@ -21,9 +21,9 @@ public interface TaskForceService {
 
     void uploadTaskForcePackage(TaskForce taskForce, MultipartFile file) throws Exception;
 
-    Job executeTaskForce(TaskForce taskForce, Long environmentId, Long agentId);
+    Job executeTaskForce(TaskForce taskForce, String environmentId, String agentId);
 
-    TaskForce createTaskForce(Long projectId, TaskForce taskForce) throws ProjectNotFoundException;
+    TaskForce createTaskForce(String projectId, TaskForceCreateDto taskForce) throws ProjectNotFoundException;
 
     void deleteTaskForce(TaskForce taskForce);
 

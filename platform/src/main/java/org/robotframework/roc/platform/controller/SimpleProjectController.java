@@ -20,18 +20,21 @@
 
 package org.robotframework.roc.platform.controller;
 
-import org.robotframework.roc.core.project.ProjectController;
+import lombok.extern.slf4j.Slf4j;
 import org.robotframework.roc.core.project.Project;
+import org.robotframework.roc.core.project.ProjectController;
 import org.robotframework.roc.core.project.ProjectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class SimpleProjectController implements ProjectController {
+@Slf4j
+public class SimpleProjectController extends BaseController implements ProjectController {
 
     final ProjectService projectService;
 
@@ -47,26 +50,27 @@ public class SimpleProjectController implements ProjectController {
 
     @RequestMapping(value = "/project", method = RequestMethod.POST)
     @Override
-    public ResponseEntity<Long> createNewProject(@RequestBody Project project) {
+    public ResponseEntity<String> createNewProject(@RequestBody @Valid Project project) {
         try {
             Project saved = projectService.createProject(project);
             return new ResponseEntity<>(saved.getId(), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(-1L, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
+
     @RequestMapping(value = "/project/{id}", method = RequestMethod.GET)
     @Override
-    public ResponseEntity<Project> getProjectById(@PathVariable Long id) {
+    public ResponseEntity<Project> getProjectById(@PathVariable String id) {
         Optional<Project> project = projectService.getProjectById(id);
         return project.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @RequestMapping(value = "/project/{id}", method = RequestMethod.PUT)
     @Override
-    public ResponseEntity<Project> updateProjectById(@PathVariable Long id, @RequestBody Project project) {
+    public ResponseEntity<Project> updateProjectById(@PathVariable String id, @RequestBody Project project) {
         Optional<Project> found = projectService.getProjectById(id);
         if (found.isPresent()) {
             return new ResponseEntity<>(projectService.updateProject(id, project), HttpStatus.OK);
@@ -77,7 +81,7 @@ public class SimpleProjectController implements ProjectController {
 
     @RequestMapping(value = "/project/{id}", method = RequestMethod.DELETE)
     @Override
-    public ResponseEntity<Long> deleteProjectById(@PathVariable Long id) {
+    public ResponseEntity<String> deleteProjectById(@PathVariable String id) {
         Optional<Project> found = projectService.getProjectById(id);
         if (found.isPresent()) {
             projectService.deleteProject(id);
@@ -86,5 +90,4 @@ public class SimpleProjectController implements ProjectController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 }

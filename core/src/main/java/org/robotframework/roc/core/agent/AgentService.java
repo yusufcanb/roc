@@ -5,19 +5,19 @@ import org.robotframework.roc.core.CRUDService;
 import java.util.Collection;
 import java.util.Optional;
 
-public interface AgentService extends CRUDService<Long> {
+public interface AgentService extends CRUDService<String> {
     Agent createAgent(Agent agent);
 
     Agent createAgent(AgentCreateDTO dto);
 
-    void updateAgent(Long id, Agent agent);
+    void updateAgent(String agentId, Agent agent);
 
-    void deleteAgent(Long id);
+    void deleteAgent(String agentId);
 
     Collection<Agent> getAllAgents();
 
-    Optional<Agent> getAgentById(Long id);
+    Optional<Agent> getAgentById(String id);
 
-    void heartBeat(Long id) throws AgentNotFoundException;
+    void heartBeat(String id) throws AgentNotFoundException;
 
 }

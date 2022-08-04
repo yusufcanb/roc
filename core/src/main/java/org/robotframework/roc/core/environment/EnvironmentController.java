@@ -9,14 +9,14 @@ import java.util.List;
 
 public interface EnvironmentController {
 
-    ResponseEntity<List<Environment>> getEnvironments(@RequestParam Long projectId);
+    ResponseEntity<List<Environment>> getEnvironments(@RequestParam String projectId);
 
-    ResponseEntity<Environment> getEnvironmentById(@PathVariable Long id);
+    ResponseEntity<Environment> getEnvironmentById(@PathVariable String environmentId);
 
-    ResponseEntity<Environment> createNewEnvironment(@RequestParam Long projectId, @RequestBody EnvironmentCreateDto dto);
+    ResponseEntity<Environment> createNewEnvironment(@RequestParam String projectId, @RequestBody EnvironmentCreateDto dto);
 
-    ResponseEntity<Environment> updateEnvironmentById(@PathVariable Long environmentId, @RequestBody EnvironmentUpdateDto dto);
+    ResponseEntity<Environment> updateEnvironmentById(@PathVariable String environmentId, @RequestBody EnvironmentUpdateDto dto);
 
-    ResponseEntity<Environment> deleteEnvironmentById(@PathVariable Long environmentId);
+    ResponseEntity<Environment> deleteEnvironmentById(@PathVariable String environmentId);
 
 }

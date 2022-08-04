@@ -41,7 +41,7 @@ import java.util.stream.StreamSupport;
 public class ObjectStorageService {
 
     private final MinioClient minioClient;
-    private final String defaultBucketName = "roc";
+    private final String defaultBucketName = "default";
 
     public ObjectStorageService(MinioClient minioClient) {
         this.minioClient = minioClient;

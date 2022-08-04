@@ -25,7 +25,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface EnvironmentRepository extends CrudRepository<Environment, Long> {
-
+public interface EnvironmentRepository extends CrudRepository<Environment, String> {
     List<Environment> findAll();
 }

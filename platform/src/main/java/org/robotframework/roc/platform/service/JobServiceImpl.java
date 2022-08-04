@@ -40,6 +40,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -68,7 +69,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public List<Job> getJobsByProject(Long projectId) {
+    public List<Job> getJobsByProject(String projectId) {
         return jobRepository.findAllByProjectId(projectId);
     }
 
@@ -78,7 +79,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Optional<Job> getJobById(Long jobId) {
+    public Optional<Job> getJobById(String jobId) {
         return jobRepository.findById(jobId);
     }
 
@@ -87,8 +88,8 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Job createJob(Long projectId, JobCreateRequestBody jobDto) throws ProjectNotFoundException {
-        Optional<Project> project = projectRepository.findById(projectId);
+    public Job createJob(String projectId, JobCreateRequestBody jobDto) throws ProjectNotFoundException {
+        Optional<Project> project = projectRepository.findById(projectId.toString());
         Optional<Agent> agent = agentRepository.findById(jobDto.getAgentId());
         Optional<TaskForce> taskForce = taskForceRepository.findById(jobDto.getTaskForceId());
         Optional<Environment> environment = environmentRepository.findById(jobDto.getEnvironmentId());
@@ -99,7 +100,10 @@ public class JobServiceImpl implements JobService {
             Job job = new Job();
 
             job.setName(jobDto.getName());
-            job.setCreatedAt(new Date());
+            job.setAgentId(jobDto.getAgentId());
+            job.setEnvironmentId(jobDto.getEnvironmentId());
+            job.setTaskForceId(jobDto.getTaskForceId());
+            job.setCreatedAt(Date.from(Instant.now()));
 
             job = jobRepository.save(job);
             return job;
@@ -115,7 +119,7 @@ public class JobServiceImpl implements JobService {
         return job;
     }
 
-    void updateJobStatus(Long id, JobStatus status) {
+    void updateJobStatus(String jobId, JobStatus status) {
 
     }
 

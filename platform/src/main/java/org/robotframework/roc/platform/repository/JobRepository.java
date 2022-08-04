@@ -27,9 +27,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface JobRepository extends CrudRepository<Job, Long> {
+public interface JobRepository extends CrudRepository<Job, String> {
 
-    List<Job> findAllByProjectId(Long projectId);
+    List<Job> findAllByProjectId(String projectId);
 
     List<Job> findAllByTaskForceId(String taskForceId);
 }

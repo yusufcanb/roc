@@ -5,14 +5,14 @@ import org.robotframework.roc.core.CRUDService;
 import java.util.Collection;
 import java.util.Optional;
 
-public interface ProjectService extends CRUDService<Long> {
+public interface ProjectService extends CRUDService<String> {
     Project createProject(Project project);
 
-    Project updateProject(Long id, Project project);
+    Project updateProject(String id, Project project);
 
-    void deleteProject(Long id);
+    void deleteProject(String id);
 
     Collection<Project> getProjects();
 
-    Optional<Project> getProjectById(Long id);
+    Optional<Project> getProjectById(String id);
 }

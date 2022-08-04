@@ -10,15 +10,15 @@ public interface JobService {
 
     Job save(Job j);
 
-    List<Job> getJobsByProject(Long projectId);
+    List<Job> getJobsByProject(String projectId);
 
     List<Job> getJobsByTaskForce(String taskForceId);
 
-    Job createJob(Long projectId, JobCreateRequestBody job) throws ProjectNotFoundException;
+    Job createJob(String projectId, JobCreateRequestBody job) throws ProjectNotFoundException;
 
     Job createJob(Job job);
 
-    Optional<Job> getJobById(Long jobId);
+    Optional<Job> getJobById(String jobId);
 
     void saveJobReport(Job job, MultipartFile file) throws Exception;
 }

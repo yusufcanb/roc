@@ -1,0 +1,58 @@
+version: "3"
+services:
+  redis:
+    image: redis:6.2
+    hostname: roc-redis
+    container_name: roc-redis
+    ports:
+      - "6379:6379"
+  minio:
+    image: minio/minio
+    command: server /data --console-address ":9001"
+    container_name: roc-minio
+    hostname: roc-minio
+    environment:
+      MINIO_ROOT_USER: "roc"
+      MINIO_ROOT_PASSWORD: "roc-minio-pwd"
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    volumes:
+      - data:/data
+  roc-tunnel:
+    image: roc-tunnel
+    container_name: roc-tunnel
+    hostname: roc-tunnel
+    restart: on-failure
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+    environment:
+      REDIS_URL: redis://roc-redis:6379
+  roc-platform:
+    image: roc-platform
+    container_name: roc-platform
+    hostname: roc-platform
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+      - minio
+    environment:
+      REDIS_HOST: roc-redis
+      REDIS_PORT: 6379
+      ROC_S3_HOST: roc-minio
+      ROC_S3_PORT: 9000
+      ROC_S3_USER: roc
+      ROC_S3_PWD: roc-minio-pwd
+  roc-nginx:
+    image: roc-nginx
+    container_name: roc-nginx
+    hostname: roc-nginx
+    restart: on-failure
+    ports:
+      - "8000:80"
+volumes:
+  data:

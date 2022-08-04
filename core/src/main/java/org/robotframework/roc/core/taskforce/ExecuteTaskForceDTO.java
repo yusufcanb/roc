@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class ExecuteTaskForceDTO {
-    private Long agentId;
-    private Long environmentId;
+    private String agentId;
+    private String environmentId;
 }

@@ -12,11 +12,11 @@ public interface AgentController {
 
     ResponseEntity<Agent> createNewAgent(@RequestBody AgentCreateDTO agent);
 
-    ResponseEntity<Agent> getAgentById(@PathVariable Long id);
+    ResponseEntity<Agent> getAgentById(@PathVariable String id);
 
-    ResponseEntity<Agent> updateAgentById(@PathVariable Long id, @RequestBody Agent agent);
+    ResponseEntity<Agent> updateAgentById(@PathVariable String id, @RequestBody Agent agent);
     
-    ResponseEntity<Agent> deleteAgentById(@PathVariable Long id);
+    ResponseEntity<Agent> deleteAgentById(@PathVariable String id);
 
-    ResponseEntity<String> heartBeat(@PathVariable Long id);
+    ResponseEntity<String> heartBeat(@PathVariable String id);
 }

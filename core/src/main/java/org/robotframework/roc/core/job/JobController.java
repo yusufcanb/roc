@@ -9,10 +9,10 @@ import java.util.List;
 
 public interface JobController {
 
-    ResponseEntity<List<Job>> getJobsByProject(@RequestParam Long projectId);
+    ResponseEntity<List<Job>> getJobsByProject(@RequestParam String projectId);
 
-    ResponseEntity<Job> createJob(@RequestParam Long projectId, @RequestBody JobCreateRequestBody requestBody);
+    ResponseEntity<Job> createJob(@RequestParam String projectId, @RequestBody JobCreateRequestBody requestBody);
 
-    ResponseEntity<Job> getJobById(@PathVariable Long jobId);
+    ResponseEntity<Job> getJobById(@PathVariable String jobId);
 
 }

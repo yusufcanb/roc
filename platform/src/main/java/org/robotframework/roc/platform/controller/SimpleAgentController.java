@@ -21,22 +21,19 @@
 package org.robotframework.roc.platform.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.robotframework.roc.core.agent.AgentController;
-import org.robotframework.roc.core.agent.AgentCreateDTO;
-import org.robotframework.roc.core.agent.AgentNotFoundException;
-import org.robotframework.roc.core.agent.Agent;
-import org.robotframework.roc.core.agent.AgentService;
+import org.robotframework.roc.core.agent.*;
 import org.robotframework.roc.core.project.ProjectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Collection;
 import java.util.Optional;
 
 @RestController
 @Slf4j
-public class SimpleAgentController implements AgentController {
+public class SimpleAgentController extends BaseController implements AgentController {
 
     final AgentService agentService;
 
@@ -55,21 +52,21 @@ public class SimpleAgentController implements AgentController {
 
     @RequestMapping(value = "/agent", method = RequestMethod.POST)
     @Override
-    public ResponseEntity<Agent> createNewAgent(AgentCreateDTO agent) {
+    public ResponseEntity<Agent> createNewAgent(@Valid AgentCreateDTO agent) {
         Agent created = agentService.createAgent(agent);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/agent/{id}", method = RequestMethod.GET)
     @Override
-    public ResponseEntity<Agent> getAgentById(@PathVariable Long id) {
+    public ResponseEntity<Agent> getAgentById(@PathVariable String id) {
         Optional<Agent> agent = agentService.getAgentById(id);
         return agent.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @RequestMapping(value = "/agent/{id}", method = RequestMethod.PUT)
     @Override
-    public ResponseEntity<Agent> updateAgentById(@PathVariable Long id, @RequestBody Agent agent) {
+    public ResponseEntity<Agent> updateAgentById(@PathVariable String id, @RequestBody Agent agent) {
         Optional<Agent> agentToUpdate = agentService.getAgentById(id);
         if (agentToUpdate.isPresent()) {
             agentService.updateAgent(id, agent);
@@ -81,7 +78,7 @@ public class SimpleAgentController implements AgentController {
 
     @RequestMapping(value = "/agent/{id}/health-check", method = RequestMethod.POST)
     @Override
-    public ResponseEntity<String> heartBeat(@PathVariable Long id) {
+    public ResponseEntity<String> heartBeat(@PathVariable String id) {
         try {
             agentService.heartBeat(id);
         } catch (AgentNotFoundException e) {
@@ -92,7 +89,7 @@ public class SimpleAgentController implements AgentController {
 
     @RequestMapping(value = "/agent/{id}", method = RequestMethod.DELETE)
     @Override
-    public ResponseEntity<Agent> deleteAgentById(@PathVariable Long id) {
+    public ResponseEntity<Agent> deleteAgentById(@PathVariable String id) {
         Optional<Agent> agentToUpdate = agentService.getAgentById(id);
         if (agentToUpdate.isPresent()) {
             agentService.deleteAgent(id);

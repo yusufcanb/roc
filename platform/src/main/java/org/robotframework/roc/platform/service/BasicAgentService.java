@@ -70,7 +70,7 @@ public class BasicAgentService implements AgentService {
     }
 
     @Override
-    public void updateAgent(Long id, Agent agent) {
+    public void updateAgent(String id, Agent agent) {
         if (agentRepository.existsById(id)) {
             agent.setId(id);
             agentRepository.save(agent);
@@ -78,7 +78,7 @@ public class BasicAgentService implements AgentService {
     }
 
     @Override
-    public void deleteAgent(Long id) {
+    public void deleteAgent(String id) {
         agentRepository.deleteById(id);
         redisConnection.publish("agent.deleted".getBytes(StandardCharsets.UTF_8), id.toString().getBytes(StandardCharsets.UTF_8));
     }
@@ -89,12 +89,12 @@ public class BasicAgentService implements AgentService {
     }
 
     @Override
-    public Optional<Agent> getAgentById(Long id) {
+    public Optional<Agent> getAgentById(String id) {
         return agentRepository.findById(id);
     }
 
     @Override
-    public void heartBeat(Long id) throws AgentNotFoundException {
+    public void heartBeat(String id) throws AgentNotFoundException {
         Optional<Agent> found = agentRepository.findById(id);
         if (found.isEmpty()) {
             throw new AgentNotFoundException();
@@ -118,7 +118,7 @@ public class BasicAgentService implements AgentService {
     }
 
     @Override
-    public boolean isExists(Long id) {
+    public boolean isExists(String id) {
         return agentRepository.existsById(id);
     }
 }

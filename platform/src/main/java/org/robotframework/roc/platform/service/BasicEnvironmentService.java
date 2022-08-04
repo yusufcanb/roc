@@ -62,18 +62,18 @@ public class BasicEnvironmentService implements EnvironmentService {
     }
 
     @Override
-    public boolean isExists(Long aLong) {
+    public boolean isExists(String environmentId) {
         return false;
     }
 
     @Override
-    public List<Environment> getEnvironments(Long projectId) {
+    public List<Environment> getEnvironments(String projectId) {
         return environmentRepository.findAll();
     }
 
     @Override
-    public Optional<Environment> getEnvironmentById(Long id) {
-        return environmentRepository.findById(id);
+    public Optional<Environment> getEnvironmentById(String environmentId) {
+        return environmentRepository.findById(environmentId);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class BasicEnvironmentService implements EnvironmentService {
     }
 
     @Override
-    public Environment createEnvironment(Long projectId, EnvironmentCreateDto dto) throws ProjectNotFoundException, MinioException {
+    public Environment createEnvironment(String projectId, EnvironmentCreateDto dto) throws ProjectNotFoundException, MinioException {
 
         Optional<Project> optionalProject = projectRepository.findById(projectId);
 
@@ -106,7 +106,7 @@ public class BasicEnvironmentService implements EnvironmentService {
     }
 
     @Override
-    public Environment updateEnvironment(Long id, EnvironmentUpdateDto dto) {
+    public Environment updateEnvironment(String id, EnvironmentUpdateDto dto) {
         return null;
     }
 
@@ -123,7 +123,7 @@ public class BasicEnvironmentService implements EnvironmentService {
     }
 
     @Override
-    public void deleteEnvironment(Long id) {
-        environmentRepository.deleteById(id);
+    public void deleteEnvironment(String environmentId) {
+        environmentRepository.deleteById(environmentId);
     }
 }

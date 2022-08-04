@@ -54,12 +54,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project updateProject(Long id, Project product) {
+    public Project updateProject(String id, Project project) {
         return null;
     }
 
     @Override
-    public void deleteProject(Long id) {
+    public void deleteProject(String id) {
         projectRepository.deleteById(id);
     }
 
@@ -69,14 +69,13 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Optional<Project> getProjectById(Long id) {
+    public Optional<Project> getProjectById(String id) {
         return projectRepository.findById(id);
     }
 
     @Override
-    public boolean isExists(Long id) {
+    public boolean isExists(String id) {
         return projectRepository.existsById(id);
     }
-
 
 }

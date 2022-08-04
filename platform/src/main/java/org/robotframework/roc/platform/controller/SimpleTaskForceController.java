@@ -20,15 +20,12 @@
 
 package org.robotframework.roc.platform.controller;
 
+import io.minio.errors.MinioException;
 import lombok.extern.slf4j.Slf4j;
-import org.robotframework.roc.core.taskforce.TaskForceController;
-import org.robotframework.roc.core.taskforce.ExecuteTaskForceDTO;
-import org.robotframework.roc.core.taskforce.TaskForceUpdateDto;
-import org.robotframework.roc.core.project.ProjectNotFoundException;
 import org.robotframework.roc.core.job.Job;
-import org.robotframework.roc.core.taskforce.TaskForce;
 import org.robotframework.roc.core.job.JobService;
-import org.robotframework.roc.core.taskforce.TaskForceService;
+import org.robotframework.roc.core.project.ProjectNotFoundException;
+import org.robotframework.roc.core.taskforce.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -41,7 +38,7 @@ import java.util.Optional;
 
 @Controller
 @Slf4j
-public class SimpleTaskForceController implements TaskForceController {
+public class SimpleTaskForceController extends BaseController implements TaskForceController {
 
     private final TaskForceService taskForceService;
     private final JobService jobService;
@@ -53,13 +50,13 @@ public class SimpleTaskForceController implements TaskForceController {
 
     @RequestMapping(value = "/task-force", method = RequestMethod.GET)
     @Override
-    public ResponseEntity<List<TaskForce>> getTaskForces(@RequestParam Long projectId) {
+    public ResponseEntity<List<TaskForce>> getTaskForces(@RequestParam String projectId) {
         return new ResponseEntity<>(taskForceService.getTaskForcesByProject(projectId), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/task-force", method = RequestMethod.POST)
     @Override
-    public ResponseEntity<TaskForce> createTaskForce(@RequestParam Long projectId, @RequestBody TaskForce taskForce) {
+    public ResponseEntity<TaskForce> createTaskForce(@RequestParam String projectId, @RequestBody TaskForceCreateDto taskForce) {
         try {
             TaskForce tf = taskForceService.createTaskForce(projectId, taskForce);
             return new ResponseEntity<>(tf, HttpStatus.OK);
@@ -80,12 +77,15 @@ public class SimpleTaskForceController implements TaskForceController {
     }
 
     @RequestMapping(value = "/task-force/{id}/package", method = RequestMethod.POST)
-    public ResponseEntity<TaskForce> uploadTaskForcePackage(@PathVariable String id, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> uploadTaskForcePackage(@PathVariable String id, @RequestParam("file") MultipartFile file) {
         Optional<TaskForce> taskForceOptional = taskForceService.getTaskForceById(id);
         if (taskForceOptional.isPresent()) {
             try {
                 taskForceService.uploadTaskForcePackage(taskForceOptional.get(), file);
-                return new ResponseEntity<>(taskForceOptional.get(), HttpStatus.OK);
+                return new ResponseEntity<>(true, HttpStatus.OK);
+            } catch (MinioException ex1) {
+                log.error(ex1.getMessage());
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Object storage connection failed.", ex1);
             } catch (Exception e) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Object storage connection failed.", e);
             }
@@ -134,7 +134,7 @@ public class SimpleTaskForceController implements TaskForceController {
     public ResponseEntity<Job> executeTaskForce(@PathVariable String id, @RequestBody ExecuteTaskForceDTO body) {
         Optional<TaskForce> taskForce = taskForceService.getTaskForceById(id);
         if (taskForce.isPresent()) {
-            Job job = taskForceService.executeTaskForce(taskForce.get(), body.getAgentId(), body.getEnvironmentId());
+            Job job = taskForceService.executeTaskForce(taskForce.get(), body.getEnvironmentId(), body.getAgentId());
             return new ResponseEntity<>(job, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
