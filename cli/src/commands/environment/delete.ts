@@ -40,8 +40,9 @@ export default class EnvironmentDeleteCommand extends RocCommand {
 
     try {
       await this.api.environment.deleteEnvironment(args.id)
+      this.log('[OK] environment deleted')
     } catch (error: any) {
-      this.log('[FAIL] ' + error.message)
+      this.log('[ERR] ' + error.message)
     }
   }
 }

@@ -1,0 +1,1068 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "Robot Operation Center (ROC). Internal automation platform to distribute and execute robots across different subnets.",
+    "version": "1.0.0",
+    "title": "ROC (Robot Operation Center)",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "tags": [
+    {
+      "name": "project",
+      "description": "Endpoints related to Project schema"
+    },
+    {
+      "name": "agent",
+      "description": "Endpoints related to Agent schema"
+    },
+    {
+      "name": "environment",
+      "description": "Endpoints related to Environment schema"
+    },
+    {
+      "name": "task-force",
+      "description": "Endpoints related to TaskForce schema"
+    },
+    {
+      "name": "job",
+      "description": "Endpoints related to Job schema"
+    }
+  ],
+  "paths": {
+    "/project": {
+      "get": {
+        "operationId": "getProjects",
+        "summary": "List all projects",
+        "tags": [
+          "project"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createProject",
+        "summary": "Create new project",
+        "tags": [
+          "project"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Project"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request body is invalid"
+          }
+        }
+      }
+    },
+    "/project/{projectId}": {
+      "get": {
+        "operationId": "getProjectById",
+        "summary": "Get Project by Id",
+        "tags": [
+          "project"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "projectId",
+            "description": "Id of project",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Project"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateProject",
+        "summary": "Update Project",
+        "tags": [
+          "project"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "projectId",
+            "description": "Id of project",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteProject",
+        "summary": "Delete Project",
+        "tags": [
+          "project"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "projectId",
+            "description": "Id of project",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/agent": {
+      "get": {
+        "operationId": "getAgents",
+        "summary": "List all agents by project id",
+        "tags": [
+          "agent"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "project object to be returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Agent"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createAgent",
+        "summary": "Create new agent",
+        "tags": [
+          "agent"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Agent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation. Returns an agent object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Agent"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/{agentId}": {
+      "get": {
+        "operationId": "getAgentById",
+        "summary": "Get agent by id",
+        "tags": [
+          "agent"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "agentId",
+            "description": "Id of agent",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation. Returns an agent object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Agent"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "updateAgent",
+        "summary": "Update Agent State",
+        "tags": [
+          "agent"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "agentId",
+            "description": "Id of agent",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation. Returns an agent object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Agent"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteAgent",
+        "summary": "Delete Agent",
+        "tags": [
+          "agent"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "agentId",
+            "description": "Id of agent",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful operation."
+          }
+        }
+      }
+    },
+    "/environment": {
+      "get": {
+        "operationId": "getEnvironments",
+        "summary": "List all environments by project id",
+        "tags": [
+          "environment"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "projectId",
+            "description": "Id of project",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "project object to be returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Environment"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createEnvironment",
+        "summary": "Create new environment object",
+        "tags": [
+          "environment"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "projectId",
+            "description": "Id of project",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Environment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation. Returns an environment object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Environment"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/environment/{environmentId}": {
+      "get": {
+        "operationId": "getEnvironmentById",
+        "summary": "Get environment by id",
+        "tags": [
+          "environment"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "environmentId",
+            "description": "Id of environment",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation. Returns an environment object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Environment"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateEnvironment",
+        "summary": "Update an environment object",
+        "tags": [
+          "environment"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "environmentId",
+            "description": "Id of Environment",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation. Returns an environment object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Environment"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteEnvironment",
+        "summary": "Delete Environment",
+        "tags": [
+          "environment"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "environmentId",
+            "description": "Id of environment",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful operation."
+          }
+        }
+      }
+    },
+    "/task-force": {
+      "get": {
+        "operationId": "getTaskForces",
+        "summary": "List Task Forces",
+        "tags": [
+          "task-force"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "projectId",
+            "description": "Id of project",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskForce"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createTaskForce",
+        "summary": "Create new task force",
+        "tags": [
+          "task-force"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "projectId",
+            "description": "Id of project",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskForce"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/task-force/{taskForceId}": {
+      "get": {
+        "operationId": "getTaskForceById",
+        "summary": "Get Task Force",
+        "tags": [
+          "task-force"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "taskForceId",
+            "description": "Id of task force",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation."
+          }
+        }
+      },
+      "put": {
+        "operationId": "editTaskForce",
+        "summary": "Edit task force",
+        "tags": [
+          "task-force"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "taskForceId",
+            "description": "Id of task force",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation."
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteTaskForce",
+        "summary": "Deletes a task force",
+        "tags": [
+          "task-force"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "taskForceId",
+            "description": "Id of task force",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation."
+          }
+        }
+      }
+    },
+    "/job": {
+      "get": {
+        "operationId": "getJobs",
+        "summary": "List all jobs by project id",
+        "tags": [
+          "job"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "projectId",
+            "description": "Id of project",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "agentId",
+            "description": "Filter jobs by agent",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "environmentId",
+            "description": "Filter jobs by environment",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "taskForceId",
+            "description": "Filter jobs by task force",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "project object to be returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "triggerJob",
+        "summary": "Execute new job",
+        "tags": [
+          "job"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a job object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/job/{jobId}/log": {
+      "get": {
+        "operationId": "getJobLog",
+        "summary": "Get job log file",
+        "tags": [
+          "job"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "jobId",
+            "description": "Identifier of job id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "project object to be returned",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/job/{jobId}/report": {
+      "get": {
+        "operationId": "getJobReport",
+        "summary": "Get job report file",
+        "tags": [
+          "job"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "jobId",
+            "description": "Identifier of job id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "project object to be returned",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "AccessTokenAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Access-Token",
+        "description": "Provide access token to perform operations."
+      }
+    },
+    "requestBodies": {
+      "ProjectList": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Project"
+              }
+            }
+          }
+        },
+        "description": "List of user object",
+        "required": true
+      }
+    },
+    "schemas": {
+      "Project": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "isDefault": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Agent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "hostname": {
+            "type": "string"
+          },
+          "platform": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "dockerVersion": {
+            "type": "string"
+          },
+          "lastSeen": {
+            "type": "string"
+          }
+        }
+      },
+      "Environment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "TaskForce": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "runner": {
+            "type": "string"
+          },
+          "agentId": {
+            "type": "string"
+          },
+          "environmentId": {
+            "type": "string"
+          },
+          "tasks": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "example": {
+          "id": "054fb42",
+          "name": "Daily Health Checks",
+          "runner": "gcr.io/yusufcanb/roc-runner:latest",
+          "agentId": "1",
+          "environmentId": "1",
+          "tasks": [
+            "demo.robot"
+          ]
+        }
+      },
+      "Job": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "taskForceId": {
+            "type": "string"
+          },
+          "agentId": {
+            "type": "string"
+          },
+          "environmentId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "IDLE",
+              "RUNNING",
+              "SUCCESS",
+              "FAIL"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -22,7 +22,9 @@ import {Flags} from '@oclif/core'
 import {RocCommand} from '../command'
 
 import fs from 'fs'
+import tmp from 'tmp'
 import path from 'path'
+import archiver from 'archiver'
 
 export default class TaskForceCreateCommand extends RocCommand {
   static description = 'Create new task force for specific project'
@@ -40,8 +42,8 @@ export default class TaskForceCreateCommand extends RocCommand {
     name: Flags.string(
       {char: 'n', description: 'Name of the task force', required: true},
     ),
-    file: Flags.string(
-      {char: 'f', description: 'Robot package file', required: true},
+    directory: Flags.directory(
+      {char: 'd', description: 'Robot root directory', required: true},
     ),
   }
 
@@ -51,13 +53,24 @@ export default class TaskForceCreateCommand extends RocCommand {
     const {flags} = await this.parse(TaskForceCreateCommand)
     const project = this.getProjectOrDefault(flags.project)
 
+    const tempArchivePath = tmp.fileSync({prefix: 'robot-assembly', postfix: '.zip'})
+    console.log(tempArchivePath.name)
+    const output = fs.createWriteStream(tempArchivePath.name)
+    const archive = archiver('zip', {
+      zlib: {level: 9}, // Sets the compression level.
+    })
+
+    archive.pipe(output)
+    archive.directory(flags.directory, false)
+    await archive.finalize()
+
     try {
       const response = await this.api.taskForce.createTaskForce(project, flags.name)
       if (response.status >= 200 && response.status < 400) {
         this.log('[1] Creating entity')
         await this.api.taskForce.uploadRobotPackage(response.data.id, {
-          fileName: path.basename(flags.file),
-          stream: fs.createReadStream(flags.file),
+          fileName: path.basename(tempArchivePath.name),
+          stream: fs.createReadStream(tempArchivePath.name),
         })
         this.log('[2] Uploading package')
         this.log(`[OK] Task force ${flags.name} created`)

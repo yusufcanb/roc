@@ -24,63 +24,48 @@ import {RocCommand} from '../command'
 import * as fs from 'fs'
 
 export default class EnvironmentCreateCommand extends RocCommand {
-  static description = 'Create new environment for specific project'
+  static description = 'Update an existing environment'
 
   static examples = [
-    `$ roc environment create -p default -n development -v variables.yaml
-[OK] Environment development created
+    `$ roc environment update [ID] -v variables.yaml
+[OK] Environment [ID] updated
 `,
   ]
 
   static flags = {
-    project: Flags.string(
-      {char: 'p', description: 'Project identifier', required: false},
-    ),
     name: Flags.string(
-      {char: 'n', description: 'Name of the environment', required: true},
+      {char: 'n', description: 'Name of the environment', required: false},
     ),
     description: Flags.string(
       {char: 'd', description: 'Description of the environment', required: false},
     ),
+    variables: Flags.string(
+      {char: 'v', description: 'Variables file of the environment', required: false},
+    ),
     tags: Flags.string(
       {char: 't', description: 'Tags of the environment', required: false},
     ),
-    variables: Flags.string(
-      {char: 'v', description: 'Variables file of the environment', required: true},
-    ),
   }
 
-  static args = []
+  static args = [{name: 'id', required: true}]
 
   async getVariablesFromFile(path: string): Promise<string> {
     return fs.readFileSync(path, 'utf-8')
   }
 
   async run(): Promise<void> {
-    const {flags} = await this.parse(EnvironmentCreateCommand)
-
-    let project
-
-    if (flags.project === undefined) {
-      try {
-        project = this.roc.getDefaultProject()
-      } catch {
-        throw new Error('Project is not specified. Use -p option or specify a default project.')
-      }
-    } else {
-      project = flags.project
-    }
+    const {args, flags} = await this.parse(EnvironmentCreateCommand)
 
     const dto = {
       name: flags.name,
-      description: flags.description !== undefined ? flags.description : null,
-      tags: flags.tags !== undefined ? flags.tags.split(',') : [],
-      yaml: await this.getVariablesFromFile(flags.variables),
+      description: flags.description,
+      yaml: flags.variables !== undefined ? await this.getVariablesFromFile(flags.variables) : undefined,
+      tags: flags.tags.split(','),
     }
 
-    const rc = await this.api.environment.createEnvironment(project, dto)
-    if (rc === 201) {
-      this.log(`[OK] Environment ${flags.name} created`)
+    const response = await this.api.environment.updateEnvironmentById(args.id, dto)
+    if (response.status === 200) {
+      this.log(`[OK] Environment ${args.id} updated`)
     } else {
       this.log('[ERR] Operation failed')
     }

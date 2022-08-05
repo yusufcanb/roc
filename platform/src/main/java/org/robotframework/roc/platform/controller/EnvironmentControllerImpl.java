@@ -35,11 +35,11 @@ import java.util.Optional;
 
 @RestController
 @Slf4j
-public class SimpleEnvironmentController extends BaseController implements EnvironmentController {
+public class EnvironmentControllerImpl extends BaseController implements EnvironmentController {
 
     final EnvironmentService environmentService;
 
-    SimpleEnvironmentController(EnvironmentService environmentService) {
+    EnvironmentControllerImpl(EnvironmentService environmentService) {
         this.environmentService = environmentService;
     }
 
@@ -77,14 +77,14 @@ public class SimpleEnvironmentController extends BaseController implements Envir
 
     @RequestMapping(value = "/environment/{id}", method = RequestMethod.PUT)
     @Override
-    public ResponseEntity<Environment> updateEnvironmentById(@PathVariable String id, @RequestBody EnvironmentUpdateDto dto) {
+    public ResponseEntity<Environment> updateEnvironmentById(@PathVariable String id, @RequestBody @Valid EnvironmentUpdateDto dto) {
         Optional<Environment> env = environmentService.getEnvironmentById(id);
         if (env.isPresent()) {
             try {
                 Environment environment = environmentService.updateEnvironment(env.get(), dto);
                 return new ResponseEntity<>(environment, HttpStatus.OK);
             } catch (Exception e) {
-                log.error(e.getMessage());
+                log.error(e.getClass().getTypeName());
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             }
         } else {

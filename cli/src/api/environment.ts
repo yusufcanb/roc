@@ -19,6 +19,7 @@
  */
 
 import {API} from './base'
+import {AxiosResponse} from 'axios'
 
 export interface Environment {
   id: string
@@ -34,7 +35,7 @@ export class EnvironmentApi extends API {
         projectId: projectId,
       },
     })
-    return response.data
+    return response.data ? response.data : []
   }
 
   async getEnvironmentById(environmentId: string): Promise<Environment> {
@@ -42,7 +43,7 @@ export class EnvironmentApi extends API {
     return response.data
   }
 
-  async createEnvironment(projectId: string, dto: { code: string; name: string; description: string }): Promise<number> {
+  async createEnvironment(projectId: string, dto: { yaml: string; name: string; description: string, tags: Array<string> }): Promise<number> {
     const requestConfig = {
       params: {
         projectId: projectId,
@@ -52,9 +53,13 @@ export class EnvironmentApi extends API {
     return response.status
   }
 
+  async updateEnvironmentById(environmentId: string, dto: Partial<{ yaml: string, name: string, description: string, tags: Array<string> }>): Promise<AxiosResponse> {
+    const requestConfig = {}
+    return this.http.put(`/environment/${environmentId}`, dto, requestConfig)
+  }
+
   async getEnvironmentVariables(environmentId: string): Promise<string> {
-    const env = await this.getEnvironmentById(environmentId)
-    const response = await this.s3.get(`/projects/${env.projectId}/environment/${environmentId}/variables.yaml`)
+    const response = await this.s3.get(`/default/environment/${environmentId}/variables.yaml`)
     return response.data
   }
 

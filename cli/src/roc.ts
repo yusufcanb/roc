@@ -32,7 +32,7 @@ export class ROC {
 
   constructor() {
     if (!fs.existsSync(ROC.CONFIG_PATH)) {
-      console.debug('Config file does not exists')
+      console.info('Config file does not exists.')
       fs.writeFileSync(ROC.CONFIG_PATH, JSON.stringify(this.config))
       this.persistConfig()
     } else {
@@ -49,8 +49,8 @@ export class ROC {
     } catch (error) {
       console.error(error)
       this.config = {
-        rocUrl: null,
-        defaultProject: null,
+        rocUrl: '',
+        defaultProject: '',
       }
     }
   }

@@ -33,13 +33,13 @@ import java.util.Optional;
 
 @RestController
 @Slf4j
-public class SimpleAgentController extends BaseController implements AgentController {
+public class AgentControllerImpl extends BaseController implements AgentController {
 
     final AgentService agentService;
 
     final ProjectService projectService;
 
-    public SimpleAgentController(AgentService agentService, ProjectService projectService) {
+    public AgentControllerImpl(AgentService agentService, ProjectService projectService) {
         this.agentService = agentService;
         this.projectService = projectService;
     }

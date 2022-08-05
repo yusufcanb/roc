@@ -34,11 +34,11 @@ import java.util.Optional;
 
 @RestController
 @Slf4j
-public class SimpleProjectController extends BaseController implements ProjectController {
+public class ProjectControllerImpl extends BaseController implements ProjectController {
 
     final ProjectService projectService;
 
-    public SimpleProjectController(ProjectService projectService) {
+    public ProjectControllerImpl(ProjectService projectService) {
         this.projectService = projectService;
     }
 

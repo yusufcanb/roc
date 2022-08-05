@@ -15,8 +15,9 @@ public class Environment implements Serializable {
     private String id;
     private String projectId;
 
-    @Pattern(regexp = "^[a-z0-9-]+$", flags = Pattern.Flag.UNICODE_CASE)
     private String name;
+
+    private String description;
     private List<String> tags = new LinkedList<>();
 
 }

@@ -38,12 +38,12 @@ import java.util.Optional;
 
 @Controller
 @Slf4j
-public class SimpleTaskForceController extends BaseController implements TaskForceController {
+public class TaskForceControllerImpl extends BaseController implements TaskForceController {
 
     private final TaskForceService taskForceService;
     private final JobService jobService;
 
-    public SimpleTaskForceController(TaskForceService taskForceService, JobService jobService) {
+    public TaskForceControllerImpl(TaskForceService taskForceService, JobService jobService) {
         this.taskForceService = taskForceService;
         this.jobService = jobService;
     }

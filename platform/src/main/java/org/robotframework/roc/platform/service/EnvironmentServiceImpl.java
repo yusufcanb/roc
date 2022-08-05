@@ -38,18 +38,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BasicEnvironmentService implements EnvironmentService {
+public class EnvironmentServiceImpl implements EnvironmentService {
 
-    final
-    ProjectRepository projectRepository;
+    final ProjectRepository projectRepository;
 
-    final
-    EnvironmentRepository environmentRepository;
+    final EnvironmentRepository environmentRepository;
 
-    final
-    ObjectStorageService oss;
+    final ObjectStorageService oss;
 
-    public BasicEnvironmentService(EnvironmentRepository environmentRepository, ProjectRepository projectRepository, ObjectStorageService oss) {
+    public EnvironmentServiceImpl(EnvironmentRepository environmentRepository, ProjectRepository projectRepository, ObjectStorageService oss) {
         this.environmentRepository = environmentRepository;
         this.projectRepository = projectRepository;
         this.oss = oss;
@@ -57,7 +54,7 @@ public class BasicEnvironmentService implements EnvironmentService {
 
     private void saveStringAsVariableFile(Environment env, String yaml) throws MinioException {
         InputStream stream = new ByteArrayInputStream(yaml.getBytes(StandardCharsets.UTF_8));
-        String path = String.join("/", "environment", env.getId().toString(), "variables.yaml");
+        String path = String.join("/", "environment", env.getId(), "variables.yaml");
         oss.upload("default", path, stream, "application/yaml");
     }
 
@@ -94,6 +91,7 @@ public class BasicEnvironmentService implements EnvironmentService {
         Environment environment = new Environment();
         environment.setProjectId(projectId);
         environment.setName(dto.getName());
+        environment.setDescription(dto.getDescription());
         environment.setTags(dto.getTags());
 
         environment = environmentRepository.save(environment);
@@ -113,10 +111,11 @@ public class BasicEnvironmentService implements EnvironmentService {
     @Override
     public Environment updateEnvironment(Environment environment, EnvironmentUpdateDto dto) throws MinioException {
 
-        environment.setName(dto.getName());
-        environment.setTags(dto.getTags());
+        environment.setName(dto.getName() != null ? dto.getName() : environment.getName());
+        environment.setDescription(dto.getDescription() != null ? dto.getDescription() : environment.getDescription());
+        environment.setTags(dto.getTags() == null ? environment.getTags() : dto.getTags());
 
-        if (!dto.getYaml().isEmpty()) {
+        if (dto.getYaml() != null && !dto.getYaml().isEmpty()) {
             this.saveStringAsVariableFile(environment, dto.getYaml());
         }
         return environmentRepository.save(environment);

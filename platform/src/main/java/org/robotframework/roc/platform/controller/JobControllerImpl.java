@@ -33,12 +33,12 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class SimpleJobController extends BaseController implements JobController {
+public class JobControllerImpl extends BaseController implements JobController {
 
     final
     JobService jobService;
 
-    public SimpleJobController(JobService jobService) {
+    public JobControllerImpl(JobService jobService) {
         this.jobService = jobService;
     }
 

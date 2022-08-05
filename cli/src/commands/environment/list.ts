@@ -54,7 +54,6 @@ export default class EnvironmentListCommand extends RocCommand {
     }
 
     const environments = await this.api.environment.getEnvironmentsByProject(project)
-
-    console.table(environments)
+    return console.table(environments)
   }
 }

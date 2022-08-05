@@ -35,7 +35,6 @@ export default class EnvironmentVariablesCommand extends RocCommand {
   async run(): Promise<void> {
     const {args} = await this.parse(EnvironmentVariablesCommand)
     const variables = await this.api.environment.getEnvironmentVariables(args.id)
-    console.log('[OK] Printing variables.yaml')
     console.log(variables)
   }
 }

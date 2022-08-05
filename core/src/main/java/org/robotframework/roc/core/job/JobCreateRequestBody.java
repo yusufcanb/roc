@@ -7,8 +7,6 @@ import java.sql.Date;
 
 @Data
 public class JobCreateRequestBody {
-    String name;
-    Date scheduledAt;
 
     @NotNull
     String agentId;
@@ -19,4 +17,5 @@ public class JobCreateRequestBody {
     @NotNull
     String environmentId;
 
+    Date scheduledAt;
 }

@@ -1,4 +1,4 @@
-package org.robotframework.roc.core.environment;
+package org.robotframework.roc.core.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

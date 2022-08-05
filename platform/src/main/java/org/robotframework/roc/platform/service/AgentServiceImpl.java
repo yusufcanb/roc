@@ -38,12 +38,12 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
-public class BasicAgentService implements AgentService {
+public class AgentServiceImpl implements AgentService {
 
     final AgentRepository agentRepository;
     final RedisConnection redisConnection;
 
-    public BasicAgentService(AgentRepository agentRepository, RedisTemplate<String, Object> redisTemplate) {
+    public AgentServiceImpl(AgentRepository agentRepository, RedisTemplate<String, Object> redisTemplate) {
         this.agentRepository = agentRepository;
         this.redisConnection = Objects.requireNonNull(redisTemplate.getConnectionFactory()).getConnection();
     }
@@ -65,7 +65,7 @@ public class BasicAgentService implements AgentService {
         agent.setLastSeen(Date.from(Instant.now()));
         agent = agentRepository.save(agent);
 
-        redisConnection.publish("agent.created".getBytes(StandardCharsets.UTF_8), agent.getId().toString().getBytes(StandardCharsets.UTF_8));
+        redisConnection.publish("agent.created".getBytes(StandardCharsets.UTF_8), agent.getId().getBytes(StandardCharsets.UTF_8));
         return agent;
     }
 
@@ -80,7 +80,7 @@ public class BasicAgentService implements AgentService {
     @Override
     public void deleteAgent(String id) {
         agentRepository.deleteById(id);
-        redisConnection.publish("agent.deleted".getBytes(StandardCharsets.UTF_8), id.toString().getBytes(StandardCharsets.UTF_8));
+        redisConnection.publish("agent.deleted".getBytes(StandardCharsets.UTF_8), id.getBytes(StandardCharsets.UTF_8));
     }
 
     @Override
@@ -102,7 +102,7 @@ public class BasicAgentService implements AgentService {
         Agent agent = found.get();
         agent.setLastSeen(Date.from(Instant.now()));
         agentRepository.save(agent);
-        redisConnection.publish("agent.ping".getBytes(StandardCharsets.UTF_8), id.toString().getBytes(StandardCharsets.UTF_8));
+        redisConnection.publish("agent.ping".getBytes(StandardCharsets.UTF_8), id.getBytes(StandardCharsets.UTF_8));
     }
 
     @Scheduled(cron = "*/2 * * * * ?")

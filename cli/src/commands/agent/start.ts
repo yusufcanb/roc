@@ -24,16 +24,21 @@ export default class AgentStartCommand extends RocCommand {
           dictionaries: [adjectives, animals],
           length: 2,
         })
-        const agent: any = await this.api.agent.createAgent(shortName)
-        this.log(`[OK] Provisioned as ${shortName}...`)
-
-        setInterval(async () => {
-          try {
-            await this.api.agent.heartBeat(agent.id)
-          } catch (error: any) {
-            this.log(error.message)
-          }
-        }, 1000)
+        try {
+          const agent: any = await this.api.agent.createAgent(shortName)
+          this.log(`[OK] Provisioned as ${shortName}...`)
+          setInterval(async () => {
+            try {
+              await this.api.agent.heartBeat(agent.id)
+            } catch (error: any) {
+              this.log(error.message)
+            }
+          }, 1000)
+        } catch {
+          console.error('[ERROR] Error connecting platform.')
+          // eslint-disable-next-line no-process-exit,unicorn/no-process-exit
+          process.exit(-1)
+        }
 
         this.log('[OK] Connecting to operation center...')
         const url = new URL(this.api.baseUrl)

@@ -89,7 +89,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public Job createJob(String projectId, JobCreateRequestBody jobDto) throws ProjectNotFoundException {
-        Optional<Project> project = projectRepository.findById(projectId.toString());
+        Optional<Project> project = projectRepository.findById(projectId);
         Optional<Agent> agent = agentRepository.findById(jobDto.getAgentId());
         Optional<TaskForce> taskForce = taskForceRepository.findById(jobDto.getTaskForceId());
         Optional<Environment> environment = environmentRepository.findById(jobDto.getEnvironmentId());
@@ -99,7 +99,6 @@ public class JobServiceImpl implements JobService {
         } else {
             Job job = new Job();
 
-            job.setName(jobDto.getName());
             job.setAgentId(jobDto.getAgentId());
             job.setEnvironmentId(jobDto.getEnvironmentId());
             job.setTaskForceId(jobDto.getTaskForceId());

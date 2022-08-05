@@ -33,7 +33,7 @@ export class API {
     })
 
     this._s3 = axios.create({
-      baseURL: baseUrl + '/s3/roc',
+      baseURL: baseUrl + '/s3',
     })
   }
 
