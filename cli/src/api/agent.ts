@@ -19,13 +19,17 @@
  */
 
 import {API} from './base'
-import * as agent from '../agent'
 // eslint-disable-next-line node/no-extraneous-import
 import JSONbig from 'json-bigint'
 
 export interface Agent {
-  id: string | number
-  displayName: string
+  id?: string | number;
+  name: string;
+  hostName: string;
+  platform: string;
+  arch: string;
+  version: string;
+  dockerVersion: string;
 }
 
 export class AgentAPI extends API {
@@ -38,19 +42,13 @@ export class AgentAPI extends API {
     return response.data
   }
 
-  async createAgent(name: string): Promise<Agent> {
+  async createAgent(agent: Agent): Promise<Agent> {
     const requestConfig = {
       transformResponse: [(data: any) => data],
     }
 
-    const version = await agent.getDockerVersion()
     const requestData = {
-      name: name,
-      platform: agent.getPlatform(),
-      arch: agent.getArch(),
-      hostName: agent.getHostname(),
-      version: '1.0.0',
-      dockerVersion: version.Version,
+      ...agent,
     }
 
     const response = await this.http.post('/agent', requestData, requestConfig)

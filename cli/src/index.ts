@@ -19,3 +19,6 @@
  */
 
 export {run} from '@oclif/core'
+
+export const ROC_CLI_VERSION = '1.0.0'
+

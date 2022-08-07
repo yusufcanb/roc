@@ -30,7 +30,7 @@ export interface Job {
 
 export class JobModel {
   private id: string;
-  private status: string;
+  private readonly status: string;
 
   constructor(obj: Job) {
     this.id = obj.id
@@ -40,7 +40,6 @@ export class JobModel {
   reportAvailable(): boolean {
     return this.status === 'SUCCESS' || this.status === 'FAIL'
   }
-
 }
 
 export class JobAPI extends API {
@@ -60,5 +59,4 @@ export class JobAPI extends API {
   async getJobReportById(id: string | number) {
     return open(`${this.baseUrl}/s3/roc/projects/1/job/${id}/report.html`)
   }
-
 }

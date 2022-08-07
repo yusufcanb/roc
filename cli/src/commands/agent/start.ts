@@ -1,6 +1,7 @@
-import {WebSocket, RawData} from 'ws'
+import {RawData, WebSocket} from 'ws'
 import {RocCommand} from '../command'
 import {adjectives, animals, uniqueNamesGenerator} from 'unique-names-generator'
+import services from '../../services'
 
 export default class AgentStartCommand extends RocCommand {
   static description = 'Starts a process as an agent'
@@ -15,6 +16,7 @@ export default class AgentStartCommand extends RocCommand {
 
   static args = []
 
+
   async run(): Promise<void> {
     return new Promise(
       // eslint-disable-next-line no-async-promise-executor
@@ -25,7 +27,15 @@ export default class AgentStartCommand extends RocCommand {
           length: 2,
         })
         try {
-          const agent: any = await this.api.agent.createAgent(shortName)
+          const agent: any = await this.api.agent.createAgent({
+            version: services.agent.getAgentVersion(),
+            name: shortName,
+            dockerVersion: await services.docker.getDockerVersion(),
+            hostName: services.agent.getPlatform(),
+            platform: services.agent.getPlatform(),
+            arch: services.agent.getArch(),
+          })
+
           this.log(`[OK] Provisioned as ${shortName}...`)
           setInterval(async () => {
             try {
@@ -50,6 +60,7 @@ export default class AgentStartCommand extends RocCommand {
 
         ws.on('message', (data: RawData) => {
           const platformEvent: string = data.toString().split('::')[0]
+
           if (platformEvent === 'job.created') {
             this.log('[OK] Received new job: %s', data)
           }
