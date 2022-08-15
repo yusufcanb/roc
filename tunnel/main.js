@@ -33,7 +33,7 @@ var redisClient = redis.createClient({
 })
 
 // Create & Start the WebSocket server
-const server = new websocket.Server({ host: TUNNEL_HOST, port: TUNNEL_PORT });
+const server = new websocket.Server({host: TUNNEL_HOST, port: TUNNEL_PORT});
 
 // Register event for client connection
 server.on('connection', async (ws) => {

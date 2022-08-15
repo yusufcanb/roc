@@ -1,7 +1,7 @@
 {
   "name": "roc-ctl",
   "description": "Command line interface for ROC (Robot Operation Center)",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "author": "Yusuf Can Bayrak",
   "bin": {
     "roc-ctl": "./bin/run"
@@ -19,7 +19,9 @@
     "open": "^8.4.0",
     "tmp": "^0.2.1",
     "unique-names-generator": "^4.7.1",
-    "ws": "^8.8.1"
+    "ws": "^8.8.1",
+    "yargs": "^17.5.1",
+    "zx": "^7.0.8"
   },
   "devDependencies": {
     "@oclif/test": "^2",
@@ -31,6 +33,7 @@
     "@types/node": "^16.9.4",
     "@types/tmp": "^0.2.3",
     "@types/ws": "^8.5.3",
+    "@types/yargs": "^17.0.11",
     "chai": "^4",
     "eslint": "^7.32.0",
     "eslint-config-oclif": "^4",

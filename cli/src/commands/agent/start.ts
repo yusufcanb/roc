@@ -1,7 +1,8 @@
 import {RawData, WebSocket} from 'ws'
-import {RocCommand} from '../command'
 import {adjectives, animals, uniqueNamesGenerator} from 'unique-names-generator'
-import services from '../../services'
+
+import {RocCommand} from '../command'
+import {RocEvent} from '../../event'
 
 export default class AgentStartCommand extends RocCommand {
   static description = 'Starts a process as an agent'
@@ -16,7 +17,6 @@ export default class AgentStartCommand extends RocCommand {
 
   static args = []
 
-
   async run(): Promise<void> {
     return new Promise(
       // eslint-disable-next-line no-async-promise-executor
@@ -28,12 +28,12 @@ export default class AgentStartCommand extends RocCommand {
         })
         try {
           const agent: any = await this.api.agent.createAgent({
-            version: services.agent.getAgentVersion(),
+            version: this.service.agent.getAgentVersion(),
             name: shortName,
-            dockerVersion: await services.docker.getDockerVersion(),
-            hostName: services.agent.getPlatform(),
-            platform: services.agent.getPlatform(),
-            arch: services.agent.getArch(),
+            dockerVersion: await this.service.docker.getDockerVersion(),
+            hostName: this.service.agent.getPlatform(),
+            platform: this.service.agent.getPlatform(),
+            arch: this.service.agent.getArch(),
           })
 
           this.log(`[OK] Provisioned as ${shortName}...`)
@@ -59,10 +59,13 @@ export default class AgentStartCommand extends RocCommand {
         })
 
         ws.on('message', (data: RawData) => {
-          const platformEvent: string = data.toString().split('::')[0]
+          const event = new RocEvent(data)
 
-          if (platformEvent === 'job.created') {
+          if (event.getTopic() === RocEvent.JOB_CREATED) {
             this.log('[OK] Received new job: %s', data)
+            this.service.job.executeJobByJobId(event.getPayload())
+            .then((_: string) => null)
+            .catch((error: Error) => console.error(error.message))
           }
 
           ws.resume()

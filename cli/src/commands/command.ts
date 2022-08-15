@@ -20,6 +20,7 @@
 
 import {Command} from '@oclif/core'
 
+import ROCService from '../services'
 import {ROC} from '../roc'
 import {ROCApi} from '../api'
 import {Config} from '@oclif/core/lib/config'
@@ -27,11 +28,13 @@ import {Config} from '@oclif/core/lib/config'
 export abstract class RocCommand extends Command {
   public roc: ROC
   public api: ROCApi
+  public service: ROCService
 
   constructor(argv: string[], config: Config) {
     super(argv, config)
     this.roc = new ROC()
     this.api = new ROCApi(this.roc.getPlatformUrl())
+    this.service = new ROCService(this.roc.getPlatformUrl())
   }
 
   getProjectOrDefault(projectName: string | null | undefined): string {
