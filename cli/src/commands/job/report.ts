@@ -19,7 +19,7 @@
  */
 
 import {RocCommand} from '../command'
-import {JobModel} from "../../api/job";
+import {JobModel} from '../../api/job'
 
 export default class JobReportCommand extends RocCommand {
   static description = 'Open job report in default browser'
