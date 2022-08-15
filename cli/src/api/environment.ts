@@ -43,7 +43,7 @@ export class EnvironmentApi extends API {
     return response.data
   }
 
-  async createEnvironment(projectId: string, dto: { yaml: string; name: string; description: string, tags: Array<string> }): Promise<number> {
+  async createEnvironment(projectId: string, dto: { yaml: string; name: string; description: string | null, tags: Array<string> | null }): Promise<number> {
     const requestConfig = {
       params: {
         projectId: projectId,

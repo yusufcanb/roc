@@ -60,7 +60,7 @@ export default class EnvironmentCreateCommand extends RocCommand {
       name: flags.name,
       description: flags.description,
       yaml: flags.variables !== undefined ? await this.getVariablesFromFile(flags.variables) : undefined,
-      tags: flags.tags.split(','),
+      tags: flags.tags?.split(','),
     }
 
     const response = await this.api.environment.updateEnvironmentById(args.id, dto)
