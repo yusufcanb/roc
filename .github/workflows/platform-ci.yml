@@ -2,7 +2,7 @@ name: platform
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
     paths-ignore:
       - '**.md'
       - '**.ts'
@@ -10,7 +10,7 @@ on:
       - '**.js'
       - '**.jsx'
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
     paths-ignore:
       - '**.md'
       - '**.ts'
