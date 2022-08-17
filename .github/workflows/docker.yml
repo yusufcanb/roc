@@ -7,41 +7,37 @@ jobs:
   roc-platform:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK 11
-      uses: actions/setup-java@v2
-      with:
-        java-version: '11'
-        distribution: 'adopt'
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
 
-    - name: Create roc-platform image
-      # You may pin to the exact commit or the version.
-      # uses: craftech-io/package-action@009001a7fd1c4f139ae06aeceed9b679daf52734
-      uses: craftech-io/package-action@v3.1.0
-      with:
-        access_token: ${{ secrets.GITHUB_TOKEN }}
-        context: ./platform
-        image_name: roc-platform
-        tags: ${{ env.RELEASE_VERSION }}
-        dockerfile: ./platform/Dockerfile
+      - name: Create roc-platform image
+        # You may pin to the exact commit or the version.
+        # uses: craftech-io/package-action@009001a7fd1c4f139ae06aeceed9b679daf52734
+        uses: craftech-io/package-action@v3.1.0
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+          context: ./platform
+          image_name: roc-platform
+          tags: ${{ env.RELEASE_VERSION }}
+          dockerfile: ./platform/Dockerfile
   
-  roc-web:
+  roc-tunnel:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Create roc-web image   
-      uses: actions/setup-node@v2
-      with:
-        node-version: 12
-    - name: Docker Package Registry
-      # You may pin to the exact commit or the version.
-      # uses: craftech-io/package-action@009001a7fd1c4f139ae06aeceed9b679daf52734
-      uses: craftech-io/package-action@v3.1.0
-      with:
-        access_token: ${{ secrets.GITHUB_TOKEN }}
-        context: ./web
-        image_name: roc-web
-        tags: ${{ env.RELEASE_VERSION }}
-        dockerfile: ./web/Dockerfile
+      - uses: actions/checkout@v2
+      - name: Create roc-tunnel image
+        # You may pin to the exact commit or the version.
+        # uses: craftech-io/package-action@009001a7fd1c4f139ae06aeceed9b679daf52734
+        uses: craftech-io/package-action@v3.1.0
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+          context: ./tunnel
+          image_name: roc-tunnel
+          tags: ${{ env.RELEASE_VERSION }}
+          dockerfile: ./tunnel/Dockerfile
