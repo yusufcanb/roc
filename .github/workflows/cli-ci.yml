@@ -44,5 +44,7 @@ jobs:
           node-version: 16.15.1
       - run: npm install
         working-directory: ./cli
+      - run: echo "{\"rocUrl\":\"https://example-platform.com\",\"defaultProject\":null}" > ~/.roc.json
+        working-directory: ./cli
       - run: npm run test
         working-directory: ./cli   
