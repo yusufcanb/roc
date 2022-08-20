@@ -1,7 +1,7 @@
 # ROC | Robot Operation Center
 
 [![platform-build](https://github.com/yusufcanb/roc/actions/workflows/platform-ci.yml/badge.svg?branch=master)](https://github.com/yusufcanb/roc/actions/workflows/platform-ci.yml)
-[![cli-build](https://github.com/yusufcanb/roc/actions/workflows/npm-build.yml/badge.svg?branch=master)](https://github.com/yusufcanb/roc/actions/workflows/npm-build.yml)
+[![cli-build](https://github.com/yusufcanb/roc/actions/workflows/cli-ci.yml/badge.svg?branch=master)](https://github.com/yusufcanb/roc/actions/workflows/npm-build.yml)
 [![cli-npm](https://img.shields.io/npm/v/roc-ctl.svg)](https://npmjs.org/package/roc-ctl)
 
 Robot Operation Center (ROC). Automation platform to distribute and execute robots across different platforms or
