@@ -9,7 +9,7 @@ export class DockerService extends BaseService {
     return version.Version
   }
 
-  createContainer(image: string) {
+  createContainer(image: string): void {
     this.docker.createContainer({
       Image: image,
       Volumes: {

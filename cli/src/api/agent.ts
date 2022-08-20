@@ -19,7 +19,6 @@
  */
 
 import {API} from './base'
-// eslint-disable-next-line node/no-extraneous-import
 import JSONbig from 'json-bigint'
 
 export interface Agent {

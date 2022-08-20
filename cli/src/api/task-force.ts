@@ -88,6 +88,7 @@ export class TaskForceAPI extends API {
    * Update a task force with it's id
    * @param taskForceId Identifier of the task force
    * @param dto Task force update DTO
+   * @returns Promise<AxiosResponse<Job>>
    */
   async updateTaskForceById(taskForceId: string, dto: any): Promise<AxiosResponse<Job>> {
     return this.http.put<Job>(`/task-force/${taskForceId}`, dto)

@@ -37,9 +37,13 @@ export class JobService extends BaseService {
     }
   }
 
-  uploadArtifacts(jobId: string): void {}
+  uploadArtifacts(jobId: string): void {
+    throw new Error(`jobid=${jobId}`)
+  }
 
-  updateJobStatus(jobId: string): void {}
+  updateJobStatus(jobId: string): void {
+    throw new Error(`jobid=${jobId}`)
+  }
 
   executeJobByJobId(jobId: string): Promise<string> {
     return new Promise(

@@ -6,5 +6,4 @@ export abstract class BaseService {
   constructor(platformUrl: string) {
     this.api = new ROCApi(platformUrl)
   }
-
 }

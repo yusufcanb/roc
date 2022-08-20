@@ -1,15 +1,15 @@
-import childProcess from 'child_process'
+import childProcess, {Serializable} from 'child_process'
 
 export class ProcessService {
   onError(err: Error): void {
     console.error(err)
   }
 
-  onStdoutMessage(message: any): void {
+  onStdoutMessage(message: Serializable): void {
     console.log(message.toString())
   }
 
-  onStderrMessage(message: any): void {
+  onStderrMessage(message: Serializable): void {
     console.log(message.toString())
   }
 
@@ -22,14 +22,14 @@ export class ProcessService {
     process.stderr?.on('data', this.onStderrMessage)
 
     // listen for errors as they may prevent the exit event from firing
-    process.on('error', function (err) {
+    process.on('error', (err: Error) => {
       if (invoked) return
       invoked = true
       callback(err)
     })
 
     // execute the callback once the process has finished running
-    process.on('exit', function (code: number) {
+    process.on('exit', (code: number) => {
       if (invoked) return
       invoked = true
       const err = code === 0 ? null : new Error(code.toString())
@@ -38,7 +38,6 @@ export class ProcessService {
   }
 
   runRobotWorker(image: string, robotsDir: string, variableFile: string, artifactsDir: string): void {
-
     this.runCmd('docker', [
       'run',
       '--interactive',
