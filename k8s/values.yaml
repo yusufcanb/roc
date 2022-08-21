@@ -1,0 +1,21 @@
+platform:
+  api-key: None
+  s3:
+    user: roc
+    pwd: roc-minio-pwd
+
+
+minio:
+  auth:
+    ## @param auth.rootUser MinIO&reg; root username
+    ##
+    rootUser: roc
+    ## @param auth.rootPassword Password for MinIO&reg; root user
+    ##
+    rootPassword: "my-s3-pwd"
+
+redis:
+  replica:
+    replicaCount: 1
+  auth:
+    enabled: false
