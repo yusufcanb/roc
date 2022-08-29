@@ -9,8 +9,8 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
 spec:
   rules:
-    - host: roc.local
-    - http:
+    - host: {{.Release.Namespace}}.local
+      http:
         paths:
           - path: /api/v1(/|$)(.*)
             pathType: Prefix
