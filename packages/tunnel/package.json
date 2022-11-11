@@ -22,5 +22,9 @@
     "@roc/core": "^1.0.0",
     "redis": "^4.4.0",
     "ws": "^8.8.0"
+  },
+  "devDependencies": {
+    "@types/redis": "^4.0.11",
+    "@types/ws": "^8.5.3"
   }
 }
