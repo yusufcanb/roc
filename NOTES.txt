@@ -1,3 +1,0 @@
-VALIDATION
-
-https://medium.com/@saman.ghm/validation-and-conversion-request-body-in-one-line-for-node-js-with-typescript-6adfac0ccd0a
