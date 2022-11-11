@@ -1,0 +1,27 @@
+name: docker
+on:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  platform:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: docker build roc-platform:${{ steps.vars.outputs.sha_short }}
+        uses: docker/build-push-action@v3
+        with:
+          push: false
+          tags: roc-platform:${{ steps.vars.outputs.sha_short }}
+          file: Dockerfile.platform
+  tunnel:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: docker build roc-tunnel:${{ steps.vars.outputs.sha_short }}
+        uses: docker/build-push-action@v3
+        with:
+          push: false
+          tags: roc-tunnel:${{ steps.vars.outputs.sha_short }}
+          file: Dockerfile.tunnel
