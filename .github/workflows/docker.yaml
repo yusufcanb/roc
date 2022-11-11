@@ -12,6 +12,15 @@ jobs:
   platform:
     runs-on: ubuntu-latest
     steps:
+      - 
+        name: Set outputs
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      
+      - 
+        name: Check outputs
+        run: echo ${{ steps.vars.outputs.sha_short }}
+      
       -
         name: docker build roc-platform:${{ steps.vars.outputs.sha_short }}
         uses: docker/build-push-action@v3
