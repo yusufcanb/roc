@@ -1,0 +1,25 @@
+{
+  "name": "@roc/tunnel",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "author": "Yusuf Can Bayrak <yusuf.bayrak@enocean.com>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "rm -rf ./lib && tsc",
+    "test": "echo Done!"
+  },
+  "dependencies": {
+    "@roc/core": "^1.0.0",
+    "redis": "^4.4.0",
+    "ws": "^8.8.0"
+  }
+}

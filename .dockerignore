@@ -1,0 +1,16 @@
+node_modules/
+.venv/
+
+lerna-debug.log
+npm-debug.log
+packages/*/lib
+.idea/
+
+docs/
+e2e/
+
+services.yaml
+
+coverage/
+.vscode/
+.devcontainer/

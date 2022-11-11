@@ -1,0 +1,16 @@
+node_modules/
+
+lerna-debug.log
+npm-debug.log
+packages/*/lib
+.idea
+
+coverage/
+.vscode/
+.devcontainer/
+
+.venv/
+
+e2e/**/log.html
+e2e/**/report.html
+e2e/**/output.xml
