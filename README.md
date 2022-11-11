@@ -1,7 +1,7 @@
 # ROC | Robot Operation Center
 
-[![e2e-build](https://github.com/yusufcanb/roc/actions/workflows/e2e.yml/badge.svg?branch=master)](https://github.com/yusufcanb/roc/actions/workflows/e2e.yml)
-[![ci-build](https://github.com/yusufcanb/roc/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/yusufcanb/roc/actions/workflows/e2e.yml)
+[![e2e-build](https://github.com/yusufcanb/roc/actions/workflows/e2e.yml/badge.svg)](https://github.com/yusufcanb/roc/actions/workflows/e2e.yml)
+[![ci-build](https://github.com/yusufcanb/roc/actions/workflows/ci.yml/badge.svg)](https://github.com/yusufcanb/roc/actions/workflows/ci.yml)
 
 Robot Operation Center (ROC). Automation platform to distribute and execute robots across different platforms or subnets. 🤖 🕹
 
@@ -14,40 +14,6 @@ Robot Operation Center (ROC). Automation platform to distribute and execute robo
 - `/agent`: Agent project manages executions on installed platforms.
 - `/platform`: Platform project is for backend operations of platform.
 - `/cli`: Command line interface of the platform.
-
-## Installation
-
-> If you don't have any ROC deployment please skip to the [deployment section](#Deployment) for deployment steps.
-
-Install ```roc-ctl``` CLI tool for interacting the ROC;
-
-```
-npm install -g roc-ctl
-```
-
-Then, execute `roc-ctl` command;
-
-```
-➜ roc-ctl --help   
-Command line interface for ROC (Robot Operation Center)
-
-VERSION
-  roc-ctl/0.1.0-alpha.1 darwin-x64 node-v16.13.0
-
-USAGE
-  $ roc-ctl [COMMAND]
-
-TOPICS
-  agent        Agent commands (e.g. list, create, update)
-  config       CLI configurations (e.g. Platform URL, Default Project, etc.)
-  environment  Environment commands (e.g. list, create, update or upload variables)
-  job          Job commands (e.g. list jobs, view job logs, etc.)
-  project      Project operations (e.g. create, list or update project)
-  task-force   Task force operations (e.g. list, create, update task forces)
-
-COMMANDS
-  help     Display help for roc-ctl.
-```
 
 ## Deployment
 
@@ -70,6 +36,10 @@ docker-compose up -d
 > K8s deployment guide will be published soon
 
 
-## User Guide
+## Usage
 
-> User guide will be published soon
+Download the `roc-ctl` binary via;
+
+```
+curl https://github.com/yusufcanb/roc/releases/tag/1.0.0/roc-cli
+```
