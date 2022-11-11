@@ -1,0 +1,33 @@
+name: build
+
+on:
+  push:
+    paths-ignore:
+      - "**.md"
+      - "**.go"
+  pull_request:
+    paths-ignore:
+      - "**.md"
+      - "**.go"
+
+jobs:
+  platform:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.15.1
+      - run: npm install -g lerna
+      - run: npm install -ws
+      - run: lerna run build --scope=@roc/platform
+  tunnel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.15.1
+      - run: npm install -g lerna
+      - run: npm install -ws
+      - run: lerna run build --scope=@roc/tunnel
