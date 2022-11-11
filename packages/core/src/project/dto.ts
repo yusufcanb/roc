@@ -1,5 +1,5 @@
-export class ProjectRetrieveDto { }
+export class ProjectRetrieveDto {}
 
-export class ProjectCreateDto { }
+export class ProjectCreateDto {}
 
-export class ProjectUpdateDto { }
+export class ProjectUpdateDto {}

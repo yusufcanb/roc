@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "build": "rm -rf ./lib && tsc",
-    "lint": "eslint \"./src/**/*.ts\" --fix",
+    "lint": "eslint \"./src/**/*.ts\"",
     "test": "jest"
   },
   "dependencies": {

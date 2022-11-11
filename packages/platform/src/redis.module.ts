@@ -18,7 +18,7 @@ import { createClient } from 'redis';
           await client.connect();
           return client;
         } catch (err: any) {
-          Logger.error("Redis connection failed.")
+          Logger.error('Redis connection failed.');
           process.exit(-1);
         }
       },
@@ -26,4 +26,4 @@ import { createClient } from 'redis';
   ],
   exports: ['REDIS_CLIENT'],
 })
-export class RedisModule { }
+export class RedisModule {}

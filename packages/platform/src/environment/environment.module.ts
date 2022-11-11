@@ -7,9 +7,11 @@ import { EnvironmentRedisRepository } from './environment.repository';
 @Module({
   imports: [RedisModule],
   controllers: [EnvironmentController],
-  providers: [{
-    provide: "EnvironmentRepository",
-    useClass: EnvironmentRedisRepository
-  }],
+  providers: [
+    {
+      provide: 'EnvironmentRepository',
+      useClass: EnvironmentRedisRepository,
+    },
+  ],
 })
-export class EnvironmentModule { }
+export class EnvironmentModule {}

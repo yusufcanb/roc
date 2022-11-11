@@ -1,4 +1,4 @@
-name: build
+name: ci
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
       - "**.go"
 
 jobs:
-  platform:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -20,9 +20,10 @@ jobs:
           node-version: 16
       - run: npm install -g lerna
       - run: lerna add @roc/core --scope=@roc/platform
+      - run: lerna add @roc/core --scope=@roc/tunnel
       - run: lerna bootstrap
       - run: lerna run build
-  tunnel:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -30,6 +31,19 @@ jobs:
         with:
           node-version: 16
       - run: npm install -g lerna
+      - run: lerna add @roc/core --scope=@roc/platform
       - run: lerna add @roc/core --scope=@roc/tunnel
       - run: lerna bootstrap
-      - run: lerna run build
+      - run: lerna run lint
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm install -g lerna
+      - run: lerna add @roc/core --scope=@roc/platform
+      - run: lerna add @roc/core --scope=@roc/tunnel
+      - run: lerna bootstrap
+      - run: lerna run test

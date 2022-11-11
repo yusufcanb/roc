@@ -15,6 +15,7 @@
   ],
   "scripts": {
     "build": "rm -rf ./lib && tsc",
+    "lint": "eslint \"./src/**/*.ts\"",
     "test": "echo Done!"
   },
   "dependencies": {
