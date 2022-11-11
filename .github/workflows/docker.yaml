@@ -12,6 +12,7 @@ jobs:
   platform:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - 
         name: Set outputs
         id: vars
@@ -28,6 +29,7 @@ jobs:
           push: false
           tags: roc-platform:${{ steps.vars.outputs.sha_short }}
           file: Dockerfile.platform
+  
   tunnel:
     runs-on: ubuntu-latest
     steps:
