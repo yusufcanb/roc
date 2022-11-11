@@ -19,8 +19,8 @@ jobs:
         with:
           node-version: 16
       - run: npm install -g lerna
-      - run: npm install -ws
       - run: lerna add @roc/core --scope=@roc/platform
+      - run: lerna bootstrap
       - run: lerna run build --scope=@roc/platform
   tunnel:
     runs-on: ubuntu-latest
@@ -30,6 +30,6 @@ jobs:
         with:
           node-version: 16
       - run: npm install -g lerna
-      - run: npm install -ws
       - run: lerna add @roc/core --scope=@roc/tunnel
+      - run: lerna bootstrap
       - run: lerna run build --scope=@roc/tunnel
