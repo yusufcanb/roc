@@ -16,7 +16,8 @@
   "scripts": {
     "build": "rm -rf ./lib && tsc",
     "lint": "eslint \"./src/**/*.ts\"",
-    "test": "echo Done!"
+    "test": "echo Done!",
+    "start": "node lib/index.js"
   },
   "dependencies": {
     "@roc/core": "^1.0.0",
