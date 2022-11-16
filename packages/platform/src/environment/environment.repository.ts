@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { RedisClientType } from 'redis';
 
-import { Environment, EnvironmentRepository, Id } from '@roc/core';
+import { Environment, EnvironmentRepository, Id, Nullable } from '@roc/core';
 
 @Injectable()
 export class EnvironmentRedisRepository implements EnvironmentRepository {
@@ -28,9 +28,11 @@ export class EnvironmentRedisRepository implements EnvironmentRepository {
   findAll(): Environment[] {
     throw new Error('Method not implemented.');
   }
-  findById(id: Id): Environment {
+
+  findById(id: Id): Nullable<Environment> {
     throw new Error('Method not implemented.');
   }
+
   save(entity: Environment): Environment {
     throw new Error('Method not implemented.');
   }

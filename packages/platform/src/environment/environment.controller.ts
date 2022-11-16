@@ -1,15 +1,16 @@
 import { Controller, Get, Inject } from '@nestjs/common';
-import { Environment, EnvironmentRepository } from '@roc/core';
+import { Environment } from '@roc/core';
+import { EnvironmentService } from './environment.service';
 
 @Controller('environment')
 export class EnvironmentController {
-  @Inject('EnvironmentRepository')
-  private readonly repository: EnvironmentRepository;
+  @Inject('EnvironmentService')
+  private readonly environmentService: EnvironmentService;
 
   @Get()
   public getEnvironments(): Environment {
     try {
-      this.repository.findAll();
+      this.environmentService.findAll();
     } catch (err: any) {
       return Environment.fromPlainObject({ id: 1 });
     }

@@ -9,6 +9,8 @@ export class Environment extends BaseEntity implements Taggable {
   private _description: string;
   private _tags: string[];
 
+  private _variables: object;
+
   public get projectId(): string {
     return this._projectId;
   }
@@ -51,6 +53,18 @@ export class Environment extends BaseEntity implements Taggable {
 
   public set tags(value: string[]) {
     this._tags = value;
+  }
+
+  /**
+   * Environment variables
+   * e.g {"PING": "pong"}
+   */
+  public get variables() {
+    return this._variables;
+  }
+
+  public set variables(variables: object) {
+    this._variables = variables;
   }
 
   /**
