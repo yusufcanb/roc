@@ -1,13 +1,12 @@
 {
-	"name": "Node.js & TypeScript",
+	"name": "ROC Development Container",
 	"image": "mcr.microsoft.com/devcontainers/typescript-node:16-bullseye",
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [
-		3000
-	],
-	"runArgs": [
-		"--network=host"
-	],
+	"dockerComposeFile": "services.yaml",
+	"customizations": {
+		"vscode": {
+		  "extensions": ["dbaeumer.vscode-eslint", "monokai.theme-monokai-pro-vscode"]
+		}
+	  },
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "yarn install",
 	// Set `remoteUser` to `root` to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
