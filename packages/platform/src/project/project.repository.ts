@@ -7,7 +7,7 @@ import { Id, Project, ProjectRepository } from '@roc/core';
 export class ProjectRedisRepository implements ProjectRepository {
   @Inject('REDIS_CLIENT') private readonly redis: RedisClientType;
 
-  count(): number {
+  count(): Promise<number> {
     throw new Error('Method not implemented.');
   }
 

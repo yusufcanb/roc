@@ -6,7 +6,7 @@ export interface Repository<T extends BaseEntity> {
    * Returns the number of entities available.
    * @returns the number of entities.
    */
-  count(): number;
+  count(): Promise<number>;
 
   /**
    * Returns whether an entity with the given id exists.
@@ -58,5 +58,5 @@ export interface Repository<T extends BaseEntity> {
    * @param entity Entity to be saved
    * @returns The saved entity, will never be null.
    */
-  save(entity: T): T;
+  save(entity: T): Promise<T>;
 }

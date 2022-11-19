@@ -5,11 +5,16 @@ import { Environment, EnvironmentRepository, Id, Nullable } from '@roc/core';
 
 @Injectable()
 export class EnvironmentRedisRepository implements EnvironmentRepository {
+  public static readonly STORE_KEY: string = 'environment';
   @Inject('REDIS_CLIENT') private readonly redis: RedisClientType;
 
-  count(): number {
-    throw new Error('Method not implemented.');
+  async count(): Promise<number> {
+    const keys = await this.redis.keys(
+      `${EnvironmentRedisRepository.STORE_KEY}.*`,
+    );
+    return keys.length;
   }
+
   existsById(id: Id): boolean {
     throw new Error('Method not implemented.');
   }
@@ -33,7 +38,12 @@ export class EnvironmentRedisRepository implements EnvironmentRepository {
     throw new Error('Method not implemented.');
   }
 
-  save(entity: Environment): Environment {
-    throw new Error('Method not implemented.');
+  async save(entity: Environment): Promise<Environment> {
+    await this.redis.json.set(
+      `${EnvironmentRedisRepository.STORE_KEY}.${entity.id}`,
+      '$',
+      entity as any,
+    );
+    return entity;
   }
 }
