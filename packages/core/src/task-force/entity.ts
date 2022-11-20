@@ -1,4 +1,4 @@
-import { BaseEntity, Taggable } from "../commons";
+import { BaseEntity, Taggable } from '../commons';
 
 export class TaskForce extends BaseEntity implements Taggable {
   /**

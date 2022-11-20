@@ -1,6 +1,6 @@
-import { instanceToPlain, plainToInstance } from "class-transformer";
+import { instanceToPlain, plainToInstance } from 'class-transformer';
 
-import { BaseEntity, Taggable } from "../commons";
+import { BaseEntity, Taggable } from '../commons';
 
 export class Environment extends BaseEntity implements Taggable {
   private _projectId: string;

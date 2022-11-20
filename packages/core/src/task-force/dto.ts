@@ -1,5 +1,5 @@
-import { Expose } from "class-transformer";
-import { IsDefined, IsOptional, Matches, IsUrl } from "class-validator";
+import { Expose } from 'class-transformer';
+import { IsDefined, IsOptional, Matches, IsUrl } from 'class-validator';
 
 export class TaskForceCreateDto {
   @IsDefined()

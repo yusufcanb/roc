@@ -4,7 +4,6 @@ import { EnvironmentService } from './environment.service';
 
 @Controller('environment')
 export class EnvironmentController {
-
   @Inject()
   private readonly environmentService: EnvironmentService;
 

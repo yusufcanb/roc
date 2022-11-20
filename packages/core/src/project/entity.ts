@@ -1,4 +1,4 @@
-import { BaseEntity, Taggable, TimeStampable } from "../commons";
+import { BaseEntity, Taggable, TimeStampable } from '../commons';
 
 export class Project extends BaseEntity implements Taggable, TimeStampable {
   private _createdAt: Date;

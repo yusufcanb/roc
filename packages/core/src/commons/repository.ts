@@ -1,5 +1,5 @@
-import { BaseEntity } from "./entity";
-import { Id, Nullable } from "./types";
+import { BaseEntity } from './entity';
+import { Id, Nullable } from './types';
 
 export interface Repository<T extends BaseEntity> {
   /**

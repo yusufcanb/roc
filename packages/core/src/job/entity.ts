@@ -1,4 +1,4 @@
-import { BaseEntity, Id } from "../commons";
+import { BaseEntity, Id } from '../commons';
 
 /**
  * Interface to represent the status of a Kubernetes Job

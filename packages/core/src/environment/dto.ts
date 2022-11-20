@@ -1,5 +1,5 @@
-import { Expose } from "class-transformer";
-import { IsDefined, IsOptional, Matches } from "class-validator";
+import { Expose } from 'class-transformer';
+import { IsDefined, IsOptional, Matches } from 'class-validator';
 
 /* DTO class for the all the fields that can be updated on an Environment entity */
 export class EnvironmentUpdateDto {
