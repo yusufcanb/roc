@@ -50,8 +50,11 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+      - env:
+          REDIS_URL: redis://localhost:6379
       - run: npm install -g lerna
       - run: lerna add @roc/core --scope=@roc/platform
       - run: lerna add @roc/core --scope=@roc/tunnel
       - run: lerna bootstrap
+      - run: lerna run build
       - run: lerna run test
