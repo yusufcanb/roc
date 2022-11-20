@@ -1,6 +1,6 @@
 {
 	"name": "ROC Development Container",
-	"image": "mcr.microsoft.com/devcontainers/typescript-node:16-bullseye",
+	"service": "app",
 	"dockerComposeFile": "services.yaml",
 	"customizations": {
 		"vscode": {

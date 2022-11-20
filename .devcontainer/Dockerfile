@@ -1,16 +1,6 @@
-FROM node:16-alpine
+FROM mcr.microsoft.com/devcontainers/typescript-node:16-bullseye
 
-# Create app directory
-WORKDIR /usr/src/app
-
-COPY package*.json ./
-
-RUN npm install
-
+RUN npm install -g lerna
 COPY . .
 
-EXPOSE 3000
-
-RUN npm run build -ws
-
-CMD [ "node", "packages/platform/lib/main.js" ]
+RUN lerna bootstrap

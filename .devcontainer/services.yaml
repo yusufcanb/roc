@@ -18,5 +18,16 @@ services:
       - '9001:9001'
     volumes:
       - data:/data
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    user: root
+    ports:
+        - 3000:3000
+        - 5000:5000
+    depends_on:
+        - redis
+        - minio
 volumes:
   data:
