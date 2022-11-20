@@ -75,7 +75,6 @@ describe('EnvironmentRedisRepository', () => {
     expect(saved).not.toBeNull();
 
     const fetched = await environmentRepository.getOneById(env.id);
-    console.log(fetched);
     expect(fetched).not.toBeNull();
     expect(fetched).toBeInstanceOf(Environment);
 
