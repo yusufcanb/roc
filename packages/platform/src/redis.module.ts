@@ -6,7 +6,7 @@ import { createClient } from 'redis';
     {
       provide: 'REDIS_OPTIONS',
       useValue: {
-        url: 'redis://localhost:6379',
+        url: process.env.REDIS_URL ?? 'redis://localhost:6379',
       },
     },
     {
