@@ -5,6 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   Inject,
+  Logger,
   Param,
   ParseIntPipe,
   Post,
@@ -18,19 +19,26 @@ export class ProjectController {
   @Inject('ProjectRepository')
   private readonly repository: ProjectRepository;
 
+  private readonly logger = new Logger(ProjectController.name);
+
   @Get()
   @HttpCode(HttpStatus.NOT_IMPLEMENTED)
-  public getProjects() {}
+  public getProjects() {
+    this.logger.log('Not implemented.. ProjectController::getProjects()');
+  }
 
   @Post()
   @HttpCode(HttpStatus.NOT_IMPLEMENTED)
-  public createProject() {}
+  public createProject() {
+    this.logger.log('Not implemented.. ProjectController::createProject()');
+  }
 }
 
 @Controller('project/:id')
 export class ProjectDetailController {
   @Inject('ProjectRepository')
   private readonly repository: ProjectRepository;
+  private readonly logger = new Logger(ProjectDetailController.name);
 
   @Get()
   @HttpCode(HttpStatus.OK)
@@ -40,9 +48,17 @@ export class ProjectDetailController {
 
   @Put()
   @HttpCode(HttpStatus.NOT_IMPLEMENTED)
-  public updateProjectById(@Param('id', new ParseIntPipe()) id) {}
+  public updateProjectById(@Param('id', new ParseIntPipe()) id) {
+    this.logger.log(
+      'Not implemented.. ProjectDetailController::updateProjectById()',
+    );
+  }
 
   @Delete()
   @HttpCode(HttpStatus.NOT_IMPLEMENTED)
-  public deleteProjectById(@Param('id', new ParseIntPipe()) id) {}
+  public deleteProjectById(@Param('id', new ParseIntPipe()) id) {
+    this.logger.log(
+      'Not implemented.. ProjectDetailController::deleteProjectById()',
+    );
+  }
 }
