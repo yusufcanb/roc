@@ -19,6 +19,9 @@ services:
     volumes:
       - data:/data
   app:
+    entrypoint:
+    - sleep
+    - infinity
     build:
       context: .
       dockerfile: Dockerfile
@@ -26,6 +29,10 @@ services:
     ports:
         - 3000:3000
         - 5000:5000
+    volumes:
+    - type: bind
+      source: /var/run/docker.sock
+      target: /var/run/docker.sock
     depends_on:
         - redis
         - minio
