@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { RedisModule } from '../redis.module';
+import { RedisModule } from '../redis/redis.module';
 import { EnvironmentController } from './environment.controller';
 import { EnvironmentRedisRepository } from './environment.repository';
 import { EnvironmentService } from './environment.service';

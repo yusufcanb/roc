@@ -5,7 +5,7 @@ import { AppService } from './app.service';
 import { EnvironmentModule } from './environment';
 import { ProjectModule } from './project';
 
-import { RedisModule } from './redis.module';
+import { RedisModule } from './redis';
 
 @Module({
   imports: [RedisModule, ProjectModule, EnvironmentModule],
