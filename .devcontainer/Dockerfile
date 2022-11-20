@@ -14,8 +14,8 @@ ENV PATH=$GOPATH/bin:/usr/local/go/bin:$PATH \
 
 # Install E2E Requirements
 RUN apt-get update
-RUN apt-get install python3 python3-pip python3-venv
-RUN pip3 install e2e/requirements.txt
+RUN apt-get install python3 python3-pip python3-venv -y
+
+COPY . .
 
 RUN npm install -g lerna
-COPY . .
