@@ -13,45 +13,45 @@ export interface Repository<T extends BaseEntity> {
    * @param id The entity
    * @returns true if an entity with the given id exists, false otherwise.
    */
-  existsById(id: Id): boolean;
+  existsById(id: Id): Promise<boolean>;
 
   /**
    * Retrieve an Entity by its identifier
    * @param id Entity identifier
    */
-  getOneById(id: Id): T;
+  getOneById(id: Id): Promise<T>;
 
   /**
    * Deletes a given entity.
    * @param id Entity identifier
    */
-  delete(entity: T): void;
+  delete(entity: T): Promise<void>;
 
   /**
    * Deletes the entity with the given id.
    * If the entity is not found in the persistence store it is silently ignored.
    * @param id The entity
    */
-  deleteById(id: Id): void;
+  deleteById(id: Id): Promise<void>;
 
   /**
    * Deletes all entities managed by the repository.
    * @param id Entity identifier
    */
-  deleteAll(): void;
+  deleteAll(): Promise<void>;
 
   /**
    * Returns all instances of the type.
    * @returns All entities
    */
-  findAll(): T[];
+  findAll(): Promise<T[]>;
 
   /**
    * Retrieves an entity by its id.
    * @param id Entity identifier
    * @returns the entity with the given id or null if none found.
    */
-  findById(id: Id): Nullable<T>;
+  findById(id: Id): Promise<Nullable<T>>;
 
   /**
    * Saves a given entity.

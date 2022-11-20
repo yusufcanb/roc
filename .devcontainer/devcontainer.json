@@ -6,12 +6,9 @@
 		"vscode": {
 			"extensions": [
 				"dbaeumer.vscode-eslint",
-				"golang.go",
-				"d-biehl.robotcode",
-				"mintlify.document",
-				"cweijan.vscode-redis-client",
 				"esbenp.prettier-vscode",
-				"SonarSource.sonarlint-vscode",
+				"golang.go",
+				"cweijan.vscode-redis-client",
 				"monokai.theme-monokai-pro-vscode"
 			]
 		}

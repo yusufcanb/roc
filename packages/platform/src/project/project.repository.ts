@@ -11,31 +11,31 @@ export class ProjectRedisRepository implements ProjectRepository {
     throw new Error('Method not implemented.');
   }
 
-  existsById(id: Id): boolean {
+  existsById(id: Id): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
 
-  getOneById(id: Id): Project {
+  getOneById(id: Id): Promise<Project> {
     throw new Error('Method not implemented.');
   }
 
-  delete(entity: Project): void {
+  delete(entity: Project): Promise<void> {
     throw new Error('Method not implemented.');
   }
 
-  deleteById(id: Id): void {
+  deleteById(id: Id): Promise<void> {
     throw new Error('Method not implemented.');
   }
 
-  deleteAll(): void {
+  deleteAll(): Promise<void> {
     throw new Error('Method not implemented.');
   }
 
-  findAll(): Project[] {
+  findAll(): Promise<Project[]> {
     throw new Error('Method not implemented.');
   }
 
-  findById(id: Id): Project {
+  findById(id: Id): Promise<Project> {
     throw new Error('Method not implemented.');
   }
 

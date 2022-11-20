@@ -15,26 +15,32 @@ export class EnvironmentRedisRepository implements EnvironmentRepository {
     return keys.length;
   }
 
-  existsById(id: Id): boolean {
+  async existsById(id: Id): Promise<boolean> {
+    return Boolean(
+      await this.redis.exists(`${EnvironmentRedisRepository.STORE_KEY}.${id}`),
+    );
+  }
+
+  getOneById(id: Id): Promise<Environment> {
+    return this.redis.json.get(
+      `${EnvironmentRedisRepository.STORE_KEY}.${id}`
+    ) as any;
+  }
+
+  delete(entity: Environment): Promise<void> {
     throw new Error('Method not implemented.');
   }
-  getOneById(id: Id): Environment {
+  deleteById(id: Id): Promise<void> {
     throw new Error('Method not implemented.');
   }
-  delete(entity: Environment): void {
+  deleteAll(): Promise<void> {
     throw new Error('Method not implemented.');
   }
-  deleteById(id: Id): void {
-    throw new Error('Method not implemented.');
-  }
-  deleteAll(): void {
-    throw new Error('Method not implemented.');
-  }
-  findAll(): Environment[] {
+  findAll(): Promise<Environment[]> {
     throw new Error('Method not implemented.');
   }
 
-  findById(id: Id): Nullable<Environment> {
+  findById(id: Id): Promise<Nullable<Environment>> {
     throw new Error('Method not implemented.');
   }
 

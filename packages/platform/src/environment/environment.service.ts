@@ -6,7 +6,7 @@ export class EnvironmentService {
   @Inject('EnvironmentRepository')
   private readonly repository: EnvironmentRepository;
 
-  public findAll(): Environment[] {
-    return this.repository.findAll();
+  public async findAll(): Promise<Environment[]> {
+    return await this.repository.findAll();
   }
 }

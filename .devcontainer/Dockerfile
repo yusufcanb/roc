@@ -7,6 +7,8 @@ FROM mcr.microsoft.com/devcontainers/typescript-node:16-bullseye
 
 # Install Go 1.18 Toolchain
 COPY --from=go /usr/local/go /usr/local/go
+RUN mkdir /go && chown node:node /go
+
 ENV GOPATH=/go
 ENV PATH=$GOPATH/bin:/usr/local/go/bin:$PATH \
     CGO_ENABLED=0 \
