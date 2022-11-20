@@ -19,6 +19,7 @@ services:
     volumes:
       - data:/data
   app:
+    init: true
     entrypoint:
     - sleep
     - infinity

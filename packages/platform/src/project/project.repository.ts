@@ -39,7 +39,7 @@ export class ProjectRedisRepository implements ProjectRepository {
     throw new Error('Method not implemented.');
   }
 
-  save(entity: Project): Project {
+  save(entity: Project): Promise<Project> {
     throw new Error('Method not implemented.');
   }
 }
