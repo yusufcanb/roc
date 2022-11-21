@@ -1,4 +1,4 @@
-import { BaseEntity, Id, Repository } from '@roc/core';
+import { BaseEntity, Id, Nullable, Repository } from '@roc/core';
 import { RedisClientType } from 'redis';
 
 export abstract class AbstractRedisRepository
@@ -6,8 +6,8 @@ export abstract class AbstractRedisRepository
 {
   protected readonly redis: RedisClientType;
 
-  protected readonly key: string;
-  protected readonly entity: new () => BaseEntity;
+  protected abstract readonly key: string;
+  protected abstract readonly entity: new () => BaseEntity;
 
   async count(): Promise<number> {
     const keys = await this.redis.keys(`${this.key}.*`);
@@ -31,16 +31,29 @@ export abstract class AbstractRedisRepository
     await this.redis.json.del(`${this.key}.${id}`);
   }
 
-  deleteAll(): Promise<void> {
-    throw new Error('Method not implemented.');
+  async deleteAll(): Promise<void> {
+    const keys = await this.redis.keys(`${this.key}.*`);
+    await this.redis.del(keys);
   }
 
-  findAll<T extends BaseEntity>(): Promise<T[]> {
-    throw new Error('Method not implemented.');
+  async findAll<T extends BaseEntity>(): Promise<T[]> {
+    const keys = await this.redis.keys(`${this.key}.*`);
+    const entityArr: T[] = [];
+
+    for (const k of keys) {
+      const entity = await this.getOneById<T>(k);
+      entityArr.push(entity);
+    }
+
+    return entityArr;
   }
 
-  findById<T extends BaseEntity>(id: Id): Promise<T> {
-    throw new Error('Method not implemented.');
+  async findById<T extends BaseEntity>(id: Id): Promise<Nullable<T>> {
+    if (!(await this.existsById(id))) {
+      return null;
+    } else {
+      return this.getOneById(id);
+    }
   }
 
   async save<T extends BaseEntity>(entity: T): Promise<T> {

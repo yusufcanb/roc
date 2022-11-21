@@ -26,24 +26,10 @@ describe('EnvironmentRedisRepository', () => {
     await redis.flushAll();
   });
 
-  it('::save(entity: Environment)', async () => {
-    const env = new Environment();
-    env.id = 'test-env';
-    env.name = 'hello-world';
-    env.variables = {};
-
-    const saved = await environmentRepository.save(env);
-    expect(saved).not.toBeNull();
-  });
-
   it('::count()', async () => {
     const length = 5;
     for (let index = 0; index < length; index++) {
-      await redis.json.set(
-        `environment.${index}`,
-        '$',
-        {},
-      );
+      await redis.json.set(`environment.${index}`, '$', {});
     }
 
     // const mock = jest.spyOn((environmentRepository as any).redis, 'keys');
@@ -55,11 +41,7 @@ describe('EnvironmentRedisRepository', () => {
 
   it('::existsById(id: Id)', async () => {
     const id: Id = 1;
-    await redis.json.set(
-      `environment.${id}`,
-      '$',
-      {},
-    );
+    await redis.json.set(`environment.${id}`, '$', {});
 
     const exists = await environmentRepository.existsById(id);
     expect(exists).toBeTruthy();
@@ -104,5 +86,44 @@ describe('EnvironmentRedisRepository', () => {
     await environmentRepository.deleteById(id);
 
     expect(await redis.exists(`environment.${id}`)).toBeFalsy();
+  });
+
+  it('::deleteAll()', async () => {
+    const length = 5;
+    for (let index = 0; index < length; index++) {
+      await redis.json.set(`environment.${index}`, '$', {});
+    }
+
+    expect(await environmentRepository.count()).toBe(length);
+    await environmentRepository.deleteAll();
+    expect(await environmentRepository.count()).toBe(0);
+  });
+
+  it('::findAll()', async () => {
+    const length = 5;
+    for (let index = 0; index < length; index++) {
+      await redis.json.set(`environment.${index}`, '$', {});
+    }
+
+    const environments: Environment[] = await environmentRepository.findAll();
+
+    expect(environments.length).toBe(length);
+  });
+
+  it('::findById()', async () => {
+    const nonExistId = 'non-exists';
+
+    const environment = await environmentRepository.findById(nonExistId);
+    expect(environment).toBeNull();
+  });
+
+  it('::save(entity: Environment)', async () => {
+    const env = new Environment();
+    env.id = 'test-env';
+    env.name = 'hello-world';
+    env.variables = {};
+
+    const saved = await environmentRepository.save(env);
+    expect(saved).not.toBeNull();
   });
 });
