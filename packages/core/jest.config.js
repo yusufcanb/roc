@@ -1,15 +1,15 @@
 module.exports = {
-    preset: 'ts-jest',
-    testEnvironment: 'node',
-    collectCoverage: true,
-    coverageDirectory: "coverage",
-    collectCoverageFrom: [
-        "src/**/*.{ts,js,jsx}"
-    ],
-    coveragePathIgnorePatterns: [
-        "jest.config.js",
-        "/node_modules/",
-        "/dist/",
-        "/lib/",
-    ],
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  testPathIgnorePatterns: ['./lib'],
+  collectCoverage: true,
+  coverageDirectory: 'coverage',
+  collectCoverageFrom: ['src/**/*.{ts,js,jsx}'],
+  coveragePathIgnorePatterns: [
+    'jest.config.js',
+    '/node_modules/',
+    '/dist/',
+    '/lib/',
+  ],
+  verbose: true,
 };
