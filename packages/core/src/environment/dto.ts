@@ -18,7 +18,7 @@ export class EnvironmentUpdateDto {
 
   @IsOptional()
   @Expose()
-  yaml: string;
+  variables: object;
 }
 
 /* DTO class for the all the required fields to create an Environment entity */
@@ -38,5 +38,5 @@ export class EnvironmentCreateDto {
 
   @IsDefined()
   @Expose()
-  yaml: string;
+  variables: object;
 }

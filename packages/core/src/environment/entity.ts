@@ -7,9 +7,9 @@ export class Environment extends BaseEntity implements Taggable {
 
   private _name: string;
   private _description: string;
-  private _tags: string[];
+  private _tags: string[] = [];
 
-  private _variables: object;
+  private _variables = {};
 
   public get projectId(): string {
     return this._projectId;
@@ -73,7 +73,7 @@ export class Environment extends BaseEntity implements Taggable {
    * @param {any} obj - any - the object to convert
    * @returns An instance of the Environment class.
    */
-  public static fromPlainObject(obj: any): Environment {
+  public static fromPlainObject(obj: Partial<Environment>): Environment {
     return plainToInstance(Environment, obj);
   }
 
