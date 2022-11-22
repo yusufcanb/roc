@@ -660,6 +660,9 @@ components:
           type: string
           format: uuid
           description: "Job identifier (generated value)"
+        projectId:
+          type: string
+          description: "Project id of the environment"
         taskForceId:
           type: string
           description: "Task force id of the Job"
