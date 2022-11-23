@@ -51,15 +51,11 @@ jobs:
           lerna run build
         
       - name: Deploy Services for Test
-        run: |
-          sudo apt-get install iputils-ping
-          docker-compose -f services.yaml up -d && sleep 1
-          ping redis -c 4
+        run: docker-compose -f services.yaml up -d && sleep 1
       - name: Test All Packages
         run: lerna run test
         env:
-          REDIS_URL: redis://redis:6379
-      
+          REDIS_URL: redis://localhost:6379
       - name: Collect Coverage Reports
         run: |
           apt-get install lcov -y
