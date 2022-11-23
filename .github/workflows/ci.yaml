@@ -51,8 +51,10 @@ jobs:
           lerna run build
         
       - name: Deploy Services for Test
-        run: docker-compose -f services.yaml up -d && sleep 1
-      
+        run: |
+          apt-get install iputils-ping
+          docker-compose -f services.yaml up -d && sleep 1
+          ping redis -c 4
       - name: Test All Packages
         run: lerna run test
         env:
