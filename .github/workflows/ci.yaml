@@ -52,7 +52,7 @@ jobs:
         
       - name: Deploy Services for Test
         run: |
-          apt-get install iputils-ping
+          sudo apt-get install iputils-ping
           docker-compose -f services.yaml up -d && sleep 1
           ping redis -c 4
       - name: Test All Packages
