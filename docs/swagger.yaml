@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  description: Internal Automation Platform built on top of Kubernetes and Robot Framework.
+  description: K8s Native Automation Platform tailored for Robot Framework script execution. Provides parallelization and centralized reporting by desing. 🤖
   version: 2.0.0
   title: ROC (Robot Operation Center)
   contact:
