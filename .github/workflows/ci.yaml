@@ -40,23 +40,19 @@ jobs:
     services:
       redis:
         image: redis/redis-stack:6.2.4-v4
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: npm install -g lerna
-      - run: lerna add @roc/core --scope=@roc/platform
-      - run: lerna add @roc/core --scope=@roc/tunnel
-      - run: export REDIS_URL=redis://redis:6379
-      - run: lerna bootstrap
-      - run: lerna run build
-
+      - name: Prepare Packages
+        run: |
+          npm install -g lerna
+          lerna add @roc/core --scope=@roc/platform
+          lerna add @roc/core --scope=@roc/tunnel
+          lerna bootstrap
+          lerna run build
+        
       - name: Test All Packages
         run: lerna run test
         env:
