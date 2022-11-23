@@ -53,6 +53,7 @@ jobs:
       - run: npm install -g lerna
       - run: lerna add @roc/core --scope=@roc/platform
       - run: lerna add @roc/core --scope=@roc/tunnel
+      - run: export REDIS_URL=redis://redis:6379
       - run: lerna bootstrap
       - run: lerna run build
       - run: lerna run test
