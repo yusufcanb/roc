@@ -37,9 +37,6 @@ jobs:
       - run: lerna run lint
   test:
     runs-on: ubuntu-latest
-    services:
-      redis:
-        image: redis/redis-stack:6.2.4-v4
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -53,6 +50,9 @@ jobs:
           lerna bootstrap
           lerna run build
         
+      - name: Deploy Services for Test
+        run: docker-compose -f services.yaml up -d && sleep 1
+      
       - name: Test All Packages
         run: lerna run test
         env:
