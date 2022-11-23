@@ -58,6 +58,11 @@ jobs:
       - run: lerna run build
       - run: lerna run test
       
+      - name: Collect Coverage Reports
+        run: |
+          apt-get install lcov -y
+          mkdir -p coverage
+          find ./packages -name lcov.info -exec echo -a {} \; | xargs lcov -o coverage/lcov.info
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
