@@ -8,11 +8,7 @@ export class EnvironmentController {
   private readonly environmentService: EnvironmentService;
 
   @Get()
-  public getEnvironments(): Environment {
-    try {
-      this.environmentService.findAll();
-    } catch (err: any) {
-      return Environment.fromPlainObject({ id: 1 });
-    }
+  public async getEnvironments(): Promise<Environment[]> {
+    return this.environmentService.findAll();
   }
 }
