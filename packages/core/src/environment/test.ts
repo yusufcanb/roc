@@ -23,7 +23,6 @@ describe('core.environment', () => {
       expect(environment.tags).toStrictEqual([]);
       expect(environment.variables).toStrictEqual({});
     });
-    test('::toPlainObject()', () => {});
   });
 
   describe('EnvironmentCreateDto', () => {
