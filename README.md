@@ -2,6 +2,7 @@
 
 [![e2e-build](https://github.com/yusufcanb/roc/actions/workflows/e2e.yaml/badge.svg)](https://github.com/yusufcanb/roc/actions/workflows/e2e.yml)
 [![ci-build](https://github.com/yusufcanb/roc/actions/workflows/ci.yaml/badge.svg)](https://github.com/yusufcanb/roc/actions/workflows/ci.yml)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=yusufcanb_roc&metric=coverage)](https://sonarcloud.io/summary/new_code?id=yusufcanb_roc)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=yusufcanb_roc&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=yusufcanb_roc)
 
 
