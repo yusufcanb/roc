@@ -1,23 +1,32 @@
+import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { BaseEntity, Taggable, TimeStampable } from '../commons';
 
 export class Project extends BaseEntity implements Taggable, TimeStampable {
-  private _createdAt: Date;
-  private _updatedAt: Date;
+  private _createdAt: Date = new Date();
+  private _updatedAt: Date = null;
 
   private _tags: string[];
 
   public get createdAt(): Date {
     return this._createdAt;
   }
-  public set createdAt(value: Date) {
-    this._createdAt = value;
+  public set createdAt(value: Date | string) {
+    if (value instanceof Date) {
+      this._createdAt = value;
+    } else {
+      this._createdAt = new Date(value);
+    }
   }
 
   public get updatedAt(): Date {
     return this._updatedAt;
   }
-  public set updatedAt(value: Date) {
-    this._updatedAt = value;
+  public set updatedAt(value: Date | string) {
+    if (value instanceof Date) {
+      this._updatedAt = value;
+    } else {
+      this._updatedAt = new Date(value);
+    }
   }
 
   public get tags(): string[] {
@@ -25,5 +34,26 @@ export class Project extends BaseEntity implements Taggable, TimeStampable {
   }
   public set tags(value: string[]) {
     this._tags = value;
+  }
+
+  /**
+   * It takes a plain object and returns an instance of the class
+   *
+   * @param {any} obj - any - the object to convert
+   * @returns An instance of the Environment class.
+   */
+  public static fromPlainObject(obj: Partial<Project>): Project {
+    return plainToInstance(Project, obj);
+  }
+
+  /**
+   * It takes an instance of a class that extends `Environment` and returns
+   * a plain object representation of that instance
+   *
+   * @param {T} obj - T - The object to convert to a plain object.
+   * @returns The plain object representation of the instance.
+   */
+  public static toPlainObject<T extends Project>(obj: T): any {
+    return instanceToPlain(obj);
   }
 }

@@ -50,8 +50,12 @@ export class Job extends BaseEntity {
     return this._createdAt;
   }
 
-  set createdAt(value: Date) {
-    this._createdAt = value;
+  set createdAt(value: Date | string) {
+    if (value instanceof Date) {
+      this._createdAt = value;
+    } else {
+      this._createdAt = new Date(value);
+    }
   }
 
   /**
