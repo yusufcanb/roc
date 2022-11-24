@@ -1,9 +1,14 @@
 import { Test } from '@nestjs/testing';
-
-import { EnvironmentRedisRepository } from './environment.repository';
 import { RedisClientType } from 'redis';
-import { RedisModule } from '../redis/redis.module';
+
 import { Id, Environment } from '@roc/core';
+import {
+  EnvironmentModule,
+  EnvironmentRedisRepository,
+  EnvironmentService,
+} from '../environment';
+
+import { RedisModule } from '../redis/redis.module';
 
 describe('EnvironmentRedisRepository', () => {
   let environmentRepository: EnvironmentRedisRepository;
@@ -125,5 +130,27 @@ describe('EnvironmentRedisRepository', () => {
 
     const saved = await environmentRepository.save(env);
     expect(saved).not.toBeNull();
+  });
+});
+
+describe('EnvironmentService', () => {
+  let environmentService: EnvironmentService;
+
+  beforeAll(async () => {
+    const moduleRef = await Test.createTestingModule({
+      imports: [EnvironmentModule],
+    }).compile();
+
+    environmentService = moduleRef.get<EnvironmentService>(EnvironmentService);
+  });
+
+  afterEach(async () => {});
+
+  it('::findAll()', async () => {
+    const mock = jest.spyOn((environmentService as any).repository, 'findAll');
+    mock.mockImplementation(async (...args) => []);
+
+    expect(await environmentService.findAll()).toStrictEqual([]);
+    mock.mockClear();
   });
 });
