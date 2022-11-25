@@ -10,6 +10,7 @@ module.exports = {
     '/node_modules/',
     '/dist/',
     '/lib/',
+    'test*.ts'
   ],
   verbose: true,
 };
