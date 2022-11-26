@@ -1,4 +1,5 @@
 import { Test } from '@nestjs/testing';
+import { TaskForceRepository } from '@roc/core';
 
 import { RedisClientType } from 'redis';
 import {
@@ -7,21 +8,22 @@ import {
   TaskForceService,
   TaskForceController,
 } from '.';
+import { RedisModule } from '../redis';
 
 describe('TaskForceRedisRepository', () => {
-  let taskForceRepository: TaskForceRedisRepository;
+  let taskForceRepository: TaskForceRepository;
   let redis: RedisClientType;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [TaskForceModule],
-      providers: [TaskForceRedisRepository],
+      imports: [RedisModule, TaskForceModule],
+      providers: [],
     }).compile();
 
     redis = moduleRef.get<RedisClientType>('REDIS_CLIENT');
 
-    taskForceRepository = moduleRef.get<TaskForceRedisRepository>(
-      TaskForceRedisRepository,
+    taskForceRepository = moduleRef.get<TaskForceRepository>(
+      'TaskForceRepository',
     );
   });
 
@@ -30,7 +32,8 @@ describe('TaskForceRedisRepository', () => {
   });
 
   it('::constructor()', async () => {
-    expect(await taskForceRepository).not.toBeNull();
+    expect(taskForceRepository).not.toBeNull();
+    expect(taskForceRepository).toBeInstanceOf(TaskForceRedisRepository);
   });
 });
 
@@ -52,7 +55,7 @@ describe('TaskForceService', () => {
     expect(await taskForceService).not.toBeNull();
   });
 
-  it('::constructor()', async () => {
+  it('::findAll()', async () => {
     const mock = jest.spyOn((taskForceService as any).repository, 'findAll');
     mock.mockImplementation(async (...args) => []);
 
@@ -79,7 +82,7 @@ describe('TaskForceController', () => {
     expect(await taskForceController).not.toBeNull();
   });
 
-  it('::constructor()', async () => {
+  it('::getTaskForces()', async () => {
     const mock = jest.spyOn(
       (taskForceController as any).taskForceService,
       'findAll',
