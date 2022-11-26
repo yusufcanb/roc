@@ -6,7 +6,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=yusufcanb_roc&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=yusufcanb_roc)
 
 
-Robot Operation Center (ROC). Automation platform to distribute and execute robots across different platforms or subnets. 🤖 🕹
+K8s Native Automation Platform tailored for robot script execution. Provides parallelization and centralized reporting by desing. 🤖 🕹
 
 ## Overview
 
@@ -14,9 +14,9 @@ Robot Operation Center (ROC). Automation platform to distribute and execute robo
 
 ### Project Decomposition
 
-- `/agent`: Agent project manages executions on installed platforms.
-- `/platform`: Platform project is for backend operations of platform.
-- `/cli`: Command line interface of the platform.
+- `packages/cli`: Cross platform CLI application written in Go to manage the platform.
+- `packages/platform`: Responsible for execution, distrubution and reporting.
+- `packages/tunnel`: Exposes Redis PUB-SUB events through a WebSocket server.
 
 ## Deployment
 
