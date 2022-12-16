@@ -51,3 +51,21 @@ describe('ProjectController', () => {
     expect(await projectController).not.toBeNull();
   });
 });
+
+
+describe('ProjectDetailController', () => {
+  let projectDetailController: ProjectDetailController;
+
+  beforeAll(async () => {
+    const moduleRef = await Test.createTestingModule({
+      imports: [ProjectModule],
+      providers: [],
+    }).compile();
+
+    projectDetailController = moduleRef.get<ProjectDetailController>(ProjectDetailController);
+  });
+
+  it('::constructor()', async () => {
+    expect(await projectDetailController).not.toBeNull();
+  });
+});

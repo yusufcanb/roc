@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -11,7 +12,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ProjectRepository } from '@roc/core';
+import { Project, ProjectCreateDto, ProjectRepository } from '@roc/core';
 import { ProjectDoesNotFoundException } from './project.exception';
 
 @Controller('project')
@@ -22,15 +23,16 @@ export class ProjectController {
   private readonly logger = new Logger(ProjectController.name);
 
   @Get()
-  @HttpCode(HttpStatus.NOT_IMPLEMENTED)
   public getProjects() {
-    this.logger.log('Not implemented.. ProjectController::getProjects()');
+    return this.repository.findAll();
   }
 
   @Post()
-  @HttpCode(HttpStatus.NOT_IMPLEMENTED)
-  public createProject() {
-    this.logger.log('Not implemented.. ProjectController::createProject()');
+  public createProject(@Body() dto: ProjectCreateDto) {
+    const project = Project.fromPlainObject(dto);
+    this.repository.save(project);
+
+    return project;
   }
 }
 
