@@ -1,0 +1,690 @@
+openapi: 3.0.0
+info:
+  description: K8s Native Automation Platform tailored for Robot Framework script execution. Provides parallelization and centralized reporting by desing. 🤖
+  version: 2.0.0
+  title: ROC (Robot Operation Center)
+  contact:
+    name: Yusuf Can Bayrak
+    email: yusufcanbayrak@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+externalDocs:
+  url: https://github.com/yusufcanb/roc
+  description: Github
+
+servers:
+  - url: /api/v1    # The "url: " prefix is required
+
+tags:
+  - name: project
+    description: Endpoints related to Project schema
+  - name: environment
+    description: Endpoints related to Environment schema
+  - name: task-force
+    description: Endpoints related to TaskForce schema
+  - name: job
+    description: Endpoints related to Job schema
+
+paths:
+  # ------------- Project ------------- #
+  /project:
+    get:
+      operationId: getProjects
+      summary: List all projects
+      tags:
+        - project
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+    post:
+      operationId: createProject
+      summary: Create new project
+      tags:
+        - project
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Request body is invalid
+  /project/{projectId}:
+    get:
+      operationId: getProjectById
+      summary: Get Project by Id
+      tags:
+        - project
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+    put:
+      operationId: updateProject
+      summary: Update Project
+      tags:
+        - project
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Success
+    delete:
+      operationId: deleteProject
+      summary: Delete Project
+      tags:
+        - project
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Success
+  # ------------- End Project ------------- #
+
+  # ------------- Environment ------------ #
+  /environment:
+    get:
+      operationId: getEnvironments
+      summary: List all environments by project id
+      tags:
+        - environment
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: project object to be returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+    post:
+      operationId: createEnvironment
+      summary: Create new environment object
+      tags:
+        - environment
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Environment'
+      responses:
+        '200':
+          description: Successful operation. Returns an environment object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+  /environment/{environmentId}:
+    get:
+      operationId: getEnvironmentById
+      summary: Get environment by id
+      tags:
+        - environment
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: environmentId
+          description: Id of environment
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Successful operation. Returns an environment object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+    put:
+      operationId: updateEnvironment
+      summary: Update an environment object
+      tags:
+        - environment
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: environmentId
+          description: Id of Environment
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Successful operation. Returns an environment object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+    delete:
+      operationId: deleteEnvironment
+      summary: Delete Environment
+      tags:
+        - environment
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: environmentId
+          description: Id of environment
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '204':
+          description: Successful operation.
+
+  # ------------- Task Force ------------- #
+  /task-force:
+    get:
+      operationId: getTaskForces
+      summary: List task forces
+      tags:
+        - task-force
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskForce'
+    post:
+      operationId: createTaskForce
+      summary: Create new task force
+      tags:
+        - task-force
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskForce'
+  /task-force/{taskForceId}:
+    get:
+      operationId: getTaskForceById
+      summary: Get task force by id
+      tags:
+        - task-force
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: taskForceId
+          description: Id of task force
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Successful operation.
+    put:
+      operationId: editTaskForce
+      summary: Edit task force
+      tags:
+        - task-force
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: taskForceId
+          description: Id of task force
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Successful operation.
+    delete:
+      operationId: deleteTaskForce
+      summary: Delete a task force
+      tags:
+        - task-force
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: taskForceId
+          description: Id of task force
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Successful operation.
+  # ------------- End Task Force ------------- #
+
+  # ------------- Job ------------- #
+  /job:
+    get:
+      operationId: getJobsByProject
+      summary: List all jobs by project id
+      tags:
+        - job
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: query
+          name: agentId
+          description: Filter jobs by agent
+          required: false
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: query
+          name: environmentId
+          description: Filter jobs by environment
+          required: false
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: query
+          name: taskForceId
+          description: Filter jobs by task force
+          required: false
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: project object to be returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+    post:
+      operationId: createJob
+      summary: Execute new job
+      tags:
+        - job
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Returns a job object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  projectId:
+                    type: string
+                  environmentId:
+                    type: string
+                example:
+                  projectId: default-project
+                  environmentId: dev
+                  taskForceId: api-health-check
+  /job/{jobId}:
+    get:
+      operationId: getJobById
+      summary: Get job detail
+      tags:
+        - job
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: jobId
+          description: Identifier of job id
+          required: true
+          schema:
+            type: string
+            items:
+              type: string
+      responses:
+        '200':
+          description: project object to be returned
+          content:
+            text/html:
+              schema:
+                type: string
+    delete:
+      operationId: deleteJob
+      summary: Delete a job
+      tags:
+        - job
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: jobId
+          description: Identifier of job id
+          required: true
+          schema:
+            type: string
+            items:
+              type: string
+      responses:
+        '200':
+          description: project object to be returned
+          content:
+            text/html:
+              schema:
+                type: string
+  /job/{jobId}/output.xml:
+    get:
+      operationId: getJobXML
+      summary: Get job output
+      tags:
+        - job
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: jobId
+          description: Identifier of job id
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: project object to be returned
+          content:
+            application/xml: {}
+  /job/{jobId}/log.html:
+    get:
+      operationId: getJobLog
+      summary: Get job log
+      tags:
+        - job
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: jobId
+          description: Identifier of job id
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: project object to be returned
+          content:
+            text/html: {}
+  /job/{jobId}/report.html:
+    get:
+      operationId: getJobReport
+      summary: Get job report
+      tags:
+        - job
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: jobId
+          description: Identifier of job id
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: project object to be returned
+          content:
+            text/html: {}
+  # ------------- End Job ------------- #
+
+components:
+  securitySchemes:
+    AccessTokenAuth:
+      type: apiKey
+      in: header
+      name: X-Access-Token
+      description: Provide access token to perform operations.
+  requestBodies:
+    ProjectList:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Project"
+      description: List of user object
+      required: true
+  schemas:
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "Unique identifier of project"
+          example: "default-project"
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+        description:
+          type: string
+          description: "Detailed description of the project"
+          example: "General purpose operations with fancy robots"
+        tags:
+          type: array
+          description: "Tags for labelling the task force"
+          example: ["default", ]
+          items:
+            type: string
+        createdAt:
+          type: string
+          description: "Project creation time as UTC format"
+        updatedAt:
+          type: string
+          description: "Project update time as UTC format"
+    Environment:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "Unique identifier of environment"
+          example: "development"
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+        projectId:
+          type: string
+          description: "Project id of the environment"
+        description:
+          type: string
+          description: "Detailed description of the environment"
+          example: "Project X development environment variables"
+        tags:
+          type: array
+          description: "Tags for labelling the environment"
+          example: ["dev", ]
+          items:
+            type: string
+        yaml:
+          type: string
+          description: "YAML formatted text contains execution variables"
+    TaskForce:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "Unique identifier of task force"
+          example: "api-health-check"
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+        name:
+          type: string
+          description: "The name of the top-level task suite"
+          example: "API Health Checks"
+        projectId:
+          type: string
+          description: "Project id of the environment"
+        description:
+          type: string
+          description: "Detailed description of the task force's purpose"
+          example: "Responsible for health check operations for internal api services"
+        repository:
+          type: string
+          description: "Git repository url of the Robot Framework project"
+          example: "https://github.com/yusufcanb/roc.git"
+        runner:
+          type: string
+          description: "Docker image for execution environment"
+          example: "ghcr.io/yusufcanb/roc-runner:latest"
+        selector:
+          type: string
+          description: "Regex pattern to filter robots to be executed"
+          externalDocs:
+            description: "Robot Framework reference"
+            url:  "https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#selecting-test-cases"
+          example: "^tasks/[a-z0-9]+(?:-[a-z0-9]+)*$"
+          default: "tasks/*$"
+        include:
+          type: string
+          description: "Include tag pattern for robot scripts"
+          example: "xNOTyANDz"
+          externalDocs:
+            description: "Robot Framework reference"
+            url:  "https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#selecting-test-cases"
+        tags:
+          type: array
+          description: "Tags for labelling the task force"
+          example: ["prod", "api"]
+          items:
+            type: string
+    Job:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: "Job identifier (generated value)"
+        projectId:
+          type: string
+          description: "Project id of the environment"
+        taskForceId:
+          type: string
+          description: "Task force id of the Job"
+        environmentId:
+          type: string
+          description: "Environment identifier to set robot variables"
+          example: "123f-23f-ftgd-12d1"
+        createdAt:
+          type: string
+        status:
+          type: object
+          description: "K8s JobStatus object"
+          properties:
+            active:
+              type: string
+            completionTime:
+              type: string
+            startTime:
+              type: string
+            succeeded:
+              type: string
