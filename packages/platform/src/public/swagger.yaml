@@ -12,10 +12,6 @@ info:
 externalDocs:
   url: https://github.com/yusufcanb/roc
   description: Github
-
-servers:
-  - url: /api/v1    # The "url: " prefix is required
-
 tags:
   - name: project
     description: Endpoints related to Project schema
@@ -51,10 +47,7 @@ paths:
       security:
         - ApiKeyAuth: []
       requestBody:
-        content:
-          'application/json':
-            schema:
-              $ref: '#/components/schemas/Project'
+        $ref: '#/components/requestBodies/ProjectCreateDto'
       responses:
         '201':
           description: Successful operation
@@ -551,15 +544,56 @@ components:
       name: X-Access-Token
       description: Provide access token to perform operations.
   requestBodies:
-    ProjectList:
+    ProjectCreateDto:
+      description: Project create body content
+      required: true
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: "#/components/schemas/Project"
-      description: List of user object
+            type: object
+            properties:
+              id:
+                type: string
+                description: "Unique identifier of project"
+                example: "default-project"
+                pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+              description:
+                type: string
+                description: "Detailed description of the project"
+                example: "General purpose operations with fancy robots"
+              tags:
+                type: array
+                description: "Tags for labelling the task force"
+                example: ["default", ]
+                items:
+                  type: string
+    ProjectUpdateDto:
+      description: Project update body content
       required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              description:
+                type: string
+                description: "Detailed description of the project"
+                example: "General purpose operations with fancy robots"
+              tags:
+                type: array
+                description: "Tags for labelling the task force"
+                example: ["default", ]
+                items:
+                  type: string
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: string
+            items:
+              type: integer
   schemas:
     Project:
       type: object

@@ -55,13 +55,15 @@ describe('EnvironmentRedisRepository', () => {
   it('::getOneById(id: Id)', async () => {
     const env = new Environment();
     env.id = 'test-env';
-    env.name = 'hello-world';
+    env.projectId = 'default-project';
     env.variables = {};
 
     const saved = await environmentRepository.save(env);
     expect(saved).not.toBeNull();
 
-    const fetched = await environmentRepository.getOneById(env.id);
+    const fetched = await environmentRepository.getOneById(
+      `${env.projectId}.${env.id}`,
+    );
     expect(fetched).not.toBeNull();
     expect(fetched).toBeInstanceOf(Environment);
 
@@ -71,26 +73,39 @@ describe('EnvironmentRedisRepository', () => {
   it('::delete(entity: Environment)', async () => {
     const env = new Environment();
     env.id = 'test-env';
-    env.name = 'hello-world';
+    env.projectId = 'default-project';
     env.variables = {};
 
     const saved = await environmentRepository.save(env);
     expect(saved).not.toBeNull();
-    expect(await redis.exists('environment.test-env')).toBeTruthy();
+    expect(
+      await redis.exists(`environment.${env.projectId}.${env.id}`),
+    ).toBeTruthy();
 
     await environmentRepository.delete(env);
 
-    expect(await redis.exists('environment.test-env')).toBeFalsy();
+    expect(
+      await redis.exists(`environment.${env.projectId}.${env.id}`),
+    ).toBeFalsy();
   });
 
   it('::deleteById(id: Id)', async () => {
     const id = 1;
-    await redis.json.set(`environment.${id}`, '$', { hello: 'world!' } as any);
-    expect(await environmentRepository.existsById(id)).toBeTruthy();
+
+    await redis.json.set(`environment.default-project.${id}`, '$', {
+      hello: 'world!',
+    } as any);
+    expect(
+      await environmentRepository.existsById(`default-project.${id}`),
+    ).toBeTruthy();
 
     await environmentRepository.deleteById(id);
 
-    expect(await redis.exists(`environment.${id}`)).toBeFalsy();
+    expect(
+      await environmentRepository.existsById(
+        `environment.default-project.${id}`,
+      ),
+    ).toBeFalsy();
   });
 
   it('::deleteAll()', async () => {
@@ -125,7 +140,7 @@ describe('EnvironmentRedisRepository', () => {
   it('::save(entity: Environment)', async () => {
     const env = new Environment();
     env.id = 'test-env';
-    env.name = 'hello-world';
+    env.projectId = 'default-project';
     env.variables = {};
 
     const saved = await environmentRepository.save(env);
@@ -150,7 +165,7 @@ describe('EnvironmentService', () => {
     const mock = jest.spyOn((environmentService as any).repository, 'findAll');
     mock.mockImplementation(async (...args) => []);
 
-    expect(await environmentService.findAll()).toStrictEqual([]);
+    expect(await environmentService.findAllByProjectId(-1)).toStrictEqual([]);
     mock.mockClear();
   });
 });

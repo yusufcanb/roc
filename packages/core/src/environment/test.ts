@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { Environment, EnvironmentCreateDto } from '.';
 import { validate } from 'class-validator';
 
@@ -9,15 +11,17 @@ describe('core.environment', () => {
     });
     test('::fromPlainObject()', () => {
       const plainObject = {
-        name: 'test-env',
+        id: 'test-env',
         description: 'a test env to test env',
+        tags: [],
+        variables: {},
       };
       const environment = Environment.fromPlainObject(plainObject);
 
       expect(environment).not.toBe(null);
       expect(environment).toBeInstanceOf(Environment);
 
-      expect(environment.name).toBe(plainObject.name);
+      expect(environment.id).toBe(plainObject.id);
       expect(environment.description).toBe(plainObject.description);
 
       expect(environment.tags).toStrictEqual([]);
@@ -28,7 +32,7 @@ describe('core.environment', () => {
   describe('EnvironmentCreateDto', () => {
     test('it validates correctly when given fields are valid', () => {
       const envDto = new EnvironmentCreateDto();
-      envDto.name = 'valid-env-name';
+      envDto.id = 'valid-env-name';
       envDto.description = 'hello world!';
       envDto.variables = { hello: 'world!' };
 
@@ -39,12 +43,12 @@ describe('core.environment', () => {
 
     test('it has validation errors when given name does not match the name convention', () => {
       const envDto = new EnvironmentCreateDto();
-      envDto.name = 'valid-env_!! ff';
+      envDto.id = 'valid-env_!! ff';
       envDto.variables = { hello: 'world!' };
       validate(envDto).then((errors) => {
         expect(errors.length).toEqual(1);
         expect(errors[0].constraints.matches).toEqual(
-          'name must match /^[a-z0-9-]+$/ regular expression',
+          'id must match /^[a-z0-9-]+$/ regular expression',
         );
       });
     });

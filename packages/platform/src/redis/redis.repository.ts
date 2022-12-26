@@ -9,6 +9,15 @@ export abstract class AbstractRedisRepository
   protected abstract readonly key: string;
   protected abstract readonly entity: new () => BaseEntity;
 
+  protected _popFirstAndMerge(arr: string[]): string {
+    if (arr.length === 0) {
+      return '';
+    }
+
+    const [_, ...rest] = arr;
+    return rest.join('.');
+  }
+
   async count(): Promise<number> {
     const keys = await this.redis.keys(`${this.key}.*`);
     return keys.length;
@@ -41,7 +50,9 @@ export abstract class AbstractRedisRepository
     const entityArr: T[] = [];
 
     for (const k of keys) {
-      const entity = await this.getOneById<T>(k);
+      const entity: T = await this.getOneById<T>(
+        this._popFirstAndMerge(k.split('.')),
+      );
       entityArr.push(entity);
     }
 

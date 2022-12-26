@@ -1,15 +1,28 @@
-import { instanceToPlain, plainToInstance } from 'class-transformer';
+import { Expose, instanceToPlain, plainToClass } from 'class-transformer';
 import { BaseEntity, Taggable, TimeStampable } from '../commons';
 
 export class Project extends BaseEntity implements Taggable, TimeStampable {
-  private _createdAt: Date = new Date();
+  private _description: string;
+
+  private _createdAt: Date = null;
   private _updatedAt: Date = null;
 
   private _tags: string[];
 
+  @Expose()
+  public get description() {
+    return this._description;
+  }
+
+  public set description(value: string) {
+    this._description = value;
+  }
+
+  @Expose()
   public get createdAt(): Date {
     return this._createdAt;
   }
+
   public set createdAt(value: Date | string) {
     if (value instanceof Date) {
       this._createdAt = value;
@@ -18,9 +31,11 @@ export class Project extends BaseEntity implements Taggable, TimeStampable {
     }
   }
 
+  @Expose()
   public get updatedAt(): Date {
     return this._updatedAt;
   }
+
   public set updatedAt(value: Date | string) {
     if (value instanceof Date) {
       this._updatedAt = value;
@@ -29,9 +44,11 @@ export class Project extends BaseEntity implements Taggable, TimeStampable {
     }
   }
 
+  @Expose()
   public get tags(): string[] {
     return this._tags;
   }
+
   public set tags(value: string[]) {
     this._tags = value;
   }
@@ -43,7 +60,8 @@ export class Project extends BaseEntity implements Taggable, TimeStampable {
    * @returns An instance of the Environment class.
    */
   public static fromPlainObject(obj: Partial<Project>): Project {
-    return plainToInstance(Project, obj);
+    // return plainToInstance(Project, obj);
+    return plainToClass(Project, obj, { ignoreDecorators: true });
   }
 
   /**
@@ -54,6 +72,9 @@ export class Project extends BaseEntity implements Taggable, TimeStampable {
    * @returns The plain object representation of the instance.
    */
   public static toPlainObject<T extends Project>(obj: T): any {
-    return instanceToPlain(obj);
+    return instanceToPlain(obj, {
+      strategy: 'excludeAll',
+      enableImplicitConversion: true,
+    });
   }
 }
