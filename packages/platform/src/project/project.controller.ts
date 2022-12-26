@@ -4,7 +4,8 @@ import {
   Delete,
   Get,
   Inject,
-  Logger, Param,
+  Logger,
+  Param,
   Post,
   Put
 } from '@nestjs/common';
@@ -12,7 +13,8 @@ import {
   Project,
   ProjectCreateDto,
   ProjectRepository,
-  ProjectRetrieveDto, ProjectUpdateDto
+  ProjectRetrieveDto,
+  ProjectUpdateDto
 } from '@roc/core';
 import {
   ProjectAlreadyExistsException,
@@ -28,7 +30,7 @@ export class ProjectController {
 
   @Get()
   public async getProjects(): Promise<ProjectRetrieveDto[]> {
-    return ProjectRetrieveDto.from(
+    return ProjectRetrieveDto.fromMany(
       await this.repository.findAll(),
     ) as ProjectRetrieveDto[];
   }

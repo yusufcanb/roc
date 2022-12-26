@@ -11,27 +11,20 @@ export class ProjectRetrieveDto {
   createdAt: Date | string;
   updatedAt: Date | string;
 
-  public static from(
-    p: Project | Project[],
-  ): ProjectRetrieveDto | ProjectRetrieveDto[] {
-    const toDto = (project: Project): ProjectRetrieveDto => {
-      const dto = new ProjectRetrieveDto();
+  static from(obj: Project): ProjectRetrieveDto {
+    const dto = new ProjectRetrieveDto();
+    dto.id = obj.id;
+    dto.description = obj.description;
+    dto.tags = obj.tags;
+    dto.createdAt = obj.createdAt ? obj.createdAt : null;
+    dto.updatedAt = obj.updatedAt ? obj.updatedAt : null;
+    return dto;
+  }
 
-      dto.id = project.id;
-      dto.description = project.description;
-      dto.tags = project.tags;
-      dto.createdAt = project.createdAt ? project.createdAt : null;
-      dto.updatedAt = project.updatedAt ? project.updatedAt : null;
-      return dto;
-    };
-
-    if (Array.isArray(p)) {
-      const projectDtoList: ProjectRetrieveDto[] = [];
-      p.forEach((project) => projectDtoList.push(toDto(project)));
-      return projectDtoList;
-    } else {
-      return toDto(p);
-    }
+  static fromMany(obj: Project[]): ProjectRetrieveDto[] {
+    const dtos: ProjectRetrieveDto[] = [];
+    obj.forEach((project) => dtos.push(ProjectRetrieveDto.from(project)));
+    return dtos;
   }
 }
 

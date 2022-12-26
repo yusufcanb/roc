@@ -1,4 +1,4 @@
-import { Expose, instanceToPlain, plainToInstance } from 'class-transformer';
+import { Expose, instanceToPlain, plainToClass } from 'class-transformer';
 import { BaseEntity, Taggable, TimeStampable } from '../commons';
 
 export class Project extends BaseEntity implements Taggable, TimeStampable {
@@ -43,7 +43,7 @@ export class Project extends BaseEntity implements Taggable, TimeStampable {
       this._updatedAt = new Date(value);
     }
   }
-  
+
   @Expose()
   public get tags(): string[] {
     return this._tags;
@@ -60,7 +60,8 @@ export class Project extends BaseEntity implements Taggable, TimeStampable {
    * @returns An instance of the Environment class.
    */
   public static fromPlainObject(obj: Partial<Project>): Project {
-    return plainToInstance(Project, obj);
+    // return plainToInstance(Project, obj);
+    return plainToClass(Project, obj, {ignoreDecorators: true});
   }
 
   /**
