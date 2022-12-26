@@ -1,14 +1,15 @@
-import { instanceToPlain, plainToInstance } from 'class-transformer';
+import { Expose, instanceToPlain, plainToInstance } from 'class-transformer';
 import { BaseEntity, Taggable, TimeStampable } from '../commons';
 
 export class Project extends BaseEntity implements Taggable, TimeStampable {
   private _description: string;
-  
+
   private _createdAt: Date = null;
   private _updatedAt: Date = null;
 
   private _tags: string[];
 
+  @Expose()
   public get description() {
     return this._description;
   }
@@ -17,6 +18,7 @@ export class Project extends BaseEntity implements Taggable, TimeStampable {
     this._description = value;
   }
 
+  @Expose()
   public get createdAt(): Date {
     return this._createdAt;
   }
@@ -29,6 +31,7 @@ export class Project extends BaseEntity implements Taggable, TimeStampable {
     }
   }
 
+  @Expose()
   public get updatedAt(): Date {
     return this._updatedAt;
   }
@@ -40,7 +43,8 @@ export class Project extends BaseEntity implements Taggable, TimeStampable {
       this._updatedAt = new Date(value);
     }
   }
-
+  
+  @Expose()
   public get tags(): string[] {
     return this._tags;
   }
@@ -67,6 +71,9 @@ export class Project extends BaseEntity implements Taggable, TimeStampable {
    * @returns The plain object representation of the instance.
    */
   public static toPlainObject<T extends Project>(obj: T): any {
-    return instanceToPlain(obj);
+    return instanceToPlain(obj, {
+      strategy: 'excludeAll',
+      enableImplicitConversion: true,
+    });
   }
 }

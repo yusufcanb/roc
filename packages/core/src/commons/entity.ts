@@ -7,6 +7,7 @@ export abstract class BaseEntity {
   /** Identifier of the entity */
   private _id: Id;
 
+  @Expose()
   public get id(): Id {
     return this._id;
   }
