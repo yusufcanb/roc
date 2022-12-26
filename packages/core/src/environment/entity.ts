@@ -1,40 +1,32 @@
-import { instanceToPlain, plainToInstance } from 'class-transformer';
+import { Expose, instanceToPlain, plainToInstance } from 'class-transformer';
 
-import { BaseEntity, Taggable } from '../commons';
+import { BaseEntity, Id, Taggable } from '../commons';
 
 export class Environment extends BaseEntity implements Taggable {
-  private _projectId: string;
+  private _projectId: Id;
 
-  private _name: string;
   private _description: string;
   private _tags: string[] = [];
-
   private _variables = {};
 
-  public get projectId(): string {
+  public get key(): string {
+    return `${this.projectId}.${this.id}`;
+  }
+
+  @Expose()
+  public get projectId(): Id {
     return this._projectId;
   }
 
-  public set projectId(value: string) {
+  public set projectId(value: Id) {
     this._projectId = value;
-  }
-
-  /**
-   * Name of the environment. Should compily with the slug naming convention.
-   * e.g. dev-1, eu-west-1-dev
-   */
-  public get name(): string {
-    return this._name;
-  }
-
-  public set name(value: string) {
-    this._name = value;
   }
 
   /**
    * Long description of the environment.
    * e.g. global operational contants west-europe-1 region
    */
+  @Expose()
   public get description(): string {
     return this._description;
   }
@@ -47,6 +39,7 @@ export class Environment extends BaseEntity implements Taggable {
    * Environment tags
    * e.g. ["dev", "eu-west-1", "mock"]
    */
+  @Expose()
   public get tags(): string[] {
     return this._tags;
   }
@@ -59,6 +52,7 @@ export class Environment extends BaseEntity implements Taggable {
    * Environment variables
    * e.g {"PING": "pong"}
    */
+  @Expose()
   public get variables() {
     return this._variables;
   }
@@ -74,7 +68,7 @@ export class Environment extends BaseEntity implements Taggable {
    * @returns An instance of the Environment class.
    */
   public static fromPlainObject(obj: Partial<Environment>): Environment {
-    return plainToInstance(Environment, obj);
+    return plainToInstance(Environment, obj, { ignoreDecorators: true });
   }
 
   /**
@@ -85,6 +79,9 @@ export class Environment extends BaseEntity implements Taggable {
    * @returns The plain object representation of the instance.
    */
   public static toPlainObject<T extends Environment>(obj: T): any {
-    return instanceToPlain(obj);
+    return instanceToPlain(obj, {
+      strategy: 'excludeAll',
+      enableImplicitConversion: true,
+    });
   }
 }
