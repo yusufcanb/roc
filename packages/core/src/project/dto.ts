@@ -8,8 +8,8 @@ export class ProjectRetrieveDto {
   description: string;
   tags: string[];
 
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
 
   public static from(
     p: Project | Project[],
@@ -20,12 +20,8 @@ export class ProjectRetrieveDto {
       dto.id = project.id;
       dto.description = project.description;
       dto.tags = project.tags;
-      dto.createdAt = project.createdAt
-        ? project.createdAt.toUTCString()
-        : null;
-      dto.updatedAt = project.updatedAt
-        ? project.updatedAt.toUTCString()
-        : null;
+      dto.createdAt = project.createdAt ? project.createdAt : null;
+      dto.updatedAt = project.updatedAt ? project.updatedAt : null;
       return dto;
     };
 
