@@ -51,9 +51,9 @@ describe('core.project', () => {
 
     const plainObject = Project.toPlainObject(project);
 
-    expect(project.id).not.toBe(plainObject.id);
-    expect(project.createdAt).not.toBe(plainObject.createdAt);
-    expect(project.updatedAt).not.toBe(plainObject.updatedAt);
-    expect(project.tags).not.toStrictEqual(plainObject.tags);
+    expect(project.id).toBe(plainObject.id);
+    expect(project.createdAt).toStrictEqual(plainObject.createdAt);
+    expect(project.updatedAt).toStrictEqual(plainObject.updatedAt);
+    expect(project.tags).toStrictEqual(plainObject.tags);
   });
 });

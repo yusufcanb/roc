@@ -2,14 +2,25 @@ import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { BaseEntity, Taggable, TimeStampable } from '../commons';
 
 export class Project extends BaseEntity implements Taggable, TimeStampable {
-  private _createdAt: Date = new Date();
+  private _description: string;
+  
+  private _createdAt: Date = null;
   private _updatedAt: Date = null;
 
   private _tags: string[];
 
+  public get description() {
+    return this._description;
+  }
+
+  public set description(value: string) {
+    this._description = value;
+  }
+
   public get createdAt(): Date {
     return this._createdAt;
   }
+
   public set createdAt(value: Date | string) {
     if (value instanceof Date) {
       this._createdAt = value;
@@ -21,6 +32,7 @@ export class Project extends BaseEntity implements Taggable, TimeStampable {
   public get updatedAt(): Date {
     return this._updatedAt;
   }
+
   public set updatedAt(value: Date | string) {
     if (value instanceof Date) {
       this._updatedAt = value;
@@ -32,6 +44,7 @@ export class Project extends BaseEntity implements Taggable, TimeStampable {
   public get tags(): string[] {
     return this._tags;
   }
+
   public set tags(value: string[]) {
     this._tags = value;
   }

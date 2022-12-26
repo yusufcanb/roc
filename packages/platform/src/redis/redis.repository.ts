@@ -41,7 +41,7 @@ export abstract class AbstractRedisRepository
     const entityArr: T[] = [];
 
     for (const k of keys) {
-      const entity = await this.getOneById<T>(k);
+      const entity: T = await this.getOneById<T>(k.split('.')[1]);
       entityArr.push(entity);
     }
 

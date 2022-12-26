@@ -3,17 +3,21 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
-  HttpStatus,
   Inject,
-  Logger,
-  Param,
-  ParseIntPipe,
+  Logger, Param,
   Post,
-  Put,
+  Put
 } from '@nestjs/common';
-import { Project, ProjectCreateDto, ProjectRepository } from '@roc/core';
-import { ProjectDoesNotFoundException } from './project.exception';
+import {
+  Project,
+  ProjectCreateDto,
+  ProjectRepository,
+  ProjectRetrieveDto, ProjectUpdateDto
+} from '@roc/core';
+import {
+  ProjectAlreadyExistsException,
+  ProjectDoesNotFoundException
+} from './project.exception';
 
 @Controller('project')
 export class ProjectController {
@@ -23,16 +27,24 @@ export class ProjectController {
   private readonly logger = new Logger(ProjectController.name);
 
   @Get()
-  public getProjects() {
-    return this.repository.findAll();
+  public async getProjects(): Promise<ProjectRetrieveDto[]> {
+    return ProjectRetrieveDto.from(
+      await this.repository.findAll(),
+    ) as ProjectRetrieveDto[];
   }
 
   @Post()
-  public createProject(@Body() dto: ProjectCreateDto) {
-    const project = Project.fromPlainObject(dto);
-    this.repository.save(project);
-
-    return project;
+  public async createProject(
+    @Body() dto: ProjectCreateDto,
+  ): Promise<ProjectRetrieveDto> {
+    if (!(await this.repository.existsById(dto.id))) {
+      const project = Project.fromPlainObject(dto);
+      project.createdAt = new Date();
+      this.repository.save(project);
+      return ProjectRetrieveDto.from(project) as ProjectRetrieveDto;
+    } else {
+      throw new ProjectAlreadyExistsException(dto.id);
+    }
   }
 }
 
@@ -43,24 +55,39 @@ export class ProjectDetailController {
   private readonly logger = new Logger(ProjectDetailController.name);
 
   @Get()
-  @HttpCode(HttpStatus.OK)
-  public getProjectById(@Param('id', new ParseIntPipe()) id) {
-    throw new ProjectDoesNotFoundException();
+  public async getProjectById(@Param('id') id): Promise<ProjectRetrieveDto> {
+    if (await this.repository.existsById(id)) {
+      return ProjectRetrieveDto.from(
+        await this.repository.getOneById(id),
+      ) as ProjectRetrieveDto;
+    } else {
+      throw new ProjectDoesNotFoundException();
+    }
   }
 
   @Put()
-  @HttpCode(HttpStatus.NOT_IMPLEMENTED)
-  public updateProjectById(@Param('id', new ParseIntPipe()) id) {
-    this.logger.log(
-      'Not implemented.. ProjectDetailController::updateProjectById()',
-    );
+  public async updateProjectById(
+    @Param('id') id,
+    @Body() dto: ProjectUpdateDto,
+  ): Promise<ProjectRetrieveDto> {
+    if (await this.repository.existsById(id)) {
+      const project = await this.repository.getOneById(id);
+      project.updatedAt = new Date(Date.now());
+      project.tags = dto.tags;
+      project.description = dto.description;
+      this.repository.save(project);
+      return ProjectRetrieveDto.from(project) as ProjectRetrieveDto;
+    } else {
+      throw new ProjectDoesNotFoundException();
+    }
   }
 
   @Delete()
-  @HttpCode(HttpStatus.NOT_IMPLEMENTED)
-  public deleteProjectById(@Param('id', new ParseIntPipe()) id) {
-    this.logger.log(
-      'Not implemented.. ProjectDetailController::deleteProjectById()',
-    );
+  public async deleteProjectById(@Param('id') id): Promise<any> {
+    if (await this.repository.existsById(id)) {
+      return await this.repository.deleteById(id);
+    } else {
+      throw new ProjectDoesNotFoundException();
+    }
   }
 }

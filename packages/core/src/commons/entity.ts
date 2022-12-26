@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
+import { Expose } from 'class-transformer';
 import { Id } from './types';
 
 export abstract class BaseEntity {
