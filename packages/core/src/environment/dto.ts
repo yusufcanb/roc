@@ -1,7 +1,10 @@
 import { Expose, Type } from 'class-transformer';
 import {
   IsArray,
-  IsDefined, IsOptional, Matches
+  IsDefined,
+  IsObject,
+  IsOptional,
+  Matches,
 } from 'class-validator';
 import { Id } from '../commons';
 import { Environment } from './entity';
@@ -63,7 +66,7 @@ export class EnvironmentCreateDto {
   tags: string[];
 
   @IsDefined()
-  // @IsObject()
+  @IsObject()
   @Expose()
   variables: object;
 }
