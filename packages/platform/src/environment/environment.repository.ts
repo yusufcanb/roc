@@ -18,7 +18,7 @@ export class EnvironmentRedisRepository
   @Inject('REDIS_CLIENT')
   protected readonly redis: RedisClientType;
 
-  protected key: string = 'environment';
+  protected key = 'environment';
   protected readonly entity: new () => Environment = Environment;
 
   async count(): Promise<number> {

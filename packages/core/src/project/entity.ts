@@ -61,7 +61,7 @@ export class Project extends BaseEntity implements Taggable, TimeStampable {
    */
   public static fromPlainObject(obj: Partial<Project>): Project {
     // return plainToInstance(Project, obj);
-    return plainToClass(Project, obj, {ignoreDecorators: true});
+    return plainToClass(Project, obj, { ignoreDecorators: true });
   }
 
   /**
