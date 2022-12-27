@@ -87,7 +87,7 @@ describe('TaskForceController', () => {
   it('::getTaskForces()', async () => {
     const mock = jest.spyOn(
       (taskForceController as any).taskForceService,
-      'findAll',
+      'findAllByProjectId',
     );
     mock.mockImplementation(async (...args) => []);
 
