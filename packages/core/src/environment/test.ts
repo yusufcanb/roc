@@ -30,7 +30,7 @@ describe('core.environment', () => {
   });
 
   describe('EnvironmentCreateDto', () => {
-    test('it validates correctly when given fields are valid', () => {
+    test('validation(+)', () => {
       const envDto = new EnvironmentCreateDto();
       envDto.id = 'valid-env-name';
       envDto.description = 'hello world!';
@@ -41,7 +41,7 @@ describe('core.environment', () => {
       });
     });
 
-    test('it has validation errors when given name does not match the name convention', () => {
+    test('validation(-)', () => {
       const envDto = new EnvironmentCreateDto();
       envDto.id = 'valid-env_!! ff';
       envDto.variables = { hello: 'world!' };
