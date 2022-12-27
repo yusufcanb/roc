@@ -46,7 +46,7 @@ jobs:
       - name: Prepare Packages
         run: |
           npm install -g lerna
-          run: npm install -ws
+          npm install -ws
           lerna add @roc/core --scope=@roc/platform
           lerna add @roc/core --scope=@roc/tunnel
           lerna bootstrap
