@@ -1,8 +1,8 @@
 import { Expose, instanceToPlain, plainToClass } from 'class-transformer';
-import { BaseEntity, Taggable } from '../commons';
+import { BaseEntity, Id, Taggable } from '../commons';
 
 export class TaskForce extends BaseEntity implements Taggable {
-  private _projectId: string;
+  private _projectId: Id;
 
   private _description: string;
   private _repository: string;
@@ -16,11 +16,11 @@ export class TaskForce extends BaseEntity implements Taggable {
    * Project id of the environment.
    */
   @Expose()
-  get projectId(): string {
+  get projectId(): Id {
     return this._projectId;
   }
 
-  set projectId(value: string) {
+  set projectId(value: Id) {
     this._projectId = value;
   }
 

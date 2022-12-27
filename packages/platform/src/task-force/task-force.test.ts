@@ -59,7 +59,9 @@ describe('TaskForceService', () => {
     const mock = jest.spyOn((taskForceService as any).repository, 'findAll');
     mock.mockImplementation(async (...args) => []);
 
-    expect(await taskForceService.findAll()).toStrictEqual([]);
+    expect(
+      await taskForceService.findAllByProjectId('default-project'),
+    ).toStrictEqual([]);
   });
 });
 
@@ -89,6 +91,8 @@ describe('TaskForceController', () => {
     );
     mock.mockImplementation(async (...args) => []);
 
-    expect(await taskForceController.getTaskForces()).toStrictEqual([]);
+    expect(
+      await taskForceController.getTaskForces('default-project'),
+    ).toStrictEqual([]);
   });
 });
