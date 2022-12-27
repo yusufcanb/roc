@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { EnvironmentUpdateDto } from '@roc/core';
 import {
   Environment,
   EnvironmentCreateDto,
+  EnvironmentUpdateDto,
   EnvironmentRetrieveDto,
   Id,
 } from '@roc/core';
@@ -59,9 +59,9 @@ export class EnvironmentService {
     environmentId: Id,
     dto: EnvironmentUpdateDto,
   ) {
-    const env = (await this.repository.getOneById(
+    const env: Environment = await this.repository.getOneById(
       `${projectId}.${environmentId}`,
-    )) as Environment;
+    );
 
     env.description = dto.description;
     env.tags = dto.tags;

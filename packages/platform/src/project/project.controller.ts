@@ -30,9 +30,7 @@ export class ProjectController {
 
   @Get()
   public async getProjects(): Promise<ProjectRetrieveDto[]> {
-    return ProjectRetrieveDto.fromMany(
-      await this.repository.findAll(),
-    ) as ProjectRetrieveDto[];
+    return ProjectRetrieveDto.fromMany(await this.repository.findAll());
   }
 
   @Post()
@@ -43,7 +41,7 @@ export class ProjectController {
       const project = Project.fromPlainObject(dto);
       project.createdAt = new Date();
       this.repository.save(project);
-      return ProjectRetrieveDto.from(project) as ProjectRetrieveDto;
+      return ProjectRetrieveDto.from(project);
     } else {
       throw new ProjectAlreadyExistsException(dto.id);
     }
@@ -59,9 +57,7 @@ export class ProjectDetailController {
   @Get()
   public async getProjectById(@Param('id') id): Promise<ProjectRetrieveDto> {
     if (await this.repository.existsById(id)) {
-      return ProjectRetrieveDto.from(
-        await this.repository.getOneById(id),
-      ) as ProjectRetrieveDto;
+      return ProjectRetrieveDto.from(await this.repository.getOneById(id));
     } else {
       throw new ProjectDoesNotFoundException();
     }
@@ -78,7 +74,7 @@ export class ProjectDetailController {
       project.tags = dto.tags;
       project.description = dto.description;
       this.repository.save(project);
-      return ProjectRetrieveDto.from(project) as ProjectRetrieveDto;
+      return ProjectRetrieveDto.from(project);
     } else {
       throw new ProjectDoesNotFoundException();
     }

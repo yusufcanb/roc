@@ -60,7 +60,6 @@ export class Project extends BaseEntity implements Taggable, TimeStampable {
    * @returns An instance of the Environment class.
    */
   public static fromPlainObject(obj: Partial<Project>): Project {
-    // return plainToInstance(Project, obj);
     return plainToClass(Project, obj, { ignoreDecorators: true });
   }
 

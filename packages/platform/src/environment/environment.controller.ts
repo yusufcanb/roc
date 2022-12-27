@@ -77,7 +77,7 @@ export class EnvironmentDetailController {
         id,
         dto,
       );
-      return EnvironmentRetrieveDto.from(environment) as EnvironmentRetrieveDto;
+      return EnvironmentRetrieveDto.from(environment);
     } else {
       throw new EnvironmentDoesNotFoundException();
     }
