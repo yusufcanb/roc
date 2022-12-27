@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { BaseEntity, Id, Nullable, TaskForce } from '@roc/core';
+import { BaseEntity, TaskForce } from '@roc/core';
 import { RedisClientType } from 'redis';
 import { AbstractRedisRepository } from '../redis';
 
