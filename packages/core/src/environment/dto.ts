@@ -11,6 +11,7 @@ import { Environment } from './entity';
 
 export class EnvironmentRetrieveDto {
   id: Id;
+  projectId: Id;
   description: string;
   tags: string[];
   variables: object;
