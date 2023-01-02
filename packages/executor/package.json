@@ -16,7 +16,7 @@
   "scripts": {
     "build": "rm -rf ./lib && tsc",
     "lint": "eslint \"./src/**/*.ts\"",
-    "test": "jest \"./src/**/*.ts\""
+    "test": "jest --detectOpenHandles \"./src/**/*.ts\""
   },
   "dependencies": {
     "@roc/core": "^1.0.0",
