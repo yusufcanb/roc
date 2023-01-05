@@ -21,13 +21,15 @@
   "dependencies": {
     "@roc/core": "^1.0.0",
     "dockerode": "^3.3.4",
+    "minio": "^7.0.32",
     "redis": "^4.4.0",
-    "ws": "^8.8.0"
+    "yaml": "^2.2.1"
   },
   "devDependencies": {
     "@types/dockerode": "^3.3.14",
+    "@types/minio": "^7.0.15",
     "@types/redis": "^4.0.11",
-    "@types/ws": "^8.5.3",
+    "@types/yaml": "^1.9.7",
     "ts-jest": "^29.0.3"
   }
 }

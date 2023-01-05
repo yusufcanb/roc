@@ -23,9 +23,36 @@ import {
 } from '@roc/core';
 import Docker from 'dockerode';
 import { createWriteStream } from 'fs';
+import yaml from 'yaml';
+import { Client as MinioClient } from 'minio';
+import { RedisClientType } from 'redis';
 
 export class DockerRobotExecutor implements RobotExecutor {
+  private minio: MinioClient;
+  private redis: RedisClientType;
+
   private readonly docker = new Docker({ socketPath: '/var/run/docker.sock' });
+
+  private toBase64String(obj: any): string {
+    const objectString = yaml.stringify(obj);
+    const objectBuffer = Buffer.from(objectString);
+    return objectBuffer.toString('base64');
+  }
+
+  private createMinioClient(config: {
+    endpoint: URL;
+    accessKey: string;
+    accessSecret: string;
+    bucket: string;
+  }): MinioClient {
+    return new MinioClient({
+      endPoint: config.endpoint.hostname,
+      port: parseInt(config.endpoint.port),
+      useSSL: false,
+      accessKey: config.accessKey,
+      secretKey: config.accessSecret,
+    });
+  }
 
   private async _cloneTaskForceToContainer(
     container: Docker.Container,
@@ -37,6 +64,19 @@ export class DockerRobotExecutor implements RobotExecutor {
       'clone',
       taskForce.repository,
       path,
+    ]);
+  }
+
+  private async _writeEnvironmentAsYAML(
+    container: Docker.Container,
+    variables: any,
+  ) {
+    return await this._exec(container, [
+      'bash',
+      '-c',
+      `echo "$(echo ${this.toBase64String(
+        variables,
+      )} | base64 -d)" >> /opt/robotframework/variables.yaml`,
     ]);
   }
 
@@ -61,7 +101,7 @@ export class DockerRobotExecutor implements RobotExecutor {
       's3',
       'sync',
       '/opt/robotframework/reports',
-      `s3://${config.minio.bucket}/robot-reports/`,
+      `s3://${config.minio.bucket}/${taskForce.projectId}/${taskForce.id}/${container.id}`,
     ]);
   }
 
@@ -69,27 +109,36 @@ export class DockerRobotExecutor implements RobotExecutor {
     container: Docker.Container,
     cmd: string[],
   ): Promise<Docker.ExecInspectInfo> {
+    const stdout = createWriteStream(`stdout.txt`, {
+      flags: 'a',
+    });
+
     const exec = await container.exec({
       Cmd: cmd,
       AttachStderr: true,
-      AttachStdin: true,
       AttachStdout: true,
     });
 
+    stdout.write('>>> ' + cmd.join(' ') + '\n\n');
     const execStream = await exec.start({});
 
-    const stdout = createWriteStream(`${cmd[0]}-stdout.txt`);
-    const stderr = createWriteStream(`${cmd[0]}-stderr.txt`);
-    await container.modem.demuxStream(execStream, stdout, stderr);
+    await container.modem.demuxStream(execStream, stdout, stdout);
 
     while ((await exec.inspect()).Running) {
       continue;
     }
+    stdout.write('\n\n');
 
+    stdout.close();
     return await exec.inspect();
   }
 
-  async execute(
+  public async init(redis: RedisClientType, minio: MinioClient) {
+    this.minio = minio;
+    this.redis = redis;
+  }
+
+  public async execute(
     environment: Environment,
     taskForce: TaskForce,
     config?: RobotExecutorConfig,
@@ -110,17 +159,16 @@ export class DockerRobotExecutor implements RobotExecutor {
     });
     await container.start();
 
-    console.log(await this._cloneTaskForceToContainer(container, taskForce));
-    console.log(await this._executeTaskForceInContainer(container, taskForce));
-    console.log(
-      await this._uploadArtifactsToMinio(container, taskForce, config),
-    );
+    await this._writeEnvironmentAsYAML(container, environment.variables);
+    await this._cloneTaskForceToContainer(container, taskForce);
+    await this._executeTaskForceInContainer(container, taskForce);
+    await this._uploadArtifactsToMinio(container, taskForce, config);
 
     await container.stop();
     await container.remove();
   }
 
-  executeMany(
+  public async executeMany(
     environment: Environment,
     taskForce: TaskForce,
     config?: RobotExecutorConfig,

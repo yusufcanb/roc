@@ -27,7 +27,12 @@ describe('core.executor', () => {
         id: 'dev',
         projectId: 'default-project',
         variables: {
-          EXECUTED_FROM_ROC: true,
+          debug: false,
+          production: true,
+          globals: {
+            EXECUTED_FROM_ROC: true,
+            REDIS_URL: 'redis://redis:5675',
+          },
         },
       });
 
