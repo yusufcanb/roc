@@ -26,6 +26,7 @@
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/serve-static": "^3.0.0",
     "@roc/core": "^1.0.0",
+    "@roc/executor": "^1.0.0",
     "minio": "^7.0.32",
     "redis": "^4.4.0",
     "reflect-metadata": "^0.1.13",

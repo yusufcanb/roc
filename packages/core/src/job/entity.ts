@@ -11,6 +11,18 @@ interface JobStatus {
   startTime: string;
 }
 
+interface JobResult {
+  id: Id;
+  stdout: string;
+  reportPath;
+  returnCodes: {
+    dockerImage: number;
+    git: number;
+    robot: number;
+    s3: number;
+  };
+}
+
 export class Job extends BaseEntity {
   private _projectId: Id;
   private _taskForceId: Id;
@@ -18,6 +30,7 @@ export class Job extends BaseEntity {
 
   private _createdAt: Date;
   private _status: JobStatus;
+  private _result: JobResult;
 
   public get projectId(): Id {
     return this._projectId;
@@ -66,6 +79,17 @@ export class Job extends BaseEntity {
   }
 
   set status(value: JobStatus) {
+    this._status = value;
+  }
+
+  /**
+   * Job result
+   */
+  get result(): JobStatus {
+    return this._status;
+  }
+
+  set result(value: JobStatus) {
     this._status = value;
   }
 

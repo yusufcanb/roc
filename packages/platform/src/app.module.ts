@@ -9,6 +9,7 @@ import { AppService } from './app.service';
 import { EnvironmentModule } from './environment';
 import { ProjectModule } from './project';
 import { TaskForceModule } from './task-force';
+import { JobModule } from './job';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { TaskForceModule } from './task-force';
     ProjectModule,
     EnvironmentModule,
     TaskForceModule,
+    JobModule,
   ],
   controllers: [AppController],
   providers: [AppService],
