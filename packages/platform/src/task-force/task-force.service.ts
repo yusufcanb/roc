@@ -14,6 +14,10 @@ export class TaskForceService {
     return await this.repository.existsById(`${projectId}.${taskForceId}`);
   }
 
+  public async getTaskForceById(projectId: Id, id: Id): Promise<TaskForce> {
+    return this.repository.getOneById(`${projectId}.${id}`);
+  }
+
   public async findAllByProjectId(projectId: Id): Promise<TaskForce[]> {
     return await this.repository.findByKey(`${projectId}.*`);
   }

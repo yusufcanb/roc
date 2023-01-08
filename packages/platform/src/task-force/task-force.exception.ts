@@ -7,8 +7,14 @@ export class TaskForceDoesNotFoundException extends NotFoundException {
   }
 }
 
+export class TaskForceDoesNotExistException extends BadRequestException {
+  constructor() {
+    super('TaskForce does not exists');
+  }
+}
+
 export class TaskForceAlreadyExistsException extends BadRequestException {
   constructor(id: Id) {
-    super(`Project ${id} already exists`);
+    super(`TaskForce<${id}> already exists`);
   }
 }

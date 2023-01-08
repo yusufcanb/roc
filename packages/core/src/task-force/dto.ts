@@ -97,7 +97,7 @@ export class TaskForceCreateDto {
   @Expose()
   runner: string;
 
-  @IsOptional()
+  @IsDefined()
   @Expose()
   selector: string;
 

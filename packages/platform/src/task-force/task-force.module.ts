@@ -15,5 +15,6 @@ import { TaskForceService } from './task-force.service';
     },
     TaskForceService,
   ],
+  exports: [TaskForceService],
 })
 export class TaskForceModule {}
