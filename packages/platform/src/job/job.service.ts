@@ -5,18 +5,18 @@ import {
   Job,
   JobCreateDto,
   RobotExecutor,
-  RobotExecutorConfig
+  RobotExecutorConfig,
 } from '@roc/core';
 import {
   TaskForceDoesNotExistException,
-  TaskForceService
+  TaskForceService,
 } from '../task-force';
 
 import { Client as MinioClient } from 'minio';
 
 import {
   EnvironmentDoesNotExistException,
-  EnvironmentService
+  EnvironmentService,
 } from '../environment';
 
 import { ExecutorResult } from '@roc/core';

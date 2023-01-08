@@ -35,7 +35,7 @@ export class EnvironmentService {
   public async getEnvironmentById(
     projectId: Id,
     id: Id,
-    asDto: boolean = true,
+    asDto = true,
   ): Promise<EnvironmentRetrieveDto | Environment> {
     if (asDto) {
       return EnvironmentRetrieveDto.from(

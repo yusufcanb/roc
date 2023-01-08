@@ -24,9 +24,7 @@ import {
 } from '@roc/core';
 import Docker from 'dockerode';
 import { createWriteStream, readFileSync } from 'fs';
-import { Client as MinioClient } from 'minio';
 import { parse } from 'path';
-import { RedisClientType } from 'redis';
 import yaml from 'yaml';
 
 export class DockerRobotExecutor implements RobotExecutor {
@@ -118,8 +116,6 @@ export class DockerRobotExecutor implements RobotExecutor {
     stdout.close();
     return await exec.inspect();
   }
-
-  public async init(redis: RedisClientType, minio: MinioClient) {}
 
   public async execute(config: RobotExecutorConfig): Promise<ExecutorResult> {
     if (Array.isArray(config.taskForce)) {
