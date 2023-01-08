@@ -18,7 +18,7 @@ describe('core.executor', () => {
         id: 'task-force-1',
         projectId: 'default-project',
         repository: 'https://github.com/robocorp/example-locators.git',
-        runner: 'roc-runner',
+        runner: 'ghcr.io/yusufcanb/roc-runner:latest',
         selector: 'tasks.robot',
       });
 
