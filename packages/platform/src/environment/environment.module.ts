@@ -14,5 +14,6 @@ import { EnvironmentService } from './environment.service';
   imports: [RedisModule, ProjectModule],
   controllers: [EnvironmentController, EnvironmentDetailController],
   providers: [EnvironmentRedisRepository, EnvironmentService],
+  exports: [EnvironmentService],
 })
 export class EnvironmentModule {}

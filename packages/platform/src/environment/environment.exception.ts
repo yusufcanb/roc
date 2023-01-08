@@ -7,6 +7,12 @@ export class EnvironmentDoesNotFoundException extends NotFoundException {
   }
 }
 
+export class EnvironmentDoesNotExistException extends BadRequestException {
+  constructor() {
+    super('Environment does not exists');
+  }
+}
+
 export class EnvironmentAlreadyExistsException extends BadRequestException {
   constructor(id: Id) {
     super(`Environment <${id}> already exists`);

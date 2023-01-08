@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import {
   Environment,
   EnvironmentCreateDto,
-  EnvironmentUpdateDto,
   EnvironmentRetrieveDto,
+  EnvironmentUpdateDto,
   Id,
 } from '@roc/core';
 import { EnvironmentRedisRepository } from './environment.repository';
@@ -35,10 +35,15 @@ export class EnvironmentService {
   public async getEnvironmentById(
     projectId: Id,
     id: Id,
-  ): Promise<EnvironmentRetrieveDto> {
-    return EnvironmentRetrieveDto.from(
-      await this.repository.getOneById(`${projectId}.${id}`),
-    );
+    asDto: boolean = true,
+  ): Promise<EnvironmentRetrieveDto | Environment> {
+    if (asDto) {
+      return EnvironmentRetrieveDto.from(
+        await this.repository.getOneById(`${projectId}.${id}`),
+      );
+    } else {
+      await this.repository.getOneById(`${projectId}.${id}`);
+    }
   }
 
   public async createNewEnvironment(
