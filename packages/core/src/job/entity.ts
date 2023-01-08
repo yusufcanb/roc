@@ -96,7 +96,7 @@ export class Job extends BaseEntity {
    * @returns An instance of the Job class.
    */
   public static fromPlainObject(obj: Partial<Job>): Job {
-    return plainToInstance(Job, obj);
+    return plainToInstance(Job, obj, { ignoreDecorators: true });
   }
 
   /**
@@ -107,6 +107,9 @@ export class Job extends BaseEntity {
    * @returns The plain object representation of the instance.
    */
   public static toPlainObject<T extends Job>(obj: T): any {
-    return instanceToPlain(obj);
+    return instanceToPlain(obj, {
+      strategy: 'excludeAll',
+      enableImplicitConversion: true,
+    });
   }
 }

@@ -42,7 +42,7 @@ export class JobController {
       .executeJob(job)
       .then(() => this.logger.log(`Job<${job.id}> done.`))
       .catch((err) => this.logger.error(err));
-    return job;
+    return JobRetrieveDto.from(job);
   }
 
   @Delete()
@@ -66,7 +66,9 @@ export class JobDetailController {
     @Query(ProjectExistsPipe) projectId: Id,
   ): Promise<JobRetrieveDto> {
     if (await this.jobService.existsWithInProject(projectId, id)) {
-      return await this.jobService.getJobById(projectId, id);
+      return JobRetrieveDto.from(
+        await this.jobService.getJobById(projectId, id),
+      );
     } else {
       throw new JobDoesNotFoundException(id);
     }
