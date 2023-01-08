@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, Scope } from '@nestjs/common';
 import { DockerRobotExecutor } from '@roc/executor';
 
 import { RedisModule } from '../redis';
@@ -24,6 +24,7 @@ import { MinioModule } from '../minio.module';
   providers: [
     {
       provide: 'RobotExecutor',
+      scope: Scope.REQUEST,
       useClass: DockerRobotExecutor,
     },
     JobCreateDtoValidatorPipe,
