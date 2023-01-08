@@ -47,7 +47,6 @@ describe('core.executor', () => {
       };
 
       const executor = new DockerRobotExecutor();
-      executor.init(null, minioClient);
       await executor.execute(config as any);
     });
   });
