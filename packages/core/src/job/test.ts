@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { Job } from '.';
 
 describe('core.job', () => {
