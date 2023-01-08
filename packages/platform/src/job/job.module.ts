@@ -6,18 +6,27 @@ import { ProjectModule } from '../project';
 import { EnvironmentModule } from '../environment';
 import { TaskForceModule } from '../task-force';
 
-import { JobController } from './job.controller';
+import { JobController, JobDetailController } from './job.controller';
 import { JobRedisRepository } from './job.repository';
 import { JobService } from './job.service';
+import { JobCreateDtoValidatorPipe } from './job.pipe';
+import { MinioModule } from '../minio.module';
 
 @Module({
-  imports: [RedisModule, ProjectModule, TaskForceModule, EnvironmentModule],
-  controllers: [JobController],
+  imports: [
+    RedisModule,
+    MinioModule,
+    ProjectModule,
+    TaskForceModule,
+    EnvironmentModule,
+  ],
+  controllers: [JobController, JobDetailController],
   providers: [
     {
       provide: 'RobotExecutor',
       useClass: DockerRobotExecutor,
     },
+    JobCreateDtoValidatorPipe,
     JobRedisRepository,
     JobService,
   ],

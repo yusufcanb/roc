@@ -4,6 +4,7 @@ import {
   Environment,
   EnvironmentRepository,
   Id,
+  Job,
   Nullable,
 } from '@roc/core';
 import { RedisClientType } from 'redis';
@@ -18,8 +19,8 @@ export class JobRedisRepository
   @Inject('REDIS_CLIENT')
   protected readonly redis: RedisClientType;
 
-  protected key = 'environment';
-  protected readonly entity: new () => Environment = Environment;
+  protected key = 'job';
+  protected readonly entity: new () => Job = Job;
 
   async count(): Promise<number> {
     return super.count();

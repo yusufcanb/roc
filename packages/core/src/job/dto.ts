@@ -1,7 +1,7 @@
 import { Expose, Type } from 'class-transformer';
 import { IsDefined, IsOptional, Matches } from 'class-validator';
 import { Id } from '../commons';
-import { Job } from './entity';
+import { Job, JobResult, JobStatus } from './entity';
 
 export class JobRetrieveDto {
   id: Id;
@@ -9,8 +9,19 @@ export class JobRetrieveDto {
   taskForceId: Id;
   environmentId: Id;
 
-  static from(obj: Job): JobRetrieveDto {
+  status: JobStatus;
+  result: JobResult;
+
+  static from(job: Job): JobRetrieveDto {
     const dto = new JobRetrieveDto();
+
+    dto.id = job.id;
+    dto.projectId = job.projectId;
+    dto.environmentId = job.environmentId;
+    dto.taskForceId = job.taskForceId;
+
+    dto.status = job.status;
+    dto.result = job.result;
 
     return dto;
   }

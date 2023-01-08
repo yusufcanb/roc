@@ -1,26 +1,21 @@
-import { BaseEntity, Id } from '../commons';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
+import { BaseEntity, Id } from '../commons';
 
 /**
  * Interface to represent the status of a Kubernetes Job
  */
-interface JobStatus {
-  active: boolean;
-  succeeded: boolean;
-  completionTime: string;
-  startTime: string;
+export interface JobStatus {
+  isActive: boolean;
+  isSucceeded: boolean;
+  isErrored: boolean;
 }
 
-interface JobResult {
-  id: Id;
+export interface JobResult {
+  logUrl: string;
+  reportUrl: string;
+  outputUrl: string;
   stdout: string;
-  reportPath;
-  returnCodes: {
-    dockerImage: number;
-    git: number;
-    robot: number;
-    s3: number;
-  };
+  completedAt: Date;
 }
 
 export class Job extends BaseEntity {
@@ -29,6 +24,7 @@ export class Job extends BaseEntity {
   private _environmentId: Id;
 
   private _createdAt: Date;
+
   private _status: JobStatus;
   private _result: JobResult;
 
@@ -85,12 +81,12 @@ export class Job extends BaseEntity {
   /**
    * Job result
    */
-  get result(): JobStatus {
-    return this._status;
+  get result(): JobResult {
+    return this._result;
   }
 
-  set result(value: JobStatus) {
-    this._status = value;
+  set result(value: JobResult) {
+    this._result = value;
   }
 
   /**
