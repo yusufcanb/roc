@@ -53,7 +53,9 @@ jobs:
           lerna run build
         
       - name: Deploy Services for Test
-        run: docker-compose -f services.yaml up -d && sleep 1
+        run: |
+          docker-compose -f services.yaml up -d && sleep 1
+          docker pull ghcr.io/yusufcanb/roc-runner:latest
       - name: Test All Packages
         run: lerna run test
         env:
