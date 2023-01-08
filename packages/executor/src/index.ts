@@ -16,22 +16,23 @@
  *
  */
 import {
-  Environment,
+  ExecutorResult,
+  Id,
   RobotExecutor,
   RobotExecutorConfig,
   TaskForce,
 } from '@roc/core';
 import Docker from 'dockerode';
-import { createWriteStream } from 'fs';
-import yaml from 'yaml';
+import { createWriteStream, readFileSync } from 'fs';
 import { Client as MinioClient } from 'minio';
+import { parse } from 'path';
 import { RedisClientType } from 'redis';
+import yaml from 'yaml';
 
 export class DockerRobotExecutor implements RobotExecutor {
-  private minio: MinioClient;
-  private redis: RedisClientType;
-
   private readonly docker = new Docker({ socketPath: '/var/run/docker.sock' });
+
+  private executionId: Id;
 
   private toBase64String(obj: any): string {
     const objectString = yaml.stringify(obj);
@@ -39,26 +40,11 @@ export class DockerRobotExecutor implements RobotExecutor {
     return objectBuffer.toString('base64');
   }
 
-  private createMinioClient(config: {
-    endpoint: URL;
-    accessKey: string;
-    accessSecret: string;
-    bucket: string;
-  }): MinioClient {
-    return new MinioClient({
-      endPoint: config.endpoint.hostname,
-      port: parseInt(config.endpoint.port),
-      useSSL: false,
-      accessKey: config.accessKey,
-      secretKey: config.accessSecret,
-    });
-  }
-
   private async _cloneTaskForceToContainer(
     container: Docker.Container,
     taskForce: TaskForce,
   ): Promise<Docker.ExecInspectInfo> {
-    const path = `/opt/${taskForce.projectId}/${taskForce.id}`;
+    const path = `/opt/robotframework/${taskForce.projectId}.${taskForce.id}`;
     return await this._exec(container, [
       'git',
       'clone',
@@ -95,13 +81,13 @@ export class DockerRobotExecutor implements RobotExecutor {
     taskForce: TaskForce,
     config: RobotExecutorConfig,
   ): Promise<Docker.ExecInspectInfo> {
-    return await this._exec(container, [
+    return this._exec(container, [
       'aws',
       `--endpoint-url=${config.minio.endpoint.toString()}`,
       's3',
       'sync',
       '/opt/robotframework/reports',
-      `s3://${config.minio.bucket}/${taskForce.projectId}/${taskForce.id}/${container.id}`,
+      `s3://${config.minio.bucket}/${taskForce.projectId}/${taskForce.id}/${this.executionId}`,
     ]);
   }
 
@@ -109,7 +95,7 @@ export class DockerRobotExecutor implements RobotExecutor {
     container: Docker.Container,
     cmd: string[],
   ): Promise<Docker.ExecInspectInfo> {
-    const stdout = createWriteStream(`stdout.txt`, {
+    const stdout = createWriteStream(`/tmp/${this.executionId}-stdout.txt`, {
       flags: 'a',
     });
 
@@ -133,18 +119,17 @@ export class DockerRobotExecutor implements RobotExecutor {
     return await exec.inspect();
   }
 
-  public async init(redis: RedisClientType, minio: MinioClient) {
-    this.minio = minio;
-    this.redis = redis;
-  }
+  public async init(redis: RedisClientType, minio: MinioClient) {}
 
-  public async execute(
-    environment: Environment,
-    taskForce: TaskForce,
-    config?: RobotExecutorConfig,
-  ): Promise<void> {
+  public async execute(config: RobotExecutorConfig): Promise<ExecutorResult> {
+    if (Array.isArray(config.taskForce)) {
+      throw new Error(
+        'An array of TaskForces are not supported in execute() function',
+      );
+    }
+    this.executionId = config.jobId;
     const container = await this.docker.createContainer({
-      Image: taskForce.runner,
+      Image: config.taskForce.runner,
       HostConfig: {
         NetworkMode: 'host',
       },
@@ -152,27 +137,43 @@ export class DockerRobotExecutor implements RobotExecutor {
         `AWS_ACCESS_KEY_ID=${config.minio.accessKey}`,
         `AWS_SECRET_ACCESS_KEY=${config.minio.accessSecret}`,
         `AWS_BUCKET_NAME=${config.minio.bucket}`,
-        `ROBOT_TESTS_DIR=/opt/${taskForce.projectId}/${taskForce.id}/${taskForce.selector}`,
+        `ROBOT_TESTS_DIR=/opt/robotframework/${config.taskForce.projectId}.${config.taskForce.id}/${config.taskForce.selector}`,
       ],
       Cmd: ['sleep', 'infinity'],
       User: 'root',
     });
     await container.start();
 
-    await this._writeEnvironmentAsYAML(container, environment.variables);
-    await this._cloneTaskForceToContainer(container, taskForce);
-    await this._executeTaskForceInContainer(container, taskForce);
-    await this._uploadArtifactsToMinio(container, taskForce, config);
+    await this._writeEnvironmentAsYAML(container, config.environment.variables);
+    await this._cloneTaskForceToContainer(container, config.taskForce);
+    await this._executeTaskForceInContainer(container, config.taskForce);
+    await this._uploadArtifactsToMinio(container, config.taskForce, config);
 
     await container.stop();
     await container.remove();
+
+    return {
+      completedAt: new Date(),
+      isErrored: false,
+      isSucceeded: true,
+      stdout: readFileSync(`/tmp/${this.executionId}-stdout.txt`).toString(
+        'utf8',
+      ),
+      logUrl: parse(
+        `/${config.taskForce.projectId}/${config.taskForce.id}/${config.jobId}/log.html`,
+      ),
+      reportUrl: parse(
+        `/${config.taskForce.projectId}/${config.taskForce.id}/${config.jobId}/report.html`,
+      ),
+      outputUrl: parse(
+        `/${config.taskForce.projectId}/${config.taskForce.id}/${config.jobId}/output.xml`,
+      ),
+    } as ExecutorResult;
   }
 
   public async executeMany(
-    environment: Environment,
-    taskForce: TaskForce,
-    config?: RobotExecutorConfig,
-  ): Promise<void> {
+    config: RobotExecutorConfig,
+  ): Promise<ExecutorResult> {
     throw new Error('Method not implemented.');
   }
 }

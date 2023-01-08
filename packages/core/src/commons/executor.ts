@@ -1,9 +1,12 @@
-import { Client as MinioClient } from 'minio';
-import { RedisClientType } from 'redis';
+import { ParsedPath } from 'path';
 import { Environment } from '../environment';
 import { TaskForce } from '../task-force';
+import { Id } from './types';
 
 export interface RobotExecutorConfig {
+  jobId: Id;
+  environment: Environment;
+  taskForce: TaskForce | TaskForce[];
   minio: {
     endpoint: URL;
     accessKey: string;
@@ -14,35 +17,27 @@ export interface RobotExecutorConfig {
 
 export interface RobotExecutor {
   /**
-   * Initializes the executor with a Redis client and a Minio client.
-   * @param redis - The Redis client to use.
-   * @param minio - The Minio client to use.
-   */
-  init(redis: RedisClientType, minio: MinioClient);
-
-  /**
    * Executes a task force in the given environment.
-   * @param environment - The environment in which to execute the task.
-   * @param taskForce - The task force to use for execution.
-   * @param config - An optional configuration object for the execution.
+   * @param config - A configuration object for the execution.
    * @returns A promise that resolves when the task has been completed.
    */
-  execute(
-    environment: Environment,
-    taskForce: TaskForce,
-    config?: RobotExecutorConfig,
-  ): Promise<void>;
+  execute(config: RobotExecutorConfig): Promise<ExecutorResult>;
 
   /**
    * Executes many task forces in the given environment
-   * @param environment - The environment in which to execute the tasks.
-   * @param taskForce - The task force to use for execution.
-   * @param config - An optional configuration object for the execution.
+   * @param config - A configuration object for the execution.
    * @returns A promise that resolves when all tasks have been completed.
    */
-  executeMany(
-    environment: Environment,
-    taskForce: TaskForce,
-    config?: RobotExecutorConfig,
-  ): Promise<void>;
+  executeMany(config?: RobotExecutorConfig): Promise<ExecutorResult>;
+}
+
+export interface ExecutorResult {
+  isErrored: boolean;
+  isSucceeded: boolean;
+  stdout: string;
+  completedAt: Date;
+
+  logUrl: ParsedPath;
+  reportUrl: ParsedPath;
+  outputUrl: ParsedPath;
 }
