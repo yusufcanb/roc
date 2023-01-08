@@ -405,6 +405,15 @@ paths:
         - job
       security:
         - ApiKeyAuth: []
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
       responses:
         '200':
           description: Returns a job object
@@ -430,6 +439,14 @@ paths:
       security:
         - ApiKeyAuth: []
       parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
         - in: path
           name: jobId
           description: Identifier of job id
@@ -453,6 +470,14 @@ paths:
       security:
         - ApiKeyAuth: []
       parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
         - in: path
           name: jobId
           description: Identifier of job id
@@ -477,6 +502,14 @@ paths:
       security:
         - ApiKeyAuth: []
       parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
         - in: path
           name: jobId
           description: Identifier of job id
@@ -499,6 +532,14 @@ paths:
       security:
         - ApiKeyAuth: []
       parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
         - in: path
           name: jobId
           description: Identifier of job id
@@ -521,6 +562,14 @@ paths:
       security:
         - ApiKeyAuth: []
       parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
         - in: path
           name: jobId
           description: Identifier of job id
@@ -534,6 +583,36 @@ paths:
           description: project object to be returned
           content:
             text/html: {}
+  /job/{jobId}/stdout.txt:
+    get:
+      operationId: getJobStdout
+      summary: Get Job stdout output
+      tags:
+        - job
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: path
+          name: jobId
+          description: Identifier of job id
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: project object to be returned
+          content:
+            plain/text: {}
   # ------------- End Job ------------- #
 
 components:
@@ -640,9 +719,14 @@ components:
           example: ["dev", ]
           items:
             type: string
-        yaml:
-          type: string
-          description: "YAML formatted text contains execution variables"
+        variables:
+          type: object
+          description: "Execution variables object"
+          example:
+            debug: false
+            globals:
+              REDIS_URL: "redis://redis:5674"
+              ALLOW_INSECURE_REGISTRIES: false
     TaskForce:
       type: object
       properties:
@@ -700,25 +784,45 @@ components:
           description: "Job identifier (generated value)"
         projectId:
           type: string
-          description: "Project id of the environment"
-        taskForceId:
-          type: string
-          description: "Task force id of the Job"
-        environmentId:
-          type: string
-          description: "Environment identifier to set robot variables"
-          example: "123f-23f-ftgd-12d1"
-        createdAt:
-          type: string
+          description: "Project id of the Job object"
+          example: "default-project"
+        taskForce:
+          $ref: '#/components/schemas/TaskForce'
+        environment:
+          $ref: '#/components/schemas/Environment'
         status:
           type: object
-          description: "K8s JobStatus object"
+          description: "Status object of the Job"
           properties:
-            active:
+            isActive:
+              type: boolean
+            isSucceeded:
+              type: boolean
+            isErrored:
+              type: boolean
+            createdAt:
               type: string
-            completionTime:
+              format: date
+        result:
+          type: object
+          description: "Job result object"
+          properties:
+            logUrl:
               type: string
-            startTime:
+              format: url
+              description: Url of the log.html of the robot execution
+            reportUrl:
               type: string
-            succeeded:
+              format: url
+              description: Url of the report.html of the robot execution
+            outputUrl:
               type: string
+              format: url
+              description: Url of the output.xml of the robot execution
+            stdoutUrl:
+              type: string
+              format: url
+              description: Url of the output.xml of the robot execution
+            completedAt:
+              type: string
+              format: date
