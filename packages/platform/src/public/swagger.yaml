@@ -34,7 +34,7 @@ paths:
         - AccessTokenAuth: []
       responses:
         '200':
-          description: Success
+          description: Successful operation
           content:
             application/json:
               schema:
@@ -82,9 +82,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/Project'                 
     put:
       operationId: updateProject
       summary: Update Project
@@ -104,6 +102,10 @@ paths:
       responses:
         '200':
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'   
     delete:
       operationId: deleteProject
       summary: Delete Project
@@ -123,6 +125,7 @@ paths:
       responses:
         '200':
           description: Success
+
   # ------------- End Project ------------- #
 
   # ------------- Environment ------------ #
@@ -149,7 +152,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Environment'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Environment'
     post:
       operationId: createEnvironment
       summary: Create new environment object
@@ -167,10 +172,7 @@ paths:
             items:
               type: integer
       requestBody:
-        content:
-          'application/json':
-            schema:
-              $ref: '#/components/schemas/Environment'
+        $ref: '#/components/requestBodies/EnvironmentCreateBody'
       responses:
         '200':
           description: Successful operation. Returns an environment object.
@@ -269,7 +271,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TaskForce'
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskForce'
     post:
       operationId: createTaskForce
       summary: Create new task force
@@ -284,6 +288,8 @@ paths:
             type: string
             items:
               type: integer
+      requestBody:
+        $ref: '#/components/requestBodies/TaskForceCreateBody'
       responses:
         '200':
           description: Successful operation.
@@ -327,6 +333,8 @@ paths:
             type: string
             items:
               type: integer
+      requestBody:
+        $ref: '#/components/requestBodies/TaskForceUpdateBody'
       responses:
         '200':
           description: Successful operation.
@@ -399,7 +407,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Job'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Job'
     post:
       operationId: createJob
       summary: Execute new job
@@ -416,6 +426,8 @@ paths:
             type: string
             items:
               type: integer
+      requestBody:
+        $ref: '#/components/requestBodies/JobCreateBody'
       responses:
         '200':
           description: Returns a job object
@@ -687,6 +699,166 @@ components:
                 example: ["default", ]
                 items:
                   type: string
+    EnvironmentCreateBody:
+      description: Environment create body content
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                description: "Unique identifier of environment"
+                example: "production"
+                pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+              description:
+                type: string
+                description: "Detailed description of the environment"
+                example: "Project X's production variables"
+              variables:
+                type: object
+                description: "Environment variables object"
+                example:
+                  debug: false
+                  globals:
+                    REDIS_URL: "redis://redis:5674"
+                    ALLOW_INSECURE_REGISTRIES: false
+              tags:
+                type: array
+                description: "Tags for labelling the task force"
+                example: ["default", ]
+                items:
+                  type: string
+    EnvironmentUpdateBody:
+      description: Environment create body content
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              description:
+                type: string
+                description: "Detailed description of the environment"
+                example: "Project X's production variables"
+              variables:
+                type: object
+                description: "Environment variables object"
+                example:
+                  debug: false
+                  globals:
+                    REDIS_URL: "redis://redis:5674"
+                    ALLOW_INSECURE_REGISTRIES: false
+              tags:
+                type: array
+                description: "Tags for labelling the task force"
+                example: ["default", ]
+                items:
+                  type: string
+    TaskForceCreateBody:
+      description: Task force create body content
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                description: "Unique identifier of task force"
+                example: "production"
+                pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+              description:
+                type: string
+                description: "Detailed description of the task force"
+                example: "Project X's task force object"
+              repository:
+                type: string
+                description: "Git repository url of the Robot Framework project"
+                example: "https://github.com/yusufcanb/roc.git"
+              runner:
+                type: string
+                description: "Docker image for execution environment"
+                example: "ghcr.io/yusufcanb/roc-runner:latest"
+              selector:
+                type: string
+                description: "Regex pattern to filter robots to be executed"
+                externalDocs:
+                  description: "Robot Framework reference"
+                  url:  "https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#selecting-test-cases"
+                example: "^tasks/[a-z0-9]+(?:-[a-z0-9]+)*$"
+              include:
+                type: string
+                description: "Include tag pattern for robot scripts"
+                example: "xNOTyANDz"
+                externalDocs:
+                  description: "Robot Framework reference"
+                  url:  "https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#selecting-test-cases"
+              tags:
+                type: array
+                description: "Tags for labelling the task force"
+                example: ["default", ]
+                items:
+                  type: string
+    TaskForceUpdateBody:
+      description: Task force update body content
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              description:
+                type: string
+                description: "Detailed description of the task force"
+                example: "Project X's task force object"
+              repository:
+                type: string
+                description: "Git repository url of the Robot Framework project"
+                example: "https://github.com/yusufcanb/roc.git"
+              runner:
+                type: string
+                description: "Docker image for execution environment"
+                example: "ghcr.io/yusufcanb/roc-runner:latest"
+              selector:
+                type: string
+                description: "Regex pattern to filter robots to be executed"
+                externalDocs:
+                  description: "Robot Framework reference"
+                  url:  "https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#selecting-test-cases"
+                example: "^tasks/[a-z0-9]+(?:-[a-z0-9]+)*$"
+              include:
+                type: string
+                description: "Include tag pattern for robot scripts"
+                example: "xNOTyANDz"
+                externalDocs:
+                  description: "Robot Framework reference"
+                  url:  "https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#selecting-test-cases"
+              tags:
+                type: array
+                description: "Tags for labelling the task force"
+                example: ["default", ]
+                items:
+                  type: string
+    JobCreateBody:
+      description: Job create body content
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              taskForceId:
+                type: string
+                description: "identifier of task force"
+                example: "health-check"
+                pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+              environmentId:
+                type: string
+                description: "identifier of environment"
+                example: "production"
+                pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
   responses:
     NotFound:
       description: The specified resource was not found
