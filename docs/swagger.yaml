@@ -31,26 +31,25 @@ paths:
       tags:
         - project
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Project'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
     post:
       operationId: createProject
       summary: Create new project
       tags:
         - project
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       requestBody:
-        content:
-          'application/json':
-            schema:
-              $ref: '#/components/schemas/Project'
+        $ref: '#/components/requestBodies/ProjectCreateDto'
       responses:
         '201':
           description: Successful operation
@@ -67,7 +66,7 @@ paths:
       tags:
         - project
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: path
           name: projectId
@@ -92,7 +91,7 @@ paths:
       tags:
         - project
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: path
           name: projectId
@@ -111,7 +110,7 @@ paths:
       tags:
         - project
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: path
           name: projectId
@@ -134,7 +133,7 @@ paths:
       tags:
         - environment
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: query
           name: projectId
@@ -157,7 +156,7 @@ paths:
       tags:
         - environment
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: query
           name: projectId
@@ -186,7 +185,7 @@ paths:
       tags:
         - environment
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: path
           name: environmentId
@@ -209,7 +208,7 @@ paths:
       tags:
         - environment
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: path
           name: environmentId
@@ -232,7 +231,7 @@ paths:
       tags:
         - environment
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: path
           name: environmentId
@@ -254,7 +253,7 @@ paths:
       tags:
         - task-force
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: query
           name: projectId
@@ -299,7 +298,7 @@ paths:
       tags:
         - task-force
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: path
           name: taskForceId
@@ -318,7 +317,7 @@ paths:
       tags:
         - task-force
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: path
           name: taskForceId
@@ -337,7 +336,7 @@ paths:
       tags:
         - task-force
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: path
           name: taskForceId
@@ -360,7 +359,7 @@ paths:
       tags:
         - job
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: query
           name: projectId
@@ -407,7 +406,16 @@ paths:
       tags:
         - job
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
       responses:
         '200':
           description: Returns a job object
@@ -424,6 +432,27 @@ paths:
                   projectId: default-project
                   environmentId: dev
                   taskForceId: api-health-check
+    delete:
+      operationId: deleteJobsByProject
+      summary: Delete Jobs by Project
+      tags:
+        - job
+      security:
+        - AccessTokenAuth: []
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Jobs successfully deleted
+          content:
+            application/json: {}
   /job/{jobId}:
     get:
       operationId: getJobById
@@ -431,8 +460,16 @@ paths:
       tags:
         - job
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
         - in: path
           name: jobId
           description: Identifier of job id
@@ -454,8 +491,16 @@ paths:
       tags:
         - job
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
         - in: path
           name: jobId
           description: Identifier of job id
@@ -478,8 +523,16 @@ paths:
       tags:
         - job
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
         - in: path
           name: jobId
           description: Identifier of job id
@@ -500,8 +553,16 @@ paths:
       tags:
         - job
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
         - in: path
           name: jobId
           description: Identifier of job id
@@ -522,8 +583,16 @@ paths:
       tags:
         - job
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
         - in: path
           name: jobId
           description: Identifier of job id
@@ -537,6 +606,36 @@ paths:
           description: project object to be returned
           content:
             text/html: {}
+  /job/{jobId}/stdout.txt:
+    get:
+      operationId: getJobStdout
+      summary: Get Job stdout output
+      tags:
+        - job
+      security:
+        - AccessTokenAuth: []
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+        - in: path
+          name: jobId
+          description: Identifier of job id
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: project object to be returned
+          content:
+            plain/text: {}
   # ------------- End Job ------------- #
 
 components:
@@ -547,15 +646,56 @@ components:
       name: X-Access-Token
       description: Provide access token to perform operations.
   requestBodies:
-    ProjectList:
+    ProjectCreateDto:
+      description: Project create body content
+      required: true
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: "#/components/schemas/Project"
-      description: List of user object
+            type: object
+            properties:
+              id:
+                type: string
+                description: "Unique identifier of project"
+                example: "default-project"
+                pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+              description:
+                type: string
+                description: "Detailed description of the project"
+                example: "General purpose operations with fancy robots"
+              tags:
+                type: array
+                description: "Tags for labelling the task force"
+                example: ["default", ]
+                items:
+                  type: string
+    ProjectUpdateDto:
+      description: Project update body content
       required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              description:
+                type: string
+                description: "Detailed description of the project"
+                example: "General purpose operations with fancy robots"
+              tags:
+                type: array
+                description: "Tags for labelling the task force"
+                example: ["default", ]
+                items:
+                  type: string
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: string
+            items:
+              type: integer
   schemas:
     Project:
       type: object
@@ -602,9 +742,14 @@ components:
           example: ["dev", ]
           items:
             type: string
-        yaml:
-          type: string
-          description: "YAML formatted text contains execution variables"
+        variables:
+          type: object
+          description: "Execution variables object"
+          example:
+            debug: false
+            globals:
+              REDIS_URL: "redis://redis:5674"
+              ALLOW_INSECURE_REGISTRIES: false
     TaskForce:
       type: object
       properties:
@@ -662,25 +807,45 @@ components:
           description: "Job identifier (generated value)"
         projectId:
           type: string
-          description: "Project id of the environment"
-        taskForceId:
-          type: string
-          description: "Task force id of the Job"
-        environmentId:
-          type: string
-          description: "Environment identifier to set robot variables"
-          example: "123f-23f-ftgd-12d1"
-        createdAt:
-          type: string
+          description: "Project id of the Job object"
+          example: "default-project"
+        taskForce:
+          $ref: '#/components/schemas/TaskForce'
+        environment:
+          $ref: '#/components/schemas/Environment'
         status:
           type: object
-          description: "K8s JobStatus object"
+          description: "Status object of the Job"
           properties:
-            active:
+            isActive:
+              type: boolean
+            isSucceeded:
+              type: boolean
+            isErrored:
+              type: boolean
+            createdAt:
               type: string
-            completionTime:
+              format: date
+        result:
+          type: object
+          description: "Job result object"
+          properties:
+            logUrl:
               type: string
-            startTime:
+              format: url
+              description: Url of the log.html of the robot execution
+            reportUrl:
               type: string
-            succeeded:
+              format: url
+              description: Url of the report.html of the robot execution
+            outputUrl:
               type: string
+              format: url
+              description: Url of the output.xml of the robot execution
+            stdoutUrl:
+              type: string
+              format: url
+              description: Url of the output.xml of the robot execution
+            completedAt:
+              type: string
+              format: date

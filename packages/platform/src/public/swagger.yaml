@@ -31,21 +31,23 @@ paths:
       tags:
         - project
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Project'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
     post:
       operationId: createProject
       summary: Create new project
       tags:
         - project
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       requestBody:
         $ref: '#/components/requestBodies/ProjectCreateDto'
       responses:
@@ -64,7 +66,7 @@ paths:
       tags:
         - project
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: path
           name: projectId
@@ -89,7 +91,7 @@ paths:
       tags:
         - project
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: path
           name: projectId
@@ -108,7 +110,7 @@ paths:
       tags:
         - project
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: path
           name: projectId
@@ -131,7 +133,7 @@ paths:
       tags:
         - environment
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: query
           name: projectId
@@ -154,7 +156,7 @@ paths:
       tags:
         - environment
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: query
           name: projectId
@@ -183,7 +185,7 @@ paths:
       tags:
         - environment
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: path
           name: environmentId
@@ -206,7 +208,7 @@ paths:
       tags:
         - environment
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: path
           name: environmentId
@@ -229,7 +231,7 @@ paths:
       tags:
         - environment
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: path
           name: environmentId
@@ -251,7 +253,7 @@ paths:
       tags:
         - task-force
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: query
           name: projectId
@@ -296,7 +298,7 @@ paths:
       tags:
         - task-force
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: path
           name: taskForceId
@@ -315,7 +317,7 @@ paths:
       tags:
         - task-force
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: path
           name: taskForceId
@@ -334,7 +336,7 @@ paths:
       tags:
         - task-force
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: path
           name: taskForceId
@@ -357,7 +359,7 @@ paths:
       tags:
         - job
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: query
           name: projectId
@@ -404,7 +406,7 @@ paths:
       tags:
         - job
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: query
           name: projectId
@@ -430,6 +432,27 @@ paths:
                   projectId: default-project
                   environmentId: dev
                   taskForceId: api-health-check
+    delete:
+      operationId: deleteJobsByProject
+      summary: Delete Jobs by Project
+      tags:
+        - job
+      security:
+        - AccessTokenAuth: []
+      parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Jobs successfully deleted
+          content:
+            application/json: {}
   /job/{jobId}:
     get:
       operationId: getJobById
@@ -437,7 +460,7 @@ paths:
       tags:
         - job
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: query
           name: projectId
@@ -468,7 +491,7 @@ paths:
       tags:
         - job
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: query
           name: projectId
@@ -500,7 +523,7 @@ paths:
       tags:
         - job
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: query
           name: projectId
@@ -530,7 +553,7 @@ paths:
       tags:
         - job
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: query
           name: projectId
@@ -560,7 +583,7 @@ paths:
       tags:
         - job
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: query
           name: projectId
@@ -590,7 +613,7 @@ paths:
       tags:
         - job
       security:
-        - ApiKeyAuth: []
+        - AccessTokenAuth: []
       parameters:
         - in: query
           name: projectId
