@@ -119,7 +119,7 @@ TaskForceApiService Delete a task force
   - @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
   - @param taskForceId Id of task force
 */
-func (a *TaskForceApiService) DeleteTaskForce(ctx context.Context, taskForceId []int32) (*http.Response, error) {
+func (a *TaskForceApiService) DeleteTaskForce(ctx context.Context, taskForceId string) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Delete")
 		localVarPostBody   interface{}
@@ -198,7 +198,7 @@ TaskForceApiService Edit task force
   - @param body Task force update body content
   - @param taskForceId Id of task force
 */
-func (a *TaskForceApiService) EditTaskForce(ctx context.Context, body interface{}, taskForceId []int32) (*http.Response, error) {
+func (a *TaskForceApiService) EditTaskForce(ctx context.Context, body interface{}, taskForceId string) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}
@@ -278,7 +278,7 @@ TaskForceApiService Get task force by id
   - @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
   - @param taskForceId Id of task force
 */
-func (a *TaskForceApiService) GetTaskForceById(ctx context.Context, taskForceId []int32) (*http.Response, error) {
+func (a *TaskForceApiService) GetTaskForceById(ctx context.Context, taskForceId string) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}

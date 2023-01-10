@@ -415,7 +415,7 @@ JobApiService Get job log
   - @param projectId Id of project
   - @param jobId Identifier of job id
 */
-func (a *JobApiService) GetJobLog(ctx context.Context, projectId string, jobId []int32) (*http.Response, error) {
+func (a *JobApiService) GetJobLog(ctx context.Context, projectId string, jobId string) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -495,7 +495,7 @@ JobApiService Get job report
   - @param projectId Id of project
   - @param jobId Identifier of job id
 */
-func (a *JobApiService) GetJobReport(ctx context.Context, projectId string, jobId []int32) (*http.Response, error) {
+func (a *JobApiService) GetJobReport(ctx context.Context, projectId string, jobId string) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -575,7 +575,7 @@ JobApiService Get Job stdout output
   - @param projectId Id of project
   - @param jobId Identifier of job id
 */
-func (a *JobApiService) GetJobStdout(ctx context.Context, projectId string, jobId []int32) (*http.Response, error) {
+func (a *JobApiService) GetJobStdout(ctx context.Context, projectId string, jobId string) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -655,7 +655,7 @@ JobApiService Get job output
   - @param projectId Id of project
   - @param jobId Identifier of job id
 */
-func (a *JobApiService) GetJobXML(ctx context.Context, projectId string, jobId []int32) (*http.Response, error) {
+func (a *JobApiService) GetJobXML(ctx context.Context, projectId string, jobId string) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}

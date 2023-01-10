@@ -130,7 +130,7 @@ ProjectApiService Delete Project
   - @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
   - @param projectId Id of project
 */
-func (a *ProjectApiService) DeleteProject(ctx context.Context, projectId []int32) (*http.Response, error) {
+func (a *ProjectApiService) DeleteProject(ctx context.Context, projectId string) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Delete")
 		localVarPostBody   interface{}
@@ -210,7 +210,7 @@ ProjectApiService Get Project by Id
 
 @return Project
 */
-func (a *ProjectApiService) GetProjectById(ctx context.Context, projectId []int32) (Project, *http.Response, error) {
+func (a *ProjectApiService) GetProjectById(ctx context.Context, projectId string) (Project, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}
@@ -406,7 +406,7 @@ ProjectApiService Update Project
 
 @return Project
 */
-func (a *ProjectApiService) UpdateProject(ctx context.Context, projectId []int32) (Project, *http.Response, error) {
+func (a *ProjectApiService) UpdateProject(ctx context.Context, projectId string) (Project, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Put")
 		localVarPostBody    interface{}

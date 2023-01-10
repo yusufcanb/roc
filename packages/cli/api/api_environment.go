@@ -132,7 +132,7 @@ EnvironmentApiService Delete Environment
   - @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
   - @param environmentId Id of environment
 */
-func (a *EnvironmentApiService) DeleteEnvironment(ctx context.Context, environmentId []int32) (*http.Response, error) {
+func (a *EnvironmentApiService) DeleteEnvironment(ctx context.Context, environmentId string) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Delete")
 		localVarPostBody   interface{}
@@ -212,7 +212,7 @@ EnvironmentApiService Get environment by id
 
 @return Environment
 */
-func (a *EnvironmentApiService) GetEnvironmentById(ctx context.Context, environmentId []int32) (Environment, *http.Response, error) {
+func (a *EnvironmentApiService) GetEnvironmentById(ctx context.Context, environmentId string) (Environment, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}
@@ -410,7 +410,7 @@ EnvironmentApiService Update an environment object
 
 @return Environment
 */
-func (a *EnvironmentApiService) UpdateEnvironment(ctx context.Context, environmentId []int32) (Environment, *http.Response, error) {
+func (a *EnvironmentApiService) UpdateEnvironment(ctx context.Context, environmentId string) (Environment, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Put")
 		localVarPostBody    interface{}
