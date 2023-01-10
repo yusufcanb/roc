@@ -74,8 +74,6 @@ paths:
           required: true
           schema:
             type: string
-            items:
-              type: integer
       responses:
         '200':
           description: Success
@@ -97,8 +95,6 @@ paths:
           required: true
           schema:
             type: string
-            items:
-              type: integer
       responses:
         '200':
           description: Success
@@ -120,8 +116,6 @@ paths:
           required: true
           schema:
             type: string
-            items:
-              type: integer
       responses:
         '200':
           description: Success
@@ -191,8 +185,6 @@ paths:
           required: true
           schema:
             type: string
-            items:
-              type: integer
       responses:
         '200':
           description: Successful operation. Returns an environment object.
@@ -214,8 +206,6 @@ paths:
           required: true
           schema:
             type: string
-            items:
-              type: integer
       responses:
         '200':
           description: Successful operation. Returns an environment object.
@@ -237,8 +227,6 @@ paths:
           required: true
           schema:
             type: string
-            items:
-              type: integer
       responses:
         '204':
           description: Successful operation.
@@ -304,8 +292,6 @@ paths:
           required: true
           schema:
             type: string
-            items:
-              type: integer
       responses:
         '200':
           description: Successful operation.
@@ -323,8 +309,6 @@ paths:
           required: true
           schema:
             type: string
-            items:
-              type: integer
       requestBody:
         $ref: '#/components/requestBodies/TaskForceUpdateBody'
       responses:
@@ -344,8 +328,6 @@ paths:
           required: true
           schema:
             type: string
-            items:
-              type: integer
       responses:
         '200':
           description: Successful operation.
@@ -531,8 +513,6 @@ paths:
           required: true
           schema:
             type: string
-            items:
-              type: integer
       responses:
         '200':
           description: project object to be returned
@@ -559,8 +539,6 @@ paths:
           required: true
           schema:
             type: string
-            items:
-              type: integer
       responses:
         '200':
           description: project object to be returned
@@ -587,8 +565,6 @@ paths:
           required: true
           schema:
             type: string
-            items:
-              type: integer
       responses:
         '200':
           description: project object to be returned
@@ -615,8 +591,6 @@ paths:
           required: true
           schema:
             type: string
-            items:
-              type: integer
       responses:
         '200':
           description: project object to be returned
