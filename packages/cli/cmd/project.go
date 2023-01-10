@@ -21,52 +21,76 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
+	"io/ioutil"
+	"log"
 
 	"github.com/spf13/cobra"
+	"github.com/yusufcanb/roc-cli/api"
+	"github.com/yusufcanb/roc-cli/utils"
+	"gopkg.in/yaml.v2"
 )
 
 // projectCmd represents the project command
 var projectCmd = &cobra.Command{
 	Use:   "project",
 	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("project called")
+		cmd.Help()
+	},
+}
+
+var projectListCmd = &cobra.Command{
+	Use:   "list",
+	Short: "List projects",
+	Run: func(cmd *cobra.Command, args []string) {
+		ctx := context.Background()
+
+		config := api.NewConfiguration()
+		config.BasePath = "http://localhost:3000/api/v1"
+		api := api.NewAPIClient(config)
+
+		projects, _, err := api.ProjectApi.GetProjects(ctx)
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+
+		if err := utils.PrintYAML(projects); err != nil {
+			fmt.Println(err)
+			return
+		}
 	},
 }
 
 var projectCreateCmd = &cobra.Command{
 	Use:   "create",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Create new project",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("projectCreate called")
+		// Get the file path from the command-line arguments
+		if len(args) < 1 {
+			log.Fatalf("No file path provided")
+		}
+		filePath := args[0]
+
+		// Read the YAML file
+		data, err := ioutil.ReadFile(filePath)
+		if err != nil {
+			log.Fatalf("Error reading YAML file: %s", err)
+		}
+
+		// Unmarshal the YAML data into a slice of Projects
+		var projects []api.Project
+		if err := yaml.Unmarshal(data, &projects); err != nil {
+			log.Fatalf("Error unmarshalling YAML data: %s", err)
+		}
 	},
 }
 
 func init() {
+	projectCmd.AddCommand(projectListCmd)
 	projectCmd.AddCommand(projectCreateCmd)
 
 	rootCmd.AddCommand(projectCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// projectCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// projectCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
