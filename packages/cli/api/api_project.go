@@ -402,11 +402,12 @@ func (a *ProjectApiService) GetProjects(ctx context.Context) ([]Project, *http.R
 /*
 ProjectApiService Update Project
   - @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+  - @param body Project update body content
   - @param projectId Id of project
 
 @return Project
 */
-func (a *ProjectApiService) UpdateProject(ctx context.Context, projectId string) (Project, *http.Response, error) {
+func (a *ProjectApiService) UpdateProject(ctx context.Context, body interface{}, projectId string) (Project, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Put")
 		localVarPostBody    interface{}
@@ -424,7 +425,7 @@ func (a *ProjectApiService) UpdateProject(ctx context.Context, projectId string)
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{}
+	localVarHttpContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -440,6 +441,8 @@ func (a *ProjectApiService) UpdateProject(ctx context.Context, projectId string)
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
+	// body params
+	localVarPostBody = &body
 	if ctx != nil {
 		// API Key Authentication
 		if auth, ok := ctx.Value(ContextAPIKey).(APIKey); ok {

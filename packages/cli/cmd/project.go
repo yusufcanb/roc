@@ -22,20 +22,21 @@ package cmd
 
 import (
 	"context"
-	"fmt"
-	"io/ioutil"
-	"log"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/yusufcanb/roc-cli/api"
-	"github.com/yusufcanb/roc-cli/utils"
-	"gopkg.in/yaml.v2"
+	"github.com/yusufcanb/roc-cli/service"
 )
+
+var apiClient *api.APIClient
+var projectService service.ProjectService
+var ctx context.Context = context.Background()
 
 // projectCmd represents the project command
 var projectCmd = &cobra.Command{
 	Use:   "project",
-	Short: "A brief description of your command",
+	Short: "Project operations (list, retrieve, delete)",
 	Run: func(cmd *cobra.Command, args []string) {
 		cmd.Help()
 	},
@@ -43,54 +44,56 @@ var projectCmd = &cobra.Command{
 
 var projectListCmd = &cobra.Command{
 	Use:   "list",
-	Short: "List projects",
+	Short: "List all projects",
 	Run: func(cmd *cobra.Command, args []string) {
 		ctx := context.Background()
 
-		config := api.NewConfiguration()
-		config.BasePath = "http://localhost:3000/api/v1"
-		api := api.NewAPIClient(config)
-
-		projects, _, err := api.ProjectApi.GetProjects(ctx)
+		projects, _, err := apiClient.ProjectApi.GetProjects(ctx)
 		if err != nil {
-			fmt.Println(err.Error())
+			log.Fatalf(err.Error())
 		}
 
-		if err := utils.PrintYAML(projects); err != nil {
-			fmt.Println(err)
-			return
+		projectService.PrintProjectsAsTable(projects)
+	},
+}
+
+var projectGetCmd = &cobra.Command{
+	Use:   "get",
+	Short: "Retrieve project by its id",
+	Run: func(cmd *cobra.Command, args []string) {
+
+		if !(len(args) > 0) {
+			log.Fatalf("project id is not provided")
 		}
+
+		project, _, err := apiClient.ProjectApi.GetProjectById(ctx, args[0])
+		if err != nil {
+			log.Println(err.Error())
+		}
+
+		projectService.PrintProjectAsYAML(&project)
 	},
 }
 
 var projectCreateCmd = &cobra.Command{
-	Use:   "create",
-	Short: "Create new project",
+	Use:   "delete",
+	Short: "Delete project by its id",
 	Run: func(cmd *cobra.Command, args []string) {
-		// Get the file path from the command-line arguments
-		if len(args) < 1 {
-			log.Fatalf("No file path provided")
-		}
-		filePath := args[0]
-
-		// Read the YAML file
-		data, err := ioutil.ReadFile(filePath)
-		if err != nil {
-			log.Fatalf("Error reading YAML file: %s", err)
-		}
-
-		// Unmarshal the YAML data into a slice of Projects
-		var projects []api.Project
-		if err := yaml.Unmarshal(data, &projects); err != nil {
-			log.Fatalf("Error unmarshalling YAML data: %s", err)
-		}
+		projectService.DeleteProjectById(args[0])
 	},
 }
 
 func init() {
+
+	config := api.NewConfiguration()
+	config.BasePath = "http://localhost:3000/api/v1"
+
+	apiClient = api.NewAPIClient(config)
+	projectService = service.NewProjectService(apiClient)
+
 	projectCmd.AddCommand(projectListCmd)
+	projectCmd.AddCommand(projectGetCmd)
 	projectCmd.AddCommand(projectCreateCmd)
 
 	rootCmd.AddCommand(projectCmd)
-
 }

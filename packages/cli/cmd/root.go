@@ -21,9 +21,10 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
+	"path"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -33,7 +34,7 @@ var cfgFile string
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "roc-cli",
-	Short: "A brief description of your application",
+	Short: "CLI program to manage your ROC deployment",
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
@@ -77,12 +78,25 @@ func initConfig() {
 		viper.AddConfigPath(home)
 		viper.SetConfigType("yaml")
 		viper.SetConfigName(".roc-cli")
+
+		if _, err := os.Stat(path.Join(home, ".roc-cli.yaml")); os.IsNotExist(err) {
+			file, err := os.Create(path.Join(home, ".roc-cli.yaml"))
+			if err != nil {
+				log.Fatal("Error creating config file: ", err)
+			}
+			file.Close()
+		}
+
+		err = viper.WriteConfig()
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
-		fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
+		log.Debug("Using config file:", viper.ConfigFileUsed())
 	}
 }
