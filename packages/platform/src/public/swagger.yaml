@@ -95,6 +95,8 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        $ref: '#/components/requestBodies/ProjectUpdateDto'
       responses:
         '200':
           description: Success
