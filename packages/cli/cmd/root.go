@@ -21,15 +21,24 @@
 package cmd
 
 import (
+	"context"
 	"os"
 	"path"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"github.com/yusufcanb/roc-cli/api"
+	"github.com/yusufcanb/roc-cli/service"
 )
 
 var cfgFile string
+var apiClient *api.APIClient
+
+var projectService service.ProjectService
+var environmentService service.EnvironmentService
+
+var ctx context.Context = context.Background()
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -99,4 +108,12 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err == nil {
 		log.Debug("Using config file:", viper.ConfigFileUsed())
 	}
+
+	config := api.NewConfiguration()
+	config.BasePath = "http://localhost:3000/api/v1"
+
+	apiClient = api.NewAPIClient(config)
+	projectService = service.NewProjectService(apiClient)
+	environmentService = service.NewEnvironmentService(apiClient)
+
 }

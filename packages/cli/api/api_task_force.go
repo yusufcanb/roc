@@ -117,9 +117,10 @@ func (a *TaskForceApiService) CreateTaskForce(ctx context.Context, body interfac
 /*
 TaskForceApiService Delete a task force
   - @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+  - @param projectId Id of project
   - @param taskForceId Id of task force
 */
-func (a *TaskForceApiService) DeleteTaskForce(ctx context.Context, taskForceId string) (*http.Response, error) {
+func (a *TaskForceApiService) DeleteTaskForce(ctx context.Context, projectId string, taskForceId string) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Delete")
 		localVarPostBody   interface{}
@@ -135,6 +136,7 @@ func (a *TaskForceApiService) DeleteTaskForce(ctx context.Context, taskForceId s
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	localVarQueryParams.Add("projectId", parameterToString(projectId, ""))
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
 
@@ -196,9 +198,10 @@ func (a *TaskForceApiService) DeleteTaskForce(ctx context.Context, taskForceId s
 TaskForceApiService Edit task force
   - @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
   - @param body Task force update body content
+  - @param projectId Id of project
   - @param taskForceId Id of task force
 */
-func (a *TaskForceApiService) EditTaskForce(ctx context.Context, body interface{}, taskForceId string) (*http.Response, error) {
+func (a *TaskForceApiService) EditTaskForce(ctx context.Context, body interface{}, projectId string, taskForceId string) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}
@@ -214,6 +217,7 @@ func (a *TaskForceApiService) EditTaskForce(ctx context.Context, body interface{
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	localVarQueryParams.Add("projectId", parameterToString(projectId, ""))
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{"application/json"}
 
@@ -276,9 +280,10 @@ func (a *TaskForceApiService) EditTaskForce(ctx context.Context, body interface{
 /*
 TaskForceApiService Get task force by id
   - @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+  - @param projectId Id of project
   - @param taskForceId Id of task force
 */
-func (a *TaskForceApiService) GetTaskForceById(ctx context.Context, taskForceId string) (*http.Response, error) {
+func (a *TaskForceApiService) GetTaskForceById(ctx context.Context, projectId string, taskForceId string) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -294,6 +299,7 @@ func (a *TaskForceApiService) GetTaskForceById(ctx context.Context, taskForceId 
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	localVarQueryParams.Add("projectId", parameterToString(projectId, ""))
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
 

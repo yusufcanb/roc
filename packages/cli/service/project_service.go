@@ -6,7 +6,6 @@ import (
 
 	"github.com/jedib0t/go-pretty/table"
 	log "github.com/sirupsen/logrus"
-	"gopkg.in/yaml.v2"
 
 	"github.com/yusufcanb/roc-cli/api"
 	"github.com/yusufcanb/roc-cli/spec"
@@ -104,17 +103,6 @@ func (it *ProjectService) PrintProjectsAsTable(projects []api.Project) {
 	tw.SetTitle("Projects")
 
 	fmt.Println(tw.Render())
-}
-
-func (it *ProjectService) PrintProjectAsYAML(project *api.Project) {
-	// Marshal the value to YAML
-	yamlData, err := yaml.Marshal(project)
-	if err != nil {
-		log.Fatalf("Error marshalling to YAML: %s", err)
-	}
-
-	// Print the YAML data to the console
-	fmt.Println(string(yamlData))
 }
 
 func NewProjectService(client *api.APIClient) ProjectService {

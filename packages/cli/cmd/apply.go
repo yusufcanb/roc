@@ -1,14 +1,11 @@
 package cmd
 
 import (
-	"fmt"
 	"io/ioutil"
-	"log"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"github.com/yusufcanb/roc-cli/api"
-	"github.com/yusufcanb/roc-cli/service"
 	"github.com/yusufcanb/roc-cli/spec"
 )
 
@@ -44,12 +41,7 @@ var applyCmd = &cobra.Command{
 	Short: "Apply a configuration file",
 	Run: func(cmd *cobra.Command, args []string) {
 
-		fmt.Println(viper.ConfigFileUsed())
-
-		platform := "http://localhost:3000"
-		apiConfig := api.NewConfiguration()
-		apiConfig.BasePath = platform + "/api/v1"
-		apiClient := api.NewAPIClient(apiConfig)
+		log.Println(viper.ConfigFileUsed())
 
 		// Get the file path from the -f flag
 		filePath := getFilePathFromFlag(cmd)
@@ -62,8 +54,10 @@ var applyCmd = &cobra.Command{
 
 		// Map spec with dedicated kind
 		switch applySpec.Kind {
+		case "Environment":
+			projectId := getProjectFromFlag(cmd)
+			environmentService.ApplyCLISpec(projectId, applySpec)
 		case "Project":
-			projectService := service.NewProjectService(apiClient)
 			projectService.ApplyCLISpec(applySpec)
 		default:
 			log.Fatalf("Unrecognized kind: %s", applySpec.Kind)
@@ -73,5 +67,7 @@ var applyCmd = &cobra.Command{
 
 func init() {
 	applyCmd.Flags().StringP("file", "f", "", "YAML file to apply")
+	applyCmd.Flags().StringP("project", "p", "", "Project identifier")
+
 	rootCmd.AddCommand(applyCmd)
 }

@@ -181,6 +181,12 @@ paths:
       security:
         - AccessTokenAuth: []
       parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
         - in: path
           name: environmentId
           description: Id of environment
@@ -202,6 +208,12 @@ paths:
       security:
         - AccessTokenAuth: []
       parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
         - in: path
           name: environmentId
           description: Id of Environment
@@ -223,6 +235,12 @@ paths:
       security:
         - AccessTokenAuth: []
       parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
         - in: path
           name: environmentId
           description: Id of environment
@@ -288,6 +306,12 @@ paths:
       security:
         - AccessTokenAuth: []
       parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
         - in: path
           name: taskForceId
           description: Id of task force
@@ -305,6 +329,12 @@ paths:
       security:
         - AccessTokenAuth: []
       parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
         - in: path
           name: taskForceId
           description: Id of task force
@@ -324,6 +354,12 @@ paths:
       security:
         - AccessTokenAuth: []
       parameters:
+        - in: query
+          name: projectId
+          description: Id of project
+          required: true
+          schema:
+            type: string
         - in: path
           name: taskForceId
           description: Id of task force

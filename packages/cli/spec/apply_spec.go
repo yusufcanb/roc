@@ -2,10 +2,7 @@ package spec
 
 import (
 	"fmt"
-	"log"
 
-	"github.com/yusufcanb/roc-cli/api"
-	"github.com/yusufcanb/roc-cli/utils"
 	"gopkg.in/yaml.v3"
 )
 
@@ -22,16 +19,6 @@ func UnmarshalCLISpec(data []byte) (*CLIApplySpec, error) {
 	var obj CLIApplySpec
 	if err := yaml.Unmarshal(data, &obj); err != nil {
 		return nil, fmt.Errorf("error unmarshalling yaml data: %s", err)
-	}
-	switch obj.Kind {
-	case "Project":
-		var p api.Project
-		err := utils.MapToStruct(obj.Spec, &p)
-		if err != nil {
-			log.Fatalf("Error casting spec to ProjectSpec")
-		}
-	default:
-		log.Fatalf("Unrecognized kind: %s", obj.Kind)
 	}
 	return &obj, nil
 }

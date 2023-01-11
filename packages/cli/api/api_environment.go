@@ -130,9 +130,10 @@ func (a *EnvironmentApiService) CreateEnvironment(ctx context.Context, body inte
 /*
 EnvironmentApiService Delete Environment
   - @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+  - @param projectId Id of project
   - @param environmentId Id of environment
 */
-func (a *EnvironmentApiService) DeleteEnvironment(ctx context.Context, environmentId string) (*http.Response, error) {
+func (a *EnvironmentApiService) DeleteEnvironment(ctx context.Context, projectId string, environmentId string) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Delete")
 		localVarPostBody   interface{}
@@ -148,6 +149,7 @@ func (a *EnvironmentApiService) DeleteEnvironment(ctx context.Context, environme
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	localVarQueryParams.Add("projectId", parameterToString(projectId, ""))
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
 
@@ -208,11 +210,12 @@ func (a *EnvironmentApiService) DeleteEnvironment(ctx context.Context, environme
 /*
 EnvironmentApiService Get environment by id
   - @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+  - @param projectId Id of project
   - @param environmentId Id of environment
 
 @return Environment
 */
-func (a *EnvironmentApiService) GetEnvironmentById(ctx context.Context, environmentId string) (Environment, *http.Response, error) {
+func (a *EnvironmentApiService) GetEnvironmentById(ctx context.Context, projectId string, environmentId string) (Environment, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}
@@ -229,6 +232,7 @@ func (a *EnvironmentApiService) GetEnvironmentById(ctx context.Context, environm
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	localVarQueryParams.Add("projectId", parameterToString(projectId, ""))
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
 
@@ -406,11 +410,12 @@ func (a *EnvironmentApiService) GetEnvironments(ctx context.Context, projectId s
 /*
 EnvironmentApiService Update an environment object
   - @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+  - @param projectId Id of project
   - @param environmentId Id of Environment
 
 @return Environment
 */
-func (a *EnvironmentApiService) UpdateEnvironment(ctx context.Context, environmentId string) (Environment, *http.Response, error) {
+func (a *EnvironmentApiService) UpdateEnvironment(ctx context.Context, projectId string, environmentId string) (Environment, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Put")
 		localVarPostBody    interface{}
@@ -427,6 +432,7 @@ func (a *EnvironmentApiService) UpdateEnvironment(ctx context.Context, environme
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	localVarQueryParams.Add("projectId", parameterToString(projectId, ""))
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
 

@@ -20,6 +20,7 @@ export class EnvironmentRetrieveDto {
     const dto = new EnvironmentRetrieveDto();
 
     dto.id = obj.id;
+    dto.projectId = obj.projectId;
     dto.description = obj.description;
     dto.tags = obj.tags;
     dto.variables = obj.variables;

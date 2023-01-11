@@ -25,13 +25,17 @@ import (
 
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"github.com/yusufcanb/roc-cli/api"
-	"github.com/yusufcanb/roc-cli/service"
+	"github.com/yusufcanb/roc-cli/utils"
 )
 
-var apiClient *api.APIClient
-var projectService service.ProjectService
-var ctx context.Context = context.Background()
+// Get the project identifier from the -p flag
+func getProjectFromFlag(cmd *cobra.Command) string {
+	projectId, err := cmd.Flags().GetString("project")
+	if err != nil {
+		log.Fatalf("Error getting file flag: %s", err)
+	}
+	return projectId
+}
 
 // projectCmd represents the project command
 var projectCmd = &cobra.Command{
@@ -71,7 +75,7 @@ var projectGetCmd = &cobra.Command{
 			log.Println(err.Error())
 		}
 
-		projectService.PrintProjectAsYAML(&project)
+		utils.PrintAsYAML(&project)
 	},
 }
 
@@ -84,12 +88,6 @@ var projectCreateCmd = &cobra.Command{
 }
 
 func init() {
-
-	config := api.NewConfiguration()
-	config.BasePath = "http://localhost:3000/api/v1"
-
-	apiClient = api.NewAPIClient(config)
-	projectService = service.NewProjectService(apiClient)
 
 	projectCmd.AddCommand(projectListCmd)
 	projectCmd.AddCommand(projectGetCmd)
