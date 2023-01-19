@@ -410,12 +410,13 @@ func (a *EnvironmentApiService) GetEnvironments(ctx context.Context, projectId s
 /*
 EnvironmentApiService Update an environment object
   - @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+  - @param body Environment create body content
   - @param projectId Id of project
   - @param environmentId Id of Environment
 
 @return Environment
 */
-func (a *EnvironmentApiService) UpdateEnvironment(ctx context.Context, projectId string, environmentId string) (Environment, *http.Response, error) {
+func (a *EnvironmentApiService) UpdateEnvironment(ctx context.Context, body interface{}, projectId string, environmentId string) (Environment, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Put")
 		localVarPostBody    interface{}
@@ -434,7 +435,7 @@ func (a *EnvironmentApiService) UpdateEnvironment(ctx context.Context, projectId
 
 	localVarQueryParams.Add("projectId", parameterToString(projectId, ""))
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{}
+	localVarHttpContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -450,6 +451,8 @@ func (a *EnvironmentApiService) UpdateEnvironment(ctx context.Context, projectId
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
+	// body params
+	localVarPostBody = &body
 	if ctx != nil {
 		// API Key Authentication
 		if auth, ok := ctx.Value(ContextAPIKey).(APIKey); ok {
