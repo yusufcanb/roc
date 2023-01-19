@@ -1,7 +1,8 @@
 package spec
 
 import (
-	"fmt"
+	"log"
+	"strings"
 
 	"gopkg.in/yaml.v3"
 )
@@ -15,10 +16,19 @@ type CLIApplySpec struct {
 	Spec map[string]interface{} `yaml:"spec,omitempty"`
 }
 
-func UnmarshalCLISpec(data []byte) (*CLIApplySpec, error) {
-	var obj CLIApplySpec
-	if err := yaml.Unmarshal(data, &obj); err != nil {
-		return nil, fmt.Errorf("error unmarshalling yaml data: %s", err)
+func UnmarshalCLISpec(data []byte) (*[]CLIApplySpec, error) {
+	var allDocs []CLIApplySpec
+
+	parts := strings.Split(string(data), "---")
+
+	for _, part := range parts {
+		var doc CLIApplySpec
+		err := yaml.Unmarshal([]byte(part), &doc)
+		if err != nil {
+			log.Fatalf("error: %v", err)
+			return nil, err
+		}
+		allDocs = append(allDocs, doc)
 	}
-	return &obj, nil
+	return &allDocs, nil
 }

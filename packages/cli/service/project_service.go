@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/jedib0t/go-pretty/table"
+	"github.com/jedib0t/go-pretty/v6/table"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/yusufcanb/roc-cli/api"
@@ -51,11 +51,11 @@ func (it *ProjectService) UpdateProject(project api.Project) {
 
 	_, response, err := it.client.ProjectApi.UpdateProject(context.Background(), body, project.Id)
 	if err != nil && response == nil {
-		log.Fatalf("Error on project creation...\n%s", err.Error())
+		log.Fatalf("ERR.. Error on project creation...\n%s", err.Error())
 	}
 
 	if response.StatusCode != 200 {
-		log.Fatalf("Error while updating Project<Id=%s>...\n", project.Id)
+		log.Fatalf("ERR.. Error while updating Project<Id=%s>...\n", project.Id)
 	}
 
 	log.Printf("OK.. Project<Id=%s> updated\n", project.Id)
@@ -64,11 +64,11 @@ func (it *ProjectService) UpdateProject(project api.Project) {
 func (it *ProjectService) DeleteProjectById(projectId string) {
 	response, err := it.client.ProjectApi.DeleteProject(context.Background(), projectId)
 	if err != nil && response == nil {
-		log.Fatalf("Error on project deletion...\n%s", err.Error())
+		log.Fatalf("ERR.. Error on project deletion...\n%s", err.Error())
 	}
 
 	if response.StatusCode != 200 {
-		log.Fatalf("Error while deleting the Project<Id=%s>...\n", projectId)
+		log.Fatalf("ERR.. Error while deleting the Project<Id=%s>...\n", projectId)
 	}
 
 	log.Printf("OK.. Project<Id=%s> deleted\n", projectId)
@@ -78,7 +78,7 @@ func (it *ProjectService) ApplyCLISpec(applySpec *spec.CLIApplySpec) {
 	var p api.Project
 	err := utils.MapToStruct(applySpec.Spec, &p)
 	if err != nil {
-		log.Fatalf("Error casting spec to ApplySpec as TaskForce kind")
+		log.Fatalf("ERR.. Error casting spec to ApplySpec as Project kind")
 	}
 	if it.IsExists(p) {
 		it.UpdateProject(p)

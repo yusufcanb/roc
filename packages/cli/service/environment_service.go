@@ -51,31 +51,32 @@ func (it *EnvironmentService) IsExists(projectId string, environment api.Environ
 func (it *EnvironmentService) CreateEnvironment(projectId string, environment api.Environment) {
 	_, response, err := it.client.EnvironmentApi.CreateEnvironment(context.Background(), environment, projectId)
 	if err != nil && response == nil {
-		log.Fatalf("Error on environment creation...\n%s", err.Error())
+		log.Fatalf("ERR.. Error on environment creation...\n%s", err.Error())
 	}
 
 	if response.StatusCode != 201 {
-		log.Fatalf("Environment creation failed...\n%s", err.Error())
+		log.Fatalf("ERR.. Environment creation failed...\n%s", err.Error())
 	}
 
 	log.Printf("OK.. Environment<Id=%s> created\n", environment.Id)
 }
 
 func (it *EnvironmentService) UpdateEnvironment(projectId string, environment api.Environment) {
-	// body := make(map[string]interface{})
-	// body["description"] = environment.Description
-	// body["tags"] = environment.Tags
+	body := make(map[string]interface{})
+	body["description"] = environment.Description
+	body["tags"] = environment.Tags
+	body["variables"] = environment.Variables
 
-	// _, response, err := it.client.EnvironmentApi.UpdateEnvironment(context.Background(), body, environment.Id)
-	// if err != nil && response == nil {
-	// 	log.Fatalf("Error on project creation...\n%s", err.Error())
-	// }
+	_, response, err := it.client.EnvironmentApi.UpdateEnvironment(context.Background(), body, projectId, environment.Id)
+	if err != nil && response == nil {
+		log.Fatalf("Error on environment update...\n%s", err.Error())
+	}
 
-	// if response.StatusCode != 200 {
-	// 	log.Fatalf("Error while updating Project<Id=%s>...\n", environment.Id)
-	// }
+	if response.StatusCode != 200 {
+		log.Fatalf("Error while updating Environment<Id=%s>...\n", environment.Id)
+	}
 
-	log.Printf("OK.. Project<Id=%s> updated\n", environment.Id)
+	log.Printf("OK.. Environment<Id=%s> updated\n", environment.Id)
 }
 
 func (it *EnvironmentService) DeleteEnvironmentById(projectId string, environmentId string) {

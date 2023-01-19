@@ -37,17 +37,19 @@ var apiClient *api.APIClient
 
 var projectService service.ProjectService
 var environmentService service.EnvironmentService
+var taskForceService service.TaskForceService
 
 var ctx context.Context = context.Background()
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "roc-cli",
-	Short: "CLI program to manage your ROC deployment",
+	Use:     "roc-cli",
+	Short:   "ROC command line interface to manage your platform",
+	Version: "1.0.0",
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
-
+		cmd.Help()
 	},
 }
 
@@ -67,10 +69,6 @@ func init() {
 	// will be global for your application.
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.roc-cli.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -115,5 +113,5 @@ func initConfig() {
 	apiClient = api.NewAPIClient(config)
 	projectService = service.NewProjectService(apiClient)
 	environmentService = service.NewEnvironmentService(apiClient)
-
+	taskForceService = service.NewTaskForceService(apiClient)
 }

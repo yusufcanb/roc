@@ -31,7 +31,7 @@ var getPlatformCmd = &cobra.Command{
 	Use:   "get-platform",
 	Short: "A brief description of your command",
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Info("get-platform called")
+		viper.Get("platform.url")
 	},
 }
 
