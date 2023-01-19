@@ -26,13 +26,13 @@ func readYAMLFile(filePath string) []byte {
 	return data
 }
 
-func mapYAMLFileToApplySpec(data []byte) *spec.CLIApplySpec {
-	var applySpec *spec.CLIApplySpec
+func mapYAMLFileToApplySpec(data []byte) []spec.CLIApplySpec {
+	var applySpec *[]spec.CLIApplySpec
 	var err error
 	if applySpec, err = spec.UnmarshalCLISpec(data); err != nil {
 		log.Fatalf("Error unmarshalling YAML data: %s", err)
 	}
-	return applySpec
+	return *applySpec
 }
 
 // applyCmd represents the apply command
@@ -49,18 +49,23 @@ var applyCmd = &cobra.Command{
 		// Read the YAML file
 		data := readYAMLFile(filePath)
 
-		// Unmarshal the YAML data into a slice of Projects
-		applySpec := mapYAMLFileToApplySpec(data)
+		// Unmarshal the YAML data into a slice of documents
+		documents := mapYAMLFileToApplySpec(data)
 
-		// Map spec with dedicated kind
-		switch applySpec.Kind {
-		case "Environment":
-			projectId := getProjectFromFlag(cmd)
-			environmentService.ApplyCLISpec(projectId, applySpec)
-		case "Project":
-			projectService.ApplyCLISpec(applySpec)
-		default:
-			log.Fatalf("Unrecognized kind: %s", applySpec.Kind)
+		for _, doc := range documents {
+			// Map spec with dedicated kind
+			switch doc.Kind {
+			case "Project":
+				projectService.ApplyCLISpec(&doc)
+			case "Environment":
+				projectId := getProjectFromFlag(cmd)
+				environmentService.ApplyCLISpec(projectId, &doc)
+			case "TaskForce":
+				projectId := getProjectFromFlag(cmd)
+				taskForceService.ApplyCLISpec(projectId, &doc)
+			default:
+				log.Fatalf("Unrecognized kind: %s", doc.Kind)
+			}
 		}
 	},
 }
