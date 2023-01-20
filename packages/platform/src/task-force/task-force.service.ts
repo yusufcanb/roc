@@ -23,7 +23,7 @@ export class TaskForceService {
   public async getTaskForceById(
     projectId: Id,
     id: Id,
-    asDto?: boolean,
+    asDto = true,
   ): Promise<TaskForce | TaskForceRetrieveDto> {
     if (asDto) {
       return TaskForceRetrieveDto.from(
