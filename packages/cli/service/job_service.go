@@ -101,16 +101,16 @@ func (it *JobService) ApplyCLISpec(projectId string, applySpec *spec.CLIApplySpe
 	log.Printf("OK.. Job<%s> started\n", id)
 
 	timeout := time.After(5 * time.Minute)
-	tick := time.Tick(2 * time.Second)
+	tick := time.Tick(1 * time.Second)
 	for {
 		job := it.GetJobById(projectId, id)
 		select {
 		case <-tick:
 			if job.Status.IsActive {
-				log.Printf("OK.. Checking Job<Id=%s> status\n", id)
 				continue
 			}
 			if !job.Status.IsActive {
+				log.Printf("OK.. Job<%s> completed\n", id)
 				fmt.Println(job.Result.Stdout)
 				return
 			}
