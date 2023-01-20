@@ -220,6 +220,8 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        $ref: '#/components/requestBodies/EnvironmentUpdateBody'
       responses:
         '200':
           description: Successful operation. Returns an environment object.
@@ -321,8 +323,12 @@ paths:
       responses:
         '200':
           description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskForce'
     put:
-      operationId: editTaskForce
+      operationId: updateTaskForce
       summary: Edit task force
       tags:
         - task-force
@@ -345,7 +351,11 @@ paths:
         $ref: '#/components/requestBodies/TaskForceUpdateBody'
       responses:
         '200':
-          description: Successful operation.
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskForce'
     delete:
       operationId: deleteTaskForce
       summary: Delete a task force
@@ -442,16 +452,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  projectId:
-                    type: string
-                  environmentId:
-                    type: string
-                example:
-                  projectId: default-project
-                  environmentId: dev
-                  taskForceId: api-health-check
+                $ref: '#/components/schemas/Job'
     delete:
       operationId: deleteJobsByProject
       summary: Delete Jobs by Project
@@ -492,15 +493,13 @@ paths:
           required: true
           schema:
             type: string
-            items:
-              type: string
       responses:
         '200':
           description: project object to be returned
           content:
-            text/html:
+            application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/Job'
     delete:
       operationId: deleteJob
       summary: Delete a job
@@ -521,8 +520,6 @@ paths:
           required: true
           schema:
             type: string
-            items:
-              type: string
       responses:
         '200':
           description: project object to be returned

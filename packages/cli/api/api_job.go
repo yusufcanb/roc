@@ -137,7 +137,7 @@ JobApiService Delete a job
 
 @return string
 */
-func (a *JobApiService) DeleteJob(ctx context.Context, projectId string, jobId []string) (string, *http.Response, error) {
+func (a *JobApiService) DeleteJob(ctx context.Context, projectId string, jobId string) (string, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Delete")
 		localVarPostBody    interface{}
@@ -314,15 +314,15 @@ JobApiService Get job detail
   - @param projectId Id of project
   - @param jobId Identifier of job id
 
-@return string
+@return Job
 */
-func (a *JobApiService) GetJobById(ctx context.Context, projectId string, jobId []string) (string, *http.Response, error) {
+func (a *JobApiService) GetJobById(ctx context.Context, projectId string, jobId string) (Job, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}
 		localVarFileName    string
 		localVarFileBytes   []byte
-		localVarReturnValue string
+		localVarReturnValue Job
 	)
 
 	// create path and map variables
@@ -344,7 +344,7 @@ func (a *JobApiService) GetJobById(ctx context.Context, projectId string, jobId 
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{"text/html"}
+	localVarHttpHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -394,7 +394,7 @@ func (a *JobApiService) GetJobById(ctx context.Context, projectId string, jobId 
 			error: localVarHttpResponse.Status,
 		}
 		if localVarHttpResponse.StatusCode == 200 {
-			var v string
+			var v Job
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
