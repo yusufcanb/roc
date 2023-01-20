@@ -80,7 +80,7 @@ export class JobService {
     job.createdAt = new Date();
 
     job.status = {
-      isActive: false,
+      isActive: true,
       isErrored: false,
       isSucceeded: false,
     };
