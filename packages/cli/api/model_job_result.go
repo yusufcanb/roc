@@ -18,6 +18,6 @@ type JobResult struct {
 	// Url of the output.xml of the robot execution
 	OutputUrl string `json:"outputUrl,omitempty"`
 	// Url of the output.xml of the robot execution
-	StdoutUrl   string `json:"stdoutUrl,omitempty"`
+	Stdout      string `json:"stdout,omitempty"`
 	CompletedAt string `json:"completedAt,omitempty"`
 }

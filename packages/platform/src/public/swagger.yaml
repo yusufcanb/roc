@@ -997,7 +997,7 @@ components:
               type: string
               format: url
               description: Url of the output.xml of the robot execution
-            stdoutUrl:
+            stdout:
               type: string
               format: url
               description: Url of the output.xml of the robot execution

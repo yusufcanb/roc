@@ -33,15 +33,15 @@ JobApiService Execute new job
   - @param body Job create body content
   - @param projectId Id of project
 
-@return InlineResponse200
+@return Job
 */
-func (a *JobApiService) CreateJob(ctx context.Context, body interface{}, projectId string) (InlineResponse200, *http.Response, error) {
+func (a *JobApiService) CreateJob(ctx context.Context, body interface{}, projectId string) (Job, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Post")
 		localVarPostBody    interface{}
 		localVarFileName    string
 		localVarFileBytes   []byte
-		localVarReturnValue InlineResponse200
+		localVarReturnValue Job
 	)
 
 	// create path and map variables
@@ -114,7 +114,7 @@ func (a *JobApiService) CreateJob(ctx context.Context, body interface{}, project
 			error: localVarHttpResponse.Status,
 		}
 		if localVarHttpResponse.StatusCode == 200 {
-			var v InlineResponse200
+			var v Job
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
