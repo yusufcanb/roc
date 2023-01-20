@@ -30,16 +30,16 @@ func (it *TaskForceService) GetTaskForcesByProjectId(projectId string) {
 }
 
 func (it *TaskForceService) GetTaskForceById(projectId string, taskForceId string) {
-	environment, _, err := it.client.EnvironmentApi.GetEnvironmentById(context.Background(), projectId, taskForceId)
+	taskForce, _, err := it.client.TaskForceApi.GetTaskForceById(context.Background(), projectId, taskForceId)
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
 
-	utils.PrintAsYAML(environment)
+	utils.PrintAsYAML(taskForce)
 }
 
 func (it *TaskForceService) IsExists(projectId string, taskForce api.TaskForce) bool {
-	_, response, err := it.client.EnvironmentApi.GetEnvironmentById(context.Background(), projectId, taskForce.Id)
+	_, response, err := it.client.TaskForceApi.GetTaskForceById(context.Background(), projectId, taskForce.Id)
 	if err != nil && response == nil {
 		log.Fatalf("ERR.. Error on checking TaskForce<Id=%s> is exist...\n%s", taskForce.Id, err.Error())
 	}
@@ -67,24 +67,28 @@ func (it *TaskForceService) CreateTaskForce(projectId string, taskForce api.Task
 }
 
 func (it *TaskForceService) UpdateTaskForce(projectId string, taskForce api.TaskForce) {
-	// body := make(map[string]interface{})
-	// body["description"] = environment.Description
-	// body["tags"] = environment.Tags
+	body := make(map[string]interface{})
+	body["description"] = taskForce.Description
+	body["repository"] = taskForce.Repository
+	body["runner"] = taskForce.Runner
+	body["selector"] = taskForce.Selector
+	body["include"] = taskForce.Include
+	body["tags"] = taskForce.Tags
 
-	// _, response, err := it.client.EnvironmentApi.UpdateEnvironment(context.Background(), body, environment.Id)
-	// if err != nil && response == nil {
-	// 	log.Fatalf("Error on project creation...\n%s", err.Error())
-	// }
+	_, response, err := it.client.TaskForceApi.UpdateTaskForce(context.Background(), body, projectId, taskForce.Id)
+	if err != nil && response == nil {
+		log.Fatalf("ERR.. Error on task force creation...\n%s", err.Error())
+	}
 
-	// if response.StatusCode != 200 {
-	// 	log.Fatalf("Error while updating Project<Id=%s>...\n", environment.Id)
-	// }
+	if response.StatusCode != 200 {
+		log.Fatalf("ERR.. Error while updating TaskForce<Id=%s>...\n", taskForce.Id)
+	}
 
 	log.Printf("OK.. TaskForce<Id=%s> updated\n", taskForce.Id)
 }
 
 func (it *TaskForceService) DeleteTaskForceById(projectId string, taskForceId string) {
-	response, err := it.client.EnvironmentApi.DeleteEnvironment(context.Background(), projectId, taskForceId)
+	response, err := it.client.TaskForceApi.DeleteTaskForce(context.Background(), projectId, taskForceId)
 	if err != nil && response == nil {
 		log.Fatalf("ERR.. Error on task force deletion...\n%s", err.Error())
 	}
