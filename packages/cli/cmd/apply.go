@@ -63,6 +63,9 @@ var applyCmd = &cobra.Command{
 			case "TaskForce":
 				projectId := getProjectFromFlag(cmd)
 				taskForceService.ApplyCLISpec(projectId, &doc)
+			case "Job":
+				projectId := getProjectFromFlag(cmd)
+				jobService.ApplyCLISpec(projectId, &doc)
 			default:
 				log.Fatalf("Unrecognized kind: %s", doc.Kind)
 			}

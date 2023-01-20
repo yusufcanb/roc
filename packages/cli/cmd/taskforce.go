@@ -33,7 +33,7 @@ var taskForceDetailCmd = &cobra.Command{
 
 var taskForceDeleteCmd = &cobra.Command{
 	Use:   "delete",
-	Short: "Delete an taskForce by its id",
+	Short: "Delete a task force by its id",
 	Run: func(cmd *cobra.Command, args []string) {
 		projectId := getProjectFromFlag(cmd)
 		taskForceService.DeleteTaskForceById(projectId, args[0])

@@ -38,6 +38,7 @@ var apiClient *api.APIClient
 var projectService service.ProjectService
 var environmentService service.EnvironmentService
 var taskForceService service.TaskForceService
+var jobService service.JobService
 
 var ctx context.Context = context.Background()
 
@@ -114,4 +115,5 @@ func initConfig() {
 	projectService = service.NewProjectService(apiClient)
 	environmentService = service.NewEnvironmentService(apiClient)
 	taskForceService = service.NewTaskForceService(apiClient)
+	jobService = service.NewJobService(apiClient)
 }
