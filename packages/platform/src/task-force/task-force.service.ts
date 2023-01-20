@@ -1,5 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Id, TaskForce, TaskForceCreateDto } from '@roc/core';
+import {
+  Id,
+  TaskForce,
+  TaskForceCreateDto,
+  TaskForceRetrieveDto,
+  TaskForceUpdateDto,
+} from '@roc/core';
 import { TaskForceRedisRepository } from './task-force.repository';
 
 @Injectable()
@@ -14,8 +20,18 @@ export class TaskForceService {
     return await this.repository.existsById(`${projectId}.${taskForceId}`);
   }
 
-  public async getTaskForceById(projectId: Id, id: Id): Promise<TaskForce> {
-    return this.repository.getOneById(`${projectId}.${id}`);
+  public async getTaskForceById(
+    projectId: Id,
+    id: Id,
+    asDto?: boolean,
+  ): Promise<TaskForce | TaskForceRetrieveDto> {
+    if (asDto) {
+      return TaskForceRetrieveDto.from(
+        await this.repository.getOneById(`${projectId}.${id}`),
+      );
+    } else {
+      await this.repository.getOneById(`${projectId}.${id}`);
+    }
   }
 
   public async findAllByProjectId(projectId: Id): Promise<TaskForce[]> {
@@ -29,5 +45,30 @@ export class TaskForceService {
     const taskForce = TaskForce.fromPlainObject(taskForceCreateDto);
     taskForce.projectId = projectId;
     return this.repository.save(taskForce);
+  }
+
+  public async updateTaskForceByIds(
+    projectId: Id,
+    environmentId: Id,
+    dto: TaskForceUpdateDto,
+  ) {
+    const taskForce: TaskForce = await this.repository.getOneById(
+      `${projectId}.${environmentId}`,
+    );
+
+    taskForce.description = dto.description;
+    taskForce.runner = dto.runner;
+    taskForce.repository = dto.repository;
+    taskForce.selector = dto.selector;
+    taskForce.include = dto.include;
+
+    taskForce.tags = dto.tags;
+
+    this.repository.save(taskForce);
+    return taskForce;
+  }
+
+  public async deleteTaskForce(projectId: Id, id: Id) {
+    return this.repository.deleteById(`${projectId}.${id}`);
   }
 }

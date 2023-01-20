@@ -6,6 +6,7 @@ import {
   JobCreateDto,
   RobotExecutor,
   RobotExecutorConfig,
+  TaskForce,
 } from '@roc/core';
 import {
   TaskForceDoesNotExistException,
@@ -95,10 +96,10 @@ export class JobService {
         job.projectId,
         job.environmentId,
       )) as Environment,
-      taskForce: await this.taskForceService.getTaskForceById(
+      taskForce: (await this.taskForceService.getTaskForceById(
         job.projectId,
         job.taskForceId,
-      ),
+      )) as TaskForce,
       minio: {
         endpoint: new URL('http://localhost:9000'),
         accessKey: 'roc',
