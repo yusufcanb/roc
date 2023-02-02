@@ -109,11 +109,18 @@ func (it *JobService) ApplyCLISpec(projectId string, applySpec *spec.CLIApplySpe
 			if job.Status.IsActive {
 				continue
 			}
-			if !job.Status.IsActive {
+
+			if !job.Status.IsActive && job.Status.IsSucceeded {
 				log.Printf("OK.. Job<%s> completed\n", id)
 				fmt.Println(job.Result.Stdout)
 				return
 			}
+
+			if !job.Status.IsActive && job.Status.IsErrored {
+				log.Printf("ERR.. Job<%s> errored on execution\n", id)
+				return
+			}
+
 		case <-timeout:
 			fmt.Println("Timeout reached, breaking out of loop")
 			return
