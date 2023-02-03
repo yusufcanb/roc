@@ -1,0 +1,31 @@
+name: docker-publish
+on:
+  create:
+    tags:
+      - v*
+jobs:
+  roc-platform:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create roc-platform image
+        uses: craftech-io/package-action@v3.1.0
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+          context: .
+          image_name: roc-platform
+          tags: ${{ steps.vars.outputs.sha_short }}
+          dockerfile: ./Dockerfile.platform
+  
+  roc-tunnel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create roc-tunnel image
+        uses: craftech-io/package-action@v3.1.0
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+          context: .
+          image_name: roc-tunnel
+          tags: ${{ steps.vars.outputs.sha_short }}
+          dockerfile: ./Dockerfile.tunnel
