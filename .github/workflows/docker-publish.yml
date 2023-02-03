@@ -6,26 +6,48 @@ on:
 jobs:
   roc-platform:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_REGISTRY: ghcr.io
+      DOCKER_REPOSITORY: yusufcanb/roc
+      DOCKER_IMAGE: roc-platform
+
     steps:
-      - uses: actions/checkout@v2
-      - name: Create roc-platform image
-        uses: craftech-io/package-action@v3.1.0
-        with:
-          access_token: ${{ secrets.GITHUB_TOKEN }}
-          context: .
-          image_name: roc-platform
-          tags: ${{ steps.vars.outputs.sha_short }}
-          dockerfile: ./Dockerfile.platform
-  
+    - name: checkout
+      uses: actions/checkout@v2
+
+    - name: publish roc-platform
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        context: .
+        dockerfile: Dockerfile.platform
+        tags: ${DOCKER_REGISTRY}/${DOCKER_REPOSITORY}/${DOCKER_IMAGE}:${{ env.TAG_NAME }}
+
+    - name: publish
+      uses: docker/push-action@v1
+      with:
+        tags: ${DOCKER_REGISTRY}/${DOCKER_REPOSITORY}/${DOCKER_IMAGE}:${{ env.TAG_NAME }}
+
   roc-tunnel:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_REGISTRY: ghcr.io
+      DOCKER_REPOSITORY: yusufcanb/roc
+      DOCKER_IMAGE: roc-tunnel
+
     steps:
-      - uses: actions/checkout@v2
-      - name: Create roc-tunnel image
-        uses: craftech-io/package-action@v3.1.0
-        with:
-          access_token: ${{ secrets.GITHUB_TOKEN }}
-          context: .
-          image_name: roc-tunnel
-          tags: ${{ steps.vars.outputs.sha_short }}
-          dockerfile: ./Dockerfile.tunnel
+    - name: checkout
+      uses: actions/checkout@v2
+
+    - name: publish
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        context: .
+        dockerfile: Dockerfile.tunnel
+        tags: ${DOCKER_REGISTRY}/${DOCKER_REPOSITORY}/${DOCKER_IMAGE}:${{ env.TAG_NAME }}
+
+    - name: Publish Docker Image
+      uses: docker/push-action@v1
+      with:
+        tags: ${DOCKER_REGISTRY}/${DOCKER_REPOSITORY}/${DOCKER_IMAGE}:${{ env.TAG_NAME }}
