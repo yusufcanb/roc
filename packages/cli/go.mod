@@ -9,6 +9,7 @@ require (
 	github.com/go-openapi/errors v0.20.2 // indirect
 	github.com/go-openapi/strfmt v0.21.3 // indirect
 	github.com/jedib0t/go-pretty v4.3.0+incompatible // indirect
+	github.com/jedib0t/go-pretty/v5 v5.0.2-alpha // indirect
 	github.com/jedib0t/go-pretty/v6 v6.4.4 // indirect
 	github.com/mattn/go-runewidth v0.0.13 // indirect
 	github.com/oklog/ulid v1.3.1 // indirect
