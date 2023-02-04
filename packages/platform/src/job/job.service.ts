@@ -23,11 +23,15 @@ import {
 import { ExecutorResult } from '@roc/core';
 import { randomUUID } from 'crypto';
 import { JobRedisRepository } from './job.repository';
+import { RedisClientType } from 'redis';
 
 @Injectable()
 export class JobService {
   @Inject('MINIO_CLIENT')
   private readonly minio: MinioClient;
+
+  @Inject('REDIS_CLIENT')
+  protected readonly redis: RedisClientType;
 
   @Inject()
   private readonly repository: JobRedisRepository;
@@ -40,6 +44,17 @@ export class JobService {
 
   @Inject('RobotExecutor')
   private readonly executor: RobotExecutor;
+
+  public async searchJob(jobId: Id): Promise<any> {
+    const keys = await this.redis.keys(`job.*.${jobId}`);
+    if (keys.length > 0) {
+      return Job.fromPlainObject(
+        (await this.redis.json.get(keys[0])) as unknown,
+      );
+    } else {
+      return null;
+    }
+  }
 
   public async existsWithInProject(projectId: Id, jobId: Id): Promise<boolean> {
     return this.repository.existsById(`${projectId}.${jobId}`);
@@ -108,23 +123,30 @@ export class JobService {
       },
     };
 
-    const result = await this.executor.execute(config);
+    try {
+      const result = await this.executor.execute(config);
+      job.status.isActive = false;
+      job.status.isSucceeded = result.isSucceeded;
+      job.status.isErrored = result.isErrored;
 
-    job.status.isActive = false;
-    job.status.isSucceeded = result.isSucceeded;
-    job.status.isErrored = result.isErrored;
+      job.result = {
+        stdout: result.stdout,
+        completedAt: result.completedAt,
+        outputUrl: result.outputUrl.dir,
+        reportUrl: result.reportUrl.dir,
+        logUrl: result.logUrl.dir,
+      };
+      this.repository.save(job);
 
-    job.result = {
-      stdout: result.stdout,
-      completedAt: result.completedAt,
-      outputUrl: result.outputUrl.dir,
-      reportUrl: result.reportUrl.dir,
-      logUrl: result.logUrl.dir,
-    };
+      return result;
+    } catch (err) {
+      job.status.isActive = false;
+      job.status.isSucceeded = false;
+      job.status.isErrored = true;
 
-    this.repository.save(job);
-
-    return result;
+      job.result = null;
+      this.repository.save(job);
+    }
   }
 
   public async getFileAsBuffer(

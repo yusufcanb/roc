@@ -9,9 +9,11 @@ import {
   Param,
   Post,
   Query,
+  Req,
   StreamableFile,
 } from '@nestjs/common';
-import { Id, JobCreateDto, JobRetrieveDto } from '@roc/core';
+import { Id, Job, JobCreateDto, JobRetrieveDto } from '@roc/core';
+import { Request } from 'express';
 import { ProjectExistsPipe } from '../project/project.pipe';
 import { JobDoesNotFoundException } from './job.exception';
 import { JobService } from './job.service';
@@ -61,7 +63,7 @@ export class JobDetailController {
   private readonly jobService: JobService;
 
   @Get()
-  public async getProjectById(
+  public async getJobById(
     @Param('id') id: Id,
     @Query(ProjectExistsPipe) projectId: Id,
   ): Promise<JobRetrieveDto> {
@@ -86,68 +88,18 @@ export class JobDetailController {
     }
   }
 
-  @Get('stdout.txt')
+  @Get('artifacts/*')
   @Header('content-type', 'text/html')
   public async getJobStdoutById(
     @Param('id') id: Id,
-    @Query(ProjectExistsPipe) projectId: Id,
-  ): Promise<string> {
-    if (await this.jobService.existsWithInProject(projectId, id)) {
-      const job = await this.jobService.getJobById(projectId, id);
-      return job.result.stdout;
-    } else {
-      throw new JobDoesNotFoundException(id);
-    }
-  }
-
-  @Get('log.html')
-  @Header('content-type', 'text/html')
-  public async getRobotLogsById(
-    @Param('id') id: Id,
-    @Query(ProjectExistsPipe) projectId: Id,
+    @Req() request: Request,
   ): Promise<StreamableFile> {
-    if (await this.jobService.existsWithInProject(projectId, id)) {
-      const job = await this.jobService.getJobById(projectId, id);
-      const buff = await this.jobService.getFileAsBuffer(
-        'roc',
-        job.result.logUrl,
-      );
-      return new StreamableFile(buff);
-    } else {
-      throw new JobDoesNotFoundException(id);
-    }
-  }
+    const job = (await this.jobService.searchJob(id)) as Job;
+    if (job != null) {
+      const artifactPath = request.params[0];
+      const key = `${job.projectId}/${job.taskForceId}/${job.id}/${artifactPath}`;
 
-  @Get('report.html')
-  @Header('content-type', 'text/html')
-  public async getRobotReportsById(
-    @Param('id') id: Id,
-    @Query(ProjectExistsPipe) projectId: Id,
-  ): Promise<StreamableFile> {
-    if (await this.jobService.existsWithInProject(projectId, id)) {
-      const job = await this.jobService.getJobById(projectId, id);
-      const buff = await this.jobService.getFileAsBuffer(
-        'roc',
-        job.result.reportUrl,
-      );
-      return new StreamableFile(buff);
-    } else {
-      throw new JobDoesNotFoundException(id);
-    }
-  }
-
-  @Get('output.xml')
-  @Header('content-type', 'application/xml')
-  public async getRobotOutputById(
-    @Param('id') id: Id,
-    @Query(ProjectExistsPipe) projectId: Id,
-  ): Promise<StreamableFile> {
-    if (await this.jobService.existsWithInProject(projectId, id)) {
-      const job = await this.jobService.getJobById(projectId, id);
-      const buff = await this.jobService.getFileAsBuffer(
-        'roc',
-        job.result.outputUrl,
-      );
+      const buff = await this.jobService.getFileAsBuffer('roc', key);
       return new StreamableFile(buff);
     } else {
       throw new JobDoesNotFoundException(id);
