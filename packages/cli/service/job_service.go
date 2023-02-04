@@ -7,6 +7,7 @@ import (
 
 	"github.com/jedib0t/go-pretty/table"
 	log "github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 	"github.com/yusufcanb/roc-cli/api"
 	"github.com/yusufcanb/roc-cli/spec"
 	"github.com/yusufcanb/roc-cli/utils"
@@ -113,6 +114,12 @@ func (it *JobService) ApplyCLISpec(projectId string, applySpec *spec.CLIApplySpe
 			if !job.Status.IsActive && job.Status.IsSucceeded {
 				log.Printf("OK.. Job<%s> completed\n", id)
 				fmt.Println(job.Result.Stdout)
+
+				reportUrl := viper.GetString("platform_url") + "/job/" + id + "/artifacts/report.html"
+				logUrl := viper.GetString("platform_url") + "/job/" + id + "/artifacts/log.html"
+
+				log.Printf("Robot Report: %s", reportUrl)
+				log.Printf("Robot Logs: %s", logUrl)
 				return
 			}
 
@@ -122,7 +129,7 @@ func (it *JobService) ApplyCLISpec(projectId string, applySpec *spec.CLIApplySpe
 			}
 
 		case <-timeout:
-			fmt.Println("Timeout reached, breaking out of loop")
+			log.Error("Timeout reached, breaking out of loop")
 			return
 		}
 	}

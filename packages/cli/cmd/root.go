@@ -94,14 +94,7 @@ func initConfig() {
 			}
 			file.Close()
 		}
-
-		err = viper.WriteConfig()
-		if err != nil {
-			log.Fatal(err)
-		}
 	}
-
-	viper.AutomaticEnv() // read in environment variables that match
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
@@ -109,11 +102,19 @@ func initConfig() {
 	}
 
 	config := api.NewConfiguration()
-	config.BasePath = "http://localhost:3000/api/v1"
+	config.BasePath = viper.GetString("platform_url")
+	log.Debug("Platform: ", viper.GetString("platform_url"))
+	log.Debug("Project: ", viper.GetString("project"))
 
 	apiClient = api.NewAPIClient(config)
 	projectService = service.NewProjectService(apiClient)
+
 	environmentService = service.NewEnvironmentService(apiClient)
+	environmentCmd.Flags().Set("project", viper.GetString("project"))
+
 	taskForceService = service.NewTaskForceService(apiClient)
+	taskForceCmd.Flags().Set("project", viper.GetString("project"))
+
 	jobService = service.NewJobService(apiClient)
+	applyCmd.Flags().Set("project", viper.GetString("project"))
 }

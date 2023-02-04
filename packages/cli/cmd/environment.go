@@ -24,6 +24,7 @@ var environmentListCmd = &cobra.Command{
 
 var environmentDetailCmd = &cobra.Command{
 	Use:   "get",
+	Args:  cobra.MinimumNArgs(1),
 	Short: "Get an environment detail by its id",
 	Run: func(cmd *cobra.Command, args []string) {
 		projectId := getProjectFromFlag(cmd)
@@ -33,6 +34,7 @@ var environmentDetailCmd = &cobra.Command{
 
 var environmentDeleteCmd = &cobra.Command{
 	Use:   "delete",
+	Args:  cobra.MinimumNArgs(1),
 	Short: "Delete an environment by its id",
 	Run: func(cmd *cobra.Command, args []string) {
 		projectId := getProjectFromFlag(cmd)
@@ -41,10 +43,11 @@ var environmentDeleteCmd = &cobra.Command{
 }
 
 func init() {
+	rootCmd.AddCommand(environmentCmd)
+
 	environmentCmd.AddCommand(environmentListCmd)
 	environmentCmd.AddCommand(environmentDetailCmd)
 	environmentCmd.AddCommand(environmentDeleteCmd)
-	rootCmd.AddCommand(environmentCmd)
 
 	environmentCmd.PersistentFlags().StringP("project", "p", "", "Project identifier. e.g default-project")
 	environmentCmd.MarkPersistentFlagRequired("project")
