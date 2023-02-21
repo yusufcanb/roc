@@ -832,6 +832,12 @@ components:
           schema:
             type: object
             properties:
+              name:
+                type: string
+                description: The name of the top level suite
+              description:
+                type: string
+                description: the documentation of the top level suite
               taskForceId:
                 type: string
                 description: "identifier of task force"
