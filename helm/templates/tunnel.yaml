@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Release.Name}}-tunnel
+  labels:
+    roc.service.name: tunnel
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        roc.service.name: tunnel
+    spec:
+      containers:
+        - image: roc-tunnel:latest
+          name: roc-tunnel
+          ports:
+            - containerPort: 5000
+          env:
+            - name: REDIS_URL
+              value: "redis://{{.Release.Name}}-redis-master:{{.Values.redis.master.service.ports.redis}}"
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      roc.service.name: tunnel
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.Release.Name}}-tunnel
+spec:
+  type: ClusterIP
+  ports:
+    - name: "http"
+      port: 5000
+      targetPort: 5000
+  selector:
+    roc.service.name: tunnel
+
