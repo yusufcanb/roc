@@ -1,20 +1,26 @@
 platform:
+  image:
+    registry: yceiotc.azurecr.io
+    repository: roc/roc-platform
+    tag: latest
+  replica:
+    replicaCount: 1
   api-key: None
   s3:
     user: roc
     pwd: roc-minio-pwd
 
-
 minio:
   auth:
-    ## @param auth.rootUser MinIO&reg; root username
-    ##
     rootUser: roc
-    ## @param auth.rootPassword Password for MinIO&reg; root user
-    ##
-    rootPassword: "my-s3-pwd"
+    rootPassword: roc-minio-pwd
 
 redis:
+  image:
+    registry: docker.io
+    repository: redis/redis-stack-server
+    tag: 6.2.6-v4
+    pullPolicy: Always
   replica:
     replicaCount: 1
   auth:

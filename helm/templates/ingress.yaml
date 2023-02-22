@@ -1,16 +1,14 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: nginx-ingress
+  name: {{.Release.Name}}-ingress
   annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
+  ingressClassName: nginx
   rules:
-    - host: {{.Release.Namespace}}.local
-      http:
+    - http:
         paths:
           - path: /api/v1(/|$)(.*)
             pathType: Prefix
@@ -18,7 +16,7 @@ spec:
               service:
                 name: {{.Release.Name}}-platform
                 port:
-                  number: 8080
+                  number: 3000
           - path: /ws
             pathType: Prefix
             backend:

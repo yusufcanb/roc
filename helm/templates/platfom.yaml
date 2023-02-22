@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{.Release.Name}}-platform
 spec:
-  replicas: 1
+  replicas: {{.Values.platform.replica.replicaCount}}
   selector:
     matchLabels:
       roc.service.name: platform
@@ -13,29 +13,26 @@ spec:
         roc.service.name: platform
     spec:
       containers:
-        - image: roc-platform:latest
+        - image: {{.Values.platform.image.registry}}/{{.Values.platform.image.repository}}:{{.Values.platform.image.tag}}
           name: roc-platform
           ports:
-            - containerPort: 8080
+            - containerPort: 3000
           env:
-            - name: REDIS_HOST
-              value: {{.Release.Name}}-redis-master
-            - name: REDIS_PORT
-              value: "6379"
-            - name: ROC_S3_HOST
+            - name: REDIS_URL
+              value: redis://{{.Release.Name}}-redis-master:{{.Values.redis.master.service.ports.redis}}
+            - name: S3_HOST
               value: "minio-service"
-            - name: ROC_S3_PORT
+            - name: S3_PORT
               value: "9000"
-            - name: ROC_S3_USER
+            - name: S3_USER
               value: {{.Values.platform.s3.user}}
-            - name: ROC_S3_PWD
+            - name: S3_PWD
               value: {{.Values.platform.s3.pwd}}
           resources: { }
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
+      serviceAccountName: {{ .Release.Name }}-platform
       restartPolicy: Always
-
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -44,8 +41,7 @@ spec:
   type: ClusterIP
   ports:
     - name: "http"
-      port: 8080
-      targetPort: 8080
+      port: 3000
+      targetPort: 3000
   selector:
     roc.service.name: platform
-

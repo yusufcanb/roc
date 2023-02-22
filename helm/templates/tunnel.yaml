@@ -12,14 +12,14 @@ spec:
         roc.service.name: tunnel
     spec:
       containers:
-        - image: roc-tunnel:latest
+        - image: yceiotc.azurecr.io/roc/roc-tunnel:latest
           name: roc-tunnel
           ports:
             - containerPort: 5000
           env:
             - name: REDIS_URL
-              value: "redis://{{.Release.Name}}-redis-master:{{.Values.redis.master.service.ports.redis}}"
-          imagePullPolicy: IfNotPresent
+              value: redis://{{.Release.Name}}-redis-master:{{.Values.redis.master.service.ports.redis}}
+          imagePullPolicy: Always
       restartPolicy: Always
   selector:
     matchLabels:
@@ -37,4 +37,3 @@ spec:
       targetPort: 5000
   selector:
     roc.service.name: tunnel
-
