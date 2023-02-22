@@ -16,9 +16,10 @@
   "scripts": {
     "build": "rm -rf ./lib && tsc",
     "lint": "eslint \"./src/**/*.ts\"",
-    "test": "jest --detectOpenHandles \"./src/**/*.ts\""
+    "test": "jest --detectOpenHandles"
   },
   "dependencies": {
+    "@kubernetes/client-node": "^0.18.1",
     "@roc/core": "^1.0.0",
     "dockerode": "^3.3.4",
     "minio": "^7.0.32",
