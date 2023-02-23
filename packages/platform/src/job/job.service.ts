@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import {
   Environment,
   Id,
@@ -27,6 +27,8 @@ import { RedisClientType } from 'redis';
 
 @Injectable()
 export class JobService {
+  private logger = new Logger('JobService');
+
   @Inject('MINIO_CLIENT')
   private readonly minio: MinioClient;
 
@@ -116,7 +118,7 @@ export class JobService {
         job.taskForceId,
       )) as TaskForce,
       minio: {
-        endpoint: new URL('http://localhost:9000'),
+        endpoint: new URL('http://roc-minio:9000'),
         accessKey: 'roc',
         accessSecret: 'roc-minio-pwd',
         bucket: 'roc',
@@ -140,6 +142,7 @@ export class JobService {
 
       return result;
     } catch (err) {
+      this.logger.error(err);
       job.status.isActive = false;
       job.status.isSucceeded = false;
       job.status.isErrored = true;

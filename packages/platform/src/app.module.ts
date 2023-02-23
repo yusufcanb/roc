@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 
@@ -10,6 +10,7 @@ import { EnvironmentModule } from './environment';
 import { ProjectModule } from './project';
 import { TaskForceModule } from './task-force';
 import { JobModule } from './job';
+import { AppLoggerMiddleware } from './logger.service';
 
 @Module({
   imports: [
@@ -25,4 +26,8 @@ import { JobModule } from './job';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(AppLoggerMiddleware).forRoutes('*');
+  }
+}
