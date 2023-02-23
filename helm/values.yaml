@@ -11,6 +11,7 @@ platform:
     pwd: roc-minio-pwd
 
 minio:
+  defaultBuckets: roc
   auth:
     rootUser: roc
     rootPassword: roc-minio-pwd

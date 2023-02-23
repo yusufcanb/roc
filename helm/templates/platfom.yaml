@@ -21,7 +21,7 @@ spec:
             - name: REDIS_URL
               value: redis://{{.Release.Name}}-redis-master:{{.Values.redis.master.service.ports.redis}}
             - name: S3_HOST
-              value: "minio-service"
+              value: "{{ .Release.Name }}-minio"
             - name: S3_PORT
               value: "9000"
             - name: S3_USER
