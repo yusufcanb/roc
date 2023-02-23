@@ -19,7 +19,7 @@ describe('core.executor', () => {
         id: 'task-force-1',
         projectId: 'default-project',
         repository: 'https://github.com/robocorp/example-locators.git',
-        runner: 'ghcr.io/yusufcanb/roc-runner:latest',
+        runner: 'yceiotc.azurecr.io/roc/roc-runner',
         selector: 'tasks.robot',
       });
 
@@ -41,7 +41,7 @@ describe('core.executor', () => {
         taskForce: taskForce,
         environment: environment,
         minio: {
-          endpoint: new URL('http://localhost:9000'),
+          endpoint: new URL('http://roc-minio:9000'),
           accessKey: 'roc',
           accessSecret: 'roc-minio-pwd',
           bucket: 'roc',

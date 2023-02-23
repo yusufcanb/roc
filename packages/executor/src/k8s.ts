@@ -24,12 +24,10 @@ import {
 } from '@roc/core';
 
 import { createWriteStream, readFileSync } from 'fs';
-import * as stream from 'stream';
-
 import { parse } from 'path';
+
 import yaml from 'yaml';
 import * as k8s from '@kubernetes/client-node';
-import { PassThrough } from 'stream';
 
 export class K8sRobotExecutor implements RobotExecutor {
   private executionId: Id;
@@ -47,10 +45,61 @@ export class K8sRobotExecutor implements RobotExecutor {
     this.k8sExec = new k8s.Exec(kc);
   }
 
+  private _toBase64String(obj: any): string {
+    const objectString = yaml.stringify(obj);
+    const objectBuffer = Buffer.from(objectString);
+    return objectBuffer.toString('base64');
+  }
+
+  private async _cloneTaskForceToContainer(
+    pod: k8s.V1Pod,
+    taskForce: TaskForce,
+  ): Promise<any> {
+    const path = `/opt/robotframework/${taskForce.projectId}.${taskForce.id}`;
+    return await this._exec(pod, ['git', 'clone', taskForce.repository, path]);
+  }
+
+  private async _writeEnvironmentAsYAML(pod: k8s.V1Pod, variables: any) {
+    return await this._exec(pod, [
+      'bash',
+      '-c',
+      `echo "$(echo ${this._toBase64String(
+        variables,
+      )} | base64 -d)" >> /opt/robotframework/variables.yaml`,
+    ]);
+  }
+
+  private async _executeTaskForceInContainer(
+    pod: k8s.V1Pod,
+    taskForce: TaskForce,
+  ): Promise<any> {
+    return await this._exec(pod, [
+      'sh',
+      '/opt/robotframework/bin/run-tests-in-virtual-screen.sh',
+    ]);
+  }
+
+  private async _uploadArtifactsToMinio(
+    pod: k8s.V1Pod,
+    taskForce: TaskForce,
+    config: RobotExecutorConfig,
+  ): Promise<any> {
+    return this._exec(pod, [
+      'aws',
+      `--endpoint-url=${config.minio.endpoint.toString()}`,
+      's3',
+      'sync',
+      '/opt/robotframework/reports',
+      `s3://${config.minio.bucket}/${taskForce.projectId}/${taskForce.id}/${this.executionId}`,
+    ]);
+  }
+
   private async _exec(pod: k8s.V1Pod, cmd: string[]): Promise<any> {
-    const stdout = createWriteStream(`./${this.executionId}-log.txt`, {
+    const stdout = createWriteStream(`/tmp/${this.executionId}-stdout.txt`, {
       flags: 'a',
     });
+
+    stdout.write('>>> ' + cmd.join(' ') + '\n\n');
 
     return new Promise((resolve, reject) => {
       const statusPromise = this.k8sExec.exec(
@@ -73,16 +122,33 @@ export class K8sRobotExecutor implements RobotExecutor {
     });
   }
 
-  private async createPod(namespace: string, image: string) {
+  private async createPod(namespace: string, config: RobotExecutorConfig) {
     // Define the container spec for the pod
-    const container = {
+    const container: k8s.V1Container = {
       name: `job-${this.executionId}`,
-      image: image,
+      image: (config.taskForce as TaskForce).runner,
       command: ['sleep', 'infinity'],
+      imagePullPolicy: 'IfNotPresent',
+      env: [
+        { name: 'AWS_ACCESS_KEY_ID', value: config.minio.accessKey },
+        { name: 'AWS_SECRET_ACCESS_KEY', value: config.minio.accessSecret },
+        { name: 'AWS_BUCKET_NAME', value: config.minio.bucket },
+        {
+          name: 'ROBOT_TESTS_DIR',
+          value: `/opt/robotframework/${
+            (config.taskForce as TaskForce).projectId
+          }.${(config.taskForce as TaskForce).id}/${
+            (config.taskForce as TaskForce).selector
+          }`,
+        },
+      ],
+      securityContext: {
+        runAsUser: 0,
+      },
     };
 
     // Define the pod spec
-    const podSpec = {
+    const podSpec: k8s.V1PodSpec = {
       containers: [container],
     };
 
@@ -120,12 +186,58 @@ export class K8sRobotExecutor implements RobotExecutor {
     return response.body;
   }
 
+  private async deletePod(pod: k8s.V1Pod): Promise<void> {
+    try {
+      await this.k8sApi.deleteNamespacedPod(
+        pod.metadata.namespace,
+        pod.metadata.name,
+      );
+      console.log(`Pod ${pod} deleted in namespace ${pod.metadata.namespace}.`);
+    } catch (err) {
+      console.error(
+        `Error deleting pod ${pod} in namespace ${pod.metadata.namespace}: ${err}`,
+      );
+    }
+  }
+
   public async execute(config: RobotExecutorConfig): Promise<ExecutorResult> {
     this.executionId = config.jobId;
-    const pod = await this.createPod('roc', config.taskForce.repository);
-    const response = await this._exec(pod, ['ls', '/']);
+    const pod = await this.createPod('roc', config);
 
-    return response;
+    await this._writeEnvironmentAsYAML(pod, config.environment.variables);
+    await this._cloneTaskForceToContainer(pod, config.taskForce as TaskForce);
+    await this._executeTaskForceInContainer(pod, config.taskForce as TaskForce);
+    await this._uploadArtifactsToMinio(
+      pod,
+      config.taskForce as TaskForce,
+      config,
+    );
+
+    await this.deletePod(pod);
+
+    return {
+      completedAt: new Date(),
+      isErrored: false,
+      isSucceeded: true,
+      stdout: readFileSync(`/tmp/${this.executionId}-stdout.txt`).toString(
+        'utf8',
+      ),
+      logUrl: parse(
+        `/${(config.taskForce as TaskForce).projectId}/${
+          (config.taskForce as TaskForce).id
+        }/${config.jobId}/log.html`,
+      ),
+      reportUrl: parse(
+        `/${(config.taskForce as TaskForce).projectId}/${
+          (config.taskForce as TaskForce).id
+        }/${config.jobId}/report.html`,
+      ),
+      outputUrl: parse(
+        `/${(config.taskForce as TaskForce).projectId}/${
+          (config.taskForce as TaskForce).id
+        }/${config.jobId}/output.xml`,
+      ),
+    } as ExecutorResult;
   }
 
   public async executeMany(
