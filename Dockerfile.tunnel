@@ -12,4 +12,4 @@ RUN lerna run build
 RUN rm -fr ./packages/**/src
 
 EXPOSE 5000
-CMD [ "node", "packages/platform/lib/main.js" ]
+CMD [ "node", "packages/tunnel/lib/index.js" ]
