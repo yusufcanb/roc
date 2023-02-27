@@ -2,13 +2,19 @@ platform:
   image:
     registry: yceiotc.azurecr.io
     repository: roc/roc-platform
-    tag: latest
+    tag: k8s.1
   replica:
     replicaCount: 1
   api-key: None
   s3:
     user: roc
     pwd: roc-minio-pwd
+
+tunnel:
+  image:
+    registry: yceiotc.azurecr.io
+    repository: roc/roc-tunnel
+    tag: k8s.1
 
 minio:
   defaultBuckets: roc

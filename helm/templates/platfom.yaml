@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - image: {{.Values.platform.image.registry}}/{{.Values.platform.image.repository}}:{{.Values.platform.image.tag}}
-          name: roc-platform
+          name: {{.Release.Name}}-platform
           ports:
             - containerPort: 3000
           env:

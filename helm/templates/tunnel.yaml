@@ -12,8 +12,8 @@ spec:
         roc.service.name: tunnel
     spec:
       containers:
-        - image: yceiotc.azurecr.io/roc/roc-tunnel:latest
-          name: roc-tunnel
+        - image: {{.Values.platform.image.registry}}/{{.Values.tunnel.image.repository}}:{{.Values.tunnel.image.tag}}
+          name: {{.Release.Name}}-tunnel
           ports:
             - containerPort: 5000
           env:
