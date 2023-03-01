@@ -189,13 +189,13 @@ export class K8sRobotExecutor implements RobotExecutor {
   private async deletePod(pod: k8s.V1Pod): Promise<void> {
     try {
       await this.k8sApi.deleteNamespacedPod(
-        pod.metadata.namespace,
         pod.metadata.name,
+        pod.metadata.namespace,
       );
       console.log(`Pod ${pod} deleted in namespace ${pod.metadata.namespace}.`);
     } catch (err) {
       console.error(
-        `Error deleting pod ${pod} in namespace ${pod.metadata.namespace}: ${err}`,
+        `Error deleting pod ${pod.metadata.name} in namespace ${pod.metadata.namespace}: ${err}`,
       );
     }
   }
