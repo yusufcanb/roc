@@ -6,7 +6,6 @@ if [[ $# -ne 3 ]]; then
     exit 1
 fi
 
-# Save arguments as variables
 subscription_id=$1
 resource_group=$2
 name=$3
@@ -27,12 +26,11 @@ helm dependency build ../helm/
 echo ""
 
 
-echo "Install Azure CLI"
+echo "Install Azure CLI..."
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 echo ""
 
 
-# Configure AKS
 echo "Configuring AKS $subscription_id..."
 az login
 az account set --subscription $subscription_id

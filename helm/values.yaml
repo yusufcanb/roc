@@ -2,7 +2,7 @@ platform:
   image:
     registry: yceiotc.azurecr.io
     repository: roc/roc-platform
-    tag: k8s.1
+    tag: k8s.4
   replica:
     replicaCount: 1
   api-key: None
@@ -23,12 +23,12 @@ minio:
     rootPassword: roc-minio-pwd
 
 redis:
+  auth:
+    enabled: false
   image:
     registry: docker.io
     repository: redis/redis-stack-server
-    tag: 6.2.6-v4
-    pullPolicy: Always
+    tag: 6.2.4-v4
+    pullPolicy: IfNotPresent
   replica:
     replicaCount: 1
-  auth:
-    enabled: false
